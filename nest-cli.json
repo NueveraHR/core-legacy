@@ -1,0 +1,39 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/hrms-api/src",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/hrms-api/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/hrms-api",
+  "projects": {
+    "hrms-api": {
+      "type": "application",
+      "root": "apps/hrms-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/hrms-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/hrms-api/tsconfig.app.json"
+      }
+    },
+    "hrms-core": {
+      "type": "application",
+      "root": "apps/hrms-core",
+      "entryFile": "main",
+      "sourceRoot": "apps/hrms-core/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/hrms-core/tsconfig.app.json"
+      }
+    },
+    "hrms-db": {
+      "type": "application",
+      "root": "apps/hrms-db",
+      "entryFile": "main",
+      "sourceRoot": "apps/hrms-db/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/hrms-db/tsconfig.app.json"
+      }
+    }
+  }
+}
