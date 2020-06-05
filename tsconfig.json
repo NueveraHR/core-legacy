@@ -12,12 +12,23 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
+      "@hrms-core/*": [
+        "apps/hrms-core/src/*"
+      ],
+      "@hrms-api/*": [
+        "apps/hrms-api/src/*"
+      ],
+      "@hrms-db/*": [
+        "apps/hrms-db/src/*"
+      ],
+      
+      
       "@libs/env": [
         "libs/env/src"
       ],
       "@libs/env/*": [
         "libs/env/src/*"
-      ]
+      ],
     }
   }
 }
