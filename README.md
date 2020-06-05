@@ -29,7 +29,11 @@
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Installation
-
+Add user to database firs : 
+```js
+   use hrms
+   db.createUser({ user:"hrms",  pwd: "hrms",  roles: [{role: "userAdmin", db: "hrms"}]  })
+```
 ```bash
 $ npm install
 ```
