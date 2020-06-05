@@ -34,6 +34,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/hrms-db/tsconfig.app.json"
       }
+    },
+    "env": {
+      "type": "library",
+      "root": "libs/env",
+      "entryFile": "index",
+      "sourceRoot": "libs/env/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/env/tsconfig.lib.json"
+      }
     }
   }
 }

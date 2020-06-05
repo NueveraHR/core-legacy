@@ -12,11 +12,11 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
-      "@core/hrms-core": [
-        "libs/hrms-core/src"
+      "@libs/env": [
+        "libs/env/src"
       ],
-      "@core/hrms-core/*": [
-        "libs/hrms-core/src/*"
+      "@libs/env/*": [
+        "libs/env/src/*"
       ]
     }
   }

@@ -72,8 +72,8 @@
       "<rootDir>/apps/"
     ],
     "moduleNameMapper": {
-      "@core/hrms-core/(.*)": "<rootDir>/libs/hrms-core/src/$1",
-      "@core/hrms-core": "<rootDir>/libs/hrms-core/src"
+      "@libs/env/(.*)": "<rootDir>/libs/env/src/$1",
+      "@libs/env": "<rootDir>/libs/env/src"
     }
   }
 }

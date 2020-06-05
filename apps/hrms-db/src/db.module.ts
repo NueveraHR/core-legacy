@@ -1,7 +1,7 @@
 import { Module, Global, DynamicModule } from '@nestjs/common';
-import { EnvModule } from './env/env.module';
-import { EnvService } from './env/env.service';
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { EnvModule } from '@libs/env/env.module';
+import { EnvService } from '@libs/env/env.service';
 
 
 function DatabaseOrmModule(): DynamicModule {
