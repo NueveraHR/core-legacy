@@ -17,4 +17,10 @@ export class UserService {
         return this.userModel.find().exec();
     }
 
+    async findByUsername(username: string): Promise<User> {
+        const criteria = { username: username};
+        return this.userModel.findOne(criteria).exec();
+    }
+
+    
 }
