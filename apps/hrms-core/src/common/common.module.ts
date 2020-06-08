@@ -1,4 +1,12 @@
 import { Module } from '@nestjs/common';
+import { DBManager } from './services/database/database-manager.service';
 
-@Module({})
-export class CommonModule {}
+@Module({
+    providers: [
+        DBManager,
+    ],
+    exports: [
+        DBManager,
+    ]
+})
+export class CommonModule { }

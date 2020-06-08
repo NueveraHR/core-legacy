@@ -15,29 +15,34 @@ export interface EnvData {
     DB_PASSWORD: string
 }
 
+const envFilesPath = './environments';
 export class EnvService {
-    private vars: EnvData
+    private vars: EnvData;
 
     constructor() {
-        const environment = process.env.NODE_ENV || 'dev'
-        const data: any = dotenv.parse(fs.readFileSync(`${environment}.env`))
+        const environment = process.env.NODE_ENV || 'dev';
+        const data: any = dotenv.parse(fs.readFileSync(`${envFilesPath}/${environment}.env`));
 
-        data.APP_ENV = environment
-        data.APP_DEBUG = data.APP_DEBUG === 'true' ? true : false
-        data.DB_PORT = parseInt(data.DB_PORT)
+        data.APP_ENV = environment;
+        data.APP_DEBUG = data.APP_DEBUG === 'true' ? true : false;
+        data.DB_PORT = parseInt(data.DB_PORT);
 
-        this.vars = data as EnvData
+        this.vars = data as EnvData;
     } 
 
     read(): EnvData {
-        return this.vars
+        return this.vars;
     }
 
     isDev(): boolean {
-        return (this.vars.APP_ENV === 'dev')
+        return (this.vars.APP_ENV === 'dev');
     }
 
     isProd(): boolean {
-        return (this.vars.APP_ENV === 'prod')
+        return (this.vars.APP_ENV === 'prod');
+    }
+
+    isTest(): boolean {
+        return (this.vars.APP_ENV === 'test');
     }
 }

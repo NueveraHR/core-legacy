@@ -17,6 +17,12 @@
                 "${workspaceFolder}/node_modules/**/*.js",
                 "<node_internals>/**/*.js"
             ]
-        }
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to nestjs",
+            "port": 9229
+        },
     ]
 }
