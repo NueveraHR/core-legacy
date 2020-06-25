@@ -4,6 +4,7 @@ import { User } from './user.schema';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
 import * as bcrypt from 'bcrypt';
+import { async } from 'rxjs/internal/scheduler/async';
 
 const MOCK_DATA = {
     basicUser: {
@@ -61,6 +62,25 @@ describe('User Domain', () => {
             })
         });
     });
+
+    describe('Update User', () => {
+        const mockUserDTO = MOCK_DATA.basicUser;
+        const newPassword = 'Nuevera';
+
+        it('Correctly update user password ', async () => {
+            let user = await userService.create(mockUserDTO);
+            user.password = newPassword;
+            await userService.update(user).then(updatedUser => user = updatedUser);
+            await expect(bcrypt.compare(newPassword, user.password)).resolves.toBeTruthy();
+        });
+
+        it('ignore password update when not modified', async () => {
+            let user = await userService.create(mockUserDTO);
+            await userService.update(user).then(updatedUser => user = updatedUser);
+            await expect(bcrypt.compare(mockUserDTO.password, user.password)).resolves.toBeTruthy();
+
+        })
+    })
 
     describe('Read User', () => {
 

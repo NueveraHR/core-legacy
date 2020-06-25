@@ -14,10 +14,16 @@ export class UserService {
     constructor(@InjectModel(User.name) private readonly userModel: Model<User>) { }
 
     async create(userDTO: userDTO): Promise<User> {
-        const user = new this.userModel(userDTO);
-        await UserService.hashPassword(user.password).then(hashedPassword => {
-            user.password = hashedPassword;
-        });
+        let user = new this.userModel(userDTO);
+        await this.hashPassword(user).then(updatedUser => user = updatedUser);
+
+        return user.save();
+    }
+
+    async update(user: User): Promise<User> {
+        if (user.isModified('password')) {
+            await this.hashPassword(user).then(updatedUser => user = updatedUser);
+        }
 
         return user.save();
     }
@@ -31,7 +37,11 @@ export class UserService {
         return this.userModel.findOne(criteria).exec();
     }
 
-    static async hashPassword(password: string): Promise<string> {
-        return bcrypt.hash(password, SALT_ROUNDS);
+    async hashPassword(user: User): Promise<User> {
+        return bcrypt.hash(user.password, SALT_ROUNDS).then(hashedPassword => {
+            user.password = hashedPassword;
+            return user;
+        })
     }
+
 }
