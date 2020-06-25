@@ -37,7 +37,12 @@ export class UserService {
         return this.userModel.findOne(criteria).exec();
     }
 
-    async hashPassword(user: User): Promise<User> {
+    async findByEmail(email: string): Promise<User> {
+        const criteria = { email: email };
+        return this.userModel.findOne(criteria).exec();
+    }
+
+    private async hashPassword(user: User): Promise<User> {
         return bcrypt.hash(user.password, SALT_ROUNDS).then(hashedPassword => {
             user.password = hashedPassword;
             return user;

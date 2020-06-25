@@ -4,12 +4,12 @@ import { User } from './user.schema';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
 import * as bcrypt from 'bcrypt';
-import { async } from 'rxjs/internal/scheduler/async';
 
 const MOCK_DATA = {
     basicUser: {
         username: 'nuevera',
         password: 'areveun',
+        email: 'n@nuevera.com',
         firstName: 'John',
         lastName: 'Doe',
         gender: 'Male',
@@ -67,7 +67,7 @@ describe('User Domain', () => {
         const mockUserDTO = MOCK_DATA.basicUser;
         const newPassword = 'Nuevera';
 
-        it('Correctly update user password ', async () => {
+        it('Correctly update user password', async () => {
             let user = await userService.create(mockUserDTO);
             user.password = newPassword;
             await userService.update(user).then(updatedUser => user = updatedUser);
@@ -107,6 +107,14 @@ describe('User Domain', () => {
 
             await expect(userService.findByUsername(user.username)).resolves
                 .toEqual(expect.objectContaining({ username: user.username }))
+
+        });
+
+        it('Should find user by email', async () => {
+            await userService.create(user);
+
+            await expect(userService.findByEmail(user.email)).resolves
+                .toEqual(expect.objectContaining({ email: user.email }))
 
         });
 
