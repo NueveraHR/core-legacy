@@ -8,6 +8,24 @@ import * as bcrypt from 'bcrypt';
 const MOCK_DATA = {
     basicUser: {
         username: 'nuevera',
+        email: 'n@nuevera.com',
+        role: 'employee',
+        password: 'areveun',
+        firstName: 'John',
+        lastName: 'Doe',
+        gender: 'Male',
+    },
+    basicUserDuplicatedEmail: {
+        username: 'nuevera2',
+        email: 'n@nuevera.com',
+        role: 'employee',
+        password: 'areveun',
+        firstName: 'John',
+        lastName: 'Doe',
+        gender: 'Male',
+    },
+    missingRoleUser: {
+        username: 'nuevera',
         password: 'areveun',
         email: 'n@nuevera.com',
         firstName: 'John',
@@ -59,8 +77,25 @@ describe('User Domain', () => {
                 fail('Saved user with duplicated username, !!!!! THIS SHOULD NOT HAPPEN !!!!!');
             }).catch(err => {
                 expect(err).not.toEqual(null);
-            })
+            });
         });
+
+        it('Should not accept duplicated email', async () => {
+            await expect(userService.create(user)).resolves.toEqual(expect.objectContaining({ username: user.username }));
+            await userService.create(MOCK_DATA.basicUserDuplicatedEmail).then(user => {
+                fail('Saved user with duplicated email, !!!!! THIS SHOULD NOT HAPPEN !!!!!');
+            }).catch(err => {
+                expect(err).not.toEqual(null);
+            });
+        });
+
+        it('Should not accept missing role user', async () => {
+            await userService.create(MOCK_DATA.missingRoleUser).then(user => {
+                fail('Accepted user with a missing role, every user muse have a role');
+            }).catch(err => {
+                expect(err).not.toEqual(null);
+            })
+        })
     });
 
     describe('Update User', () => {
