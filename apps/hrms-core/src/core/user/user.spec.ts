@@ -1,8 +1,9 @@
 import { UserService } from './user.service';
 import { Test } from '@nestjs/testing';
 import { User } from './user.schema';
-import { CoreModule } from '@hrms-core/core.module';
+import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
+import * as bcrypt from 'bcrypt';
 
 const MOCK_DATA = {
     basicUser: {
@@ -20,7 +21,7 @@ describe('User Domain', () => {
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
-            imports: [CoreModule],
+            imports: [HRMSCoreModule],
             providers: [],
             controllers: [],
         }).compile();
@@ -45,6 +46,12 @@ describe('User Domain', () => {
             await expect(userService.create(user)).resolves.not.toEqual(null);
         });
 
+        it('should hash user password correctly', async () => {
+            let createdUser: User;
+            await userService.create(user).then(user => createdUser = user);
+            await expect(bcrypt.compare(user.password, createdUser.password)).resolves.toBeTruthy();
+        });
+
         it('Should not accept duplicated username', async () => {
             await expect(userService.create(user)).resolves.toEqual(expect.objectContaining({ username: user.username }));
             await userService.create(user).then(user => {
@@ -52,7 +59,7 @@ describe('User Domain', () => {
             }).catch(err => {
                 expect(err).not.toEqual(null);
             })
-        })
+        });
     });
 
     describe('Read User', () => {

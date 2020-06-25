@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { CoreModule } from '@hrms-core/core.module';
+import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 
 @Module({
   imports: [
-    CoreModule
+    HRMSCoreModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,8 +6,8 @@ import { ProfileManagementModule } from './modules/profile-management/profile-ma
 import { ConfigurationModule } from './modules/configuration/configuration.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DBConnectionManager } from './common/services/database/connection-manager.service';
-import { UserModule } from './domain/user/user.module';
 import { EnvModule } from '@libs/env';
+import { CoreModule } from './core/core.module';
 
 
 const connectionManager = new DBConnectionManager();
@@ -17,12 +17,12 @@ const connectionManager = new DBConnectionManager();
   imports: [
     EnvModule,
     MongooseModule.forRoot(connectionManager.getConnectionString(), connectionManager.getConnectionOptions()),
-    UserModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    CoreModule,
     CommonModule,
     ConfigurationModule,
     UserManagementModule,
     ProfileManagementModule,
   ],
 })
-export class CoreModule { }
+export class HRMSCoreModule { }
