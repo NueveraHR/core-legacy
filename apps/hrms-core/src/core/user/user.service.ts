@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { User } from "./user.schema";
 import { Model } from "mongoose";
-import { userDTO } from "@hrms-core/common/dto/user.dto";
+import { userDTO } from "@hrms-core/dto/user.dto";
 import * as bcrypt from 'bcrypt';
 
 const SALT_ROUNDS = 10;
@@ -16,9 +16,6 @@ export class UserService {
     /**
      * Create user model based on a userDTO
      *
-     * @param {userDTO} userDTO
-     * @returns {Promise<User>}
-     * @memberof UserService
      */
     async create(userDTO: userDTO): Promise<User> {
         let user = new this.userModel(userDTO);
@@ -30,9 +27,6 @@ export class UserService {
     /**
      * Update existing user model
      *
-     * @param {User} user
-     * @returns {Promise<User>}
-     * @memberof UserService
      */
     async update(user: User): Promise<User> {
         if (user.isModified('password')) {
@@ -45,8 +39,6 @@ export class UserService {
     /**
      * Find all users in DB without applying any filters
      *
-     * @returns {Promise<User[]>}
-     * @memberof UserService
      */
     async findAll(): Promise<User[]> {
         return this.userModel.find().exec();
@@ -55,9 +47,6 @@ export class UserService {
     /**
      * Find a single matching user for a given username
      *
-     * @param {string} username
-     * @returns {Promise<User>}
-     * @memberof UserService
      */
     async findByUsername(username: string): Promise<User> {
         const criteria = { username: username };
@@ -67,9 +56,6 @@ export class UserService {
     /**
      * Find a single matching user for a given email
      *
-     * @param {string} email
-     * @returns {Promise<User>}
-     * @memberof UserService
      */
     async findByEmail(email: string): Promise<User> {
         const criteria = { email: email };
@@ -79,10 +65,6 @@ export class UserService {
     /**
      * Hash user password using default salt
      *
-     * @private
-     * @param {User} user
-     * @returns {Promise<User>}
-     * @memberof UserService
      */
     private async hashPassword(user: User): Promise<User> {
         return bcrypt.hash(user.password, SALT_ROUNDS).then(hashedPassword => {

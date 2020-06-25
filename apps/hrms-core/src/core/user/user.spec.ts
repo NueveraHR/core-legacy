@@ -2,7 +2,7 @@ import { UserService } from './user.service';
 import { Test } from '@nestjs/testing';
 import { User } from './user.schema';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
-import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
+import { DBManager } from '@hrms-core/shared/services/database/database-manager.service';
 import * as bcrypt from 'bcrypt';
 
 const MOCK_DATA = {

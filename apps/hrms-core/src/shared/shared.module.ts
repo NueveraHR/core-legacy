@@ -9,4 +9,4 @@ import { DBManager } from './services/database/database-manager.service';
         DBManager,
     ]
 })
-export class CommonModule { }
+export class SharedModule { }
