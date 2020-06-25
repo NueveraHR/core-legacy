@@ -10,11 +10,17 @@ export class DBManager {
         @InjectConnection() private readonly connection: Connection,
         private readonly envService: EnvService
     ) {
-    
+
     }
 
+    /**
+     * Drop all database collections
+     * This is possible for test environments only
+     *
+     * @memberof DBManager
+     */
     public async dropDatabaseCollections() {
-        if(this.envService.isTest()) {
+        if (this.envService.isTest()) {
             const collections = this.connection.collections;
             for (const key in collections) {
                 const collection = collections[key];

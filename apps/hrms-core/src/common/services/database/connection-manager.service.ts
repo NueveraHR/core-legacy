@@ -11,6 +11,12 @@ export class DBConnectionManager {
         this.envService = new EnvService();
     }
 
+    /**
+     * Create MongoDB connection string based on env data.
+     *
+     * @returns {string}
+     * @memberof DBConnectionManager
+     */
     public getConnectionString(): string {
         const envData = this.envService.read();
         const dbParams = {
@@ -27,7 +33,14 @@ export class DBConnectionManager {
         return connectionString;
     }
 
+    /**
+     * return default DB connection options
+     *
+     * @returns {mongoose.ConnectionOptions}
+     * @memberof DBConnectionManager
+     */
     public getConnectionOptions(): mongoose.ConnectionOptions {
+        // TODO: load this via env file
         const options = {
             useNewUrlParser: true,
             useUnifiedTopology: true

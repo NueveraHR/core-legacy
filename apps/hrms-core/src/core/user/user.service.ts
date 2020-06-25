@@ -13,6 +13,13 @@ export class UserService {
 
     constructor(@InjectModel(User.name) private readonly userModel: Model<User>) { }
 
+    /**
+     * Create user model based on a userDTO
+     *
+     * @param {userDTO} userDTO
+     * @returns {Promise<User>}
+     * @memberof UserService
+     */
     async create(userDTO: userDTO): Promise<User> {
         let user = new this.userModel(userDTO);
         await this.hashPassword(user).then(updatedUser => user = updatedUser);
@@ -20,6 +27,13 @@ export class UserService {
         return user.save();
     }
 
+    /**
+     * Update existing user model
+     *
+     * @param {User} user
+     * @returns {Promise<User>}
+     * @memberof UserService
+     */
     async update(user: User): Promise<User> {
         if (user.isModified('password')) {
             await this.hashPassword(user).then(updatedUser => user = updatedUser);
@@ -28,20 +42,48 @@ export class UserService {
         return user.save();
     }
 
+    /**
+     * Find all users in DB without applying any filters
+     *
+     * @returns {Promise<User[]>}
+     * @memberof UserService
+     */
     async findAll(): Promise<User[]> {
         return this.userModel.find().exec();
     }
 
+    /**
+     * Find a single matching user for a given username
+     *
+     * @param {string} username
+     * @returns {Promise<User>}
+     * @memberof UserService
+     */
     async findByUsername(username: string): Promise<User> {
         const criteria = { username: username };
         return this.userModel.findOne(criteria).exec();
     }
 
+    /**
+     * Find a single matching user for a given email
+     *
+     * @param {string} email
+     * @returns {Promise<User>}
+     * @memberof UserService
+     */
     async findByEmail(email: string): Promise<User> {
         const criteria = { email: email };
         return this.userModel.findOne(criteria).exec();
     }
 
+    /**
+     * Hash user password using default salt
+     *
+     * @private
+     * @param {User} user
+     * @returns {Promise<User>}
+     * @memberof UserService
+     */
     private async hashPassword(user: User): Promise<User> {
         return bcrypt.hash(user.password, SALT_ROUNDS).then(hashedPassword => {
             user.password = hashedPassword;
