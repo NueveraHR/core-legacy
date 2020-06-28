@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 
+import { PrivilegeConfigurationService } from '../services/privilege-configuration.service';
+
 @Injectable()
 export class PrivilegeConfigurationFacade {
 

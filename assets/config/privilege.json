@@ -1,0 +1,58 @@
+{
+    "management": {
+        "access": false,
+        "pages": [
+            "roles"
+        ],
+        "actions": [
+            "manage.roles.create",
+            "manage.roles.read",
+            "manage.roles.update",
+            "manage.roles.delete"
+        ]
+    },
+
+    "user-management": {
+        "access": false,
+        "pages": [
+            "list",
+            "details"
+        ],
+        "actions": [
+            "user.add",
+            "user.read",
+            "user.update",
+            "user.delete",
+
+            "user.roles.add",
+            "user.roles.read",
+            "user.roles.update",
+            "user.roles.delete",
+
+            "user.documents.add",
+            "user.documents.read",
+            "user.documents.update",
+            "user.documents.delete",
+
+
+            "user.requests.read",
+            "user.requests.approve",
+            "user.requests.refuse"
+        ]
+    },
+    "self-service": {
+        "access": true,
+        "pages": [
+            "profile",
+            "details"
+        ],
+        "actions": [
+            "self.details.approve",
+
+            "self.requests.create",
+            "self.requests.read",
+            "self.requests.update",
+            "self.requests.delete"
+        ]
+    }
+}
