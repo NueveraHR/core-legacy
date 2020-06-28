@@ -12,7 +12,10 @@ export interface EnvData {
     DB_NAME: string
     DB_PORT?: number
     DB_USER: string
-    DB_PASSWORD: string
+    DB_PASSWORD: string,
+
+    LOGGER_FOLDER_PATH: string,
+    LOGGER_LEVEL: string
 }
 
 const envFilesPath = './environments';
@@ -28,7 +31,7 @@ export class EnvService {
         data.DB_PORT = parseInt(data.DB_PORT);
 
         this.vars = data as EnvData;
-    } 
+    }
 
     read(): EnvData {
         return this.vars;
