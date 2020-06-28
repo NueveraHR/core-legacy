@@ -4,6 +4,7 @@ import { User } from './user.schema';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { DBManager } from '@hrms-core/shared/services/database/database-manager.service';
 import * as bcrypt from 'bcrypt';
+import { LoggerService } from '@libs/logger';
 
 const MOCK_DATA = {
     basicUser: {
@@ -40,7 +41,7 @@ const MOCK_DATA = {
 describe('User Service', () => {
     let userService: UserService;
     let dbManager: DBManager;
-
+    let loggerService: LoggerService;
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
             imports: [HRMSCoreModule],
@@ -50,6 +51,7 @@ describe('User Service', () => {
 
         dbManager = moduleRef.get<DBManager>(DBManager);
         userService = moduleRef.get<UserService>(UserService);
+        loggerService = moduleRef.get<LoggerService>(LoggerService);
     });
 
     beforeEach(async () => {

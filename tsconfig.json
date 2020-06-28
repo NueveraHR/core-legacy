@@ -27,6 +27,12 @@
       "@libs/env/*": [
         "libs/env/src/*"
       ],
+      "@libs/logger": [
+        "libs/logger/src"
+      ],
+      "@libs/logger/*": [
+        "libs/logger/src/*"
+      ],
       "@libs/config": [
         "libs/config/src"
       ],

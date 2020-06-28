@@ -11,11 +11,14 @@ export interface EnvData {
     DB_HOST?: string
     DB_NAME: string
     DB_PORT?: number
-    DB_USER?: string
-    DB_PASSWORD?: string
+    DB_USER: string
+    DB_PASSWORD: string,
+
+    // logger
+    LOGGER_FOLDER_PATH: string,
+    LOGGER_LEVEL: string,
 
     // config
-
     CONFIG_PATH?: string
 }
 
@@ -32,7 +35,7 @@ export class EnvService {
         data.DB_PORT = parseInt(data.DB_PORT);
 
         this.vars = data as EnvData;
-    } 
+    }
 
     read(): EnvData {
         return this.vars;
