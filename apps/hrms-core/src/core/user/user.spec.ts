@@ -93,14 +93,6 @@ describe('User Service', () => {
                 expect(err).not.toEqual(null);
             });
         });
-
-        it('Should not accept missing role user', async () => {
-            await userService.create(MOCK_DATA.missingRoleUser).then(user => {
-                fail('Accepted user with a missing role, every user muse have a role');
-            }).catch(err => {
-                expect(err).not.toEqual(null);
-            })
-        })
     });
 
     describe('Update User', () => {
