@@ -14,8 +14,12 @@ export interface EnvData {
     DB_USER: string
     DB_PASSWORD: string,
 
+    // logger
     LOGGER_FOLDER_PATH: string,
-    LOGGER_LEVEL: string
+    LOGGER_LEVEL: string,
+
+    // config
+    CONFIG_PATH?: string
 }
 
 const envFilesPath = './environments';

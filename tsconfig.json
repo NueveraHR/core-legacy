@@ -33,6 +33,12 @@
       "@libs/logger/*": [
         "libs/logger/src/*"
       ],
+      "@libs/config": [
+        "libs/config/src"
+      ],
+      "@libs/config/*": [
+        "libs/config/src/*"
+      ]
     }
   }
 }

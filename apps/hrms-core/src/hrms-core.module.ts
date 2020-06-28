@@ -9,6 +9,7 @@ import { LoggerModule } from '@libs/logger';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { DBConnectionManager } from './shared/services/database/connection-manager.service';
+import { HRMSConfigModule } from '@libs/config';
 
 
 const connectionManager = new DBConnectionManager();

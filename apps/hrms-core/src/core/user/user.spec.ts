@@ -10,6 +10,7 @@ const MOCK_DATA = {
     basicUser: {
         username: 'nuevera',
         email: 'n@nuevera.com',
+        cin: '12345678',
         role: 'employee',
         password: 'areveun',
         firstName: 'John',
@@ -19,6 +20,7 @@ const MOCK_DATA = {
     basicUserDuplicatedEmail: {
         username: 'nuevera2',
         email: 'n@nuevera.com',
+        cin: '12345678',
         role: 'employee',
         password: 'areveun',
         firstName: 'John',
@@ -29,13 +31,14 @@ const MOCK_DATA = {
         username: 'nuevera',
         password: 'areveun',
         email: 'n@nuevera.com',
+        cin: '12345678',
         firstName: 'John',
         lastName: 'Doe',
         gender: 'Male',
     }
 };
 
-describe('User Domain', () => {
+describe('User Service', () => {
     let userService: UserService;
     let dbManager: DBManager;
     let loggerService: LoggerService;
