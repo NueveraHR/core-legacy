@@ -5,13 +5,13 @@ import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { DBManager } from '@hrms-core/shared/services/database/database-manager.service';
 import * as bcrypt from 'bcrypt';
 import { LoggerService } from '@libs/logger';
+import { RoleService } from '../role/role.service';
 
 const MOCK_DATA = {
     basicUser: {
         username: 'nuevera',
         email: 'n@nuevera.com',
         cin: '12345678',
-        role: 'employee',
         password: 'areveun',
         firstName: 'John',
         lastName: 'Doe',
@@ -21,7 +21,6 @@ const MOCK_DATA = {
         username: 'nuevera2',
         email: 'n@nuevera.com',
         cin: '12345678',
-        role: 'employee',
         password: 'areveun',
         firstName: 'John',
         lastName: 'Doe',
@@ -35,11 +34,26 @@ const MOCK_DATA = {
         firstName: 'John',
         lastName: 'Doe',
         gender: 'Male',
+    },
+    managerRole: {
+        name: 'manager',
+        description: 'Enterprise manager',
+        privileges: [
+            'management.access',
+
+            'management.pages.roles',
+
+            'management.actions.manage.roles.create',
+            'management.actions.manage.roles.read',
+            'management.actions.manage.roles.update',
+            'management.actions.manage.roles.delete'
+        ]
     }
 };
 
 describe('User Service', () => {
     let userService: UserService;
+    let roleService: RoleService;
     let dbManager: DBManager;
     let loggerService: LoggerService;
     beforeAll(async () => {
@@ -51,6 +65,7 @@ describe('User Service', () => {
 
         dbManager = moduleRef.get<DBManager>(DBManager);
         userService = moduleRef.get<UserService>(UserService);
+        roleService = moduleRef.get<RoleService>(RoleService);
         loggerService = moduleRef.get<LoggerService>(LoggerService);
     });
 
@@ -96,32 +111,50 @@ describe('User Service', () => {
     });
 
     describe('Update User', () => {
-        const mockUserDTO = MOCK_DATA.basicUser;
+        const userDto = MOCK_DATA.basicUser;
         const newPassword = 'Nuevera';
 
-        it('Correctly update user password', async () => {
-            let user = await userService.create(mockUserDTO);
+        let user: User;
+
+        it('Correctly updates user password', async () => {
+            user = await userService.create(userDto);
             user.password = newPassword;
             await userService.update(user).then(updatedUser => user = updatedUser);
             await expect(bcrypt.compare(newPassword, user.password)).resolves.toBeTruthy();
         });
 
-        it('ignore password update when not modified', async () => {
-            let user = await userService.create(mockUserDTO);
+        it('Ignores password update when not modified', async () => {
+            user = await userService.create(userDto);
+
             await userService.update(user).then(updatedUser => user = updatedUser);
-            await expect(bcrypt.compare(mockUserDTO.password, user.password)).resolves.toBeTruthy();
+            await expect(bcrypt.compare(userDto.password, user.password)).resolves.toBeTruthy();
+        });
 
-        })
-    })
+        it('Attaches role to user successfully', async () => {
+            user = await userService.create(userDto);
+            let role = await roleService.create(MOCK_DATA.managerRole);
+            userService.attachRole(user, role).then(updatedUser => {
+                expect(updatedUser.role).not.toBeUndefined()
+                expect(updatedUser.role).not.toBeNull()
+                expect(typeof updatedUser.role).toEqual('string');
+                expect((updatedUser.role as string).length).toBeGreaterThan(1);
+            })
 
-    describe('Read User', () => {
+        });
+    });
 
-        const user = MOCK_DATA.basicUser;
+    describe('Find User', () => {
+
+        const userDto = MOCK_DATA.basicUser;
+
+        beforeAll(async () => {
+            await dbManager.dropDatabaseCollections();
+        });
 
         it('Should find all added users', async () => {
+            await userService.create(userDto);
             let foundUsers: User[];
 
-            await userService.create(user);
             await userService.findAll().then(users => {
                 foundUsers = users;
             }).catch(err => {
@@ -135,18 +168,32 @@ describe('User Service', () => {
         });
 
         it('Should find user by username', async () => {
-            await userService.create(user);
+            await userService.create(userDto);
 
-            await expect(userService.findByUsername(user.username)).resolves
-                .toEqual(expect.objectContaining({ username: user.username }))
+            await expect(userService.findByUsername(userDto.username)).resolves
+                .toEqual(expect.objectContaining({ username: userDto.username }))
 
         });
 
         it('Should find user by email', async () => {
-            await userService.create(user);
+            await userService.create(userDto);
 
-            await expect(userService.findByEmail(user.email)).resolves
-                .toEqual(expect.objectContaining({ email: user.email }))
+            await expect(userService.findByEmail(userDto.email)).resolves
+                .toEqual(expect.objectContaining({ email: userDto.email }))
+
+        });
+
+        it('should find a populated user role', async () => {
+            let user = await userService.create(userDto);
+
+            let role = await roleService.create(MOCK_DATA.managerRole);
+            await userService.attachRole(user, role);
+            await userService.findByUsername(userDto.username).then(user => {
+                expect(user.role).not.toBeUndefined();
+                expect(user.role).not.toBeNull();
+                expect(user.role).toHaveProperty('name');
+                expect(user.role).toHaveProperty('privileges');
+            })
 
         });
 

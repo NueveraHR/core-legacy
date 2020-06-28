@@ -92,21 +92,20 @@ describe('Role Service', () => {
     });
 
     describe('Find Role', () => {
-        let role: Role;
-        let employeeRole: Role;
         beforeEach(async () => {
-            role = await roleService.create(MOCK_DATA.managerRole);
+            await roleService.create(MOCK_DATA.managerRole);
         });
 
         it('should find all created roles', async () => {
-            employeeRole = await roleService.create(MOCK_DATA.employeeRole);
+            await roleService.create(MOCK_DATA.employeeRole);
 
             expect(roleService.findAll()).resolves.toHaveLength(2);
         });
 
-        it('should find role by its name', async () => {
+        it('should find role by  name', async () => {
             expect(roleService.findByRoleName(MOCK_DATA.managerRole.name)).resolves
-                .toHaveLength(1);
+                .not.toBeNull();
+            //.toEqual(expect.objectContaining({ description: MOCK_DATA.managerRole.description }));
         });
     });
 

@@ -4,6 +4,7 @@ import { User } from "./user.schema";
 import { Model } from "mongoose";
 import { userDTO } from "@hrms-core/dto/user.dto";
 import * as bcrypt from 'bcrypt';
+import { Role } from "../role/role.schema";
 
 const SALT_ROUNDS = 10;
 
@@ -50,7 +51,9 @@ export class UserService {
      */
     async findByUsername(username: string): Promise<User> {
         const criteria = { username: username };
-        return this.userModel.findOne(criteria).exec();
+        return (await this.userModel.findOne(criteria).exec())
+            .populate('role')
+            .execPopulate();
     }
 
     /**
@@ -61,6 +64,12 @@ export class UserService {
         const criteria = { email: email };
         return this.userModel.findOne(criteria).exec();
     }
+
+    async attachRole(user: User, role: Role): Promise<User> {
+        user.role = role.id;
+        return user.save();
+    }
+
 
     /**
      * Hash user password using default salt

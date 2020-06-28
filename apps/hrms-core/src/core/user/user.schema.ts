@@ -30,7 +30,7 @@ export class User extends Document {
     phone: string;
 
     @Prop({ ref: 'Role', type: Types.ObjectId })
-    roleId: string | Role;
+    role: string | Role;
 
 }
 
