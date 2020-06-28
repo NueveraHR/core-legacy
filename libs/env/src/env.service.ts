@@ -11,8 +11,12 @@ export interface EnvData {
     DB_HOST?: string
     DB_NAME: string
     DB_PORT?: number
-    DB_USER: string
-    DB_PASSWORD: string
+    DB_USER?: string
+    DB_PASSWORD?: string
+
+    // config
+
+    CONFIG_PATH?: string
 }
 
 const envFilesPath = './environments';

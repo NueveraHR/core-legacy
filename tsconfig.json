@@ -21,14 +21,18 @@
       "@hrms-db/*": [
         "apps/hrms-db/src/*"
       ],
-      
-      
       "@libs/env": [
         "libs/env/src"
       ],
       "@libs/env/*": [
         "libs/env/src/*"
       ],
+      "@libs/config": [
+        "libs/config/src"
+      ],
+      "@libs/config/*": [
+        "libs/config/src/*"
+      ]
     }
   }
 }
