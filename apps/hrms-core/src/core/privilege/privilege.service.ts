@@ -1,37 +1,37 @@
 import { Injectable } from "@nestjs/common";
 import { HRMSConfigService } from "@libs/config";
-import { PortalPrivilegesConfig, PortalPrivileges } from "./privilege.model";
+import { Privileges, ModulePrivileges } from "./privilege.model";
 
 const PRIVILEGE_FILE_NAME = 'privilege.json';
 
 @Injectable()
 export class PrivilegeService {
-    private privilegeConfig: PortalPrivilegesConfig;
+    private privilegeConfig: Privileges;
 
     constructor(private readonly configService: HRMSConfigService) {
         this.privilegeConfig = null;
     }
 
 
-    loadConfig(fileName: string = PRIVILEGE_FILE_NAME): PortalPrivilegesConfig | never {
+    loadConfig(fileName: string = PRIVILEGE_FILE_NAME): Privileges | never {
         if (!this.privilegeConfig) {
-            this.privilegeConfig = this.configService.load(fileName) as PortalPrivilegesConfig;
+            this.privilegeConfig = this.configService.load(fileName) as Privileges;
         }
 
         return this.privilegeConfig;
     }
 
-    getPortalPrivileges(portal: string): PortalPrivileges | never {
+    getModulePrivileges(moduleName: string): ModulePrivileges | never {
         if (!this.privilegeConfig) {
-            throw Error('Unknown config, Did you forget to call loadConfig() ?');
+            this.loadConfig();
         }
 
-        if (!this.privilegeConfig[portal]) {
-            throw Error(`Unknown portal with given name: ${portal}`);
+        if (!this.privilegeConfig[moduleName]) {
+            throw Error(`Unknown module with given name: ${moduleName}`);
         }
 
-        return this.privilegeConfig[portal];
+        return this.privilegeConfig[moduleName];
     }
 
-    
+
 }
