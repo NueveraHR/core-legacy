@@ -1,9 +1,9 @@
-export interface PortalPrivileges {
-    accessAllowed: boolean;
+export interface ModulePrivileges {
+    portals: string[],
     pages: string[],
     actions: string[],
 }
 
-export interface PortalPrivilegesConfig {
-    [portal: string]: PortalPrivileges;
-} 
+export interface Privileges {
+    [module: string]: ModulePrivileges;
+}

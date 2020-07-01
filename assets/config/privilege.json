@@ -1,29 +1,43 @@
 {
-    "management": {
-        "access": false,
+    "config": {
+        "portals": [
+            "role-config"
+        ],
         "pages": [
-            "roles"
+            "role-list",
+            "role-details"
         ],
         "actions": [
-            "manage.roles.create",
-            "manage.roles.read",
-            "manage.roles.update",
-            "manage.roles.delete"
+            "all-roles.read",
+            
+            "role.create",
+            "role.delete",
+            "role.update",
+            "role.delete"
         ]
     },
-
-    "user-management": {
-        "access": false,
+    
+    "user": {
+        "portals": [
+            "user-management",
+            "self-service"
+        ],
         "pages": [
-            "list",
-            "details"
+            "new-user",
+            "user-list",
+            "user-details",
+            "requests",
+            
+            "my-profile"
         ],
         "actions": [
-            "user.add",
+            "all-users.read",
+            
+            "user.create",
             "user.read",
             "user.update",
             "user.delete",
-
+            
             "user.roles.add",
             "user.roles.read",
             "user.roles.update",
@@ -34,25 +48,21 @@
             "user.documents.update",
             "user.documents.delete",
 
+            "requests.read",
+            "requests.approve",
+            "requests.refuse",
 
-            "user.requests.read",
-            "user.requests.approve",
-            "user.requests.refuse"
-        ]
-    },
-    "self-service": {
-        "access": true,
-        "pages": [
-            "profile",
-            "details"
-        ],
-        "actions": [
-            "self.details.approve",
 
-            "self.requests.create",
-            "self.requests.read",
-            "self.requests.update",
-            "self.requests.delete"
+            "my-profile.requests.create",
+            "my-profile.requests.read",
+            "my-profile.requests.update",
+            "my-profile.requests.delete",
+
+            "my-profile.documents.add",
+            "my-profile.documents.read",
+            "my-profile.documents.update",
+            "my-profile.documents.delete"
+
         ]
     }
 }

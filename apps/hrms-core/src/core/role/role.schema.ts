@@ -1,5 +1,6 @@
 import { Document } from "mongoose";
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
+import { Privileges } from "../privilege/privilege.model";
 
 @Schema()
 export class Role extends Document {
@@ -9,8 +10,8 @@ export class Role extends Document {
     @Prop()
     description: string;
 
-    @Prop([String])
-    privileges: string[];
+    @Prop()
+    privileges: Privileges;
 
     @Prop([String])
     extendsRoles: string[];

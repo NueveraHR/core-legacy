@@ -43,21 +43,16 @@ describe('Privilege Service', () => {
 
     describe('Parse privileges correctly', () => {
 
-        it('should fail if not explicity loaded config', () => {
-            expect(() => privilegeService.getPortalPrivileges('user-management'))
-                .toThrowError('Unknown config, Did you forget to call loadConfig() ?');
-        });
-
-        it('should throw for wrong given portal', () => {
+        it('should throw for wrong given module', () => {
             privilegeService.loadConfig();
-            expect(() => privilegeService.getPortalPrivileges('inexistent-portal'))
-                .toThrowError('Unknown portal with given name: inexistent-portal')
+            expect(() => privilegeService.getModulePrivileges('inexistent-module'))
+                .toThrowError('Unknown module with given name: inexistent-module')
 
         });
 
-        it('should return privileges for given portal', () => {
+        it('should return privileges for given module', () => {
             privilegeService.loadConfig();
-            const privileges = privilegeService.getPortalPrivileges('user-management');
+            const privileges = privilegeService.getModulePrivileges('user');
             expect(privileges).not.toBeUndefined();
             expect(privileges).not.toBeNull();
             expect(privileges.actions.length).toBeGreaterThan(1);
