@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { CoreModule } from '@hrms-core/core/core.module';
 
 @Module({
@@ -7,4 +6,4 @@ import { CoreModule } from '@hrms-core/core/core.module';
         CoreModule
     ]
 })
-export class ConfigurationModule {}
+export class ConfigManagementModule {}
