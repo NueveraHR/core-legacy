@@ -6,6 +6,9 @@ import { Role } from '@hrms-core/core/role/role.schema';
 
 import { RoleService } from '@hrms-core/core/role/role.service';
 import { PrivilegeService } from '@hrms-core/core/privilege/privilege.service';
+import { PrivilegesDto } from '@hrms-core/dto/privilege.dto';
+import { Privileges } from '@hrms-core/core/privilege/privilege.model';
+import { ErrorDto } from '@hrms-core/dto/error.dto';
 
 @Injectable()
 export class RoleConfigurationFacade {
@@ -30,26 +33,78 @@ export class RoleConfigurationFacade {
         return this._privilegeService;
     }
 
+    private _roleDtoPipe: RoleDtoPipe;
     get roleDtoPipe(): RoleDtoPipe {
-        return new RoleDtoPipe();
+        if (!this._roleDtoPipe) {
+            this._roleDtoPipe = new RoleDtoPipe();
+        }
+        return this._roleDtoPipe;
     }
 
-    public async getAllRegisteredRoles(options: DtoPipeOptions = null): Promise<RoleDto[]> {
+    private _privilegesDtoPipe: PrivilegesDtoPipe;
+    get privilegesDtoPipe(): PrivilegesDtoPipe {
+        if (!this._privilegesDtoPipe) {
+            this._privilegesDtoPipe = new PrivilegesDtoPipe();
+        }
+        return this._privilegesDtoPipe;
+    }
+
+    /**
+     * Returns all registered roles in the database
+     * Can be used in roles list view.
+     */
+    public async allRoles(): Promise<RoleDto[]> {
         return this.roleService.findAll().then(roles => {
-            let roleDto = roles.map(role => this.roleDtoPipe.apply(role, options));
+            let roleDto = roles.map(role => this.roleDtoPipe.apply(role));
             return roleDto;
         });
     }
 
-    public async getRoleDetails(roleName: string, options: DtoPipeOptions = null): Promise<RoleDto> {
+    /**
+     *  Returns fully detailed role info given its name.
+     *  Can be used to view/modify an existing role 
+     */
+    public async roleDetails(roleName: string, options: DtoPipeOptions = null): Promise<RoleDto> {
         return this.roleService.findByRoleName(roleName).then(role => {
             return this.roleDtoPipe.apply(role, options);
         })
     }
 
-    // public getPrivileges(searchQuery: string, filterOptions: PrivilegesFilterOptions = null): string[] {
-        
-    // }
+    /**
+     * Returns all grantable privileges. 
+     * Can be used to grant privileges to a new or an existing role. 
+     *
+     */
+    public async allPrivileges(): Promise<PrivilegesDto> {
+        const privileges = this.privilegeService.loadConfig();
+        return this.privilegesDtoPipe.apply(privileges);
+    }
+
+
+    public async createRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
+        return null;
+        // TODO: 
+        //  * Validate given roleDto data
+        //  * Try to register role into the DB
+        //  * Catch errors and log them using logger library
+        //  * Return error message in such case
+        //  * Return registered role data otherwise
+    }
+
+    public async updateRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
+        return null;
+        // TODO: 
+        //  * Validate given roleDto data
+        //  * Try to update role 
+        //  * Catch errors and log them using logger library
+        //  * Return error message in such case
+        //  * Return registered role data otherwise
+    }
+
+    public async deleteRole() {
+        //TODO: we should discuss this,
+        // users with given role won't have a role anymore ?
+    }
 
 }
 
@@ -58,14 +113,22 @@ export class RoleDtoPipe {
     constructor() { }
 
     apply(role: Role, options?: DtoPipeOptions): RoleDto {
-        let roleDto = new RoleDto(role.name, role.description, role.privileges);
+        let roleDto = new RoleDto(role.name, role.description, role.privileges, role.extendsRoles);
 
         return roleDto;
     }
-
 }
 
-export type DtoPipeOptions = { privilegeDescription: boolean };
+export class PrivilegesDtoPipe {
+    constructor() { }
+
+    apply(privileges: Privileges, options?: DtoPipeOptions): PrivilegesDto {
+        return privileges;
+    }
+}
+
+
+export type DtoPipeOptions = { addDescription: boolean };
 export type PrivilegesFilterOptions = {
     portalAccess: boolean,
     pagesAccess: boolean,

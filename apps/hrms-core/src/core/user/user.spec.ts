@@ -26,15 +26,6 @@ const MOCK_DATA = {
         lastName: 'Doe',
         gender: 'Male',
     },
-    missingRoleUser: {
-        username: 'nuevera',
-        password: 'areveun',
-        email: 'n@nuevera.com',
-        cin: '12345678',
-        firstName: 'John',
-        lastName: 'Doe',
-        gender: 'Male',
-    },
     employeeRole: {
         name: 'employee',
         description: 'Enterprise employee',
