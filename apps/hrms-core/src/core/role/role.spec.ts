@@ -3,39 +3,89 @@ import { HRMSCoreModule } from "@hrms-core/hrms-core.module";
 import { DBManager } from "@hrms-core/shared/services/database/database-manager.service";
 import { LoggerService } from "@libs/logger";
 import { RoleService } from "./role.service";
-import { async } from "rxjs/internal/scheduler/async";
-import { Role } from "./role.schema";
 
 const MOCK_DATA = {
     managerRole: {
         name: 'manager',
         description: 'Enterprise manager',
-        privileges: [
-            'management.access',
+        privileges: {
+            config: {
+                portals: [
+                    "role-config",
+                ],
+                pages: [
+                    "role-list",
+                    "role-details"
+                ],
+                actions: [
+                    "all-roles.read",
 
-            'management.pages.roles',
+                    "role.create",
+                    "role.delete",
+                    "role.update",
+                    "role.delete"
+                ]
+            },
 
-            'management.actions.manage.roles.create',
-            'management.actions.manage.roles.read',
-            'management.actions.manage.roles.update',
-            'management.actions.manage.roles.delete'
-        ]
+            user: {
+                portals: [
+                    "user-management",
+                ],
+                pages: [
+                    "new-user",
+                    "user-list",
+                    "user-details",
+                    "requests",
+                ],
+                actions: [
+                    "all-users.read",
+
+                    "user.create",
+                    "user.read",
+                    "user.update",
+                    "user.delete",
+
+                    "user.roles.add",
+                    "user.roles.read",
+                    "user.roles.update",
+                    "user.roles.delete",
+
+                    "user.documents.add",
+                    "user.documents.read",
+                    "user.documents.update",
+                    "user.documents.delete",
+
+                    "requests.read",
+                    "requests.approve",
+                    "requests.refuse",
+                ]
+            }
+        }
     },
     employeeRole: {
         name: 'employee',
         description: 'Enterprise employee',
-        privileges: [
-            'self-service.access',
+        privileges: {
+            user: {
+                portals: [
+                    "self-service"
+                ],
+                pages: [
+                    "my-profile"
+                ],
+                actions: [
+                    "my-profile.requests.create",
+                    "my-profile.requests.read",
+                    "my-profile.requests.update",
+                    "my-profile.requests.delete",
 
-            'self-service.pages.profile',
-            'self-service.pages.details',
-
-            'self-service.actions.self.details.approve',
-            'self-service.actions.self.details.create',
-            'self-service.actions.self.details.read',
-            'self-service.actions.self.details.update',
-            'self-service.actions.self.details.delete',
-        ]
+                    "my-profile.documents.add",
+                    "my-profile.documents.read",
+                    "my-profile.documents.update",
+                    "my-profile.documents.delete"
+                ]
+            }
+        }
     },
 }
 
@@ -72,7 +122,7 @@ describe('Role Service', () => {
             expect(role).toHaveProperty('name');
             expect(role).toHaveProperty('description');
             expect(role).toHaveProperty('privileges');
-            expect(role.privileges.length).toEqual(6)
+            expect(Object.keys(role.privileges).length).toEqual(2); // config and user
 
         });
     });
@@ -84,10 +134,10 @@ describe('Role Service', () => {
             expect(role).not.toBeNull();
             expect(role).toHaveProperty('privileges');
 
-            role.privileges = [];
+            role.privileges = {};
             await roleService.update(role);
 
-            expect(role.privileges.length).toEqual(0)
+            expect(Object.keys(role.privileges).length).toEqual(0);
         });
     });
 
@@ -117,5 +167,4 @@ describe('Role Service', () => {
             .toEqual(expect(role).toBeNull());
         });
     });
-
-})
+});

@@ -27,28 +27,30 @@ const MOCK_DATA = {
         lastName: 'Doe',
         gender: 'Male',
     },
-    missingRoleUser: {
-        username: 'nuevera',
-        password: 'areveun',
-        email: 'n@nuevera.com',
-        cin: '12345678',
-        firstName: 'John',
-        lastName: 'Doe',
-        gender: 'Male',
-    },
-    managerRole: {
-        name: 'manager',
-        description: 'Enterprise manager',
-        privileges: [
-            'management.access',
+    employeeRole: {
+        name: 'employee',
+        description: 'Enterprise employee',
+        privileges: {
+            user: {
+                portals: [
+                    "self-service"
+                ],
+                pages: [
+                    "my-profile"
+                ],
+                actions: [
+                    "my-profile.requests.create",
+                    "my-profile.requests.read",
+                    "my-profile.requests.update",
+                    "my-profile.requests.delete",
 
-            'management.pages.roles',
-
-            'management.actions.manage.roles.create',
-            'management.actions.manage.roles.read',
-            'management.actions.manage.roles.update',
-            'management.actions.manage.roles.delete'
-        ]
+                    "my-profile.documents.add",
+                    "my-profile.documents.read",
+                    "my-profile.documents.update",
+                    "my-profile.documents.delete"
+                ]
+            }
+        }
     }
 };
 
@@ -133,7 +135,7 @@ describe('User Service', () => {
 
         it('Attaches role to user successfully', async () => {
             user = await userService.create(userDto);
-            let role = await roleService.create(MOCK_DATA.managerRole);
+            let role = await roleService.create(MOCK_DATA.employeeRole);
             userService.attachRole(user, role).then(updatedUser => {
                 expect(updatedUser.role).not.toBeUndefined()
                 expect(updatedUser.role).not.toBeNull()
@@ -187,7 +189,7 @@ describe('User Service', () => {
         it('should find a populated user role', async () => {
             let user = await userService.create(userDto);
 
-            let role = await roleService.create(MOCK_DATA.managerRole);
+            let role = await roleService.create(MOCK_DATA.employeeRole);
             await userService.attachRole(user, role);
             await userService.findByUsername(userDto.username).then(user => {
                 expect(user.role).not.toBeUndefined();
