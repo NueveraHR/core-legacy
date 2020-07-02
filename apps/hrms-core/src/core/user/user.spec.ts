@@ -6,6 +6,7 @@ import { DBManager } from '@hrms-core/shared/services/database/database-manager.
 import * as bcrypt from 'bcrypt';
 import { LoggerService } from '@libs/logger';
 import { RoleService } from '../role/role.service';
+import { userDTO } from '@hrms-core/dto/user.dto';
 
 const MOCK_DATA = {
     basicUser: {
@@ -197,5 +198,15 @@ describe('User Service', () => {
 
         });
 
+    });
+
+    describe('Delete User', () => {
+        const userDto = MOCK_DATA.basicUser;
+        it('should delete user successfully', async () => {
+            let user = await userService.create(userDto);
+            await expect(userService.delete(user)).resolves
+            .toEqual(expect(user).toBeNull());
+            //expect(user).toBe(null);
+        });
     });
 })

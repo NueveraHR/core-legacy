@@ -70,6 +70,13 @@ export class UserService {
         return user.save();
     }
 
+    /**
+     * Delete one existing user
+     *
+     */
+    async delete(user : User): Promise<User> {
+        return this.userModel.findByIdAndDelete()
+    }
 
     /**
      * Hash user password using default salt

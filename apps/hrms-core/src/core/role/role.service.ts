@@ -18,6 +18,10 @@ export class RoleService {
         return role.save();
     }
 
+    async delete(role: Role): Promise<Role> {
+        return role.deleteOne();
+    }
+
     async findAll(): Promise<Role[]> {
         return await this.roleModel.find().exec();
     }
