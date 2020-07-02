@@ -207,7 +207,7 @@ describe('User Service', () => {
         it('should delete user successfully', async () => {
             let user = await userService.create(userDto);
             await expect(userService.delete(user)).resolves
-            .toEqual(expect(user).toBeNull());
+            .toEqual(expect.objectContaining({ deletedCount: 1 }));
             //expect(user).toBe(null);
         });
     });

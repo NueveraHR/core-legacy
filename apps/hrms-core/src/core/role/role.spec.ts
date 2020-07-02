@@ -164,7 +164,7 @@ describe('Role Service', () => {
             let role = await roleService.create(MOCK_DATA.managerRole);
 
             await expect(roleService.delete(role)).resolves
-            .toEqual(expect(role).toBeNull());
+                .toEqual(expect.objectContaining({ deletedCount: 1 }));
         });
     });
 });

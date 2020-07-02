@@ -74,8 +74,8 @@ export class UserService {
      * Delete one existing user
      *
      */
-    async delete(user : User): Promise<User> {
-        return this.userModel.findByIdAndDelete()
+    async delete(user : User): Promise<{ deletedCount?: number }> {
+        return this.userModel.deleteOne(user);
     }
 
     /**
