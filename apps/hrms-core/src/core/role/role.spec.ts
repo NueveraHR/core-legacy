@@ -159,4 +159,12 @@ describe('Role Service', () => {
         });
     });
 
+    describe('Delete Role', () => {
+        it('should remove role successfully', async () => {
+            let role = await roleService.create(MOCK_DATA.managerRole);
+
+            await expect(roleService.delete(role)).resolves
+                .toEqual(expect.objectContaining({ deletedCount: 1 }));
+        });
+    });
 });
