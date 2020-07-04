@@ -19,8 +19,8 @@ export class RoleConfigurationFacade {
 
     private _roleService;
     get roleService(): RoleService {
-        if (!this._roleService) {
-            this._roleService = this._moduleRef.get(RoleService);
+        if (!this._roleService) { // Use strict: false to inject modules existing outside of the current module
+            this._roleService = this._moduleRef.get(RoleService, { strict: false });
         }
         return this._roleService;
     }
@@ -28,7 +28,7 @@ export class RoleConfigurationFacade {
     private _privilegeService;
     get privilegeService(): PrivilegeService {
         if (!this._privilegeService) {
-            this._privilegeService = this._moduleRef.get(PrivilegeService);
+            this._privilegeService = this._moduleRef.get(PrivilegeService, { strict: false });
         }
         return this._privilegeService;
     }
@@ -81,14 +81,22 @@ export class RoleConfigurationFacade {
     }
 
 
-    public async createRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
-        return null;
+    public createRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
         // TODO: 
         //  * Validate given roleDto data
         //  * Try to register role into the DB
         //  * Catch errors and log them using logger library
         //  * Return error message in such case
         //  * Return registered role data otherwise
+
+        return this.roleService.create(roleDto).then(role => {
+            return this.roleDtoPipe.apply(role);
+        }).catch(err => {
+            return new ErrorDto(err.message, 45558, 'Application has failed to save role');
+        });
+
+
+
     }
 
     public async updateRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {

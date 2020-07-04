@@ -9,6 +9,7 @@ import { DBConnectionManager } from './shared/services/database/connection-manag
 
 import { ConfigManagementModule } from './modules/config-management/config-management.module';
 import { UserManagementModule } from './modules/user-management/user-management.module';
+import { RoleConfigurationFacade } from './modules/config-management/facades/role-configuration.facade';
 
 const connectionManager = new DBConnectionManager();
 
@@ -24,5 +25,8 @@ const connectionManager = new DBConnectionManager();
 
     ConfigManagementModule,
   ],
+  exports: [
+    ConfigManagementModule
+  ]
 })
 export class HRMSCoreModule { }
