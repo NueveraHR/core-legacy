@@ -9,6 +9,7 @@ import { PrivilegeService } from '@hrms-core/core/privilege/privilege.service';
 import { PrivilegesDto } from '@hrms-core/dto/privilege.dto';
 import { Privileges } from '@hrms-core/core/privilege/privilege.model';
 import { ErrorDto } from '@hrms-core/dto/error.dto';
+import { isNullOrUndefined } from 'util';
 
 @Injectable()
 export class RoleConfigurationFacade {
@@ -19,8 +20,8 @@ export class RoleConfigurationFacade {
 
     private _roleService;
     get roleService(): RoleService {
-        if (!this._roleService) {
-            this._roleService = this._moduleRef.get(RoleService);
+        if (!this._roleService) { // Use strict: false to inject modules existing outside of the current module
+            this._roleService = this._moduleRef.get(RoleService, { strict: false });
         }
         return this._roleService;
     }
@@ -28,7 +29,7 @@ export class RoleConfigurationFacade {
     private _privilegeService;
     get privilegeService(): PrivilegeService {
         if (!this._privilegeService) {
-            this._privilegeService = this._moduleRef.get(PrivilegeService);
+            this._privilegeService = this._moduleRef.get(PrivilegeService, { strict: false });
         }
         return this._privilegeService;
     }
@@ -81,29 +82,100 @@ export class RoleConfigurationFacade {
     }
 
 
-    public async createRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
-        return null;
-        // TODO: 
+    public createRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
         //  * Validate given roleDto data
-        //  * Try to register role into the DB
+        if (roleDto.description.toString().trim()!= (null || "" || undefined)){  
+        try{
+            return this.roleService.create(roleDto);
+        }
         //  * Catch errors and log them using logger library
-        //  * Return error message in such case
+        catch{
+            err => {
+            return new ErrorDto(err.message, 1000 ,'Invalid Description')}
+        }
+            if (roleDto.name.toString().trim() != (null || "" || undefined) &&
+            this.roleService.findByRoleName(roleDto.name) == (null || undefined)){
+                //  * Try to register role into the DB
+                try{
+                    return this.roleService.create(roleDto);
+                }
+                catch{
+                    err => {
+                    return new ErrorDto(err.message, 1001 ,'Invalid Name')}
+                }
+
+                if (roleDto.privileges.length.toString() == "2" && roleDto.privileges.toString().trim() != (null || "" || undefined) ){
+                    try{
+                        return this.roleService.create(roleDto);
+                    }
+                    catch{
+                        err => {
+                         return new ErrorDto(err.message, 1002 ,'Insufficient/Unidentified roles')}
+                    }
+                }
+            }
+        }
+        console.log(roleDto)
         //  * Return registered role data otherwise
+        return this.roleService.create(roleDto).then(role => {
+            return this.roleDtoPipe.apply(role);
+        }).catch(err => {
+            return new ErrorDto(err.message, 45558, 'Application has failed to save role');
+        });
     }
 
     public async updateRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
-        return null;
-        // TODO: 
-        //  * Validate given roleDto data
-        //  * Try to update role 
-        //  * Catch errors and log them using logger library
-        //  * Return error message in such case
-        //  * Return registered role data otherwise
+        let role = new Role ;
+        /*role2 =this.roleService.create(roleDto).then(role => {
+            return this.roleDtoPipe.apply(role);
+        }).catch(err => {
+            return new ErrorDto(err.message, 45558, 'Application has failed to save role');
+        });*/
+        if (roleDto.description.toString().trim()!= (null || "" || undefined)){  
+            try{
+                return this.roleService.update(role);
+            }
+            //  * Catch errors and log them using logger library
+            catch{
+                err => {
+                return new ErrorDto(err.message, 1000 ,'Invalid Description')}
+            }
+                if (roleDto.name.toString().trim() != (null || "" || undefined) &&
+                this.roleService.findByRoleName(roleDto.name) == (null || undefined)
+                ){
+                    //  * Try to update role from the DB
+                    try{
+                        return this.roleService.update(role);
+                    }
+                    catch{
+                        err => {
+                        return new ErrorDto(err.message, 1001 ,'Invalid Name')}
+                    }
+    
+                    if (roleDto.privileges.length.toString() == "2" && roleDto.privileges.toString().trim() != (null || "" || undefined) ){
+                        try{
+                            return this.roleService.update(role);
+                        }
+                        catch{
+                            err => {
+                            return new ErrorDto(err.message, 1002 ,'Insufficient/Unidentified roles')}
+                        }
+                    }
+                }
+            }
+            console.log(roleDto)
+            //  * Return registered role data otherwise
+            return this.roleService.update(role).then(role => {
+                return this.roleDtoPipe.apply(role);
+            }).catch(err => {
+                return new ErrorDto(err.message, 45558, 'Application has failed to update role');
+            });
     }
 
     public async deleteRole() {
-        //TODO: we should discuss this,
-        // users with given role won't have a role anymore ?
+        //Deleting Roles for a given user
+        let role = new Role;
+        return this.roleService.delete(role);
     }
 
 }
