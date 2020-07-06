@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AuthController } from './common/authentication/auth.controller';
+import { CommonApi } from './common/common-api.module';
 
 
 @Module({
   imports: [
-    HRMSCoreModule
+    HRMSCoreModule,
+    CommonApi
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, AuthController],
 })
-export class AppModule {}
- 
+export class AppModule { }
