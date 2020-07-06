@@ -19,7 +19,10 @@ export interface EnvData {
     LOGGER_LEVEL: string,
 
     // config
-    CONFIG_PATH?: string
+    CONFIG_PATH?: string,
+
+    JWT_SECRETKEY?: string,
+    JWT_EXPIRESIN?: string,
 }
 
 const envFilesPath = './environments';

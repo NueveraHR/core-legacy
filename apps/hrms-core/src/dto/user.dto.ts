@@ -1,7 +1,6 @@
 export class userDTO {
     constructor(
-        public username: string,
-        
+        public username?: string,
         public firstName?: string,
         public lastName?: string,
         public password?: string,
