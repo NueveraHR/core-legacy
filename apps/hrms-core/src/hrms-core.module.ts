@@ -9,6 +9,7 @@ import { DBConnectionManager } from './shared/services/database/connection-manag
 
 import { ConfigManagementModule } from './modules/config-management/config-management.module';
 import { UserManagementModule } from './modules/user-management/user-management.module';
+import { AuthModule } from './auth/auth.module';
 
 const connectionManager = new DBConnectionManager();
 
@@ -21,7 +22,8 @@ const connectionManager = new DBConnectionManager();
     ConfigModule.forRoot({ isGlobal: true }),
     CoreModule,
     SharedModule,
-
+    
+    AuthModule,
     ConfigManagementModule,
   ],
 })

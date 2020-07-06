@@ -1,21 +1,24 @@
-import { Module } from '@nestjs/common';
+import { Module, Inject } from '@nestjs/common';
 import { HRMSConfigModule } from '@libs/config';
 import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { AuthFacade } from './auth.facade';
+import { EnvService } from '@libs/env';
 
+const envService = new EnvService();
 
 @Module({
     imports: [
         HRMSConfigModule,
         PassportModule,
         JwtModule.register({
-            secret: process.env.JWT_SECRETKEY, signOptions: {
-                expiresIn: process.env.JWT_EXPIRESIN,
-            },
+            secret: envService.read().JWT_SECRETKEY,
+            signOptions: { expiresIn: envService.read().JWT_EXPIRESIN },
         })
     ],
-    providers: [],
+    providers: [
+        AuthFacade,
+    ],
     exports: [AuthFacade]
 })
 export class AuthModule { }

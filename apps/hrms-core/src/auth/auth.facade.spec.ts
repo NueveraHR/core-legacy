@@ -5,6 +5,8 @@ import { LoggerService } from '@libs/logger';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { AuthFacade } from './auth.facade';
+import { ErrorDto } from '@hrms-core/dto/error.dto';
+import { JwtService } from '@nestjs/jwt';
 
 const MOCK_DATA = {
     basicUser: {
@@ -41,15 +43,15 @@ const MOCK_DATA = {
             }
         }
     },
-    userAuthDataWithInvalidEmail: {
+    userWithInvalidEmail: {
         email: 'test',
         password: '0000'
     },
-    userAuthDataWithoutEmail: {
+    userWithoutEmail: {
         email: '',
         password: '0000'
     },
-    userAuthDataWithoutPassword: {
+    userWithoutPassword: {
         email: 'n@nuevera.com',
         password: ''
     }
@@ -61,18 +63,21 @@ describe('Auth Facade', () => {
     let roleService: RoleService;
     let userService: UserService;
 
+
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
             imports: [HRMSCoreModule],
-            providers: [],
+            providers: [
+            ],
             controllers: [],
         }).compile();
 
-        authFacade = moduleRef.get<AuthFacade>(AuthFacade);
         dbManager = moduleRef.get<DBManager>(DBManager);
+        loggerService = moduleRef.get<LoggerService>(LoggerService);
+        authFacade = moduleRef.get<AuthFacade>(AuthFacade);
+
         userService = moduleRef.get<UserService>(UserService);
         roleService = moduleRef.get<RoleService>(RoleService);
-        loggerService = moduleRef.get<LoggerService>(LoggerService);
     });
 
     beforeEach(async () => {
@@ -85,24 +90,45 @@ describe('Auth Facade', () => {
 
     describe('Validate User', () => {
         it('Should not accept empty email', async () => {
+            expect(authFacade.auth(MOCK_DATA.userWithoutEmail)).resolves.toBeInstanceOf(ErrorDto);
+            expect(authFacade.auth(MOCK_DATA.userWithoutEmail)).resolves.toEqual(expect.objectContaining({ message: 'No email address provided' }));
+        });
 
+        it('Should not accept invalid email', async () => {
+            expect(authFacade.auth(MOCK_DATA.userWithInvalidEmail)).resolves.toBeInstanceOf(ErrorDto);
+            expect(authFacade.auth(MOCK_DATA.userWithInvalidEmail)).resolves.toEqual(expect.objectContaining({ message: 'Invalid email provided' }));
         });
 
         it('Should not accept empty password', async () => {
+            expect(authFacade.auth(MOCK_DATA.userWithoutPassword)).resolves.toBeInstanceOf(ErrorDto);
+            expect(authFacade.auth(MOCK_DATA.userWithoutPassword)).resolves.toEqual(expect.objectContaining({ message: 'No password provided' }));
+        });
+
+        it('Should not accept invalid user credentials', async () => {
+            //const role = await roleService.create(MOCK_DATA.employeeRole);
+            await userService.create(MOCK_DATA.basicUser);
+            const loginCredentials = {
+                email: 'invalid-user@mail.com',
+                password: 'invalid'
+            }
+            expect(authFacade.auth(loginCredentials)).resolves.toBeInstanceOf(ErrorDto);
+            expect(authFacade.auth(loginCredentials)).resolves.toEqual(expect.objectContaining({ message: 'Invalid login credentials' }));
+
 
         });
 
-        it('Should not accept empty email', async () => {
+        it('Should accept authentication', async () => {
+            await userService.create(MOCK_DATA.basicUser);
+            const loginCredentials = {
+                email: MOCK_DATA.basicUser.email,
+                password: MOCK_DATA.basicUser.password
+            }
+            await authFacade.auth(loginCredentials).then(result => {
+                expect(result).not.toBeInstanceOf(ErrorDto);
+                expect((result as string).length).toBeGreaterThan(1);
+            });
 
-        });
-
-        it('Should not accept invalid information', async () => {
-
-        });
-
-        it('Should accept the valid information', async () => {
-
-        });
+        }); 
 
     });
 
