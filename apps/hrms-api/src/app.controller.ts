@@ -1,12 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
 import { RoleConfigurationFacade } from '@hrms-core/modules/config-management/facades/role-configuration.facade';
 import { RoleDto } from '@hrms-core/dto/role.dto';
 import { ErrorDto } from '@hrms-core/dto/error.dto';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService,
+  constructor(
     private readonly roleConfigFacade: RoleConfigurationFacade
   ) { }
 
