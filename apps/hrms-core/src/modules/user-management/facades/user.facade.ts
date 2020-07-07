@@ -29,15 +29,16 @@ export class UserFacade {
         return this.userService
             .findAllPaginated(filterCriteria?.page, filterCriteria?.pageSize)
             .then(result => {
-                let userPaginateDto: UserPaginateDto;
-                userPaginateDto.total = result.total;
-                userPaginateDto.pages = result.pages;
-                userPaginateDto.page = result.page;
-                userPaginateDto.limit = result.limit;
-                userPaginateDto.offset = result.offset;
-                userPaginateDto.docs = result.docs.map(
-                    user => this.userDtoPipe.transform(user, { detailed: filterCriteria?.detailed })
-                );
+                let userPaginateDto: UserPaginateDto = {
+                    total: result.total,
+                    pages: result.pages,
+                    page: result.page,
+                    limit: result.limit,
+                    offset: result.offset,
+                    docs: result.docs.map(
+                        user => this.userDtoPipe.transform(user, { detailed: filterCriteria?.detailed })
+                    ),
+                };
                 return userPaginateDto;
             }).catch(err => new ErrorDto(err.message))
     }

@@ -21,9 +21,13 @@ const connectionManager = new DBConnectionManager();
     ConfigModule.forRoot({ isGlobal: true }),
     CoreModule,
     CommonModule,
-    
+
     AuthModule,
     ConfigManagementModule,
   ],
+  exports: [ // We export these modules to expose them in app-module
+    AuthModule,
+    ConfigManagementModule,
+  ]
 })
 export class HRMSCoreModule { }

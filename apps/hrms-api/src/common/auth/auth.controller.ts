@@ -1,16 +1,16 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Post, Inject, Body } from '@nestjs/common';
 import { UserDTO } from '@hrms-core/dto/user.dto';
 import { ErrorDto } from '@hrms-core/dto/error.dto';
 import { AuthFacade } from '@hrms-core/common/auth/auth.facade';
+import { ModuleRef } from '@nestjs/core';
 
 @Controller('/auth')
 export class AuthController {
-    constructor(
-        private _authFacade: AuthFacade
-    ) { }
+    constructor(private _authFacade: AuthFacade) {
+    }
 
     @Post()
-    async attemptLogin(userDto: UserDTO) {
+    async attemptLogin(@Body() userDto: UserDTO) {
         if (!userDto) {
             return new ErrorDto('Invalid credentials format');
         }

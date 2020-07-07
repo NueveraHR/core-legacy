@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { UserFacade } from '@hrms-core/modules/user-management/facades/user.facade';
+import { UserFacade, UserFilterCriteria } from '@hrms-core/modules/user-management/facades/user.facade';
 
 @Controller('/users')
 export class UserController {
@@ -8,11 +8,17 @@ export class UserController {
     @Get()
     async allUsers(@Query('page') page: string, @Query('pageSize') pageSize: string) {
         let result: any;
+        const filterCriteria: UserFilterCriteria = {};
 
-        await this.userFacade.userList({
-            page: Number(page),
-            pageSize: Number(pageSize)
-        }).then(res => {
+        if (page && Number(page) != NaN) {
+            filterCriteria.page = Number(page);
+        }
+
+        if (pageSize && Number(pageSize) != NaN) {
+            filterCriteria.pageSize = Number(pageSize);
+        }
+
+        await this.userFacade.userList(filterCriteria).then(res => {
             result = res;
         });
 
@@ -21,7 +27,7 @@ export class UserController {
 
     @Get('/details/:username')
     userDetails(username: string) {
-        
+
     }
 
 

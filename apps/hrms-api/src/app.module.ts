@@ -9,8 +9,8 @@ import { UserManagementApi } from './user-management/user-management-api.module'
 @Module({
   imports: [
     HRMSCoreModule,
+  
     CommonApi,
-
     UserManagementApi
   ],
   controllers: [AppController, AuthController],
