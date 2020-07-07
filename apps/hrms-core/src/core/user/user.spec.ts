@@ -2,11 +2,14 @@ import { UserService } from './user.service';
 import { Test } from '@nestjs/testing';
 import { User } from './user.schema';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
-import { DBManager } from '@hrms-core/shared/services/database/database-manager.service';
+import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
 import * as bcrypt from 'bcrypt';
 import { LoggerService } from '@libs/logger';
 import { RoleService } from '../role/role.service';
-import { userDTO } from '@hrms-core/dto/user.dto';
+import { UserDTO } from '@hrms-core/dto/user.dto';
+import { async } from 'rxjs/internal/scheduler/async';
+import { assert } from 'console';
+import { PaginateResult } from 'mongoose';
 
 const MOCK_DATA = {
     basicUser: {
@@ -170,6 +173,30 @@ describe('User Service', () => {
 
         });
 
+        it('should find all added user paginated', async () => {
+            //expect.assertions(2);
+
+            for (let i = 0; i < 24; i++) {
+                const generatedUser = {
+                    username: `${i}`,
+                    email: `${i}`,
+                    password: `${i}`,
+                    cin: `${i}`.padStart(8, '0'),
+                };
+                await userService.create(generatedUser);
+            }
+            expect(userService.findAll()).resolves.toBeInstanceOf(Array);
+            await userService.findAll().then(users => {
+                expect(users.length).toEqual(24);
+            });
+            
+            await userService.findAllPaginated(3, 10).then((users: PaginateResult<User>) => {
+                expect(users.total).toEqual(24); // 24 registered users
+                expect(users.pages).toEqual(3); // 3 pages
+                expect(users.docs.length).toEqual(4); // 4 users on page 3
+            })
+        })
+
         it('Should find user by username', async () => {
             await userService.create(userDto);
 
@@ -207,7 +234,7 @@ describe('User Service', () => {
         it('should delete user successfully', async () => {
             let user = await userService.create(userDto);
             await expect(userService.delete(user)).resolves
-            .toEqual(expect.objectContaining({ deletedCount: 1 }));
+                .toEqual(expect.objectContaining({ deletedCount: 1 }));
             //expect(user).toBe(null);
         });
     });

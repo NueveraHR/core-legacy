@@ -1,4 +1,16 @@
 import { Module } from '@nestjs/common';
+import { UserFacade } from './facades/user.facade';
+import { CoreModule } from '@hrms-core/core/core.module';
 
-@Module({})
-export class UserManagementModule {}
+@Module({
+    imports: [
+        CoreModule,
+    ],
+    providers: [
+        UserFacade,
+    ],
+    exports: [
+        UserFacade,
+    ]
+})
+export class UserManagementModule { }
