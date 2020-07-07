@@ -1,4 +1,4 @@
-import { AuthController } from "./authentication/auth.controller";
+import { AuthController } from "./auth/auth.controller";
 import { Module } from "@nestjs/common";
 
 

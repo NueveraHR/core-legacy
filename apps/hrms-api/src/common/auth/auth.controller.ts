@@ -1,7 +1,7 @@
 import { Controller, Post } from '@nestjs/common';
-import { userDTO } from '@hrms-core/dto/user.dto';
+import { UserDTO } from '@hrms-core/dto/user.dto';
 import { ErrorDto } from '@hrms-core/dto/error.dto';
-import { AuthFacade } from '@hrms-core/auth/auth.facade';
+import { AuthFacade } from '@hrms-core/common/auth/auth.facade';
 
 @Controller('/auth')
 export class AuthController {
@@ -10,7 +10,7 @@ export class AuthController {
     ) { }
 
     @Post()
-    async attempt(userDto: userDTO) {
+    async attemptLogin(userDto: UserDTO) {
         if (!userDto) {
             return new ErrorDto('Invalid credentials format');
         }
