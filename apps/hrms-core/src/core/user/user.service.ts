@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { User } from "./user.schema";
-import { Model } from "mongoose";
-import { userDTO } from "@hrms-core/dto/user.dto";
+import { PaginateModel, PaginateResult } from "mongoose";
+import { UserDTO } from "@hrms-core/dto/user.dto";
 import * as bcrypt from 'bcrypt';
 import { Role } from "../role/role.schema";
 
@@ -12,13 +12,13 @@ const SALT_ROUNDS = 10;
 export class UserService {
 
 
-    constructor(@InjectModel(User.name) private readonly userModel: Model<User>) { }
+    constructor(@InjectModel(User.name) private readonly userModel: PaginateModel<User>) { }
 
     /**
      * Create user model based on a userDTO
      *
      */
-    async create(userDTO: userDTO): Promise<User> {
+    async create(userDTO: UserDTO): Promise<User> {
         let user = new this.userModel(userDTO);
         await this.hashPassword(user).then(updatedUser => user = updatedUser);
 
@@ -43,6 +43,16 @@ export class UserService {
      */
     async findAll(): Promise<User[]> {
         return this.userModel.find().exec();
+    }
+
+
+    async findAllPaginated(page: number = 1, limit: number = 10): Promise<PaginateResult<User>> {
+        const options = {
+            page: page,
+            limit: limit,
+        };
+
+        return this.userModel.paginate({}, options);
     }
 
     /**
@@ -74,7 +84,7 @@ export class UserService {
      * Delete one existing user
      *
      */
-    async delete(user : User): Promise<{ deletedCount?: number }> {
+    async delete(user: User): Promise<{ deletedCount?: number }> {
         return this.userModel.deleteOne(user);
     }
 

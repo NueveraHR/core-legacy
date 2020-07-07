@@ -4,12 +4,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { EnvModule } from '@libs/env';
 import { LoggerModule } from '@libs/logger';
 import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
-import { DBConnectionManager } from './shared/services/database/connection-manager.service';
+import { CommonModule } from './common/common.module';
+import { DBConnectionManager } from './common/services/database/connection-manager.service';
 
 import { ConfigManagementModule } from './modules/config-management/config-management.module';
-import { UserManagementModule } from './modules/user-management/user-management.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './common/auth/auth.module';
 
 const connectionManager = new DBConnectionManager();
 
@@ -21,10 +20,14 @@ const connectionManager = new DBConnectionManager();
     MongooseModule.forRoot(connectionManager.getConnectionString(), connectionManager.getConnectionOptions()),
     ConfigModule.forRoot({ isGlobal: true }),
     CoreModule,
-    SharedModule,
-    
+    CommonModule,
+
     AuthModule,
     ConfigManagementModule,
   ],
+  exports: [ // We export these modules to expose them in app-module
+    AuthModule,
+    ConfigManagementModule,
+  ]
 })
 export class HRMSCoreModule { }

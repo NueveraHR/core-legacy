@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { DBManager } from '@hrms-core/shared/services/database/database-manager.service';
+import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
 import { RoleService } from '@hrms-core/core/role/role.service';
 import { LoggerService } from '@libs/logger';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';

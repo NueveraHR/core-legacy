@@ -5,7 +5,7 @@ import { ModuleRef } from '@nestjs/core';
 import { RoleService } from '@hrms-core/core/role/role.service';
 import { User } from '@hrms-core/core/user/user.schema';
 import { UserService } from '@hrms-core/core/user/user.service';
-import { userDTO } from '@hrms-core/dto/user.dto';
+import { UserDTO } from '@hrms-core/dto/user.dto';
 import { ErrorDto } from '@hrms-core/dto/error.dto';
 
 @Injectable()
@@ -35,7 +35,7 @@ export class AuthFacade {
     }
 
 
-    async auth(user: userDTO): Promise<string | ErrorDto> {
+    async auth(user: UserDTO): Promise<string | ErrorDto> {
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
         if (user?.email?.trim() === '') {
