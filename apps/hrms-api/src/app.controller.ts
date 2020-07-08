@@ -1,12 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
-import { RoleConfigurationFacade } from '@hrms-core/modules/config-management/facades/role-configuration.facade';
+import { RoleMangementFacade } from '@hrms-core/modules/config-management/facades/role-management.facade';
 import { RoleDto } from '@hrms-core/dto/role.dto';
 import { ErrorDto } from '@hrms-core/dto/error.dto';
 
 @Controller()
 export class AppController {
   constructor(
-    private readonly roleConfigFacade: RoleConfigurationFacade
+    private readonly roleConfigFacade: RoleMangementFacade
   ) { }
 
   @Get()

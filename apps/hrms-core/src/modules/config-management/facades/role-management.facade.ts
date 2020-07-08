@@ -14,7 +14,7 @@ import { RoleDtoPipe } from '../pipes/role-dto.pipe';
 import { PrivilegesDtoPipe } from '../pipes/privilege-dto.pipe';
 
 @Injectable()
-export class RoleConfigurationFacade {
+export class RoleMangementFacade {
 
     constructor(private readonly _moduleRef: ModuleRef) {
 

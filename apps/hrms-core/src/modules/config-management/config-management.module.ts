@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 import { CoreModule } from '@hrms-core/core/core.module';
-import { RoleConfigurationFacade } from './facades/role-configuration.facade';
+import { RoleMangementFacade } from './facades/role-management.facade';
 
 @Module({
     imports: [
         CoreModule
     ],
     providers: [
-        RoleConfigurationFacade,
+        RoleMangementFacade,
     ],
     exports: [
-        RoleConfigurationFacade
+        RoleMangementFacade
     ]
 })
 export class ConfigManagementModule { }

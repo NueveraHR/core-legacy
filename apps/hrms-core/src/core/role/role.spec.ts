@@ -3,91 +3,8 @@ import { HRMSCoreModule } from "@hrms-core/hrms-core.module";
 import { DBManager } from "@hrms-core/common/services/database/database-manager.service";
 import { LoggerService } from "@libs/logger";
 import { RoleService } from "./role.service";
+import { ROLES } from "@hrms-core/mock/role-mock";
 
-const MOCK_DATA = {
-    managerRole: {
-        name: 'manager',
-        description: 'Enterprise manager',
-        privileges: {
-            config: {
-                portals: [
-                    "role-config",
-                ],
-                pages: [
-                    "role-list",
-                    "role-details"
-                ],
-                actions: [
-                    "all-roles.read",
-
-                    "role.create",
-                    "role.delete",
-                    "role.update",
-                    "role.delete"
-                ]
-            },
-
-            user: {
-                portals: [
-                    "user-management",
-                ],
-                pages: [
-                    "new-user",
-                    "user-list",
-                    "user-details",
-                    "requests",
-                ],
-                actions: [
-                    "all-users.read",
-
-                    "user.create",
-                    "user.read",
-                    "user.update",
-                    "user.delete",
-
-                    "user.roles.add",
-                    "user.roles.read",
-                    "user.roles.update",
-                    "user.roles.delete",
-
-                    "user.documents.add",
-                    "user.documents.read",
-                    "user.documents.update",
-                    "user.documents.delete",
-
-                    "requests.read",
-                    "requests.approve",
-                    "requests.refuse",
-                ]
-            }
-        }
-    },
-    employeeRole: {
-        name: 'employee',
-        description: 'Enterprise employee',
-        privileges: {
-            user: {
-                portals: [
-                    "self-service"
-                ],
-                pages: [
-                    "my-profile"
-                ],
-                actions: [
-                    "my-profile.requests.create",
-                    "my-profile.requests.read",
-                    "my-profile.requests.update",
-                    "my-profile.requests.delete",
-
-                    "my-profile.documents.add",
-                    "my-profile.documents.read",
-                    "my-profile.documents.update",
-                    "my-profile.documents.delete"
-                ]
-            }
-        }
-    },
-}
 
 describe('Role Service', () => {
     let dbManager: DBManager;
@@ -116,7 +33,7 @@ describe('Role Service', () => {
 
     describe('Create Role', () => {
         it('should create role successfully', async () => {
-            let role = await roleService.create(MOCK_DATA.managerRole);
+            let role = await roleService.create(ROLES.managerRole);
             expect(role).not.toBeUndefined();
             expect(role).not.toBeNull();
             expect(role).toHaveProperty('name');
@@ -129,7 +46,7 @@ describe('Role Service', () => {
 
     describe('Update Role', () => {
         it('should update role successfully', async () => {
-            let role = await roleService.create(MOCK_DATA.managerRole);
+            let role = await roleService.create(ROLES.managerRole);
             expect(role).not.toBeUndefined();
             expect(role).not.toBeNull();
             expect(role).toHaveProperty('privileges');
@@ -145,21 +62,21 @@ describe('Role Service', () => {
         let randomRoleId: string;
 
         beforeEach(async () => {
-            await roleService.create(MOCK_DATA.managerRole).then(role => {
+            await roleService.create(ROLES.managerRole).then(role => {
                 randomRoleId = role.id;
             });
         });
 
         it('should find all created roles', async () => {
-            await roleService.create(MOCK_DATA.employeeRole);
+            await roleService.create(ROLES.employeeRole);
 
             expect(roleService.findAll()).resolves.toHaveLength(2);
         });
 
         it('should find role by name', async () => {
-            expect(roleService.findByRoleName(MOCK_DATA.managerRole.name)).resolves
+            expect(roleService.findByRoleName(ROLES.managerRole.name)).resolves
                 .not.toBeNull();
-            //.toEqual(expect.objectContaining({ description: MOCK_DATA.managerRole.description }));
+            //.toEqual(expect.objectContaining({ description: ROLES.managerRole.description }));
         });
 
         it('should find role by id', async () => {
@@ -170,7 +87,7 @@ describe('Role Service', () => {
 
     describe('Delete Role', () => {
         it('should remove role successfully', async () => {
-            let role = await roleService.create(MOCK_DATA.managerRole);
+            let role = await roleService.create(ROLES.managerRole);
 
             await expect(roleService.delete(role)).resolves
                 .toEqual(expect.objectContaining({ deletedCount: 1 }));
