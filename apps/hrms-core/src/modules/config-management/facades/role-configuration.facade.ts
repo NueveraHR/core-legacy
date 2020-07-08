@@ -1,4 +1,4 @@
-import { Injectable, Options } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 
 import { RoleDto } from '@hrms-core/dto/role.dto';
@@ -7,11 +7,11 @@ import { Role } from '@hrms-core/core/role/role.schema';
 import { RoleService } from '@hrms-core/core/role/role.service';
 import { PrivilegeService } from '@hrms-core/core/privilege/privilege.service';
 import { PrivilegesDto } from '@hrms-core/dto/privilege.dto';
-import { Privileges } from '@hrms-core/core/privilege/privilege.model';
 import { ErrorDto } from '@hrms-core/dto/error.dto';
-import { isNullOrUndefined } from 'util';
 import { RoleDtoValidator } from '../validators/role-dto.validator';
 import { RoleDtoReversePipe } from '../pipes/role-dto-reverse.pipe';
+import { RoleDtoPipe } from '../pipes/role-dto.pipe';
+import { PrivilegesDtoPipe } from '../pipes/privilege-dto.pipe';
 
 @Injectable()
 export class RoleConfigurationFacade {
@@ -52,7 +52,6 @@ export class RoleConfigurationFacade {
         return this._roleDtoReversePipe;
     }
 
-    RoleDtoReversePipe
     private _roleDtoValidator: RoleDtoValidator;
     get roleDtoValidator(): RoleDtoValidator {
         if (!this._roleDtoValidator) {
@@ -73,9 +72,9 @@ export class RoleConfigurationFacade {
      * Returns all registered roles in the database
      * Can be used in roles list view.
      */
-    public async allRoles(): Promise<RoleDto[]> {
+    async allRoles(): Promise<RoleDto[]> {
         return this.roleService.findAll().then(roles => {
-            let roleDto = roles.map(role => this.roleDtoPipe.apply(role));
+            let roleDto = roles.map(role => this.roleDtoPipe.transform(role));
             return roleDto;
         });
     }
@@ -84,9 +83,9 @@ export class RoleConfigurationFacade {
      *  Returns fully detailed role info given its name.
      *  Can be used to view/modify an existing role 
      */
-    public async roleDetails(roleName: string, options: DtoPipeOptions = null): Promise<RoleDto> {
+    async roleDetails(roleName: string, options?: object): Promise<RoleDto> {
         return this.roleService.findByRoleName(roleName).then(role => {
-            return this.roleDtoPipe.apply(role, options);
+            return this.roleDtoPipe.transform(role, options);
         })
     }
 
@@ -95,13 +94,13 @@ export class RoleConfigurationFacade {
      * Can be used to grant privileges to a new or an existing role. 
      *
      */
-    public async allPrivileges(): Promise<PrivilegesDto> {
+    async allPrivileges(): Promise<PrivilegesDto> {
         const privileges = this.privilegeService.loadConfig();
-        return this.privilegesDtoPipe.apply(privileges);
+        return this.privilegesDtoPipe.transform(privileges);
     }
 
 
-    public async createRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
+    async createRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
 
         //  * Validate given roleDto data
         const validationResult = this.roleDtoValidator.validate(roleDto);
@@ -110,11 +109,11 @@ export class RoleConfigurationFacade {
         }
 
         return this.roleService.create(roleDto).then(role =>
-            this.roleDtoPipe.apply(role)
+            this.roleDtoPipe.transform(role)
         ).catch(err => new ErrorDto(err.message));
     }
 
-    public async updateRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
+    async updateRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
 
         //  * Validate given roleDto data
         const validationResult = this.roleDtoValidator.validate(roleDto, { required: ['id'] });
@@ -138,11 +137,11 @@ export class RoleConfigurationFacade {
         // overwrite saved role properties
         savedRole = this.roleDtoReversePipe.transformExistent(roleDto, savedRole);
         return this.roleService.update(savedRole).then(role =>
-            this.roleDtoPipe.apply(role)
+            this.roleDtoPipe.transform(role)
         ).catch(err => new ErrorDto(err.message));
     }
 
-    public async deleteRole() {
+    async deleteRole() {
         //Deleting Roles for a given user
         let role = new Role;
         return this.roleService.delete(role);
@@ -150,27 +149,7 @@ export class RoleConfigurationFacade {
 
 }
 
-export class RoleDtoPipe {
 
-    constructor() { }
-
-    apply(role: Role, options?: DtoPipeOptions): RoleDto {
-        let roleDto = new RoleDto(role.name, role.description, role.privileges, role.id, role.extendsRoles);
-
-        return roleDto;
-    }
-}
-
-export class PrivilegesDtoPipe {
-    constructor() { }
-
-    apply(privileges: Privileges, options?: DtoPipeOptions): PrivilegesDto {
-        return privileges;
-    }
-}
-
-
-export type DtoPipeOptions = { addDescription: boolean };
 export type PrivilegesFilterOptions = {
     portalAccess: boolean,
     pagesAccess: boolean,
