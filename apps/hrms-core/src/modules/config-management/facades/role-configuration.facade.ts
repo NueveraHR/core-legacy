@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Options } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 
 import { RoleDto } from '@hrms-core/dto/role.dto';
@@ -10,6 +10,8 @@ import { PrivilegesDto } from '@hrms-core/dto/privilege.dto';
 import { Privileges } from '@hrms-core/core/privilege/privilege.model';
 import { ErrorDto } from '@hrms-core/dto/error.dto';
 import { isNullOrUndefined } from 'util';
+import { RoleDtoValidator } from '../validators/role-dto.validator';
+import { RoleDtoReversePipe } from '../pipes/role-dto-reverse.pipe';
 
 @Injectable()
 export class RoleConfigurationFacade {
@@ -40,6 +42,23 @@ export class RoleConfigurationFacade {
             this._roleDtoPipe = new RoleDtoPipe();
         }
         return this._roleDtoPipe;
+    }
+
+    private _roleDtoReversePipe: RoleDtoReversePipe;
+    get roleDtoReversePipe(): RoleDtoReversePipe {
+        if (!this._roleDtoReversePipe) {
+            this._roleDtoReversePipe = this._moduleRef.get(RoleDtoReversePipe);
+        }
+        return this._roleDtoReversePipe;
+    }
+
+    RoleDtoReversePipe
+    private _roleDtoValidator: RoleDtoValidator;
+    get roleDtoValidator(): RoleDtoValidator {
+        if (!this._roleDtoValidator) {
+            this._roleDtoValidator = this._moduleRef.get(RoleDtoValidator);
+        }
+        return this.roleDtoValidator;
     }
 
     private _privilegesDtoPipe: PrivilegesDtoPipe;
@@ -82,95 +101,45 @@ export class RoleConfigurationFacade {
     }
 
 
-    public createRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
+    public async createRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
+
         //  * Validate given roleDto data
-        if (roleDto.description.toString().trim()!= (null || "" || undefined)){  
-        try{
-            return this.roleService.create(roleDto);
+        const validationResult = this.roleDtoValidator.validate(roleDto);
+        if (validationResult instanceof ErrorDto) {
+            return validationResult;
         }
-        //  * Catch errors and log them using logger library
-        catch{
-            err => {
-            return new ErrorDto(err.message, 1000 ,'Invalid Description')}
-        }
-            if (roleDto.name.toString().trim() != (null || "" || undefined) &&
-            this.roleService.findByRoleName(roleDto.name) == (null || undefined)){
-                //  * Try to register role into the DB
-                try{
-                    return this.roleService.create(roleDto);
-                }
-                catch{
-                    err => {
-                    return new ErrorDto(err.message, 1001 ,'Invalid Name')}
-                }
 
-                if (roleDto.privileges.length.toString() == "2" && roleDto.privileges.toString().trim() != (null || "" || undefined) ){
-                    try{
-                        return this.roleService.create(roleDto);
-                    }
-                    catch{
-                        err => {
-                         return new ErrorDto(err.message, 1002 ,'Insufficient/Unidentified roles')}
-                    }
-                }
-            }
-        }
-        console.log(roleDto)
-        //  * Return registered role data otherwise
-        return this.roleService.create(roleDto).then(role => {
-            return this.roleDtoPipe.apply(role);
-        }).catch(err => {
-            return new ErrorDto(err.message, 45558, 'Application has failed to save role');
-        });
-
+        return this.roleService.create(roleDto).then(role =>
+            this.roleDtoPipe.apply(role)
+        ).catch(err => new ErrorDto(err.message));
     }
 
     public async updateRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
-        let role = new Role ;
-        /*role2 =this.roleService.create(roleDto).then(role => {
-            return this.roleDtoPipe.apply(role);
-        }).catch(err => {
-            return new ErrorDto(err.message, 45558, 'Application has failed to save role');
-        });*/
-        if (roleDto.description.toString().trim()!= (null || "" || undefined)){  
-            try{
-                return this.roleService.update(role);
-            }
-            //  * Catch errors and log them using logger library
-            catch{
-                err => {
-                return new ErrorDto(err.message, 1000 ,'Invalid Description')}
-            }
-                if (roleDto.name.toString().trim() != (null || "" || undefined) &&
-                this.roleService.findByRoleName(roleDto.name) == (null || undefined)
-                ){
-                    //  * Try to update role from the DB
-                    try{
-                        return this.roleService.update(role);
-                    }
-                    catch{
-                        err => {
-                        return new ErrorDto(err.message, 1001 ,'Invalid Name')}
-                    }
-    
-                    if (roleDto.privileges.length.toString() == "2" && roleDto.privileges.toString().trim() != (null || "" || undefined) ){
-                        try{
-                            return this.roleService.update(role);
-                        }
-                        catch{
-                            err => {
-                            return new ErrorDto(err.message, 1002 ,'Insufficient/Unidentified roles')}
-                        }
-                    }
-                }
-            }
-            console.log(roleDto)
-            //  * Return registered role data otherwise
-            return this.roleService.update(role).then(role => {
-                return this.roleDtoPipe.apply(role);
-            }).catch(err => {
-                return new ErrorDto(err.message, 45558, 'Application has failed to update role');
-            });
+
+        //  * Validate given roleDto data
+        const validationResult = this.roleDtoValidator.validate(roleDto, { required: ['id'] });
+        if (validationResult instanceof ErrorDto) {
+            return validationResult;
+        }
+
+        // retrieve current registered role record.
+        let savedRole: Role;
+        let error: ErrorDto;
+
+        await this.roleService.findById(roleDto.id).then(role => {
+            savedRole = role;
+        }).catch(err => error = new ErrorDto(err.message));
+
+        // Check for retrieval error
+        if (error) {
+            return error;
+        }
+
+        // overwrite saved role properties
+        savedRole = this.roleDtoReversePipe.transformExistent(roleDto, savedRole);
+        return this.roleService.update(savedRole).then(role =>
+            this.roleDtoPipe.apply(role)
+        ).catch(err => new ErrorDto(err.message));
     }
 
     public async deleteRole() {
@@ -186,7 +155,7 @@ export class RoleDtoPipe {
     constructor() { }
 
     apply(role: Role, options?: DtoPipeOptions): RoleDto {
-        let roleDto = new RoleDto(role.name, role.description, role.privileges, role.extendsRoles);
+        let roleDto = new RoleDto(role.name, role.description, role.privileges, role.id, role.extendsRoles);
 
         return roleDto;
     }

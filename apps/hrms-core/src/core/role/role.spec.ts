@@ -142,8 +142,12 @@ describe('Role Service', () => {
     });
 
     describe('Find Role', () => {
+        let randomRoleId: string;
+
         beforeEach(async () => {
-            await roleService.create(MOCK_DATA.managerRole);
+            await roleService.create(MOCK_DATA.managerRole).then(role => {
+                randomRoleId = role.id;
+            });
         });
 
         it('should find all created roles', async () => {
@@ -152,10 +156,15 @@ describe('Role Service', () => {
             expect(roleService.findAll()).resolves.toHaveLength(2);
         });
 
-        it('should find role by  name', async () => {
+        it('should find role by name', async () => {
             expect(roleService.findByRoleName(MOCK_DATA.managerRole.name)).resolves
                 .not.toBeNull();
             //.toEqual(expect.objectContaining({ description: MOCK_DATA.managerRole.description }));
+        });
+
+        it('should find role by id', async () => {
+            expect(roleService.findById(randomRoleId)).resolves
+                .not.toBeNull();
         });
     });
 

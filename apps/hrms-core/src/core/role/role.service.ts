@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { RoleDto } from '@hrms-core/dto/role.dto';
 import { Role } from './role.schema';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class RoleService {
@@ -28,5 +29,9 @@ export class RoleService {
 
     async findByRoleName(name: string): Promise<Role> {
         return await this.roleModel.findOne({ name: name }).exec();
+    }
+
+    async findById(id: string): Promise<Role> {
+        return await this.roleModel.findById(id).exec();
     }
 }

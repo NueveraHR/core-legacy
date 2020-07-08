@@ -5,6 +5,7 @@ export class RoleDto {
         public name: string,
         public description: string,
         public privileges: PrivilegesDto,
+        public id?: string,
         public extendsRoles?: string[],
     ) { }
 
