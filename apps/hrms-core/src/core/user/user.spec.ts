@@ -138,7 +138,7 @@ describe('User Service', () => {
                 };
                 await userService.create(generatedUser);
             }
-            expect(userService.findAll()).resolves.toBeInstanceOf(Array);
+            await expect(userService.findAll()).resolves.toBeInstanceOf(Array);
             await userService.findAll().then(users => {
                 expect(users.length).toEqual(24);
             });

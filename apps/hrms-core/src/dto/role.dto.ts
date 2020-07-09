@@ -1,4 +1,5 @@
 import { PrivilegesDto } from "./privilege.dto";
+import { PaginateResult } from "mongoose";
 
 export class RoleDto {
     constructor(
@@ -10,4 +11,6 @@ export class RoleDto {
     ) { }
 
 }
+
+export type RolePaginateDto = PaginateResult<RoleDto>;
 

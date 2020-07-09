@@ -43,34 +43,39 @@ describe('Auth Facade', () => {
 
     describe('Validate User', () => {
         it('Should not accept empty email', async () => {
-            expect(authFacade.auth(USERS.userWithoutEmail)).resolves.toBeInstanceOf(ErrorDto);
-            expect(authFacade.auth(USERS.userWithoutEmail)).resolves.toEqual(expect.objectContaining({ message: 'No email address provided' }));
+            expect.assertions(1);
+
+            await expect(authFacade.auth(USERS.userWithoutEmail)).rejects.toEqual(expect.objectContaining({ message: 'No email address provided' }));
         });
 
         it('Should not accept invalid email', async () => {
-            expect(authFacade.auth(USERS.userWithInvalidEmail)).resolves.toBeInstanceOf(ErrorDto);
-            expect(authFacade.auth(USERS.userWithInvalidEmail)).resolves.toEqual(expect.objectContaining({ message: 'Invalid email provided' }));
+            expect.assertions(1);
+
+            await expect(authFacade.auth(USERS.userWithInvalidEmail)).rejects.toEqual(expect.objectContaining({ message: 'Invalid email provided' }));
         });
 
         it('Should not accept empty password', async () => {
-            expect(authFacade.auth(USERS.userWithoutPassword)).resolves.toBeInstanceOf(ErrorDto);
-            expect(authFacade.auth(USERS.userWithoutPassword)).resolves.toEqual(expect.objectContaining({ message: 'No password provided' }));
+            expect.assertions(1);
+
+            await expect(authFacade.auth(USERS.userWithoutPassword)).rejects.toEqual(expect.objectContaining({ message: 'No password provided' }));
         });
 
         it('Should not accept invalid user credentials', async () => {
             //const role = await roleService.create(USERS.employeeRole);
+            expect.assertions(1);
             await userService.create(USERS.basicUser);
             const loginCredentials = {
                 email: 'invalid-user@mail.com',
                 password: 'invalid'
             }
-            expect(authFacade.auth(loginCredentials)).resolves.toBeInstanceOf(ErrorDto);
-            expect(authFacade.auth(loginCredentials)).resolves.toEqual(expect.objectContaining({ message: 'Invalid login credentials' }));
+            await expect(authFacade.auth(loginCredentials)).rejects.toEqual(expect.objectContaining({ message: 'Invalid login credentials' }));
 
 
         });
 
         it('Should accept authentication', async () => {
+            expect.assertions(2);
+
             await userService.create(USERS.basicUser);
             const loginCredentials = {
                 email: USERS.basicUser.email,
@@ -81,7 +86,7 @@ describe('Auth Facade', () => {
                 expect((result as string).length).toBeGreaterThan(1);
             });
 
-        }); 
+        });
 
     });
 

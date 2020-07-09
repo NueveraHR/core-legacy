@@ -18,7 +18,7 @@ export class AuthController {
         let response;
         await this._authFacade.auth(userDto).then(res => {
             response = res;
-        });
+        }).catch(err => response = err);
 
         return response;
     }

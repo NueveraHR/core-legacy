@@ -33,6 +33,8 @@ describe('Role Service', () => {
 
     describe('Create Role', () => {
         it('should create role successfully', async () => {
+            expect.assertions(6);
+
             let role = await roleService.create(ROLES.managerRole);
             expect(role).not.toBeUndefined();
             expect(role).not.toBeNull();
@@ -46,6 +48,8 @@ describe('Role Service', () => {
 
     describe('Update Role', () => {
         it('should update role successfully', async () => {
+            expect.assertions(4);
+
             let role = await roleService.create(ROLES.managerRole);
             expect(role).not.toBeUndefined();
             expect(role).not.toBeNull();
@@ -68,27 +72,33 @@ describe('Role Service', () => {
         });
 
         it('should find all created roles', async () => {
-            await roleService.create(ROLES.employeeRole);
+            expect.assertions(1);
 
-            expect(roleService.findAll()).resolves.toHaveLength(2);
+            await roleService.create(ROLES.employeeRole);
+            await expect(roleService.findAll()).resolves.toHaveLength(2);
         });
 
         it('should find role by name', async () => {
-            expect(roleService.findByRoleName(ROLES.managerRole.name)).resolves
+            expect.assertions(1);
+
+            await expect(roleService.findByRoleName(ROLES.managerRole.name)).resolves
                 .not.toBeNull();
             //.toEqual(expect.objectContaining({ description: ROLES.managerRole.description }));
         });
 
         it('should find role by id', async () => {
-            expect(roleService.findById(randomRoleId)).resolves
+            expect.assertions(1);
+
+            await expect(roleService.findById(randomRoleId)).resolves
                 .not.toBeNull();
         });
     });
 
     describe('Delete Role', () => {
         it('should remove role successfully', async () => {
-            let role = await roleService.create(ROLES.managerRole);
+            expect.assertions(1);
 
+            let role = await roleService.create(ROLES.managerRole);
             await expect(roleService.delete(role)).resolves
                 .toEqual(expect.objectContaining({ deletedCount: 1 }));
         });

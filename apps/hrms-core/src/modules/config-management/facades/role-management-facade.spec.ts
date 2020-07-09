@@ -5,7 +5,8 @@ import { LoggerService } from "@libs/logger";
 import { RoleManagementFacade } from "./role-management.facade";
 import { ROLES } from "@hrms-core/mock/role-mock";
 import { ErrorDto } from "@hrms-core/dto/error.dto";
-import { RoleDto } from "@hrms-core/dto/role.dto";
+import { RoleDto, RolePaginateDto } from "@hrms-core/dto/role.dto";
+import { Role } from "@hrms-core/core/role/role.schema";
 
 
 describe('Role Management Facade', () => {
@@ -35,8 +36,31 @@ describe('Role Management Facade', () => {
     });
 
     describe('Role Facade successful tests', () => {
-        let createdRole: RoleDto | ErrorDto;
+        let createdRole: RoleDto;
         const roleDto = ROLES.managerRole;
+
+        it('should find all added user paginated', async () => {
+            expect.assertions(5);
+
+            for (let i = 0; i < 24; i++) {
+                const generatedRole: RoleDto = {
+                    name: `${ROLES.managerRole.name}-${i}`,
+                    description: `${ROLES.managerRole.name}-${i}`,
+                    privileges: ROLES.managerRole.privileges,
+                };
+                await roleManagementFacade.createRole(generatedRole);
+            }
+            await expect(roleManagementFacade.allRoles()).resolves.not.toBeInstanceOf(ErrorDto);
+            await roleManagementFacade.allRoles().then((roles: RolePaginateDto) => {
+                expect(roles.total).toEqual(24);
+            }).catch((err: ErrorDto) => fail(err.message));
+
+            await roleManagementFacade.allRoles({ page: 3, pageSize: 10 }).then((roles: RolePaginateDto) => {
+                expect(roles.total).toEqual(24); // 24 registered roles
+                expect(roles.pages).toEqual(3); // 3 pages
+                expect(roles.docs.length).toEqual(4); // 4 users on page 3
+            }).catch((err: ErrorDto) => fail(err.message));
+        })
 
         it('should create role', async () => {
             await roleManagementFacade.createRole(roleDto)
@@ -47,20 +71,25 @@ describe('Role Management Facade', () => {
         });
 
         it('should update role', async () => {
+            expect.assertions(1);
             if (!createdRole || createdRole instanceof ErrorDto) {
                 fail('Cannot update uncreated role');
             }
             createdRole.name = 'Modified role';
-            expect(roleManagementFacade.updateRole(createdRole)).resolves.toEqual(expect.objectContaining({ name: 'Modified role' }));
+            await roleManagementFacade.updateRole(createdRole).then((role: Role) => {
+                expect(role.name).toEqual('Modified role');
+            }).catch((err: ErrorDto) => fail(err.message));
         });
 
         it('should find role details', async () => {
-            expect(roleManagementFacade.roleDetails(roleDto.name)).resolves.toBeInstanceOf(RoleDto);
+            expect.assertions(1);
+            await expect(roleManagementFacade.roleDetails('Modified role')).resolves.toBeInstanceOf(RoleDto);
         });
 
 
         it('should delete role', async () => {
-            expect(roleManagementFacade.deleteRole((createdRole as RoleDto).id)).resolves.toEqual(true);
+            expect.assertions(1);
+            await expect(roleManagementFacade.deleteRole((createdRole as RoleDto).id)).resolves.toEqual(true);
         });
 
     });

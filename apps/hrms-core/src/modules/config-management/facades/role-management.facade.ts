@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 
-import { RoleDto } from '@hrms-core/dto/role.dto';
+import { RoleDto, RolePaginateDto } from '@hrms-core/dto/role.dto';
 import { Role } from '@hrms-core/core/role/role.schema';
 
 import { RoleService } from '@hrms-core/core/role/role.service';
@@ -12,6 +12,7 @@ import { RoleDtoValidator } from '../validators/role-dto.validator';
 import { RoleDtoReversePipe } from '../pipes/role-dto-reverse.pipe';
 import { RoleDtoPipe } from '../pipes/role-dto.pipe';
 import { PrivilegesDtoPipe } from '../pipes/privilege-dto.pipe';
+import { rejects } from 'assert';
 
 @Injectable()
 export class RoleManagementFacade {
@@ -30,21 +31,31 @@ export class RoleManagementFacade {
      * Returns all registered roles in the database
      * Can be used in roles list view.
      */
-    async allRoles(): Promise<RoleDto[]> {
-        return this.roleService.findAll().then(roles => {
-            let roleDto = roles.map(role => this.roleDtoPipe.transform(role));
-            return roleDto;
-        });
+    async allRoles(filterCriteria?: RoleFilterCriteria): Promise<RolePaginateDto> {
+        return this.roleService.findAllPaginated(filterCriteria?.page, filterCriteria?.pageSize)
+            .then(roles => {
+                let rolePaginateDto: RolePaginateDto = {
+                    total: roles.total,
+                    pages: roles.pages,
+                    page: roles.page,
+                    limit: roles.limit,
+                    offset: roles.offset,
+                    docs: roles.docs.map(
+                        role => this.roleDtoPipe.transform(role)
+                    )
+                }
+                return rolePaginateDto;
+            }).catch(err => Promise.reject(new ErrorDto(`Could not create role :: ${err.message}`)));
     }
 
     /**
      *  Returns fully detailed role info given its name.
      *  Can be used to view/modify an existing role 
      */
-    async roleDetails(roleName: string, options?: object): Promise<RoleDto | ErrorDto> {
+    async roleDetails(roleName: string, options?: object): Promise<RoleDto> {
         return this.roleService.findByRoleName(roleName)
             .then(role => this.roleDtoPipe.transform(role, options))
-            .catch(err => new ErrorDto(err.message));
+            .catch(err => Promise.reject(new ErrorDto(err.message)));
     }
 
     /**
@@ -58,25 +69,25 @@ export class RoleManagementFacade {
     }
 
 
-    async createRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
+    async createRole(roleDto: RoleDto): Promise<RoleDto> {
 
         //  * Validate given roleDto data
         const validationResult = this.roleDtoValidator.validate(roleDto);
         if (validationResult instanceof ErrorDto) {
-            return validationResult;
+            return Promise.reject(validationResult);
         }
 
         return this.roleService.create(roleDto).then(role =>
             this.roleDtoPipe.transform(role)
-        ).catch(err => new ErrorDto(err.message));
+        ).catch(err => Promise.reject(new ErrorDto(err.message)));
     }
 
-    async updateRole(roleDto: RoleDto): Promise<RoleDto | ErrorDto> {
+    async updateRole(roleDto: RoleDto): Promise<RoleDto> {
 
         //  * Validate given roleDto data
         const validationResult = this.roleDtoValidator.validate(roleDto, { required: ['id'] });
         if (validationResult instanceof ErrorDto) {
-            return validationResult;
+            return Promise.reject(validationResult);
         }
 
         // retrieve current registered role record.
@@ -89,19 +100,19 @@ export class RoleManagementFacade {
 
         // Check for retrieval error
         if (error) {
-            return error;
+            return Promise.reject(error);
         }
 
         // overwrite saved role properties
         savedRole = this.roleDtoReversePipe.transformExistent(roleDto, savedRole);
         return this.roleService.update(savedRole).then(role =>
             this.roleDtoPipe.transform(role)
-        ).catch(err => new ErrorDto(err.message));
+        ).catch(err => Promise.reject(new ErrorDto(err.message)));
     }
 
-    async deleteRole(roleId: string): Promise<boolean | ErrorDto> {
+    async deleteRole(roleId: string): Promise<boolean> {
         if (!roleId) {
-            return new ErrorDto('Cannot delete role without role id');
+            return Promise.reject(new ErrorDto('Cannot delete role without role id'));
         }
         let findRoleResult: Role | ErrorDto;
         await this.roleService.findById(roleId)
@@ -109,16 +120,22 @@ export class RoleManagementFacade {
             .catch(err => findRoleResult = new ErrorDto('Cannot find role for given id'));
 
         if (findRoleResult instanceof ErrorDto) {
-            return findRoleResult;
+            return Promise.reject(findRoleResult);
         } else {
             return this.roleService.delete(findRoleResult)
                 .then(rs => rs.deletedCount == 1)
-                .catch(err => new ErrorDto(err.message));
+                .catch(err => Promise.reject(new ErrorDto(err.message)));
         }
     }
 
 }
 
+export interface RoleFilterCriteria {
+    page?: number,
+    pageSize?: number,
+
+    detailed?: boolean,
+}
 
 export type PrivilegesFilterOptions = {
     portalAccess: boolean,
