@@ -6,56 +6,9 @@ import { DBManager } from '@hrms-core/common/services/database/database-manager.
 import * as bcrypt from 'bcrypt';
 import { LoggerService } from '@libs/logger';
 import { RoleService } from '../role/role.service';
-import { UserDTO } from '@hrms-core/dto/user.dto';
-import { async } from 'rxjs/internal/scheduler/async';
-import { assert } from 'console';
 import { PaginateResult } from 'mongoose';
+import { USERS } from '@hrms-core/mock/user-mock';
 
-const MOCK_DATA = {
-    basicUser: {
-        username: 'nuevera',
-        email: 'n@nuevera.com',
-        cin: '12345678',
-        password: 'areveun',
-        firstName: 'John',
-        lastName: 'Doe',
-        gender: 'Male',
-    },
-    basicUserDuplicatedEmail: {
-        username: 'nuevera2',
-        email: 'n@nuevera.com',
-        cin: '12345678',
-        password: 'areveun',
-        firstName: 'John',
-        lastName: 'Doe',
-        gender: 'Male',
-    },
-    employeeRole: {
-        name: 'employee',
-        description: 'Enterprise employee',
-        privileges: {
-            user: {
-                portals: [
-                    "self-service"
-                ],
-                pages: [
-                    "my-profile"
-                ],
-                actions: [
-                    "my-profile.requests.create",
-                    "my-profile.requests.read",
-                    "my-profile.requests.update",
-                    "my-profile.requests.delete",
-
-                    "my-profile.documents.add",
-                    "my-profile.documents.read",
-                    "my-profile.documents.update",
-                    "my-profile.documents.delete"
-                ]
-            }
-        }
-    }
-};
 
 describe('User Service', () => {
     let userService: UserService;
@@ -84,7 +37,7 @@ describe('User Service', () => {
     });
 
     describe('Create User', () => {
-        const user = MOCK_DATA.basicUser;
+        const user = USERS.basicUser;
 
         it('should accept basic user', async () => {
             expect.assertions(1);
@@ -108,7 +61,7 @@ describe('User Service', () => {
 
         it('Should not accept duplicated email', async () => {
             await expect(userService.create(user)).resolves.toEqual(expect.objectContaining({ username: user.username }));
-            await userService.create(MOCK_DATA.basicUserDuplicatedEmail).then(user => {
+            await userService.create(USERS.basicUserDuplicatedEmail).then(user => {
                 fail('Saved user with duplicated email, !!!!! THIS SHOULD NOT HAPPEN !!!!!');
             }).catch(err => {
                 expect(err).not.toEqual(null);
@@ -117,7 +70,7 @@ describe('User Service', () => {
     });
 
     describe('Update User', () => {
-        const userDto = MOCK_DATA.basicUser;
+        const userDto = USERS.basicUser;
         const newPassword = 'Nuevera';
 
         let user: User;
@@ -138,7 +91,7 @@ describe('User Service', () => {
 
         it('Attaches role to user successfully', async () => {
             user = await userService.create(userDto);
-            let role = await roleService.create(MOCK_DATA.employeeRole);
+            let role = await roleService.create(USERS.employeeRole);
             userService.attachRole(user, role).then(updatedUser => {
                 expect(updatedUser.role).not.toBeUndefined()
                 expect(updatedUser.role).not.toBeNull()
@@ -151,7 +104,7 @@ describe('User Service', () => {
 
     describe('Find User', () => {
 
-        const userDto = MOCK_DATA.basicUser;
+        const userDto = USERS.basicUser;
 
         beforeAll(async () => {
             await dbManager.dropDatabaseCollections();
@@ -185,11 +138,11 @@ describe('User Service', () => {
                 };
                 await userService.create(generatedUser);
             }
-            expect(userService.findAll()).resolves.toBeInstanceOf(Array);
+            await expect(userService.findAll()).resolves.toBeInstanceOf(Array);
             await userService.findAll().then(users => {
                 expect(users.length).toEqual(24);
             });
-            
+
             await userService.findAllPaginated(3, 10).then((users: PaginateResult<User>) => {
                 expect(users.total).toEqual(24); // 24 registered users
                 expect(users.pages).toEqual(3); // 3 pages
@@ -216,7 +169,7 @@ describe('User Service', () => {
         it('should find a populated user role', async () => {
             let user = await userService.create(userDto);
 
-            let role = await roleService.create(MOCK_DATA.employeeRole);
+            let role = await roleService.create(USERS.employeeRole);
             await userService.attachRole(user, role);
             await userService.findByUsername(userDto.username).then(user => {
                 expect(user.role).not.toBeUndefined();
@@ -230,7 +183,7 @@ describe('User Service', () => {
     });
 
     describe('Delete User', () => {
-        const userDto = MOCK_DATA.basicUser;
+        const userDto = USERS.basicUser;
         it('should delete user successfully', async () => {
             let user = await userService.create(userDto);
             await expect(userService.delete(user)).resolves

@@ -25,7 +25,7 @@ export class UserFacade {
         return this._userDtoPipe;
     }
 
-    async userList(filterCriteria?: UserFilterCriteria): Promise<UserPaginateDto | ErrorDto> {
+    async userList(filterCriteria?: UserFilterCriteria): Promise<UserPaginateDto> {
         return this.userService
             .findAllPaginated(filterCriteria?.page, filterCriteria?.pageSize)
             .then(result => {
@@ -40,7 +40,7 @@ export class UserFacade {
                     ),
                 };
                 return userPaginateDto;
-            }).catch(err => new ErrorDto(err.message))
+            }).catch(err => Promise.reject(new ErrorDto(err.message)))
     }
 }
 

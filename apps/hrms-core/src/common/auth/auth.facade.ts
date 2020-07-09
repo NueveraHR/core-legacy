@@ -35,19 +35,19 @@ export class AuthFacade {
     }
 
 
-    async auth(user: UserDTO): Promise<string | ErrorDto> {
+    async auth(user: UserDTO): Promise<string> {
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
         if (user?.email?.trim() === '') {
-            return new ErrorDto('No email address provided');
+            return Promise.reject(new ErrorDto('No email address provided'));
         }
 
         if (reg.test(user.email) === false) {
-            return new ErrorDto('Invalid email provided');
+            return Promise.reject(new ErrorDto('Invalid email provided'));
         }
 
         if (user?.password === '') {
-            return new ErrorDto('No password provided');
+            return Promise.reject(new ErrorDto('No password provided'));
         }
 
         let savedUser: User;
@@ -57,11 +57,11 @@ export class AuthFacade {
                 return this.generateTokenForUser(savedUser);
             }
         }
-        return new ErrorDto('Invalid login credentials');
+        return Promise.reject(new ErrorDto('Invalid login credentials'));
     }
 
     private generateTokenForUser(user: any): string {
-        const payload = { email: user.email, role: user.role };
+        const payload = { email: user.email, role: user.role }; //TODO: encode privileges
         return this._jwtService.sign(payload);
     }
 
