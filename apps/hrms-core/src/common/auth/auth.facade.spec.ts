@@ -83,7 +83,7 @@ describe('Auth Facade', () => {
             }
             await authFacade.auth(loginCredentials).then(result => {
                 expect(result).not.toBeInstanceOf(ErrorDto);
-                expect((result as string).length).toBeGreaterThan(1);
+                expect((result as any).token.length).toBeGreaterThan(1);
             });
 
         });
