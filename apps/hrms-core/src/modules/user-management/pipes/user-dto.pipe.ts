@@ -1,23 +1,23 @@
 import { PipeTransform, ArgumentMetadata, Injectable, Inject } from "@nestjs/common";
 import { DtoPipeTransform } from "@hrms-core/common/interfaces/dto-pipe-transform";
 import { User } from "@hrms-core/core/user/user.schema";
-import { UserDTO } from "@hrms-core/dto/user.dto";
+import { UserDto } from "@hrms-core/dto/user.dto";
 import { PipTransformException } from "@hrms-core/common/exceptions/pipe-transform.exception";
 import { LoggerService } from "@libs/logger";
 
 
 @Injectable()
-export class UserDtoPipe implements DtoPipeTransform<User, UserDTO> {
+export class UserDtoPipe implements DtoPipeTransform<User, UserDto> {
 
     @Inject(LoggerService) private logger: LoggerService;
 
-    transform(source: User, options?: { detailed: boolean }): UserDTO {
+    transform(source: User, options?: { detailed: boolean }): UserDto {
         if (!source) {
             this.logger.warn('Could not transform User object: Invalid source value given ')
             throw new PipTransformException(`Invalid source value given`);
         }
 
-        const userDto: UserDTO = {
+        const userDto: UserDto = {
             email: source.email,
             firstName: source.firstName,
             lastName: source.lastName,
@@ -35,7 +35,7 @@ export class UserDtoPipe implements DtoPipeTransform<User, UserDTO> {
         return userDto;
     }
 
-    transformExistent(source: User, target: UserDTO, options?: object): UserDTO {
+    transformExistent(source: User, target: UserDto, options?: object): UserDto {
         return null;
     }
 

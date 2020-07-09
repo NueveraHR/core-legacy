@@ -1,4 +1,4 @@
-import { UserDTO } from "@hrms-core/dto/user.dto";
+import { UserDto } from "@hrms-core/dto/user.dto";
 import { User } from "@hrms-core/core/user/user.schema";
 import { Injectable } from "@nestjs/common";
 import { UserService } from "@hrms-core/core/user/user.service";
@@ -52,4 +52,4 @@ export interface UserFilterCriteria {
     fullyPopulated?: boolean
 }
 
-export type UserPaginateDto = PaginateResult<UserDTO>;
+export type UserPaginateDto = PaginateResult<UserDto>;

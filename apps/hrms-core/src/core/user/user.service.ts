@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { User } from "./user.schema";
 import { PaginateModel, PaginateResult } from "mongoose";
-import { UserDTO } from "@hrms-core/dto/user.dto";
+import { UserDto } from "@hrms-core/dto/user.dto";
 import * as bcrypt from 'bcrypt';
 import { Role } from "../role/role.schema";
 
@@ -18,7 +18,7 @@ export class UserService {
      * Create user model based on a userDTO
      *
      */
-    async create(userDTO: UserDTO): Promise<User> {
+    async create(userDTO: UserDto): Promise<User> {
         let user = new this.userModel(userDTO);
         await this.hashPassword(user).then(updatedUser => user = updatedUser);
 
