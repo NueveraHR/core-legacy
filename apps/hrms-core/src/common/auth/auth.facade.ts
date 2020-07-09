@@ -35,7 +35,7 @@ export class AuthFacade {
     }
 
 
-    async auth(user: UserDto): Promise<string> {
+    async auth(user: UserDto): Promise<object> {
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
         if (user?.email?.trim() === '') {
@@ -50,13 +50,24 @@ export class AuthFacade {
             return Promise.reject(new ErrorDto('No password provided'));
         }
 
-        let savedUser: User;
-        await this.userService.findByEmail(user.email).then((foundUser) => savedUser = foundUser);
-        if (savedUser) {
-            if (bcrypt.compare(user.password, user.password)) {
-                return this.generateTokenForUser(savedUser);
-            }
+        let foundUser: User;
+        await this.userService.findByEmail(user.email)
+            .then((usr) => foundUser = usr)
+            .catch(err => Promise.reject(new ErrorDto('Invalid login credentials')));
+
+        let token;
+        if (foundUser) {
+            await bcrypt.compare(user.password, foundUser.password).then(same => {
+                if (same) {
+                    token = this.generateTokenForUser(foundUser);
+                }
+            })
         }
+
+        if (token) {
+            return { token: token };
+        }
+
         return Promise.reject(new ErrorDto('Invalid login credentials'));
     }
 

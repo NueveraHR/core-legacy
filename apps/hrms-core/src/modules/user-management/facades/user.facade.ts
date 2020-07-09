@@ -1,5 +1,4 @@
 import { UserDto } from "@hrms-core/dto/user.dto";
-import { User } from "@hrms-core/core/user/user.schema";
 import { Injectable } from "@nestjs/common";
 import { UserService } from "@hrms-core/core/user/user.service";
 import { LoggerService } from "@libs/logger";
@@ -7,12 +6,16 @@ import { ModuleRef } from "@nestjs/core";
 import { UserDtoPipe } from "../pipes/user-dto.pipe";
 import { ErrorDto } from "@hrms-core/dto/error.dto";
 import { PaginateResult } from "mongoose";
+import { UserDtoValidator } from "../validators/user-dto.validator";
+import { RoleService } from "@hrms-core/core/role/role.service";
 
 @Injectable()
 export class UserFacade {
     constructor(
         private logger: LoggerService,
+        private userDtoValidator: UserDtoValidator,
         private userService: UserService,
+        private roleService: RoleService,
         private moduleRef: ModuleRef
     ) { }
 
@@ -41,6 +44,23 @@ export class UserFacade {
                 };
                 return userPaginateDto;
             }).catch(err => Promise.reject(new ErrorDto(err.message)))
+    }
+
+    async createUser(userDto: UserDto): Promise<UserDto> {
+        const validationResult = this.userDtoValidator.validate(userDto, { required: ['password'] });
+
+        if (validationResult instanceof ErrorDto) {
+            return Promise.reject(validationResult);
+        }
+
+        // try to replace role name by its id
+        await this.roleService.findByRoleName(userDto.role)
+            .then(role => userDto.role = role.id)
+            .catch(err => Promise.reject(new ErrorDto(`Unknown role : '${userDto.role}'`)));
+
+        return this.userService.create(userDto).then(user =>
+            this.userDtoPipe.transform(user)
+        ).catch(err => Promise.reject(new ErrorDto(err.message)));
     }
 }
 

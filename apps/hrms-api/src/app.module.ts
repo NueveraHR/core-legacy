@@ -4,14 +4,16 @@ import { AppController } from './app.controller';
 import { AuthController } from './common/auth/auth.controller';
 import { CommonApi } from './common/common-api.module';
 import { UserManagementApi } from './user-management/user-management-api.module';
+import { ConfigManagementApi } from './config-management/config-management-api.module';
 
 
 @Module({
   imports: [
     HRMSCoreModule,
-  
+
     CommonApi,
-    UserManagementApi
+    UserManagementApi,
+    ConfigManagementApi
   ],
   controllers: [AppController, AuthController],
 })

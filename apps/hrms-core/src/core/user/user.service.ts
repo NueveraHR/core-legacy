@@ -72,7 +72,9 @@ export class UserService {
      */
     async findByEmail(email: string): Promise<User> {
         const criteria = { email: email };
-        return this.userModel.findOne(criteria).exec();
+        return (await this.userModel.findOne(criteria).exec())
+            .populate('role')
+            .execPopulate();
     }
 
     async attachRole(user: User, role: Role): Promise<User> {
@@ -93,10 +95,11 @@ export class UserService {
      *
      */
     private async hashPassword(user: User): Promise<User> {
-        return bcrypt.hash(user.password, SALT_ROUNDS).then(hashedPassword => {
-            user.password = hashedPassword;
-            return user;
-        })
+        return bcrypt.hash(user.password, SALT_ROUNDS)
+            .then(hashedPassword => {
+                user.password = hashedPassword;
+                return user;
+            });
     }
 
 }
