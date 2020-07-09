@@ -1,5 +1,7 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body } from '@nestjs/common';
 import { UserFacade, UserFilterCriteria } from '@hrms-core/modules/user-management/facades/user.facade';
+import { UserDto } from '@hrms-core/dto/user.dto';
+import { ErrorDto } from '@hrms-core/dto/error.dto';
 
 @Controller('/users')
 export class UserController {
@@ -31,5 +33,14 @@ export class UserController {
     }
 
 
+    @Post('/add')
+    async addUser(@Body() userDto: UserDto) {
+        let result: UserDto | ErrorDto;
+
+        await this.userFacade.createUser(userDto)
+            .then(res => result = res)
+            .catch(err => result = err);
+        return result;
+    }
 
 }

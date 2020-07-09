@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CoreModule } from '@hrms-core/core/core.module';
-import { RoleManagementFacade } from './facades/role-management.facade';
+import { RoleFacade } from './facades/role.facade';
 import { RoleDtoValidator } from './validators/role-dto.validator';
 import { RoleDtoReversePipe } from './pipes/role-dto-reverse.pipe';
 import { RoleDtoPipe } from './pipes/role-dto.pipe';
@@ -20,10 +20,10 @@ import { PrivilegesDtoPipe } from './pipes/privilege-dto.pipe';
         RoleDtoValidator,
 
         // Facades
-        RoleManagementFacade,
+        RoleFacade,
     ],
     exports: [
-        RoleManagementFacade
+        RoleFacade
     ]
 })
 export class ConfigManagementModule { }

@@ -12,10 +12,9 @@ import { RoleDtoValidator } from '../validators/role-dto.validator';
 import { RoleDtoReversePipe } from '../pipes/role-dto-reverse.pipe';
 import { RoleDtoPipe } from '../pipes/role-dto.pipe';
 import { PrivilegesDtoPipe } from '../pipes/privilege-dto.pipe';
-import { rejects } from 'assert';
 
 @Injectable()
-export class RoleManagementFacade {
+export class RoleFacade {
 
     constructor(
         private readonly moduleRef: ModuleRef,

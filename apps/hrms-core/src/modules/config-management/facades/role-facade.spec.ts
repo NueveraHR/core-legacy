@@ -2,7 +2,7 @@ import { Test } from "@nestjs/testing";
 import { HRMSCoreModule } from "@hrms-core/hrms-core.module";
 import { DBManager } from "@hrms-core/common/services/database/database-manager.service";
 import { LoggerService } from "@libs/logger";
-import { RoleManagementFacade } from "./role-management.facade";
+import { RoleFacade } from "./role.facade";
 import { ROLES } from "@hrms-core/mock/role-mock";
 import { ErrorDto } from "@hrms-core/dto/error.dto";
 import { RoleDto, RolePaginateDto } from "@hrms-core/dto/role.dto";
@@ -11,7 +11,7 @@ import { Role } from "@hrms-core/core/role/role.schema";
 
 describe('Role Management Facade', () => {
     let dbManager: DBManager;
-    let roleManagementFacade: RoleManagementFacade;
+    let roleManagementFacade: RoleFacade;
     let loggerService: LoggerService;
 
     beforeAll(async () => {
@@ -23,7 +23,7 @@ describe('Role Management Facade', () => {
 
         dbManager = moduleRef.get<DBManager>(DBManager);
         loggerService = moduleRef.get<LoggerService>(LoggerService);
-        roleManagementFacade = moduleRef.get<RoleManagementFacade>(RoleManagementFacade);
+        roleManagementFacade = moduleRef.get<RoleFacade>(RoleFacade);
 
     });
 
