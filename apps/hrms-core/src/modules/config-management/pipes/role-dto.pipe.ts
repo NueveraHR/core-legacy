@@ -1,7 +1,9 @@
 import { DtoPipeTransform } from "@hrms-core/common/interfaces/dto-pipe-transform";
 import { Role } from "@hrms-core/core/role/role.schema";
 import { RoleDto } from "@hrms-core/dto/role.dto";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class RoleDtoPipe implements DtoPipeTransform<Role, RoleDto> {
     transform(source: Role, options?: object): RoleDto {
         let roleDto = new RoleDto();
@@ -18,8 +20,8 @@ export class RoleDtoPipe implements DtoPipeTransform<Role, RoleDto> {
         return target;
     }
 
-    canTransform(value: Role): boolean {
-        return true;
+    canTransform(source: Role): boolean {
+        return source?.name?.length > 0;
     }
 
 }

@@ -14,59 +14,17 @@ import { RoleDtoPipe } from '../pipes/role-dto.pipe';
 import { PrivilegesDtoPipe } from '../pipes/privilege-dto.pipe';
 
 @Injectable()
-export class RoleMangementFacade {
+export class RoleManagementFacade {
 
-    constructor(private readonly _moduleRef: ModuleRef) {
-
-    }
-
-    private _roleService;
-    get roleService(): RoleService {
-        if (!this._roleService) { // Use strict: false to inject modules existing outside of the current module
-            this._roleService = this._moduleRef.get(RoleService, { strict: false });
-        }
-        return this._roleService;
-    }
-
-    private _privilegeService;
-    get privilegeService(): PrivilegeService {
-        if (!this._privilegeService) {
-            this._privilegeService = this._moduleRef.get(PrivilegeService, { strict: false });
-        }
-        return this._privilegeService;
-    }
-
-    private _roleDtoPipe: RoleDtoPipe;
-    get roleDtoPipe(): RoleDtoPipe {
-        if (!this._roleDtoPipe) {
-            this._roleDtoPipe = new RoleDtoPipe();
-        }
-        return this._roleDtoPipe;
-    }
-
-    private _roleDtoReversePipe: RoleDtoReversePipe;
-    get roleDtoReversePipe(): RoleDtoReversePipe {
-        if (!this._roleDtoReversePipe) {
-            this._roleDtoReversePipe = this._moduleRef.get(RoleDtoReversePipe);
-        }
-        return this._roleDtoReversePipe;
-    }
-
-    private _roleDtoValidator: RoleDtoValidator;
-    get roleDtoValidator(): RoleDtoValidator {
-        if (!this._roleDtoValidator) {
-            this._roleDtoValidator = this._moduleRef.get(RoleDtoValidator);
-        }
-        return this.roleDtoValidator;
-    }
-
-    private _privilegesDtoPipe: PrivilegesDtoPipe;
-    get privilegesDtoPipe(): PrivilegesDtoPipe {
-        if (!this._privilegesDtoPipe) {
-            this._privilegesDtoPipe = new PrivilegesDtoPipe();
-        }
-        return this._privilegesDtoPipe;
-    }
+    constructor(
+        private readonly moduleRef: ModuleRef,
+        private readonly roleService: RoleService,
+        private readonly privilegeService: PrivilegeService,
+        private readonly privilegesDtoPipe: PrivilegesDtoPipe,
+        private readonly roleDtoPipe: RoleDtoPipe,
+        private readonly roleDtoReversePipe: RoleDtoReversePipe,
+        private readonly roleDtoValidator: RoleDtoValidator
+    ) { }
 
     /**
      * Returns all registered roles in the database
@@ -83,10 +41,10 @@ export class RoleMangementFacade {
      *  Returns fully detailed role info given its name.
      *  Can be used to view/modify an existing role 
      */
-    async roleDetails(roleName: string, options?: object): Promise<RoleDto> {
-        return this.roleService.findByRoleName(roleName).then(role => {
-            return this.roleDtoPipe.transform(role, options);
-        })
+    async roleDetails(roleName: string, options?: object): Promise<RoleDto | ErrorDto> {
+        return this.roleService.findByRoleName(roleName)
+            .then(role => this.roleDtoPipe.transform(role, options))
+            .catch(err => new ErrorDto(err.message));
     }
 
     /**
@@ -141,10 +99,22 @@ export class RoleMangementFacade {
         ).catch(err => new ErrorDto(err.message));
     }
 
-    async deleteRole() {
-        //Deleting Roles for a given user
-        let role = new Role;
-        return this.roleService.delete(role);
+    async deleteRole(roleId: string): Promise<boolean | ErrorDto> {
+        if (!roleId) {
+            return new ErrorDto('Cannot delete role without role id');
+        }
+        let findRoleResult: Role | ErrorDto;
+        await this.roleService.findById(roleId)
+            .then(role => findRoleResult = role)
+            .catch(err => findRoleResult = new ErrorDto('Cannot find role for given id'));
+
+        if (findRoleResult instanceof ErrorDto) {
+            return findRoleResult;
+        } else {
+            return this.roleService.delete(findRoleResult)
+                .then(rs => rs.deletedCount == 1)
+                .catch(err => new ErrorDto(err.message));
+        }
     }
 
 }

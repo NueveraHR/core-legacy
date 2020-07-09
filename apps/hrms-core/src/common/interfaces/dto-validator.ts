@@ -15,11 +15,13 @@ export abstract class DtoValidator<T> {
 
 
     protected isRequired(fieldName, validatorOptions: ValidatorOptions): boolean {
-        return validatorOptions?.required?.findIndex(field => field == fieldName) != -1;
+        const result = validatorOptions?.required?.findIndex(field => field == fieldName);
+        return result && result != -1;
     }
 
     protected isOptional(fieldName, validatorOptions: ValidatorOptions): boolean {
-        return validatorOptions?.optional?.findIndex(field => field == fieldName) != -1;
+        const result = validatorOptions?.optional?.findIndex(field => field == fieldName);
+        return result && result != -1;
     }
 }
 

@@ -1,21 +1,20 @@
 import { Controller, Get } from '@nestjs/common';
-import { RoleMangementFacade } from '@hrms-core/modules/config-management/facades/role-management.facade';
+import { RoleManagementFacade } from '@hrms-core/modules/config-management/facades/role-management.facade';
 import { RoleDto } from '@hrms-core/dto/role.dto';
 import { ErrorDto } from '@hrms-core/dto/error.dto';
 
 @Controller()
 export class AppController {
   constructor(
-    private readonly roleConfigFacade: RoleMangementFacade
+    private readonly roleManagementFacade: RoleManagementFacade
   ) { }
 
   @Get()
   async getHello() {
-
-    return await this.roleConfigFacade.createRole(employeeRole).then(res => {
+    return await this.roleManagementFacade.createRole(employeeRole).then(res => {
       return res;
     }).catch(err => {
-      return err;
+      return new ErrorDto(err.message);
     });
 
   }

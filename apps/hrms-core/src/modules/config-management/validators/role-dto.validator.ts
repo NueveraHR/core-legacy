@@ -6,6 +6,10 @@ import { Injectable } from "@nestjs/common";
 @Injectable()
 export class RoleDtoValidator extends DtoValidator<RoleDto> {
     
+    constructor() {
+        super();
+    }
+
     validate(object: RoleDto, validatorOptions?: ValidatorOptions): boolean | ErrorDto | ErrorDto[] {
         if (!object) {
             return new ErrorDto('No role data provided!');
