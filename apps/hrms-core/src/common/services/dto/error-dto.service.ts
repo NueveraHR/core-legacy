@@ -32,7 +32,7 @@ export class DtoService {
 
 
     isInstance(data: any): boolean {
-        return (data?.code && data?.message);
+        return (data?.statusCode && data?.message);
     }
 }
 
