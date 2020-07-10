@@ -1,6 +1,6 @@
 import { DtoValidator, ValidatorOptions } from "@hrms-core/common/interfaces/dto-validator";
-import { ErrorDto } from "@hrms-core/dto/error.dto";
-import { Injectable } from "@nestjs/common";
+import { ErrorDto, DtoService } from "@hrms-core/common/services/dto/error-dto.service";
+import { Injectable, Inject } from "@nestjs/common";
 import { UserDto } from "@hrms-core/dto/user.dto";
 
 const EMAIL_PATTERN = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -8,79 +8,81 @@ const EMAIL_PATTERN = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4}
 
 @Injectable()
 export class UserDtoValidator extends DtoValidator<UserDto> {
+    
+    @Inject(DtoService) dtoService: DtoService;
 
     validate(object: UserDto, validatorOptions?: ValidatorOptions): boolean | ErrorDto | ErrorDto[] {
 
         if (!object) {
-            return new ErrorDto('No user data provided!');
+            return this.dtoService.error(42100);
         }
 
         if (this.isRequired('id', validatorOptions)) {
             if (!object.id) {
-                return new ErrorDto('Invalid user : Missing user identifier!');
+                return this.dtoService.error(42101);
             }
         }
 
         if (!object.username) {
-            return new ErrorDto('Invalid user : Missing username!');
+            return this.dtoService.error(42102);
         }
 
         if (!object.firstName) {
-            return new ErrorDto('Invalid user : Missing first name!');
+            return this.dtoService.error(42103);
         }
 
 
         if (!object.lastName) {
-            return new ErrorDto('Invalid user : Missing last name!');
+            return this.dtoService.error(42104);
         }
 
 
         if (this.isRequired('password', validatorOptions)) {
             if (!object.password) {
-                return new ErrorDto('Invalid user : Missing password!');
+                return this.dtoService.error(42105);
             }
         }
 
         if (!object.email) {
-            return new ErrorDto('Invalid user : Missing email!');
+            return this.dtoService.error(42106);
         }
 
         if (EMAIL_PATTERN.test(object.email) === false) {
-            return new ErrorDto('Invalid user : invalid email provided');
+            return this.dtoService.error(42107);
         }
 
         if (!object.cin) {
-            return new ErrorDto('Invalid user : Missing cin!');
+            return this.dtoService.error(42108);
         }
 
 
         if (!object.prefix) {
-            return new ErrorDto('Invalid user : Missing prefix!');
+            return this.dtoService.error(42109);
         }
 
 
         if (!object.role) {
-            return new ErrorDto('Invalid user : Missing role!');
+            return this.dtoService.error(42110);
         }
 
 
         if (!object.gender) {
-            return new ErrorDto('Invalid user : Missing gender!');
+            return this.dtoService.error(42111);
         }
 
 
         if (!object.phone) {
-            return new ErrorDto('Invalid user : Missing phone!');
+            return this.dtoService.error(42112);
         }
 
 
         if (!object.modeOfEmployment) {
-            return new ErrorDto('Invalid user : Missing mode of employment!');
+            return this.dtoService.error(42113);
         }
 
 
         if (!object.department) {
-            return new ErrorDto('Invalid user : Missing department!');
+            return this.dtoService.error(42114);
         }
 
         return true;

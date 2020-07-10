@@ -1,12 +1,14 @@
 import { Controller, Post, Inject, Body, HttpCode, Res, HttpStatus } from '@nestjs/common';
 import { UserDto } from '@hrms-core/dto/user.dto';
-import { ErrorDto } from '@hrms-core/dto/error.dto';
+import { ErrorDto, DtoService } from '@hrms-core/common/services/dto/error-dto.service';
 import { AuthFacade } from '@hrms-core/common/auth/auth.facade';
 import { Response } from 'express';
-import { STATUS_CODES } from 'http';
 
 @Controller('/auth')
 export class AuthController {
+
+    @Inject(DtoService) dtoService: DtoService;
+
     constructor(private authFacade: AuthFacade) {
     }
 
@@ -14,7 +16,7 @@ export class AuthController {
     @HttpCode(200)
     async attemptLogin(@Body() userDto: UserDto, @Res() response: Response) {
         if (!userDto) {
-            response.json(new ErrorDto('Invalid credentials format'));
+            response.json(this.dtoService.error(41000));
         }
 
         await this.authFacade.auth(userDto).then(res => {

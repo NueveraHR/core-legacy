@@ -1,10 +1,10 @@
 import { UserDto } from "@hrms-core/dto/user.dto";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject } from "@nestjs/common";
 import { UserService } from "@hrms-core/core/user/user.service";
 import { LoggerService } from "@libs/logger";
 import { ModuleRef } from "@nestjs/core";
 import { UserDtoPipe } from "../pipes/user-dto.pipe";
-import { ErrorDto } from "@hrms-core/dto/error.dto";
+import { ErrorDto, DtoService } from "@hrms-core/common/services/dto/error-dto.service";
 import { PaginateResult } from "mongoose";
 import { UserDtoValidator } from "../validators/user-dto.validator";
 import { RoleService } from "@hrms-core/core/role/role.service";
@@ -19,6 +19,7 @@ export class UserFacade {
         private moduleRef: ModuleRef
     ) { }
 
+    @Inject(DtoService) dtoService: DtoService;
 
     private _userDtoPipe: UserDtoPipe;
     private get userDtoPipe(): UserDtoPipe {
@@ -43,24 +44,24 @@ export class UserFacade {
                     ),
                 };
                 return userPaginateDto;
-            }).catch(err => Promise.reject(new ErrorDto(err.message)))
+            })
     }
 
     async createUser(userDto: UserDto): Promise<UserDto> {
         const validationResult = this.userDtoValidator.validate(userDto, { required: ['password'] });
 
-        if (validationResult instanceof ErrorDto) {
+        if (this.dtoService.isInstance(validationResult)) {
             return Promise.reject(validationResult);
         }
 
         // try to replace role name by its id
-        await this.roleService.findByRoleName(userDto.role)
+        await this.roleService.findByName(userDto.role)
             .then(role => userDto.role = role.id)
-            .catch(err => Promise.reject(new ErrorDto(`Unknown role : '${userDto.role}'`)));
+            .catch(err => Promise.reject(this.dtoService.error(42200)));
 
         return this.userService.create(userDto).then(user =>
             this.userDtoPipe.transform(user)
-        ).catch(err => Promise.reject(new ErrorDto(err.message)));
+        );
     }
 }
 

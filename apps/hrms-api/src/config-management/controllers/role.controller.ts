@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, HttpStatus, Query, Param, Delete } from '@nestjs/common';
 import { RoleDto } from '@hrms-core/dto/role.dto';
-import { RoleFacade } from '@hrms-core/modules/config-management/facades/role.facade';
+import { RoleFacade, RoleFilterCriteria } from '@hrms-core/modules/config-management/facades/role.facade';
 import { Response } from 'express';
 
 @Controller('/roles')
@@ -9,10 +9,51 @@ export class RoleController {
 
     }
 
+    @Get()
+    async getRoles(@Query('page') page: string, @Query('pageSize') pageSize: string) {
+        const filterCriteria: RoleFilterCriteria = {};
+        let result: any;
+
+        if (page && Number(page) != NaN) {
+            filterCriteria.page = Number(page);
+        }
+
+        if (pageSize && Number(pageSize) != NaN) {
+            filterCriteria.pageSize = Number(pageSize);
+        }
+
+        await this.roleFacade.allRoles(filterCriteria).then(res => {
+            result = res;
+        });
+
+        return result;
+    }
+
     @Post('/add')
-    async addRole(@Body() roleDto: RoleDto, @Res() response: Response) {
+    async createRole(@Body() roleDto: RoleDto, @Res() response: Response) {
         await this.roleFacade.createRole(roleDto)
             .then(role => response.json(role))
             .catch(err => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
+    }
+
+    @Post('/update')
+    async updateRole(@Body() roleDto: RoleDto, @Res() response: Response) {
+        await this.roleFacade.updateRole(roleDto)
+            .then(role => response.json(role))
+            .catch(err => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
+    }
+
+    @Get('/role/:roleId')
+    async getDetails(@Param('roleId') roleId: string, @Res() response: Response) {
+        await this.roleFacade.roleDetails(roleId)
+            .then(role => response.status(HttpStatus.OK).json(role))
+            .catch(err => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err))
+    }
+
+    @Delete('/role/:roleId')
+    async deleteRole(@Param('roleId') roleId: string, @Res() response: Response) {
+        await this.roleFacade.deleteRole(roleId)
+            .then(role => response.status(HttpStatus.OK).json(role))
+            .catch(err => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err))
     }
 }

@@ -5,7 +5,6 @@ import { LoggerService } from '@libs/logger';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { AuthFacade } from './auth.facade';
-import { ErrorDto } from '@hrms-core/dto/error.dto';
 import { USERS } from '@hrms-core/mock/user-mock';
 
 
@@ -45,19 +44,19 @@ describe('Auth Facade', () => {
         it('Should not accept empty email', async () => {
             expect.assertions(1);
 
-            await expect(authFacade.auth(USERS.userWithoutEmail)).rejects.toEqual(expect.objectContaining({ message: 'No email address provided' }));
+            await expect(authFacade.auth(USERS.userWithoutEmail)).rejects.toEqual(expect.objectContaining({ message: 'No email address provided!' }));
         });
 
         it('Should not accept invalid email', async () => {
             expect.assertions(1);
 
-            await expect(authFacade.auth(USERS.userWithInvalidEmail)).rejects.toEqual(expect.objectContaining({ message: 'Invalid email provided' }));
+            await expect(authFacade.auth(USERS.userWithInvalidEmail)).rejects.toEqual(expect.objectContaining({ message: 'Invalid email provided!' }));
         });
 
         it('Should not accept empty password', async () => {
             expect.assertions(1);
 
-            await expect(authFacade.auth(USERS.userWithoutPassword)).rejects.toEqual(expect.objectContaining({ message: 'No password provided' }));
+            await expect(authFacade.auth(USERS.userWithoutPassword)).rejects.toEqual(expect.objectContaining({ message: 'No password provided!' }));
         });
 
         it('Should not accept invalid user credentials', async () => {
@@ -74,7 +73,7 @@ describe('Auth Facade', () => {
         });
 
         it('Should accept authentication', async () => {
-            expect.assertions(2);
+            expect.assertions(1);
 
             await userService.create(USERS.basicUser);
             const loginCredentials = {
@@ -82,7 +81,6 @@ describe('Auth Facade', () => {
                 password: USERS.basicUser.password
             }
             await authFacade.auth(loginCredentials).then(result => {
-                expect(result).not.toBeInstanceOf(ErrorDto);
                 expect((result as any).token.length).toBeGreaterThan(1);
             });
 

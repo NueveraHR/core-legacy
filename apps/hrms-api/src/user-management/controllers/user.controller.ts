@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query, Post, Body, Res, HttpStatus } from '@nestjs/common';
 import { UserFacade, UserFilterCriteria } from '@hrms-core/modules/user-management/facades/user.facade';
 import { UserDto } from '@hrms-core/dto/user.dto';
-import { ErrorDto } from '@hrms-core/dto/error.dto';
+import { ErrorDto } from '@hrms-core/common/services/dto/error-dto.service';
 import { Response } from 'express';
 
 @Controller('/users')
@@ -28,7 +28,7 @@ export class UserController {
         return result;
     }
 
-    @Get('/details/:username')
+    @Get('/user/:username')
     userDetails(username: string) {
 
     }

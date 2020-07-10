@@ -81,7 +81,7 @@ describe('Role Service', () => {
         it('should find role by name', async () => {
             expect.assertions(1);
 
-            await expect(roleService.findByRoleName(ROLES.managerRole.name)).resolves
+            await expect(roleService.findByName(ROLES.managerRole.name)).resolves
                 .not.toBeNull();
             //.toEqual(expect.objectContaining({ description: ROLES.managerRole.description }));
         });
@@ -100,7 +100,7 @@ describe('Role Service', () => {
 
             let role = await roleService.create(ROLES.managerRole);
             await expect(roleService.delete(role)).resolves
-                .toEqual(expect.objectContaining({ deletedCount: 1 }));
-        });
+                .toEqual(true);
     });
+});
 });
