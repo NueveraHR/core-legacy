@@ -67,6 +67,18 @@ export class UserService {
             .catch(err => Promise.reject(this.dtoService.error(50000)));
     }
 
+    
+    /**
+     * Find a single matching user for given id
+     *
+     */
+    async findById(id: string): Promise<User> {
+        return this.userModel
+            .findById(id)
+            .exec()
+            .catch(err => Promise.reject(this.dtoService.error(50000)));
+    }
+
     /**
      * Find a single matching user for a given username
      *

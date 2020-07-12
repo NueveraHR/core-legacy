@@ -28,9 +28,11 @@ export class UserController {
         return result;
     }
 
-    @Get('/user/:username')
-    userDetails(username: string) {
-
+    @Get('/user/:id')
+    async userDetails(@Param('id') id: string) {
+        let result: UserDto | ErrorDto;
+        await this.userFacade.userDetails(id).then(res => result = res);
+        return result
     }
 
 

@@ -18,6 +18,7 @@ export class UserDtoPipe implements DtoPipeTransform<User, UserDto> {
         }
 
         const userDto: UserDto = {
+            id: source.id,
             email: source.email,
             firstName: source.firstName,
             lastName: source.lastName,

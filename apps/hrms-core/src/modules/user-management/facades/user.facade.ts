@@ -63,6 +63,10 @@ export class UserFacade {
             this.userDtoPipe.transform(user)
         );
     }
+
+    async userDetails(id: string): Promise<UserDto> {
+        return this.userService.findById(id).then(user => this.userDtoPipe.transform(user, { detailed: true }));
+    }
 }
 
 export interface UserFilterCriteria {

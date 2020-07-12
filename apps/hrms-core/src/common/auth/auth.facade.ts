@@ -74,7 +74,7 @@ export class AuthFacade {
     }
 
     private generateTokenForUser(user: any): string {
-        const payload = { email: user.email, role: user.role }; //TODO: encode privileges
+        const payload = { id: user.id, role: user.role }; //TODO: encode privileges
         return this._jwtService.sign(payload);
     }
 
