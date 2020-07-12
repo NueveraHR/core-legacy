@@ -7,10 +7,11 @@ import { User } from '@hrms-core/core/user/user.schema';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { UserDto } from '@hrms-core/dto/user.dto';
 import { DtoService } from '@hrms-core/common/services/dto/error-dto.service';
+import { Role } from '@hrms-core/core/role/role.schema';
 
 @Injectable()
 export class AuthFacade {
-    
+
     @Inject(DtoService) dtoService: DtoService;
 
     constructor(
@@ -63,12 +64,14 @@ export class AuthFacade {
                 if (same) {
                     token = this.generateTokenForUser(foundUser);
                 }
-            })
+            });
+
+
+            if (token) {
+                return { token: token, userId: foundUser.id, roleId: (foundUser.role as Role).id };
+            }
         }
 
-        if (token) {
-            return { token: token };
-        }
 
         return Promise.reject(this.dtoService.error(41200));
     }
