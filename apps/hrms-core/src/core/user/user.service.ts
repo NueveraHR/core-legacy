@@ -67,7 +67,7 @@ export class UserService {
             .catch(err => Promise.reject(this.dtoService.error(50000)));
     }
 
-    
+
     /**
      * Find a single matching user for given id
      *
@@ -140,4 +140,14 @@ export class UserService {
             });
     }
 
+
+    async findByAnyUniqueId(userDto: UserDto): Promise<User> {
+        return this.userModel.findOne({
+            $or: [
+                { username: userDto.username },
+                { email: userDto.email },
+                { cin: userDto.cin }
+            ]
+        });
+    }
 }

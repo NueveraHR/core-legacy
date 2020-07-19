@@ -8,6 +8,7 @@ import { ErrorDto, DtoService } from "@hrms-core/common/services/dto/error-dto.s
 import { PaginateResult } from "mongoose";
 import { UserDtoValidator } from "../validators/user-dto.validator";
 import { RoleService } from "@hrms-core/core/role/role.service";
+import { User } from "@hrms-core/core/user/user.schema";
 
 @Injectable()
 export class UserFacade {
@@ -54,6 +55,18 @@ export class UserFacade {
             return Promise.reject(validationResult);
         }
 
+        // check no unique constraints violated
+        let findResult: User | ErrorDto;
+        await this.userService.findByAnyUniqueId(userDto)
+            .then(user => findResult = user)
+            .catch(err => findResult = err);
+
+        if (this.dtoService.isError(findResult)) {
+            return Promise.reject(findResult);
+        } else if (findResult != null) {
+            return Promise.reject(this.dtoService.error(42010));
+        };
+
         // try to replace role name by its id
         await this.roleService.findByName(userDto.role)
             .then(role => userDto.role = role.id)
@@ -65,7 +78,13 @@ export class UserFacade {
     }
 
     async userDetails(id: string): Promise<UserDto> {
-        return this.userService.findById(id).then(user => this.userDtoPipe.transform(user, { detailed: true }));
+        return this.userService.findById(id)
+            .then(user => {
+                if (user)
+                    return this.userDtoPipe.transform(user, { detailed: true })
+                else
+                    return Promise.reject(this.dtoService.error(42002))
+            });
     }
 }
 

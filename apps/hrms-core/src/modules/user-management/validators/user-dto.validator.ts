@@ -55,6 +55,9 @@ export class UserDtoValidator extends DtoValidator<UserDto> {
             return this.dtoService.error(42108);
         }
 
+        if(object.cin.length != 8) {
+            return this.dtoService.error(42115);
+        }
 
         if (!object.prefix) {
             return this.dtoService.error(42109);

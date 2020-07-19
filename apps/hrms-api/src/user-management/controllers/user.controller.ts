@@ -3,6 +3,7 @@ import { UserFacade, UserFilterCriteria } from '@hrms-core/modules/user-manageme
 import { UserDto } from '@hrms-core/dto/user.dto';
 import { ErrorDto } from '@hrms-core/common/services/dto/error-dto.service';
 import { Response } from 'express';
+import { ErrorUtils } from '@hrms-api/common/error.utils';
 
 @Controller('/users')
 export class UserController {
@@ -29,10 +30,11 @@ export class UserController {
     }
 
     @Get('/user/:id')
-    async userDetails(@Param('id') id: string) {
-        let result: UserDto | ErrorDto;
-        await this.userFacade.userDetails(id).then(res => result = res);
-        return result
+    async userDetails(@Param('id') id: string, @Res() response: Response) {
+        await this.userFacade.userDetails(id)
+            .then(user => response.status(HttpStatus.OK).json(user))
+            .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
+        return response
     }
 
 
@@ -42,7 +44,7 @@ export class UserController {
 
         await this.userFacade.createUser(userDto)
             .then(user => response.json(user))
-            .catch(err => response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err));
+            .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
         return result;
     }
 

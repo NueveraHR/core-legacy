@@ -19,6 +19,7 @@ export const ErrorMessage: ErrorCodeMessage = {
 
     // Controller invalid request(420xx)
     42000: 'Invalid request, Cannot creat user',
+    42010: 'Cannot creat user, a user with similar username or email already exists!',
     42001: 'Invalid request, Cannot find list of users',
     42002: 'Invalid request, Cannot find user details',
     42003: 'Invalid request, Cannot update user details',
@@ -33,13 +34,14 @@ export const ErrorMessage: ErrorCodeMessage = {
     42105: 'Invalid user : Missing password!',
     42106: 'Invalid user : Missing email!',
     42107: 'Invalid user : invalid email provided',
-    42108: 'Invalid user : Missing cin!',
+    42108: 'Invalid user : Missing CIN!',
     42109: 'Invalid user : Missing prefix!',
     42110: 'Invalid user : Missing role!',
     42111: 'Invalid user : Missing gender!',
     42112: 'Invalid user : Missing phone!',
     42113: 'Invalid user : Missing mode of employment!',
     42114: 'Invalid user : Missing department!',
+    42115: 'Invalid user : CIN must be 8 digits long!',
 
     // Facade error (422xx)
     42200: 'Unknown role given',

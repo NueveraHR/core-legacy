@@ -55,11 +55,11 @@ export class RoleFacade {
     async roleDetails(roleId: string, options?: object): Promise<RoleDto> {
         return this.roleService.findById(roleId)
             .then(role => {
-                if (role) {
+                if (role)
                     return this.roleDtoPipe.transform(role, options);
-                } else {
+                else
                     return Promise.reject(this.dtoService.error(43002));
-                }
+
             })
     }
 
@@ -88,21 +88,18 @@ export class RoleFacade {
             .then(role => exists = role != null)
             .catch(err => exists = err);
 
-        if (this.dtoService.isError(exists)) {
+        if (this.dtoService.isError(exists))
             return Promise.reject(exists);
-        } else if (exists) {
+        else if (exists)
             return Promise.reject(this.dtoService.error(43010))
-        }
 
         // otherwise, try to save new role
         return this.roleService.create(roleDto).then(role => {
-            if (role) {
+            if (role)
                 return this.roleDtoPipe.transform(role)
-            } else {
+            else
                 return Promise.reject(this.dtoService.error(43000))
-            }
-        }
-        );
+        });
     }
 
     async updateRole(roleDto: RoleDto): Promise<RoleDto> {
@@ -122,11 +119,11 @@ export class RoleFacade {
 
 
         // Check for retrieval error
-        if (this.dtoService.isError(result)) {
+        if (this.dtoService.isError(result))
             return Promise.reject(result);
-        } else if (!result) {
+        else if (!result)
             return Promise.reject(this.dtoService.error(43003));
-        }
+
 
         // overwrite saved role properties
         const savedRole = this.roleDtoReversePipe.transformExistent(roleDto, result as Role);
@@ -145,11 +142,10 @@ export class RoleFacade {
 
 
         // Check for retrieval error
-        if (this.dtoService.isError(result)) {
+        if (this.dtoService.isError(result))
             return Promise.reject(result);
-        } else if (!result) {
+        else if (!result)
             return Promise.reject(this.dtoService.error(43004));
-        }
 
         return this.roleService.delete(result as Role);
     }
