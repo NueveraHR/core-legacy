@@ -53,8 +53,8 @@ export const ErrorMessage: ErrorCodeMessage = {
 
     43001: 'Invalid request, Cannot find list of roles',
     43002: 'Invalid request, Cannot find role details',
-    43003: 'Invalid request, Cannot update role details',
-    43004: 'Invalid request, Cannot delete',
+    43003: 'Invalid request, Cannot update role details with invalid id',
+    43004: 'Invalid request, Cannot delete role with invalid id',
 
     // Validator invalid data (431xx)
     43100: 'No role data provided!',

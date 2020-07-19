@@ -114,40 +114,44 @@ export class RoleFacade {
         }
 
         // retrieve current registered role record.
-        let savedRole: Role;
-        let error: ErrorDto;
-
+        let result: Role | ErrorDto;
         await this.roleService
             .findById(roleDto.id)
-            .then(role => savedRole = role)
-            .catch(err => error = err);
+            .then(role => result = role)
+            .catch(err => result = err);
 
 
         // Check for retrieval error
-        if (error) {
-            return Promise.reject(error);
+        if (this.dtoService.isError(result)) {
+            return Promise.reject(result);
+        } else if (!result) {
+            return Promise.reject(this.dtoService.error(43003));
         }
 
         // overwrite saved role properties
-        savedRole = this.roleDtoReversePipe.transformExistent(roleDto, savedRole);
+        const savedRole = this.roleDtoReversePipe.transformExistent(roleDto, result as Role);
         return this.roleService.update(savedRole).then(role =>
             this.roleDtoPipe.transform(role)
         );
     }
 
     async deleteRole(roleId: string): Promise<boolean> {
-        let findRoleResult: Role | ErrorDto;
-
         // retrieve current registered role record.
-        await this.roleService.findById(roleId)
-            .then(role => findRoleResult = role)
-            .catch(err => findRoleResult = err);
+        let result: Role | ErrorDto;
+        await this.roleService
+            .findById(roleId)
+            .then(role => result = role)
+            .catch(err => result = err);
 
-        if (this.dtoService.isError(findRoleResult)) {
-            return Promise.reject(findRoleResult);
+
+        // Check for retrieval error
+        if (this.dtoService.isError(result)) {
+            return Promise.reject(result);
+        } else if (!result) {
+            return Promise.reject(this.dtoService.error(43004));
         }
 
-        return this.roleService.delete(findRoleResult as Role);
+        return this.roleService.delete(result as Role);
     }
 
 }
