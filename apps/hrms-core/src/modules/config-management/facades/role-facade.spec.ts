@@ -75,7 +75,7 @@ describe('Role Management Facade', () => {
 
         it('should update role', async () => {
             expect.assertions(1);
-            if (!createdRole || dtoService.isInstance(createdRole)) {
+            if (!createdRole || dtoService.isError(createdRole)) {
                 fail('Cannot update uncreated role');
             }
             createdRole.name = 'Modified role';

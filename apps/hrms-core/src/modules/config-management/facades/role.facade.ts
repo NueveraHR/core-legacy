@@ -78,17 +78,17 @@ export class RoleFacade {
 
         //  * Validate given roleDto data
         const validationResult = this.roleDtoValidator.validate(roleDto);
-        if (this.dtoService.isInstance(validationResult)) {
+        if (this.dtoService.isError(validationResult)) {
             return Promise.reject(validationResult);
         }
 
         // check no role with same name exists
         let exists: boolean | ErrorDto;
-        await this.roleService.findByName(roleDto.name).then(role => {
-            exists = role != null;
-        }).catch(err => exists = err);
+        await this.roleService.findByName(roleDto.name)
+            .then(role => exists = role != null)
+            .catch(err => exists = err);
 
-        if (this.dtoService.isInstance(exists)) {
+        if (this.dtoService.isError(exists)) {
             return Promise.reject(exists);
         } else if (exists) {
             return Promise.reject(this.dtoService.error(43010))
@@ -109,7 +109,7 @@ export class RoleFacade {
 
         //  * Validate given roleDto data
         const validationResult = this.roleDtoValidator.validate(roleDto, { required: ['id'] });
-        if (this.dtoService.isInstance(validationResult)) {
+        if (this.dtoService.isError(validationResult)) {
             return Promise.reject(validationResult);
         }
 
@@ -143,7 +143,7 @@ export class RoleFacade {
             .then(role => findRoleResult = role)
             .catch(err => findRoleResult = err);
 
-        if (this.dtoService.isInstance(findRoleResult)) {
+        if (this.dtoService.isError(findRoleResult)) {
             return Promise.reject(findRoleResult);
         }
 

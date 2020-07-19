@@ -31,7 +31,7 @@ export class DtoService {
     }
 
 
-    isInstance(data: any): boolean {
+    isError(data: any): boolean {
         return (data?.statusCode && data?.message);
     }
 }

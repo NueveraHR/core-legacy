@@ -50,7 +50,7 @@ export class UserFacade {
     async createUser(userDto: UserDto): Promise<UserDto> {
         const validationResult = this.userDtoValidator.validate(userDto, { required: ['password'] });
 
-        if (this.dtoService.isInstance(validationResult)) {
+        if (this.dtoService.isError(validationResult)) {
             return Promise.reject(validationResult);
         }
 
