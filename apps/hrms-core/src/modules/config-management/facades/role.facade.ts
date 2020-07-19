@@ -54,7 +54,13 @@ export class RoleFacade {
      */
     async roleDetails(roleId: string, options?: object): Promise<RoleDto> {
         return this.roleService.findById(roleId)
-            .then(role => this.roleDtoPipe.transform(role, options))
+            .then(role => {
+                if (role) {
+                    return this.roleDtoPipe.transform(role, options);
+                } else {
+                    return Promise.reject(this.dtoService.error(43002));
+                }
+            })
     }
 
     /**
@@ -76,8 +82,26 @@ export class RoleFacade {
             return Promise.reject(validationResult);
         }
 
-        return this.roleService.create(roleDto).then(role =>
-            this.roleDtoPipe.transform(role)
+        // check no role with same name exists
+        let exists: boolean | ErrorDto;
+        await this.roleService.findByName(roleDto.name).then(role => {
+            exists = role != null;
+        }).catch(err => exists = err);
+
+        if (this.dtoService.isInstance(exists)) {
+            return Promise.reject(exists);
+        } else if (exists) {
+            return Promise.reject(this.dtoService.error(43010))
+        }
+
+        // otherwise, try to save new role
+        return this.roleService.create(roleDto).then(role => {
+            if (role) {
+                return this.roleDtoPipe.transform(role)
+            } else {
+                return Promise.reject(this.dtoService.error(43000))
+            }
+        }
         );
     }
 

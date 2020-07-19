@@ -19,8 +19,8 @@ export const ErrorMessage: ErrorCodeMessage = {
 
     // Controller invalid request(420xx)
     42000: 'Invalid request, Cannot creat user',
-    42001: 'Invalid request, Cannot get list of users',
-    42002: 'Invalid request, Cannot get user details',
+    42001: 'Invalid request, Cannot find list of users',
+    42002: 'Invalid request, Cannot find user details',
     42003: 'Invalid request, Cannot update user details',
     42004: 'Invalid request, Cannot update user details',
 
@@ -49,8 +49,10 @@ export const ErrorMessage: ErrorCodeMessage = {
 
     // Controller invalid request(430xx)
     43000: 'Invalid request, Cannot creat Role',
-    43001: 'Invalid request, Cannot get list of roles',
-    43002: 'Invalid request, Cannot get role details',
+    43010: 'Role with similar name already exists!',
+
+    43001: 'Invalid request, Cannot find list of roles',
+    43002: 'Invalid request, Cannot find role details',
     43003: 'Invalid request, Cannot update role details',
     43004: 'Invalid request, Cannot delete',
 
