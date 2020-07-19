@@ -27,7 +27,7 @@ export class UserService {
 
         return user
             .save()
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
     }
 
     /**
@@ -41,7 +41,7 @@ export class UserService {
 
         return user
             .save()
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
     }
 
     /**
@@ -52,7 +52,7 @@ export class UserService {
         return this.userModel
             .find()
             .exec()
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
     }
 
 
@@ -64,7 +64,7 @@ export class UserService {
 
         return this.userModel
             .paginate({}, options)
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })))
     }
 
 
@@ -76,7 +76,7 @@ export class UserService {
         return this.userModel
             .findById(id)
             .exec()
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })))
     }
 
     /**
@@ -89,7 +89,7 @@ export class UserService {
             await this.userModel
                 .findOne(criteria)
                 .exec()
-                .catch(err => Promise.reject(this.dtoService.error(50000)))
+                .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })))
         )
             .populate('role')
             .execPopulate();
@@ -105,7 +105,7 @@ export class UserService {
             await this.userModel
                 .findOne(criteria)
                 .exec()
-                .catch(err => Promise.reject(this.dtoService.error(50000)))
+                .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })))
         )
             .populate('role')
             .execPopulate();
@@ -115,7 +115,7 @@ export class UserService {
         user.role = role.id;
         return user
             .save()
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
     }
 
     /**
@@ -125,7 +125,7 @@ export class UserService {
     async delete(user: User): Promise<{ deletedCount?: number }> {
         return this.userModel
             .deleteOne(user)
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
     }
 
     /**

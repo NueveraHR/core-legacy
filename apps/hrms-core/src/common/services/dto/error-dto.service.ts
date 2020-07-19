@@ -25,7 +25,11 @@ export class DtoService {
             errorDto.detailedMessage = options?.detailedMessage;
         }
 
-        this.loggerService.error({ statusCode, options });
+        if (errorDto.statusCode.toString().startsWith('5')) {
+            this.loggerService.error(`[${errorDto.statusCode}] ${errorDto.message} :: ${options?.detailedMessage}`);
+        } else {
+            this.loggerService.info(`[${errorDto.statusCode}] ${errorDto.message}`);
+        }
 
         return errorDto;
     }

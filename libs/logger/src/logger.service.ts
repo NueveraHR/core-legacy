@@ -36,48 +36,51 @@ export class LoggerService {
             this.loggerFileName = 'nuevera.log';
         }
 
+        const myFormat = winston.format.printf(({ level, message,  timestamp }) => {
+            return `${level.toUpperCase()} :: ${timestamp} :: ${message}`;
+        });
+
         this.winstonLoggerInstance = winston.createLogger({
             level: this.envService.read().LOGGER_LEVEL || 'info',
-            format: winston.format.json(),
+            format: winston.format.combine(
+                winston.format.errors({ stack: true }), // <-- use errors format
+                winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+                winston.format.prettyPrint(),
+                myFormat
+            ),
             transports: [
-                new winston.transports.File({ filename: path.join(this.loggerFolderPath, this.loggerFileName) })
+                new winston.transports.File({ filename: path.join(this.loggerFolderPath, this.loggerFileName) }),
+                new winston.transports.Console()
             ],
         });
     }
 
     debug(message) {
-        const logDate = new Date().toISOString();
-        this.winstonLoggerInstance.debug(`${logDate} : ${message}`);
+        this.winstonLoggerInstance.debug(`${message}`);
     }
 
     error(message) {
-        const logDate = new Date().toISOString();
-        this.winstonLoggerInstance.error(`${logDate} : ${message}`);
+        this.winstonLoggerInstance.error(`${message}`);
     }
 
     info(message) {
-        const logDate = new Date().toISOString();
-        this.winstonLoggerInstance.info(`${logDate} : ${message}`);
+        this.winstonLoggerInstance.info(`${message}`);
     }
 
     http(message) {
-        const logDate = new Date().toISOString();
-        this.winstonLoggerInstance.http(`${logDate} : ${message}`);
+        this.winstonLoggerInstance.http(`${message}`);
     }
 
     silly(message) {
-        const logDate = new Date().toISOString();
-        this.winstonLoggerInstance.silly(`${logDate} : ${message}`);
+        this.winstonLoggerInstance.silly(`${message}`);
     }
 
     verbose(message) {
-        const logDate = new Date().toISOString();
-        this.winstonLoggerInstance.verbose(`${logDate} : ${message}`);
+        this.winstonLoggerInstance.verbose(`${message}`);
     }
 
     warn(message) {
-        const logDate = new Date().toISOString();
-        this.winstonLoggerInstance.warn(`${logDate} : ${message}`);
+        this.winstonLoggerInstance.warn(`${message}`);
     }
 
 }

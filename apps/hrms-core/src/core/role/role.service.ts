@@ -15,13 +15,13 @@ export class RoleService {
     async create(roleDto: RoleDto): Promise<Role> {
         let role = new this.roleModel(roleDto);
         return role.save()
-        .catch(err => Promise.reject(this.dtoService.error(50000)));
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })))
     }
 
     async update(role: Role): Promise<Role> {
         return role
             .save()
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })))
 
     }
 
@@ -29,7 +29,7 @@ export class RoleService {
         const result = await this.roleModel
             .deleteOne(role)
             .exec()
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })))
 
         return (result.deletedCount == 1);
     }
@@ -38,7 +38,7 @@ export class RoleService {
         return await this.roleModel
             .find()
             .exec()
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })))
 
     }
 
@@ -49,20 +49,20 @@ export class RoleService {
         };
         return this.roleModel
             .paginate({}, options)
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
-        }
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })))
+    }
 
     async findByName(name: string): Promise<Role> {
         return this.roleModel
             .findOne({ name: name })
             .exec()
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
-        }
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })))
+    }
 
     async findById(id: string): Promise<Role> {
         return this.roleModel
             .findById(id)
             .exec()
-            .catch(err => Promise.reject(this.dtoService.error(50000)));
-        }
+            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })))
+    }
 }
