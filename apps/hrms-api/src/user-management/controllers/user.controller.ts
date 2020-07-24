@@ -29,7 +29,7 @@ export class UserController {
         return result;
     }
 
-    @Get('/user/:id')
+    @Get('/:id')
     async userDetails(@Param('id') id: string, @Res() response: Response) {
         await this.userFacade.userDetails(id)
             .then(user => response.status(HttpStatus.OK).json(user))

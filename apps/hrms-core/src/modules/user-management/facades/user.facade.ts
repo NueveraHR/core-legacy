@@ -81,9 +81,9 @@ export class UserFacade {
         return this.userService.findById(id)
             .then(user => {
                 if (user)
-                    return this.userDtoPipe.transform(user, { detailed: true })
+                    return this.userDtoPipe.transform(user, { detailed: true });
                 else
-                    return Promise.reject(this.dtoService.error(42002))
+                    return Promise.reject(this.dtoService.error(42002));
             });
     }
 }

@@ -44,7 +44,7 @@ export class RoleController {
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
 
-    @Get('/role/:roleId')
+    @Get('/:roleId')
     async getDetails(@Param('roleId') roleId: string, @Res() response: Response) {
         await this.roleFacade.roleDetails(roleId)
             .then(role => response.status(HttpStatus.OK).json(role))

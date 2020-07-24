@@ -5,12 +5,5 @@ import { ErrorDto } from '@hrms-core/common/services/dto/error-dto.service';
 
 @Controller()
 export class AppController {
-  constructor(
-    private readonly roleManagementFacade: RoleFacade
-  ) { }
-
-  @Get()
-  async getHello() {
-    
-  }
+  constructor( ) { }
 }
