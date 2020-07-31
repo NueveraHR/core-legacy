@@ -1,68 +1,42 @@
 {
-    "config": {
-        "portals": [
-            "role-config"
-        ],
-        "pages": [
-            "role-list",
-            "role-details"
-        ],
-        "actions": [
-            "all-roles.read",
-            
-            "role.create",
-            "role.delete",
-            "role.update",
-            "role.delete"
-        ]
+    "shared": {
+        "_description": "General features",
+        "requests": {
+            "_description": "Requests section",
+            "access": "Allow access to requests section",
+            "create": "Create a new request",
+            "cancel": "Cancel request",
+            "approve": "Approve received request",
+            "reject": "Reject received request"
+        },
+        "notifications": {
+            "_description": "Notifications sections",
+            "access": "Allow access to notifications sections"
+        }
     },
-    
+    "config": {
+        "_description": "HRMS configuration module",
+        "roles": {
+            "_description": "Roles management page",
+            "access": "Allow access to role management",
+            "create": "Create a new role",
+            "edit": "Edit role",
+            "delete": "Delete role"
+        }
+    },
     "user": {
-        "portals": [
-            "user-management",
-            "self-service"
-        ],
-        "pages": [
-            "new-user",
-            "user-list",
-            "user-details",
-            "requests",
-            
-            "my-profile"
-        ],
-        "actions": [
-            "all-users.read",
-            
-            "user.create",
-            "user.read",
-            "user.update",
-            "user.delete",
-            
-            "user.roles.add",
-            "user.roles.read",
-            "user.roles.update",
-            "user.roles.delete",
-
-            "user.documents.add",
-            "user.documents.read",
-            "user.documents.update",
-            "user.documents.delete",
-
-            "requests.read",
-            "requests.approve",
-            "requests.refuse",
-
-
-            "my-profile.requests.create",
-            "my-profile.requests.read",
-            "my-profile.requests.update",
-            "my-profile.requests.delete",
-
-            "my-profile.documents.add",
-            "my-profile.documents.read",
-            "my-profile.documents.update",
-            "my-profile.documents.delete"
-
-        ]
+        "_description": "User module",
+        "record": {
+            "_description": "Users list page",
+            "access": "Allow access to user records",
+            "create": "Create new user record",
+            "edit": "Edit a user record",
+            "delete": "Delete a user record"
+        },
+        "profile": {
+            "_description": "Profile page",
+            "access": "Allow access to profile",
+            "edit": "Edit profile information"
+        }
     }
 }

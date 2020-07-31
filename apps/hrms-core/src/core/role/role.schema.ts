@@ -1,6 +1,5 @@
 import { Document } from "mongoose";
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
-import { Privileges } from "../privilege/privilege.model";
 import * as mongoosePaginate from 'mongoose-paginate';
 
 @Schema()
@@ -11,8 +10,8 @@ export class Role extends Document {
     @Prop()
     description: string;
 
-    @Prop()
-    privileges: Privileges;
+    @Prop([String])
+    privileges: string[];
 
     @Prop([String])
     extendsRoles: string[];

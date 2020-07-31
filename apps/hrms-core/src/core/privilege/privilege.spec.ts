@@ -1,6 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { PrivilegeService } from './privilege.service';
+import { assert } from 'console';
 
 describe('Privilege Service', () => {
     let privilegeService: PrivilegeService;
@@ -16,8 +17,9 @@ describe('Privilege Service', () => {
     });
 
     describe('Load privileges correctly', () => {
+        expect.assertions(1);
 
-        it('should throw "ENOENT" for wrong filename', async () => {
+        it('should throw "ENOENT" for wrong filename', () => {
             try {
                 privilegeService.loadConfig('wrong_path.json');
                 fail('Didn\'t throw for wrong filename');
@@ -26,14 +28,18 @@ describe('Privilege Service', () => {
             }
         });
 
-        it('should load with default filename', async () => {
+        it('should load with default filename', () => {
+            expect.assertions(3);
+
             const config = privilegeService.loadConfig()
             expect(config).not.toBeUndefined();
             expect(config).not.toBeNull();
             expect(Object.keys(config).length).toBeGreaterThan(1);
         });
 
-        it('should load with specified filename', async () => {
+        it('should load with specified filename', () => {
+            expect.assertions(3);
+
             const config = privilegeService.loadConfig('privilege.json')
             expect(config).not.toBeUndefined();
             expect(config).not.toBeNull();
@@ -42,22 +48,12 @@ describe('Privilege Service', () => {
     });
 
     describe('Parse privileges correctly', () => {
-
-        it('should throw for wrong given module', () => {
-            privilegeService.loadConfig();
-            expect(() => privilegeService.getModulePrivileges('inexistent-module'))
-                .toThrowError('Unknown module with given name: inexistent-module')
-
-        });
-
-        it('should return privileges for given module', () => {
-            privilegeService.loadConfig();
-            const privileges = privilegeService.getModulePrivileges('user');
-            expect(privileges).not.toBeUndefined();
+        it("should find requests page action privileges", () => {
+            expect.assertions(2);
+            const privileges = privilegeService.privileges;
             expect(privileges).not.toBeNull();
-            expect(privileges.actions.length).toBeGreaterThan(1);
-            expect(privileges.pages.length).toBeGreaterThan(1);
-        });
+            expect(privileges).toHaveProperty('shared.requests.approve');
+        })
     })
 
 })

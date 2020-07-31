@@ -18,22 +18,21 @@ export class PrivilegesGuard implements CanActivate {
         return this.isPermitted(user, privileges);
     }
 
-    private isPermitted(user: { id: string, role: RoleDto }, requiredPriveleges: string[]): boolean {
-        const privileges = user?.role?.privileges;
+    private isPermitted(user: { id: string, role: RoleDto }, demandedPrivileges: string[]): boolean {
+        const userPrivileges = user?.role?.privileges;
 
         // Allow operation if no privileges are required
-        if (!requiredPriveleges || requiredPriveleges.length == 0) {
+        if (!demandedPrivileges || demandedPrivileges.length == 0) {
             return true;
         }
 
         // otherwise, reject if user has no privileges 
-        if (!privileges) {
+        if (!userPrivileges) {
             return false;
         }
 
 
-        return true;
-
+        return userPrivileges.findIndex((pr) => pr == demandedPrivileges[0]) != -1;
 
     }
 }

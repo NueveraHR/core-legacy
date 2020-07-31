@@ -41,7 +41,7 @@ describe('Role Service', () => {
             expect(role).toHaveProperty('name');
             expect(role).toHaveProperty('description');
             expect(role).toHaveProperty('privileges');
-            expect(Object.keys(role.privileges).length).toEqual(2); // config and user
+            expect(role.privileges.length).toBe(16); 
 
         });
     });
@@ -55,7 +55,7 @@ describe('Role Service', () => {
             expect(role).not.toBeNull();
             expect(role).toHaveProperty('privileges');
 
-            role.privileges = {};
+            role.privileges = [];
             await roleService.update(role);
 
             expect(Object.keys(role.privileges).length).toEqual(0);
