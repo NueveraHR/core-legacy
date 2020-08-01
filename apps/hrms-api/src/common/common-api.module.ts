@@ -1,8 +1,8 @@
-import { AuthController } from "./auth/auth.controller";
+import { AuthController } from "../auth/auth.controller";
 import { Module } from "@nestjs/common";
-import { AuthModule } from "@hrms-core/common/auth/auth.module";
-import { AuthFacade } from "@hrms-core/common/auth/auth.facade";
-import { JwtStrategy } from "./auth/jwt.strategy";
+import { AuthModule } from "@hrms-core/auth/auth.module";
+import { AuthFacade } from "@hrms-core/auth/auth.facade";
+import { JwtStrategy } from "../auth/jwt.strategy";
 
 
 
