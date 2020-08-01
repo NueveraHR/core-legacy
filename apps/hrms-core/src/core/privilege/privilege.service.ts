@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { HRMSConfigService } from "@libs/config";
-import { Privileges, ModulePrivileges } from "./privilege.model";
+import { Privileges } from "./privilege.model";
 
 const PRIVILEGE_FILE_NAME = 'privilege.json';
 
@@ -21,17 +21,26 @@ export class PrivilegeService {
         return this.privilegeConfig;
     }
 
-    getModulePrivileges(moduleName: string): ModulePrivileges | never {
+
+    get privileges(): Privileges {
         if (!this.privilegeConfig) {
             this.loadConfig();
         }
 
-        if (!this.privilegeConfig[moduleName]) {
-            throw Error(`Unknown module with given name: ${moduleName}`);
-        }
-
-        return this.privilegeConfig[moduleName];
+        return this.privilegeConfig;
     }
+
+    // getModulePrivileges(moduleName: string): ModulePrivileges | never {
+    //     if (!this.privilegeConfig) {
+    //         this.loadConfig();
+    //     }
+
+    //     if (!this.privilegeConfig[moduleName]) {
+    //         throw Error(`Unknown module with given name: ${moduleName}`);
+    //     }
+
+    //     return this.privilegeConfig[moduleName];
+    // }
 
 
 }

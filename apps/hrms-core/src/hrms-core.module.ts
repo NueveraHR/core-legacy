@@ -8,7 +8,7 @@ import { CommonModule } from './common/common.module';
 import { DBConnectionManager } from './common/services/database/connection-manager.service';
 
 import { ConfigManagementModule } from './modules/config-management/config-management.module';
-import { AuthModule } from './common/auth/auth.module';
+import { AuthModule } from './auth/auth.module';
 
 const connectionManager = new DBConnectionManager();
 

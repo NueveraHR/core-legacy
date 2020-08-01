@@ -68,7 +68,7 @@ export class RoleFacade {
      * Can be used to grant privileges to a new or an existing role. 
      *
      */
-    async allPrivileges(): Promise<PrivilegesDto> {
+    async allPrivileges(): Promise<string[]> {
         const privileges = this.privilegeService.loadConfig();
         return this.privilegesDtoPipe.transform(privileges);
     }

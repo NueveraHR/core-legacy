@@ -1,9 +1,12 @@
-export interface ModulePrivileges {
-    portals: string[],
-    pages: string[],
-    actions: string[],
-}
 
 export interface Privileges {
-    [module: string]: ModulePrivileges;
+    [module: string]: PagesPrivileges;
+}
+
+export interface PagesPrivileges {
+    [page: string]: Actions,
+}
+
+export interface Actions {
+    [action: string]: string
 }

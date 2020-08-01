@@ -2,83 +2,41 @@ export const ROLES = {
     managerRole: {
         name: 'manager',
         description: 'Enterprise manager',
-        privileges: {
-            config: {
-                portals: [
-                    "role-config",
-                ],
-                pages: [
-                    "role-list",
-                    "role-details"
-                ],
-                actions: [
-                    "all-roles.read",
+        privileges: [
+            'shared.requests.access',
+            'shared.requests.create',
+            'shared.requests.cancel',
+            'shared.requests.approve',
+            'shared.requests.reject',
 
-                    "role.create",
-                    "role.delete",
-                    "role.update",
-                    "role.delete"
-                ]
-            },
+            'shared.notifications.access',
 
-            user: {
-                portals: [
-                    "user-management",
-                ],
-                pages: [
-                    "new-user",
-                    "user-list",
-                    "user-details",
-                    "requests",
-                ],
-                actions: [
-                    "all-users.read",
+            'config.roles.access',
+            'config.roles.create', 
+            'config.roles.edit',
+            'config.roles.delete',
 
-                    "user.create",
-                    "user.read",
-                    "user.update",
-                    "user.delete",
+            'user.record.access',
+            'user.record.create',
+            'user.record.edit',
+            'user.record.delete',
 
-                    "user.roles.add",
-                    "user.roles.read",
-                    "user.roles.update",
-                    "user.roles.delete",
-
-                    "user.documents.add",
-                    "user.documents.read",
-                    "user.documents.update",
-                    "user.documents.delete",
-
-                    "requests.read",
-                    "requests.approve",
-                    "requests.refuse",
-                ]
-            }
-        }
+            'user.profile.access',
+            'user.profile.edit',
+        ]
     },
     employeeRole: {
         name: 'employee',
         description: 'Enterprise employee',
-        privileges: {
-            user: {
-                portals: [
-                    "self-service"
-                ],
-                pages: [
-                    "my-profile"
-                ],
-                actions: [
-                    "my-profile.requests.create",
-                    "my-profile.requests.read",
-                    "my-profile.requests.update",
-                    "my-profile.requests.delete",
+        privileges: [
+            'shared.requests.access',
+            'shared.requests.create',
+            'shared.requests.cancel',
+            
+            'shared.notifications.access',
 
-                    "my-profile.documents.add",
-                    "my-profile.documents.read",
-                    "my-profile.documents.update",
-                    "my-profile.documents.delete"
-                ]
-            }
-        }
+            'user.profile.access',
+            'user.profile.edit',
+        ],
     },
 }

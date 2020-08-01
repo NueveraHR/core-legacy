@@ -4,12 +4,14 @@ import { UserDto } from '@hrms-core/dto/user.dto';
 import { ErrorDto } from '@hrms-core/common/services/dto/error-dto.service';
 import { Response } from 'express';
 import { ErrorUtils } from '@hrms-api/common/error.utils';
+import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 
 @Controller('/users')
 export class UserController {
     constructor(private userFacade: UserFacade) { }
 
     @Get()
+    @Privileges('user.record.access')
     async allUsers(@Query('page') page: string, @Query('pageSize') pageSize: string) {
         let result: any;
         const filterCriteria: UserFilterCriteria = {};
@@ -30,6 +32,7 @@ export class UserController {
     }
 
     @Get('/:id')
+    @Privileges('user.record.access')
     async userDetails(@Param('id') id: string, @Res() response: Response) {
         await this.userFacade.userDetails(id)
             .then(user => response.status(HttpStatus.OK).json(user))
@@ -39,6 +42,7 @@ export class UserController {
 
 
     @Post('/add')
+    @Privileges('user.record.create')
     async addUser(@Body() userDto: UserDto, @Res() response: Response) {
         let result: UserDto | ErrorDto;
 
