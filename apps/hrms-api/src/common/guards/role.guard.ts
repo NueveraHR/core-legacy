@@ -7,8 +7,12 @@ export class PrivilegesGuard implements CanActivate {
     constructor(private reflector: Reflector) { }
 
     canActivate(context: ExecutionContext): boolean {
-        const privileges = this.reflector.get<string[]>('privileges', context.getHandler());
-        if (!privileges) {
+        const handlerPrivileges = this.reflector.get<string[]>('privileges', context.getHandler()) || [];
+        const controllerPrivileges = this.reflector.get<string[]>('privileges', context.getClass()) || [];
+        const privileges = [...controllerPrivileges, ...handlerPrivileges];
+
+
+        if (privileges.length == 0) {
             return true;
         }
 
@@ -31,8 +35,14 @@ export class PrivilegesGuard implements CanActivate {
             return false;
         }
 
+        let isFullMatch = true;
+        demandedPrivileges.forEach(privilege => {
+            isFullMatch = isFullMatch && userPrivileges.findIndex((pr) => pr == privilege) != -1;
+            if (!isFullMatch) {
+                return;
+            }
+        });
 
-        return userPrivileges.findIndex((pr) => pr == demandedPrivileges[0]) != -1;
-
+        return isFullMatch;
     }
 }
