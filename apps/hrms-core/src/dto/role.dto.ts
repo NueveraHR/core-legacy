@@ -1,4 +1,4 @@
-import { PrivilegesDto } from "./privilege.dto";
+import { PrivilegeDto } from "./privilege.dto";
 import { PaginateResult } from "mongoose";
 
 export class RoleDto {

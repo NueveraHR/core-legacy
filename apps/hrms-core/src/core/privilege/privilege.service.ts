@@ -1,28 +1,28 @@
 import { Injectable } from "@nestjs/common";
 import { HRMSConfigService } from "@libs/config";
-import { Privileges } from "./privilege.model";
+import { PrivilegeDto } from "../../dto/privilege.dto";
 
 const PRIVILEGE_FILE_NAME = 'privilege.json';
 
 @Injectable()
 export class PrivilegeService {
-    private privilegeConfig: Privileges;
+    private privilegeConfig: PrivilegeDto;
 
     constructor(private readonly configService: HRMSConfigService) {
         this.privilegeConfig = null;
     }
 
 
-    loadConfig(fileName: string = PRIVILEGE_FILE_NAME): Privileges | never {
+    loadConfig(fileName: string = PRIVILEGE_FILE_NAME): PrivilegeDto | never {
         if (!this.privilegeConfig) {
-            this.privilegeConfig = this.configService.load(fileName) as Privileges;
+            this.privilegeConfig = this.configService.load(fileName) as PrivilegeDto;
         }
 
         return this.privilegeConfig;
     }
 
 
-    get privileges(): Privileges {
+    get privileges(): PrivilegeDto {
         if (!this.privilegeConfig) {
             this.loadConfig();
         }

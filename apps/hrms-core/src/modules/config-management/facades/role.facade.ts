@@ -6,7 +6,7 @@ import { Role } from '@hrms-core/core/role/role.schema';
 
 import { RoleService } from '@hrms-core/core/role/role.service';
 import { PrivilegeService } from '@hrms-core/core/privilege/privilege.service';
-import { PrivilegesDto } from '@hrms-core/dto/privilege.dto';
+import { PrivilegeDto } from '@hrms-core/dto/privilege.dto';
 import { ErrorDto, DtoService } from '@hrms-core/common/services/dto/error-dto.service';
 import { RoleDtoValidator } from '../validators/role-dto.validator';
 import { RoleDtoReversePipe } from '../pipes/role-dto-reverse.pipe';
@@ -68,9 +68,8 @@ export class RoleFacade {
      * Can be used to grant privileges to a new or an existing role. 
      *
      */
-    async allPrivileges(): Promise<string[]> {
-        const privileges = this.privilegeService.loadConfig();
-        return this.privilegesDtoPipe.transform(privileges);
+    async allPrivileges(): Promise<PrivilegeDto> {
+       return this.privilegeService.loadConfig();
     }
 
 
