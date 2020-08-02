@@ -6,13 +6,13 @@ import { ErrorUtils } from '@hrms-api/common/error.utils';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 
 @Controller('/roles')
+@Privileges('config.roles.access')
 export class RoleController {
     constructor(private roleFacade: RoleFacade) {
 
     }
 
     @Get()
-    @Privileges('config.roles.access')
     async getRoles(@Query('page') page: string, @Query('pageSize') pageSize: string) {
         const filterCriteria: RoleFilterCriteria = {};
         let result: any;
@@ -33,7 +33,6 @@ export class RoleController {
     }
 
     @Get('/privileges')
-    @Privileges('config.roles.access')
     async getPrivileges(@Res() response: Response) {
         await this.roleFacade.allPrivileges()
         .then(privileges => response.json(privileges))
@@ -57,7 +56,6 @@ export class RoleController {
     }
 
     @Get('/:roleId')
-    @Privileges('config.roles.access')
     async getDetails(@Param('roleId') roleId: string, @Res() response: Response) {
         await this.roleFacade.roleDetails(roleId)
             .then(role => response.status(HttpStatus.OK).json(role))
