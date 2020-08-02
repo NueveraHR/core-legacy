@@ -1,11 +1,12 @@
 
-export interface PrivilegesDto {
-    [module: string]: ModulePrivilegesDto
+export interface PrivilegeDto {
+    [module: string]: PagesPrivileges;
 }
 
-interface ModulePrivilegesDto {
-    portals: string[],
-    pages: string[],
-    actions: string[],
+export interface PagesPrivileges {
+    [page: string]: Actions,
 }
 
+export interface Actions {
+    [action: string]: string
+}
