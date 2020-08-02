@@ -24,19 +24,19 @@
             "delete": "Delete role"
         }
     },
-    "user": {
-        "_description": "User module",
+    "employee": {
+        "_description": "Employees module",
         "record": {
-            "_description": "Users list page",
-            "access": "Allow access to user records",
-            "create": "Create new user record",
-            "edit": "Edit a user record",
-            "delete": "Delete a user record"
+            "_description": "employees list page",
+            "access": "Allow access to employees records",
+            "create": "Create new employee record",
+            "edit": "Edit an employee record",
+            "delete": "Delete an employee record"
         },
         "profile": {
             "_description": "Profile page",
-            "access": "Allow access to profile",
-            "edit": "Edit profile information"
+            "access": "Allow access to his profile",
+            "edit": "Edit his profile information"
         }
     }
 }

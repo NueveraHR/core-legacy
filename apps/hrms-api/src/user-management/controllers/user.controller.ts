@@ -7,11 +7,11 @@ import { ErrorUtils } from '@hrms-api/common/error.utils';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 
 @Controller('/users')
+@Privileges('employee.record.access')
 export class UserController {
     constructor(private userFacade: UserFacade) { }
 
     @Get()
-    @Privileges('user.record.access')
     async allUsers(@Query('page') page: string, @Query('pageSize') pageSize: string) {
         let result: any;
         const filterCriteria: UserFilterCriteria = {};
@@ -32,7 +32,6 @@ export class UserController {
     }
 
     @Get('/:id')
-    @Privileges('user.record.access')
     async userDetails(@Param('id') id: string, @Res() response: Response) {
         await this.userFacade.userDetails(id)
             .then(user => response.status(HttpStatus.OK).json(user))
@@ -42,7 +41,7 @@ export class UserController {
 
 
     @Post('/add')
-    @Privileges('user.record.create')
+    @Privileges('employee.record.create')
     async addUser(@Body() userDto: UserDto, @Res() response: Response) {
         let result: UserDto | ErrorDto;
 
