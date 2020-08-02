@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Res, HttpStatus, Query, Param, Delete } from '@nestjs/common';
 import { RoleDto } from '@hrms-core/dto/role.dto';
 import { RoleFacade, RoleFilterCriteria } from '@hrms-core/modules/config-management/facades/role.facade';
-import { Response } from 'express';
+import { Response, response } from 'express';
 import { ErrorUtils } from '@hrms-api/common/error.utils';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 
@@ -30,6 +30,14 @@ export class RoleController {
         });
 
         return result;
+    }
+
+    @Get('/privileges')
+    @Privileges('config.roles.access')
+    async getPrivileges(@Res() response: Response) {
+        await this.roleFacade.allPrivileges()
+        .then(privileges => response.json(privileges))
+        .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
 
     @Post('/add')
