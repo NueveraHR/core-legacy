@@ -15,7 +15,7 @@
         }
     },
     "config": {
-        "_description": "HRMS configuration module",
+        "_description": "HRMS configuration Section",
         "roles": {
             "_description": "Roles management page",
             "access": "Allow access to role management",
@@ -25,8 +25,8 @@
         }
     },
     "employee": {
-        "_description": "Employees module",
-        "record": {
+        "_description": "Employees Module",
+        "records": {
             "_description": "employees list page",
             "access": "Allow access to employees records",
             "create": "Create new employee record",

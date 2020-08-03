@@ -6,9 +6,9 @@ import { Response } from 'express';
 import { ErrorUtils } from '@hrms-api/common/error.utils';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 
-@Controller('/users')
-@Privileges('employee.record.access')
-export class UserController {
+@Controller('/employee/records')
+@Privileges('employee.records.access')
+export class EmployeeRecordController {
     constructor(private userFacade: UserFacade) { }
 
     @Get()
@@ -41,7 +41,7 @@ export class UserController {
 
 
     @Post('/add')
-    @Privileges('employee.record.create')
+    @Privileges('employee.records.create')
     async addUser(@Body() userDto: UserDto, @Res() response: Response) {
         let result: UserDto | ErrorDto;
 

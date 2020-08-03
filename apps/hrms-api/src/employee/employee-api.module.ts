@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { UserController } from "./controllers/user.controller";
+import { EmployeeRecordController } from "./controllers/records.controller";
 import { UserManagementModule } from "@hrms-core/modules/user-management/user-management.module";
 
 @Module({
@@ -7,10 +7,10 @@ import { UserManagementModule } from "@hrms-core/modules/user-management/user-ma
         UserManagementModule
     ],
     controllers: [
-        UserController
+        EmployeeRecordController
     ],
     providers: [
 
     ],
 })
-export class UserManagementApi { }
+export class EmployeeApi { }
