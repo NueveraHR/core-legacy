@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
-import { ConfigManagementModule } from "@hrms-core/modules/config-management/config-management.module";
+import { ConfigModule } from "@hrms-core/modules/config/config.module";
 import { RoleController } from "./controllers/role.controller";
 
 @Module({
     imports: [
-        ConfigManagementModule,
+        ConfigModule,
     ],
     controllers: [
         RoleController,
@@ -13,4 +13,4 @@ import { RoleController } from "./controllers/role.controller";
 
     ],
 })
-export class ConfigManagementApi { }
+export class ConfigApiModule { }
