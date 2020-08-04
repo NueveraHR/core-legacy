@@ -1,10 +1,10 @@
-import { DtoPipeTransform } from "@hrms-core/common/interfaces/dto-pipe-transform";
+import { DtoTransformPipe } from "@hrms-core/common/interfaces/dto-pipe-transform";
 import { Role } from "@hrms-core/core/role/role.schema";
 import { RoleDto } from "@hrms-core/dto/role.dto";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class RoleDtoPipe implements DtoPipeTransform<Role, RoleDto> {
+export class RoleDtoPipe implements DtoTransformPipe<Role, RoleDto> {
     transform(source: Role, options?: object): RoleDto {
         let roleDto = new RoleDto();
         return this.transformExistent(source, roleDto);

@@ -1,10 +1,10 @@
-import { DtoPipeTransform } from "@hrms-core/common/interfaces/dto-pipe-transform";
+import { DtoTransformPipe } from "@hrms-core/common/interfaces/dto-pipe-transform";
 import { PrivilegeDto } from "@hrms-core/dto/privilege.dto";
 import { Injectable } from "@nestjs/common";
 import { PrivilegeService } from "@hrms-core/core/privilege/privilege.service";
 
 @Injectable()
-export class PrivilegesDtoPipe implements DtoPipeTransform<PrivilegeDto, string[]>{
+export class PrivilegesDtoPipe implements DtoTransformPipe<PrivilegeDto, string[]>{
     constructor(
         private readonly privilegeService: PrivilegeService,
     ) { }

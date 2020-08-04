@@ -1,6 +1,6 @@
 import { PipeTransform } from "@nestjs/common";
 
-export interface DtoPipeTransform<SOURCE, TARGET> extends PipeTransform {
+export interface DtoTransformPipe<SOURCE, TARGET> extends PipeTransform {
 
     transform(source: SOURCE, options?: object): TARGET;
 

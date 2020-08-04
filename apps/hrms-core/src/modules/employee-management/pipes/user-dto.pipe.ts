@@ -1,5 +1,5 @@
 import { PipeTransform, ArgumentMetadata, Injectable, Inject } from "@nestjs/common";
-import { DtoPipeTransform } from "@hrms-core/common/interfaces/dto-pipe-transform";
+import { DtoTransformPipe } from "@hrms-core/common/interfaces/dto-pipe-transform";
 import { User } from "@hrms-core/core/user/user.schema";
 import { UserDto } from "@hrms-core/dto/user.dto";
 import { PipTransformException } from "@hrms-core/common/exceptions/pipe-transform.exception";
@@ -7,7 +7,7 @@ import { LoggerService } from "@libs/logger";
 
 
 @Injectable()
-export class UserDtoPipe implements DtoPipeTransform<User, UserDto> {
+export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
 
     @Inject(LoggerService) private logger: LoggerService;
 
