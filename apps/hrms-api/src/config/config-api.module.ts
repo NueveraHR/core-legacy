@@ -13,4 +13,4 @@ import { RoleController } from "./controllers/role.controller";
 
     ],
 })
-export class ConfigApi { }
+export class ConfigApiModule { }

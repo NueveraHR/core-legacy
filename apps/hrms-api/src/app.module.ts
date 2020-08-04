@@ -3,8 +3,8 @@ import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { AppController } from './app.controller';
 import { AuthController } from './auth/auth.controller';
 import { CommonApi } from './common/common-api.module';
-import { EmployeeApi } from './employee/employee-api.module';
-import { ConfigApi } from './config/config-api.module';
+import { EmployeeApiModule } from './employee/employee-api.module';
+import { ConfigApiModule } from './config/config-api.module';
 
 
 @Module({
@@ -12,8 +12,8 @@ import { ConfigApi } from './config/config-api.module';
     HRMSCoreModule,
 
     CommonApi,
-    EmployeeApi,
-    ConfigApi
+    EmployeeApiModule,
+    ConfigApiModule
   ],
   controllers: [AppController, AuthController],
 })

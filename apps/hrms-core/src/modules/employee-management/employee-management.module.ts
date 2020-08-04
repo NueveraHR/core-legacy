@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UserFacade } from './facades/user.facade';
 import { CoreModule } from '@hrms-core/core/core.module';
 import { UserDtoPipe } from './pipes/user-dto.pipe';
 import { UserDtoValidator } from './validators/user-dto.validator';
+import { UserFacade } from './facades/user.facade';
 
 @Module({
     imports: [
@@ -22,4 +22,4 @@ import { UserDtoValidator } from './validators/user-dto.validator';
         UserFacade,
     ]
 })
-export class UserManagementModule { }
+export class EmployeeManagementModule { }

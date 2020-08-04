@@ -6,6 +6,7 @@ import { PrivilegeService } from './privilege/privilege.service';
 import { HRMSConfigModule } from '@libs/config';
 import { Role, RoleSchema } from './role/role.schema';
 import { RoleService } from './role/role.service';
+import { Job, JobSchema } from './job/job.schema';
 
 
 @Module({
@@ -14,6 +15,7 @@ import { RoleService } from './role/role.service';
         MongooseModule.forFeature([
             { name: User.name, schema: UserSchema },
             { name: Role.name, schema: RoleSchema },
+            { name: Job.name, schema: JobSchema }
         ])
     ],
     providers: [
