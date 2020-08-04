@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 import { EmployeeRecordController } from "./controllers/records.controller";
-import { EmployeeManagementModule } from "@hrms-core/modules/employee-management/employee-management.module";
+import { EmployeeModule } from "@hrms-core/modules/employee-management/employee.module";
 
 @Module({
     imports: [
-        EmployeeManagementModule
+        EmployeeModule
     ],
     controllers: [
         EmployeeRecordController

@@ -22,4 +22,4 @@ import { UserFacade } from './facades/user.facade';
         UserFacade,
     ]
 })
-export class EmployeeManagementModule { }
+export class EmployeeModule { }
