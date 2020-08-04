@@ -1,0 +1,455 @@
+{
+	"version": 1,
+	"collections": [
+		{
+			"id": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+			"name": "HRMS-API",
+			"description": null,
+			"auth": null,
+			"events": null,
+			"variables": [],
+			"order": [
+				"eaef13fe-3d32-444c-8d0d-4f02221d4a39"
+			],
+			"folders_order": [
+				"eee82dab-a42c-4e7b-bddd-619a0d27b665",
+				"200aba7b-59af-409f-b86c-3d5713133ed9"
+			],
+			"folders": [
+				{
+					"id": "eee82dab-a42c-4e7b-bddd-619a0d27b665",
+					"name": "Role",
+					"description": null,
+					"auth": null,
+					"events": null,
+					"collection": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"folder": null,
+					"order": [
+						"be07cc0a-6153-40eb-8786-a6f1fcdf43e0",
+						"9050611e-44c5-4fbd-aa0e-a1df3f03f30e",
+						"f9787295-e59c-4560-9011-4c66ac18ae69",
+						"cbe51cdd-f7cb-49f9-8821-c5e50b9b4d68",
+						"846edc41-1f09-44fa-a77c-2827a47f9f06",
+						"f0c2e152-69b6-4a44-b0a6-44b092ce7d47"
+					],
+					"folders_order": [],
+					"collectionId": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"folderId": "eee82dab-a42c-4e7b-bddd-619a0d27b665"
+				},
+				{
+					"id": "200aba7b-59af-409f-b86c-3d5713133ed9",
+					"name": "employee",
+					"description": null,
+					"auth": null,
+					"events": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "be1b63a3-f42c-4387-9ba1-a7eb7ab92d33",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "a01499da-f65f-4f16-b350-41bba96a2dd7",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"collection": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"folder": null,
+					"order": [
+						"0456dff0-533c-4d13-9ce3-2a7a3254ffac",
+						"302589d3-1bc5-40a5-8693-8a4a0aec810b",
+						"a25dc516-b34c-4a7e-bb92-c91ca2348fab"
+					],
+					"folders_order": [],
+					"collectionId": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"folderId": "200aba7b-59af-409f-b86c-3d5713133ed9"
+				}
+			],
+			"requests": [
+				{
+					"id": "0456dff0-533c-4d13-9ce3-2a7a3254ffac",
+					"name": "Add user",
+					"url": "http://localhost:3000/users/add",
+					"description": null,
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"disabled": false
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": {
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMWNiZDM1MDE5ZjY5MGRjODM2NmE5OSIsInJvbGUiOnsiZXh0ZW5kc1JvbGVzIjpbXSwiX2lkIjoiNWYxY2JkMWJhZGFhZmIzYmIwMTcxODhlIiwibmFtZSI6ImVtcGxveWVlIiwiZGVzY3JpcHRpb24iOiJFbnRlcnByaXNlIGVtcGxveWVlIiwicHJpdmlsZWdlcyI6eyJ1c2VyIjp7InBvcnRhbHMiOlsic2VsZi1zZXJ2aWNlIl0sInBhZ2VzIjpbIm15LXByb2ZpbGUiXSwiYWN0aW9ucyI6WyJteS1wcm9maWxlLnJlcXVlc3RzLmNyZWF0ZSIsIm15LXByb2ZpbGUucmVxdWVzdHMucmVhZCIsIm15LXByb2ZpbGUucmVxdWVzdHMudXBkYXRlIiwibXktcHJvZmlsZS5yZXF1ZXN0cy5kZWxldGUiLCJteS1wcm9maWxlLmRvY3VtZW50cy5hZGQiLCJteS1wcm9maWxlLmRvY3VtZW50cy5yZWFkIiwibXktcHJvZmlsZS5kb2N1bWVudHMudXBkYXRlIiwibXktcHJvZmlsZS5kb2N1bWVudHMuZGVsZXRlIl19fSwiX192IjowfSwiaWF0IjoxNTk1NzI1MDYyLCJleHAiOjE1OTU3NjgyNjJ9.GnPMeO7UwfSPaB_eaNV6niqBv5bZs8fHAwAn16Qqjvs"
+							}
+						],
+						"type": "bearer"
+					},
+					"events": null,
+					"folder": "200aba7b-59af-409f-b86c-3d5713133ed9",
+					"currentHelper": "bearerAuth",
+					"helperAttributes": {
+						"id": "bearer",
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMWNiZDM1MDE5ZjY5MGRjODM2NmE5OSIsInJvbGUiOnsiZXh0ZW5kc1JvbGVzIjpbXSwiX2lkIjoiNWYxY2JkMWJhZGFhZmIzYmIwMTcxODhlIiwibmFtZSI6ImVtcGxveWVlIiwiZGVzY3JpcHRpb24iOiJFbnRlcnByaXNlIGVtcGxveWVlIiwicHJpdmlsZWdlcyI6eyJ1c2VyIjp7InBvcnRhbHMiOlsic2VsZi1zZXJ2aWNlIl0sInBhZ2VzIjpbIm15LXByb2ZpbGUiXSwiYWN0aW9ucyI6WyJteS1wcm9maWxlLnJlcXVlc3RzLmNyZWF0ZSIsIm15LXByb2ZpbGUucmVxdWVzdHMucmVhZCIsIm15LXByb2ZpbGUucmVxdWVzdHMudXBkYXRlIiwibXktcHJvZmlsZS5yZXF1ZXN0cy5kZWxldGUiLCJteS1wcm9maWxlLmRvY3VtZW50cy5hZGQiLCJteS1wcm9maWxlLmRvY3VtZW50cy5yZWFkIiwibXktcHJvZmlsZS5kb2N1bWVudHMudXBkYXRlIiwibXktcHJvZmlsZS5kb2N1bWVudHMuZGVsZXRlIl19fSwiX192IjowfSwiaWF0IjoxNTk1NzI1MDYyLCJleHAiOjE1OTU3NjgyNjJ9.GnPMeO7UwfSPaB_eaNV6niqBv5bZs8fHAwAn16Qqjvs"
+					},
+					"collectionId": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"rawModeData": "{\n    \"username\": \"nuevera\",\n    \"firstName\": \"Nuevera\",\n    \"lastName\": \"Nuevera\",\n    \"email\": \"n@nuevera.com\",\n    \"password\": \"nuevera\",\n    \"cin\": \"01234567\",\n    \"prefix\": \"Mr.\",\n    \"role\": \"employee\",\n    \"gender\": \"male\",\n    \"phone\": \"88887774\",\n    \"modeOfEmployment\": \"full-time\",\n    \"department\": \"IT\"\t\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "302589d3-1bc5-40a5-8693-8a4a0aec810b",
+					"name": "Users list",
+					"url": "http://localhost:3000/users?page=1&size=10",
+					"description": null,
+					"data": null,
+					"dataMode": null,
+					"headerData": [],
+					"method": "GET",
+					"pathVariableData": [],
+					"queryParams": [
+						{
+							"key": "page",
+							"value": "1",
+							"equals": true,
+							"description": "",
+							"enabled": true
+						},
+						{
+							"key": "size",
+							"value": "10",
+							"equals": true,
+							"description": "",
+							"enabled": true
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						]
+					},
+					"events": null,
+					"folder": "200aba7b-59af-409f-b86c-3d5713133ed9",
+					"currentHelper": "bearerAuth",
+					"helperAttributes": {
+						"id": "bearer",
+						"token": "{{token}}"
+					},
+					"collectionId": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"headers": "",
+					"pathVariables": {}
+				},
+				{
+					"id": "846edc41-1f09-44fa-a77c-2827a47f9f06",
+					"name": "Role details",
+					"url": "http://localhost:3000/roles/5f24aad63be6fc476c63c79d",
+					"description": null,
+					"data": null,
+					"dataMode": null,
+					"headerData": [],
+					"method": "GET",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						]
+					},
+					"events": null,
+					"folder": "eee82dab-a42c-4e7b-bddd-619a0d27b665",
+					"currentHelper": "bearerAuth",
+					"helperAttributes": {
+						"id": "bearer",
+						"token": "{{token}}"
+					},
+					"collectionId": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"headers": "",
+					"pathVariables": {}
+				},
+				{
+					"id": "9050611e-44c5-4fbd-aa0e-a1df3f03f30e",
+					"name": "Roles list",
+					"url": "http://localhost:3000/roles",
+					"description": null,
+					"data": null,
+					"dataMode": null,
+					"headerData": [],
+					"method": "GET",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						]
+					},
+					"events": null,
+					"folder": "eee82dab-a42c-4e7b-bddd-619a0d27b665",
+					"currentHelper": "bearerAuth",
+					"helperAttributes": {
+						"id": "bearer",
+						"token": "{{token}}"
+					},
+					"collectionId": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"headers": "",
+					"pathVariables": {}
+				},
+				{
+					"id": "a25dc516-b34c-4a7e-bb92-c91ca2348fab",
+					"name": "Get user",
+					"url": "http://localhost:3000/users/5f2495fff02fb21d8ce739ef",
+					"description": null,
+					"data": null,
+					"dataMode": null,
+					"headerData": [],
+					"method": "GET",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						]
+					},
+					"events": null,
+					"folder": "200aba7b-59af-409f-b86c-3d5713133ed9",
+					"currentHelper": "bearerAuth",
+					"helperAttributes": {
+						"id": "bearer",
+						"token": "{{token}}"
+					},
+					"collectionId": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"headers": "",
+					"pathVariables": {}
+				},
+				{
+					"id": "be07cc0a-6153-40eb-8786-a6f1fcdf43e0",
+					"name": "Add role",
+					"url": "http://localhost:3000/roles/add",
+					"description": null,
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						]
+					},
+					"events": null,
+					"folder": "eee82dab-a42c-4e7b-bddd-619a0d27b665",
+					"currentHelper": "bearerAuth",
+					"helperAttributes": {
+						"id": "bearer",
+						"token": "{{token}}"
+					},
+					"collectionId": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"rawModeData": "{\n    \"name\": \"Head of HR Manager Department\",\n    \"description\": \"Head of HR Manager Department\",\n    \"extendsRoles\": [],\n    \"privileges\": [\n        \"shared.requests.access\",\n        \"shared.requests.create\",\n        \"shared.requests.cancel\",\n        \"shared.requests.approve\",\n        \"shared.requests.reject\",\n        \"shared.notification.access\",\n        \"config.roles.access\",\n        \"config.roles.create\",\n        \"config.roles.edit\",\n        \"config.roles.delete\",\n        \"user.record.access\",\n        \"user.record.create\",\n        \"user.record.edit\",\n        \"user.record.delete\",\n        \"user.profile.access\",\n        \"user.profile.edit\"\n    ]\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "cbe51cdd-f7cb-49f9-8821-c5e50b9b4d68",
+					"name": "Update role",
+					"url": "http://localhost:3000/roles/update",
+					"description": null,
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						]
+					},
+					"events": null,
+					"folder": "eee82dab-a42c-4e7b-bddd-619a0d27b665",
+					"currentHelper": "bearerAuth",
+					"helperAttributes": {
+						"id": "bearer",
+						"token": "{{token}}"
+					},
+					"collectionId": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"rawModeData": "{\n    \"id\": \"5f1d809ed49b5c5e30b76fc6\",\n    \"name\": \"Employee\",\n    \"description\": \"Enterprise employee\",\n    \"extendsRoles\": [],\n    \"privileges\": [\n        \"my-profile.requests.create\",\n        \"my-profile.requests.read\",\n        \"my-profile.requests.update\",\n        \"my-profile.requests.delete\",\n        \"my-profile.documents.add\",\n        \"my-profile.documents.read\",\n        \"my-profile.documents.update\",\n        \"my-profile.documents.delete\"\n    ]\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "eaef13fe-3d32-444c-8d0d-4f02221d4a39",
+					"name": "auth",
+					"url": "http://localhost:3000/auth",
+					"description": null,
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dc34b65d-46e5-4d4a-8e9d-b1ffb6878c19",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"pm.environment.set('token', data.token);",
+									"console.log(data.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"folder": null,
+					"preRequestScript": null,
+					"tests": "var data = JSON.parse(responseBody);\npm.environment.set('token', data.token);\nconsole.log(data.token);",
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"rawModeData": "{\n    \"email\": \"n@nuevera.com\",\n    \"password\": \"nuevera\"\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "f0c2e152-69b6-4a44-b0a6-44b092ce7d47",
+					"name": "Delete Role",
+					"url": "http://localhost:3000/roles/role/5f077496165d613d9cdc9eb8",
+					"description": null,
+					"data": [],
+					"dataMode": "raw",
+					"headerData": [],
+					"method": "DELETE",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": "eee82dab-a42c-4e7b-bddd-619a0d27b665",
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"rawModeData": "",
+					"headers": "",
+					"pathVariables": {}
+				},
+				{
+					"id": "f9787295-e59c-4560-9011-4c66ac18ae69",
+					"name": "Privileges list",
+					"url": "http://localhost:3000/roles",
+					"description": null,
+					"data": null,
+					"dataMode": null,
+					"headerData": [],
+					"method": "GET",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						]
+					},
+					"events": null,
+					"folder": "eee82dab-a42c-4e7b-bddd-619a0d27b665",
+					"currentHelper": "bearerAuth",
+					"helperAttributes": {
+						"id": "bearer",
+						"token": "{{token}}"
+					},
+					"collectionId": "f7b85017-f49b-4b48-95ad-2e11ecac1fa7",
+					"headers": "",
+					"pathVariables": {}
+				}
+			]
+		}
+	],
+	"environments": [
+		{
+			"id": "0c6df63c-89b4-4991-a444-82516fcbadba",
+			"name": "DEV",
+			"values": [
+				{
+					"key": "token",
+					"value": "",
+					"type": "text",
+					"description": "",
+					"enabled": true
+				}
+			]
+		},
+		{
+			"id": "60005145-4f56-4e92-ab78-d4b6783434b3",
+			"name": "My Workspace - globals",
+			"values": []
+		}
+	],
+	"headerPresets": [],
+	"globals": []
+}
