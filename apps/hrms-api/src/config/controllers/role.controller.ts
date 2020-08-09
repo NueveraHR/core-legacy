@@ -63,4 +63,12 @@ export class RoleController {
             .then(role => response.status(HttpStatus.OK).json(role))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err))
     }
+
+    @Delete('/role')
+    @Privileges('config.roles.delete')
+    async deleteRoles(@Body() rolesId: string[], @Res() response: Response) {
+        await this.roleFacade.deleteRoles(rolesId)
+            .then(role => response.status(HttpStatus.OK).json(role))
+            .catch(err => response.status(ErrorUtils.responseCode(err)).json(err))
+    }
 }

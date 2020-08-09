@@ -2,7 +2,7 @@ import { Test } from "@nestjs/testing";
 import { HRMSCoreModule } from "@hrms-core/hrms-core.module";
 import { DBManager } from "@hrms-core/common/services/database/database-manager.service";
 import { LoggerService } from "@libs/logger";
-import { RoleFacade } from "./role.facade";
+import { RoleFacade, DeleteRoles } from "./role.facade";
 import { ROLES } from "@hrms-core/mock/role-mock";
 import { DtoService } from "@hrms-core/common/services/dto/error-dto.service";
 import { RoleDto, RolePaginateDto } from "@hrms-core/dto/role.dto";
@@ -95,6 +95,27 @@ describe('Role Management Facade', () => {
             expect.assertions(1);
             await expect(roleManagementFacade.deleteRole((createdRole as RoleDto).id)).resolves.toEqual(true);
         });
+
+        it('should delete list of roles', async () => {
+
+            expect.assertions(1);
+
+            const rolesId = [];
+
+            for (let i = 100; i < 105; i++) {
+                const generatedRole: RoleDto = {
+                    name: `${ROLES.managerRole.name}-${i}`,
+                    description: `${ROLES.managerRole.name}-${i}`,
+                    privileges: ROLES.managerRole.privileges,
+                };
+                await roleManagementFacade.createRole(generatedRole).then((res) => {
+                    rolesId.push(res.id);
+                });
+            }
+
+            await expect(roleManagementFacade.deleteRoles(rolesId)).resolves.toBeInstanceOf(DeleteRoles);
+        });
+
 
     });
 

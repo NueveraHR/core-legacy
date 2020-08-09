@@ -149,6 +149,32 @@ export class RoleFacade {
         return this.roleService.delete((result as Role).id);
     }
 
+    async deleteRoles(rolesId: string[]): Promise<DeleteRoles> {
+
+        const result = new DeleteRoles();
+
+        for (let i = 0; i < rolesId.length; i++) {
+            let role: Role | ErrorDto;
+            const roleId = rolesId[i];
+
+            await this.roleService
+                .findById(rolesId[i])
+                .then(findedRole => role = findedRole)
+                .catch(err => role = err);
+
+            // Check for retrieval error
+            if (this.dtoService.isError(role)) {
+                result.failed.push(roleId)
+                result.errors.roleId = role;
+            } else if (!role) {
+                result.failed.push(roleId)
+                result.errors.roleId = this.dtoService.error(43004);
+            } else
+                result.accepted.push(roleId)
+        }
+        return Promise.resolve(result);
+    }
+
 }
 
 export interface RoleFilterCriteria {
@@ -162,4 +188,10 @@ export type PrivilegesFilterOptions = {
     portalAccess: boolean,
     pagesAccess: boolean,
     actionsAuthorization: boolean
+}
+
+export class DeleteRoles {
+    accepted: string[] = [];
+    failed: string[] = [];
+    errors: any = {};
 }
