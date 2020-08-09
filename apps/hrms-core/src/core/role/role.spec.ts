@@ -35,13 +35,13 @@ describe('Role Service', () => {
         it('should create role successfully', async () => {
             expect.assertions(6);
 
-            let role = await roleService.create(ROLES.managerRole);
+            const role = await roleService.create(ROLES.managerRole);
             expect(role).not.toBeUndefined();
             expect(role).not.toBeNull();
             expect(role).toHaveProperty('name');
             expect(role).toHaveProperty('description');
             expect(role).toHaveProperty('privileges');
-            expect(role.privileges.length).toBe(16); 
+            expect(role.privileges.length).toBe(16);
 
         });
     });
@@ -50,7 +50,7 @@ describe('Role Service', () => {
         it('should update role successfully', async () => {
             expect.assertions(4);
 
-            let role = await roleService.create(ROLES.managerRole);
+            const role = await roleService.create(ROLES.managerRole);
             expect(role).not.toBeUndefined();
             expect(role).not.toBeNull();
             expect(role).toHaveProperty('privileges');
@@ -98,9 +98,9 @@ describe('Role Service', () => {
         it('should remove role successfully', async () => {
             expect.assertions(1);
 
-            let role = await roleService.create(ROLES.managerRole);
-            await expect(roleService.delete(role)).resolves
+            const role = await roleService.create(ROLES.managerRole);
+            await expect(roleService.delete(role.id)).resolves
                 .toEqual(true);
+        });
     });
-});
 });

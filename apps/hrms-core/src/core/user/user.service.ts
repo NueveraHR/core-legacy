@@ -48,7 +48,7 @@ export class UserService {
      * Find all users in DB without applying any filters
      *
      */
-    async findAll(): Promise<User[]> {
+    findAll(): Promise<User[]> {
         return this.userModel
             .find()
             .exec()
@@ -56,7 +56,7 @@ export class UserService {
     }
 
 
-    async findAllPaginated(page: number = 1, limit: number = 10): Promise<PaginateResult<User>> {
+    findAllPaginated(page = 1, limit = 10): Promise<PaginateResult<User>> {
         const options = {
             page: page,
             limit: limit,
@@ -72,7 +72,7 @@ export class UserService {
      * Find a single matching user for given id
      *
      */
-    async findById(id: string): Promise<User> {
+    findById(id: string): Promise<User> {
         return this.userModel
             .findById(id)
             .exec()
@@ -111,7 +111,7 @@ export class UserService {
             .execPopulate();
     }
 
-    async attachRole(user: User, role: Role): Promise<User> {
+    attachRole(user: User, role: Role): Promise<User> {
         user.role = role.id;
         return user
             .save()
@@ -122,7 +122,7 @@ export class UserService {
      * Delete one existing user
      *
      */
-    async delete(user: User): Promise<{ deletedCount?: number }> {
+    delete(user: User): Promise<{ deletedCount?: number }> {
         return this.userModel
             .deleteOne(user)
             .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
@@ -132,7 +132,7 @@ export class UserService {
      * Hash user password using default salt
      *
      */
-    private async hashPassword(user: User): Promise<User> {
+    private hashPassword(user: User): Promise<User> {
         return bcrypt.hash(user.password, SALT_ROUNDS)
             .then(hashedPassword => {
                 user.password = hashedPassword;

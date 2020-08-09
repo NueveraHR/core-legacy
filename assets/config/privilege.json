@@ -24,7 +24,7 @@
             "delete": "Delete role"
         }
     },
-    "employee": {
+    "employees": {
         "_description": "Employees Module",
         "records": {
             "_description": "employees list page",
@@ -35,8 +35,8 @@
         },
         "profile": {
             "_description": "Profile page",
-            "access": "Allow access to his profile",
-            "edit": "Edit his profile information"
+            "access": "Allow employee to access his profile",
+            "edit": "Employee can edit his profile information"
         }
     }
 }

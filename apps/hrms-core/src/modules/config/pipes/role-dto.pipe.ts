@@ -5,12 +5,12 @@ import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class RoleDtoPipe implements DtoTransformPipe<Role, RoleDto> {
-    transform(source: Role, options?: object): RoleDto {
-        let roleDto = new RoleDto();
+    transform(source: Role, options?: unknown): RoleDto {
+        const roleDto = new RoleDto();
         return this.transformExistent(source, roleDto);
     }
 
-    transformExistent(source: Role, target: RoleDto, options?: object): RoleDto {
+    transformExistent(source: Role, target: RoleDto, options?: unknown): RoleDto {
         target.name = source.name;
         target.description = source.description;
         target.privileges = source.privileges;

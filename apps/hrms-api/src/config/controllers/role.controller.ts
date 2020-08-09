@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Res, HttpStatus, Query, Param, Delete } from '@nestjs/common';
-import { RoleDto } from '@hrms-core/dto/role.dto';
+import { Controller, Get, Post, Body, Res, HttpStatus, Query, Param, Delete, HttpCode } from '@nestjs/common';
+import { RoleDto, RolePaginateDto } from '@hrms-core/dto/role.dto';
 import { RoleFacade, RoleFilterCriteria } from '@hrms-core/modules/config/facades/role.facade';
-import { Response, response } from 'express';
+import { Response } from 'express';
 import { ErrorUtils } from '@hrms-api/common/error.utils';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 
@@ -13,9 +13,8 @@ export class RoleController {
     }
 
     @Get()
-    async getRoles(@Query('page') page: string, @Query('pageSize') pageSize: string) {
+    getRoles(@Query('page') page: string, @Query('pageSize') pageSize: string): Promise<RolePaginateDto> {
         const filterCriteria: RoleFilterCriteria = {};
-        let result: any;
 
         if (page && Number(page) != NaN) {
             filterCriteria.page = Number(page);
@@ -25,47 +24,42 @@ export class RoleController {
             filterCriteria.pageSize = Number(pageSize);
         }
 
-        await this.roleFacade.allRoles(filterCriteria).then(res => {
-            result = res;
-        });
-
-        return result;
+        return this.roleFacade.allRoles(filterCriteria);
     }
 
     @Get('/privileges')
-    async getPrivileges(@Res() response: Response) {
-        await this.roleFacade.allPrivileges()
-        .then(privileges => response.json(privileges))
-        .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
+    @HttpCode(200)
+    getPrivileges(@Res() response: Response): Response {
+        return response.json(this.roleFacade.allPrivileges());
     }
 
     @Post('/add')
     @Privileges('config.roles.create')
-    async createRole(@Body() roleDto: RoleDto, @Res() response: Response) {
-        await this.roleFacade.createRole(roleDto)
+    createRole(@Body() roleDto: RoleDto, @Res() response: Response): Promise<Response> {
+        return this.roleFacade.createRole(roleDto)
             .then(role => response.json(role))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
 
     @Post('/update')
     @Privileges('config.roles.edit')
-    async updateRole(@Body() roleDto: RoleDto, @Res() response: Response) {
-        await this.roleFacade.updateRole(roleDto)
+    updateRole(@Body() roleDto: RoleDto, @Res() response: Response): Promise<Response> {
+        return this.roleFacade.updateRole(roleDto)
             .then(role => response.json(role))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
 
     @Get('/:roleId')
-    async getDetails(@Param('roleId') roleId: string, @Res() response: Response) {
-        await this.roleFacade.roleDetails(roleId)
+    getDetails(@Param('roleId') roleId: string, @Res() response: Response): Promise<Response> {
+        return this.roleFacade.roleDetails(roleId)
             .then(role => response.status(HttpStatus.OK).json(role))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err))
     }
 
     @Delete('/role/:roleId')
     @Privileges('config.roles.delete')
-    async deleteRole(@Param('roleId') roleId: string, @Res() response: Response) {
-        await this.roleFacade.deleteRole(roleId)
+    deleteRole(@Param('roleId') roleId: string, @Res() response: Response): Promise<Response> {
+        return this.roleFacade.deleteRole(roleId)
             .then(role => response.status(HttpStatus.OK).json(role))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err))
     }
