@@ -30,11 +30,11 @@ export class UserFacade {
         return this._userDtoPipe;
     }
 
-    async userList(filterCriteria?: UserFilterCriteria): Promise<UserPaginateDto> {
+    userList(filterCriteria?: UserFilterCriteria): Promise<UserPaginateDto> {
         return this.userService
             .findAllPaginated(filterCriteria?.page, filterCriteria?.pageSize)
             .then(result => {
-                let userPaginateDto: UserPaginateDto = {
+                const userPaginateDto: UserPaginateDto = {
                     total: result.total,
                     pages: result.pages,
                     page: result.page,
@@ -77,7 +77,7 @@ export class UserFacade {
         );
     }
 
-    async userDetails(id: string): Promise<UserDto> {
+    userDetails(id: string): Promise<UserDto> {
         return this.userService.findById(id)
             .then(user => {
                 if (user)

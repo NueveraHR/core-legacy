@@ -36,7 +36,7 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
         return userDto;
     }
 
-    transformExistent(source: User, target: UserDto, options?: object): UserDto {
+    transformExistent(source: User, target: UserDto, options?: any): UserDto {
         return null;
     }
 
