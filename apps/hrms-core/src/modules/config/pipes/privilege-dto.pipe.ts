@@ -21,7 +21,7 @@ export class PrivilegesDtoPipe implements DtoTransformPipe<PrivilegeDto, string[
         return true;
     }
 
-    flatterKeys(obj, prefix = '') {
+    flatterKeys(obj: unknown, prefix = '') {
         return Object.entries(obj).reduce((collector, [key, val]) => {
             const newKeys = [...collector, prefix ? `${prefix}.${key}` : key]
             if (typeof obj === "object") {

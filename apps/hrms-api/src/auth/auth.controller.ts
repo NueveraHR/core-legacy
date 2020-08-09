@@ -16,12 +16,12 @@ export class AuthController {
     @Post()
     @HttpCode(200)
     @Public()
-    async attemptLogin(@Body() userDto: UserDto, @Res() response: Response) {
+    attemptLogin(@Body() userDto: UserDto, @Res() response: Response): Promise<any> {
         if (!userDto) {
             response.json(this.dtoService.error(41000));
         }
 
-        await this.authFacade.auth(userDto).then(res => {
+        return this.authFacade.auth(userDto).then(res => {
             response.json(res);
         }).catch(err => {
             response.status(HttpStatus.UNAUTHORIZED).json(err);

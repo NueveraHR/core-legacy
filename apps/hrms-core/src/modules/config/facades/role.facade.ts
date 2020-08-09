@@ -34,7 +34,7 @@ export class RoleFacade {
     async allRoles(filterCriteria?: RoleFilterCriteria): Promise<RolePaginateDto> {
         return this.roleService.findAllPaginated(filterCriteria?.page, filterCriteria?.pageSize)
             .then(roles => {
-                let rolePaginateDto: RolePaginateDto = {
+                const rolePaginateDto: RolePaginateDto = {
                     total: roles.total,
                     pages: roles.pages,
                     page: roles.page,
@@ -52,7 +52,7 @@ export class RoleFacade {
      *  Returns fully detailed role info given its name.
      *  Can be used to view/modify an existing role 
      */
-    async roleDetails(roleId: string, options?: object): Promise<RoleDto> {
+    async roleDetails(roleId: string, options?: unknown): Promise<RoleDto> {
         return this.roleService.findById(roleId)
             .then(role => {
                 if (role)
@@ -68,8 +68,8 @@ export class RoleFacade {
      * Can be used to grant privileges to a new or an existing role. 
      *
      */
-    async allPrivileges(): Promise<PrivilegeDto> {
-       return this.privilegeService.loadConfig();
+    allPrivileges(): PrivilegeDto {
+        return this.privilegeService.loadConfig();
     }
 
 
@@ -146,7 +146,7 @@ export class RoleFacade {
         else if (!result)
             return Promise.reject(this.dtoService.error(43004));
 
-        return this.roleService.delete(result as Role);
+        return this.roleService.delete((result as Role).id);
     }
 
 }
