@@ -12,6 +12,7 @@ import { RoleDtoValidator } from '../validators/role-dto.validator';
 import { RoleDtoReversePipe } from '../pipes/role-dto-reverse.pipe';
 import { RoleDtoPipe } from '../pipes/role-dto.pipe';
 import { PrivilegesDtoPipe } from '../pipes/privilege-dto.pipe';
+import { ValidatorUtils } from '@hrms-core/common/utils/validator.utils';
 
 @Injectable()
 export class RoleFacade {
@@ -31,7 +32,7 @@ export class RoleFacade {
      * Returns all registered roles in the database
      * Can be used in roles list view.
      */
-    async allRoles(filterCriteria?: RoleFilterCriteria): Promise<RolePaginateDto> {
+    allRoles(filterCriteria?: RoleFilterCriteria): Promise<RolePaginateDto> {
         return this.roleService.findAllPaginated(filterCriteria?.page, filterCriteria?.pageSize)
             .then(roles => {
                 const rolePaginateDto: RolePaginateDto = {
@@ -52,7 +53,7 @@ export class RoleFacade {
      *  Returns fully detailed role info given its name.
      *  Can be used to view/modify an existing role 
      */
-    async roleDetails(roleId: string, options?: unknown): Promise<RoleDto> {
+    roleDetails(roleId: string, options?: unknown): Promise<RoleDto> {
         return this.roleService.findById(roleId)
             .then(role => {
                 if (role)
@@ -132,6 +133,10 @@ export class RoleFacade {
     }
 
     async deleteRole(roleId: string): Promise<boolean> {
+        if (!ValidatorUtils.isValidId(roleId)) {
+            return Promise.reject((this.dtoService.error(43004)))
+        }
+
         // retrieve current registered role record.
         let result: Role | ErrorDto;
         await this.roleService
@@ -144,35 +149,32 @@ export class RoleFacade {
         if (this.dtoService.isError(result))
             return Promise.reject(result);
         else if (!result)
-            return Promise.reject(this.dtoService.error(43004));
+            return Promise.reject(this.dtoService.error(43200));
 
         return this.roleService.delete((result as Role).id);
     }
 
-    async deleteRoles(rolesId: string[]): Promise<DeleteRoles> {
 
-        const result = new DeleteRoles();
+    async deleteMultipleRoles(rolesId: string[]): Promise<MultipleDeleteResult> {
+        const result = new MultipleDeleteResult();
+        const deleteCalls = [];
 
-        for (let i = 0; i < rolesId.length; i++) {
-            let role: Role | ErrorDto;
-            const roleId = rolesId[i];
+        // register all delete calls
+        rolesId.forEach(roleId => {
+            deleteCalls.push(
+                this.deleteRole(roleId)
+                    .then(() => result.accepted.push(roleId)) //TODO: check if at any time returns false as result 
+                    .catch((err) => {
+                        result.failed.push(roleId);
+                        result.errors[roleId] = err;
+                    }))
+        });
 
-            await this.roleService
-                .findById(rolesId[i])
-                .then(findedRole => role = findedRole)
-                .catch(err => role = err);
+        // wait for calls execution
+        await Promise.all(deleteCalls);
 
-            // Check for retrieval error
-            if (this.dtoService.isError(role)) {
-                result.failed.push(roleId)
-                result.errors.roleId = role;
-            } else if (!role) {
-                result.failed.push(roleId)
-                result.errors.roleId = this.dtoService.error(43004);
-            } else
-                result.accepted.push(roleId)
-        }
-        return Promise.resolve(result);
+        // return delete result
+        return result;
     }
 
 }
@@ -190,7 +192,7 @@ export type PrivilegesFilterOptions = {
     actionsAuthorization: boolean
 }
 
-export class DeleteRoles {
+export class MultipleDeleteResult {
     accepted: string[] = [];
     failed: string[] = [];
     errors: any = {};
