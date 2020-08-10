@@ -56,10 +56,18 @@ export class RoleController {
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err))
     }
 
-    @Delete('/role/:roleId')
+    @Delete('/:roleId')
     @Privileges('config.roles.delete')
     deleteRole(@Param('roleId') roleId: string, @Res() response: Response): Promise<Response> {
         return this.roleFacade.deleteRole(roleId)
+            .then(role => response.status(HttpStatus.OK).json(role))
+            .catch(err => response.status(ErrorUtils.responseCode(err)).json(err))
+    }
+
+    @Delete()
+    @Privileges('config.roles.delete')
+    deleteRoles(@Body() rolesId: string[], @Res() response: Response): Promise<Response> {
+        return this.roleFacade.deleteMultipleRoles(rolesId)
             .then(role => response.status(HttpStatus.OK).json(role))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err))
     }
