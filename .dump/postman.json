@@ -1,2716 +1,437 @@
 {
-	"version": 1,
-	"collections": [
+	"info": {
+		"_postman_id": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
+		"name": "HRMS-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
 		{
-			"id": "43cb22ea-07ce-4756-9d93-3010db69174c",
-			"name": "BankTransfer",
-			"description": null,
-			"auth": null,
-			"events": [
+			"name": "Role",
+			"item": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"id": "8408ff4f-eb99-4410-8549-8bcfbb176d3e",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "d279b797-0ef5-4a60-84d8-aff7b0f15524",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			],
-			"variables": [],
-			"order": [
-				"4f037251-ce34-44cf-8fdd-409ab2b189dc",
-				"675280bb-2511-47ea-9101-cfe3568982ed",
-				"f4a4b014-f605-44ef-8d37-a6fff60efc5b",
-				"405abf04-8df4-4b54-88f0-8c5eb62272ff",
-				"3ac30fed-265d-4712-a55a-e04ce948528f",
-				"d7aa36df-628d-4756-8630-df365d766ad7",
-				"14700170-cdb7-4fff-b5b1-36abab7d8706",
-				"339788f4-4332-4107-92d9-04053f324213",
-				"977c6334-93c3-4c25-b20e-2f7198316d03",
-				"022a61bf-60f2-4500-9f07-94e3d9fad07b"
-			],
-			"folders_order": [],
-			"folders": [],
-			"requests": [
-				{
-					"id": "022a61bf-60f2-4500-9f07-94e3d9fad07b",
-					"name": "ForceAllSuperUser Copy",
-					"url": "{{host}}:{{port}}/tms/services/rest/order/ordermanagement/isAllowNewOrderForNewAsset",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": null,
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "43cb22ea-07ce-4756-9d93-3010db69174c",
-					"pathVariables": {}
-				},
-				{
-					"id": "14700170-cdb7-4fff-b5b1-36abab7d8706",
-					"name": "Available Quantity",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/bankTransfer/transfer/getAvailableQuantity/0000000009",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "43cb22ea-07ce-4756-9d93-3010db69174c",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "339788f4-4332-4107-92d9-04053f324213",
-					"name": "Create IBAN",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/component/address/iban/save/ENT",
-					"description": "",
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"description": "",
-							"type": "text",
-							"name": "Content-Type",
-							"value": "application/json",
-							"disabled": false
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}"
-							}
-						],
-						"type": "bearer"
-					},
-					"events": [],
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "43cb22ea-07ce-4756-9d93-3010db69174c",
-					"rawModeData": "{\n    \"addressExternalIdentifier\": {\n        \"value\": \"BANK_BGRFA\",\n        \"typeName\": \"StringValue\",\n        \"type\": \"STRING\"\n    },\n    \"country\": {\n        \"value\": {\n            \"internalCode\": \"039\",\n            \"externalCode\": \"CA\",\n            \"label\": \"Canada\",\n            \"data\": null\n        },\n        \"typeName\": \"ParameterCodeValue\",\n        \"type\": \"PARAMETER_CODE\"\n    },\n    \"accountOwner\": {\n        \"value\": \"WASM\",\n        \"typeName\": \"StringValue\",\n        \"type\": \"STRING\"\n    },\n    \"creditingBankName\": {\n        \"value\": \"aaa\",\n        \"typeName\": \"StringValue\",\n        \"type\": \"STRING\"\n    },\n    \"internalCurrencyID\": {\n        \"value\": {\n            \"internalCode\": \"001\",\n            \"externalCode\": \"EUR\",\n            \"label\": \"EURO\",\n            \"data\": null\n        },\n        \"typeName\": \"ParameterCodeValue\",\n        \"type\": \"PARAMETER_CODE\"\n    },\n    \"bicCode\": {\n        \"value\": \"123123123\",\n        \"typeName\": \"StringValue\",\n        \"type\": \"STRING\"\n    },\n    \"iban\": {\n        \"value\": \"FR1420041010050500013M02606\",\n        \"typeName\": \"StringValue\",\n        \"type\": \"STRING\"\n\n    }\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "3ac30fed-265d-4712-a55a-e04ce948528f",
-					"name": "Create Scheduled Internal Bank Transfer",
-					"url": "http://{{HOST}}:{{PORT}}/tms/services/rest/bankTransfer/transfer/save/",
-					"description": null,
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "basic",
-						"basic": [
-							{
-								"key": "username",
-								"value": "{{BASIC_USER}}",
-								"type": "string"
-							},
-							{
-								"key": "password",
-								"value": "INI",
-								"type": "string"
-							}
-						]
-					},
-					"events": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "00b3271d-6dfe-42a1-8508-062c1a334780",
-								"exec": [
-									"\r",
-									"\r",
-									"pm.test(\"Status code must be 200 (Successful request)\", function () {\r",
-									"    pm.response.to.be.ok;\r",
-									"});\r",
-									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
-									"\r",
-									"pm.test(\"Check if the Transfer is saved and that it has an Id\", function(){\r",
-									"    pm.expect(jsonData).to.have.property('ormId');\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Check that the Id is not null\", function(){\r",
-									"    tests[\"Id is not null\"] = jsonData.ormId !== null\r",
-									"});\r",
-									"\r",
-									"postman.setEnvironmentVariable(\"ormId\", jsonData.ormId)\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"folder": null,
-					"preRequestScript": null,
-					"tests": "\r\n\r\npm.test(\"Status code must be 200 (Successful request)\", function () {\r\n    pm.response.to.be.ok;\r\n});\r\n\r\nvar jsonData = JSON.parse(responseBody);\r\n\r\npm.test(\"Check if the Transfer is saved and that it has an Id\", function(){\r\n    pm.expect(jsonData).to.have.property('ormId');\r\n});\r\n\r\npm.test(\"Check that the Id is not null\", function(){\r\n    tests[\"Id is not null\"] = jsonData.ormId !== null\r\n});\r\n\r\npostman.setEnvironmentVariable(\"ormId\", jsonData.ormId)\r\n\r\n",
-					"currentHelper": "basicAuth",
-					"helperAttributes": {
-						"id": "basic",
-						"username": "{{BASIC_USER}}",
-						"password": "INI"
-					},
-					"collectionId": "43cb22ea-07ce-4756-9d93-3010db69174c",
-					"rawModeData": "{\r\n    \"@type\": \"internalBankTransferNote\",\r\n    \"amount\": 8,\r\n    \"economicReasons\": \"Just some Test\",\r\n    \"beneficiaryLabel\": \"\",\r\n    \"executionDate\": null,\r\n    \"bankAccountOriginal\": {\r\n        \"identifier\": \"0000000045\",\r\n        \"thirdParty\": {\r\n            \"internalId\": \"0000000001\",\r\n            \"mnemonic\": \"ENT            \",\r\n            \"name\": \"Entité SOLIAM\"\r\n        },\r\n        \"portfolio\": null,\r\n        \"currency\": {\r\n            \"internalCode\": \"001\",\r\n            \"externalCode\": \"EUR\",\r\n            \"label\": \"EURO\"\r\n        }\r\n    },\r\n    \"complianceValidation\": [\r\n        {\r\n            \"complianceDecision\": null,\r\n            \"complianceID\": \"0000000000\",\r\n            \"label\": \"Compliance_01_FR\",\r\n            \"errorEncodeMessage\": \"wrnConf[Avertissement] PTF_FID_001 | La contrainte 'Compliance_01_FR' est transgressée : Compliance_01 zzzzz\",\r\n            \"typeOfCompliance\": null,\r\n            \"rule\": null,\r\n            \"priority\": {\r\n                \"internalCode\": \"002\",\r\n                \"externalCode\": \"002\",\r\n                \"label\": \"[Avertissement]\",\r\n                \"data\": null\r\n            },\r\n            \"transgressionReasonRequired\": false,\r\n            \"comment\": \"Compliance_01\",\r\n            \"portfolio\": null,\r\n            \"lowerLimit\": \"\",\r\n            \"lowerRemaining\": null,\r\n            \"upperLimit\": \"\",\r\n            \"accountNumber\": null,\r\n            \"transgressed\": true\r\n        }\r\n    ],\r\n    \"comment\": \"Test Bank Transfere\",\r\n    \"bankAccountInternal\": {\r\n        \"identifier\": \"0000000053\",\r\n        \"thirdParty\": {\r\n            \"internalId\": \"0000000001\",\r\n            \"mnemonic\": \"ENT            \",\r\n            \"name\": \"Entité SOLIAM\"\r\n        },\r\n        \"portfolio\": null,\r\n        \"currency\": null\r\n    },\r\n    \"scheduled\": false\r\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "405abf04-8df4-4b54-88f0-8c5eb62272ff",
-					"name": "Cancel Bank Transfer",
-					"url": "http://{{HOST}}:{{PORT}}/tms/services/rest/bankTransfer/transfer/cancel",
-					"description": null,
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "basic",
-						"basic": [
-							{
-								"key": "username",
-								"value": "{{BASIC_USER}}",
-								"type": "string"
-							},
-							{
-								"key": "password",
-								"value": "INI",
-								"type": "string"
-							}
-						]
-					},
-					"events": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "994e6bb9-a4b5-4116-89de-79d737b7325c",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"id": "5f96cbf3-91f5-41ad-a918-6854f5177bd1",
-								"exec": [
-									"pm.test(\"Status code must be 200 (Successful request)\", function () {\r",
-									"    pm.response.to.be.ok;\r",
-									"});\r",
-									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
-									"\r",
-									"pm.test(\"Check if the Transfer is saved and that it has an Id\", function(){\r",
-									"    pm.expect(jsonData).to.have.property('ormId');\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Check that the Id is not null\", function(){\r",
-									"    tests[\"Id is not null\"] = jsonData.ormId !== null\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Check that the status is not null\", function(){\r",
-									"    tests[\"The Status is not null\"] = jsonData.status !== null\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Check that the status is Canceled\", function(){\r",
-									"    tests[\"The Bank Transfer is Canceled \"] = jsonData.status.internalCode === \"120\"\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"folder": null,
-					"preRequestScript": null,
-					"tests": "pm.test(\"Status code must be 200 (Successful request)\", function () {\r\n    pm.response.to.be.ok;\r\n});\r\n\r\nvar jsonData = JSON.parse(responseBody);\r\n\r\npm.test(\"Check if the Transfer is saved and that it has an Id\", function(){\r\n    pm.expect(jsonData).to.have.property('ormId');\r\n});\r\n\r\npm.test(\"Check that the Id is not null\", function(){\r\n    tests[\"Id is not null\"] = jsonData.ormId !== null\r\n});\r\n\r\n\r\npm.test(\"Check that the status is not null\", function(){\r\n    tests[\"The Status is not null\"] = jsonData.status !== null\r\n});\r\n\r\npm.test(\"Check that the status is Canceled\", function(){\r\n    tests[\"The Bank Transfer is Canceled \"] = jsonData.status.internalCode === \"120\"\r\n});",
-					"currentHelper": "basicAuth",
-					"helperAttributes": {
-						"id": "basic",
-						"username": "{{BASIC_USER}}",
-						"password": "INI"
-					},
-					"collectionId": "43cb22ea-07ce-4756-9d93-3010db69174c",
-					"rawModeData": "{\r\n    \"@type\": \"externalBankTransferNote\",\r\n    \"ormId\": \"{{ormId}}\",\r\n    \"amount\": 15,\r\n    \"economicReasons\": \"Just some Test Fatma\",\r\n    \"beneficiaryLabel\": \"\",\r\n    \"executionDate\": 1620687600000,\r\n    \"bankAccountOriginal\": {\r\n        \"identifier\": \"0000000045\",\r\n        \"thirdParty\": {\r\n            \"internalId\": \"0000000001\",\r\n            \"mnemonic\": \"ENT            \",\r\n            \"name\": \"Entité SOLIAM\"\r\n        },\r\n        \"portfolio\": null,\r\n        \"currency\": {\r\n            \"internalCode\": \"001\",\r\n            \"externalCode\": \"EUR\",\r\n            \"label\": \"EURO\"\r\n        }\r\n    },\r\n    \"complianceValidation\": [\r\n        {\r\n            \"complianceDecision\": null,\r\n            \"complianceID\": \"0000000002\",\r\n            \"label\": \"Balance < 0\",\r\n            \"errorEncodeMessage\": \"[Blocking] PTF_FID_001 | The constraint 'Balance < 0' is not overruled : 9.720,1 EUR Current compliance status:9.735,1 EUR Limit 1:>= 0 EUR First margin:9.720,1 EUR First absolute margin:9.720,1 EUR Limit 2: Second margin: Second absolute margin:zzzzz\",\r\n            \"typeOfCompliance\": null,\r\n            \"rule\": null,\r\n            \"priority\": {\r\n                \"internalCode\": \"000\",\r\n                \"externalCode\": \"000\",\r\n                \"label\": \"[Blocking]\",\r\n                \"data\": null\r\n            },\r\n            \"transgressionReasonRequired\": false,\r\n            \"comment\": null,\r\n            \"portfolio\": null,\r\n            \"lowerLimit\": \">= 0 EUR\",\r\n            \"lowerRemaining\": null,\r\n            \"upperLimit\": \"\",\r\n            \"accountNumber\": null,\r\n            \"transgressed\": false\r\n        },\r\n        {\r\n            \"complianceDecision\": null,\r\n            \"complianceID\": \"0000000000\",\r\n            \"label\": \"Compliance_01\",\r\n            \"errorEncodeMessage\": \"wrnConf[Warning] PTF_FID_001 | The constraint 'Compliance_01' is overruled : Compliance_01 zzzzz\",\r\n            \"typeOfCompliance\": null,\r\n            \"rule\": null,\r\n            \"priority\": {\r\n                \"internalCode\": \"002\",\r\n                \"externalCode\": \"002\",\r\n                \"label\": \"[Warning]\",\r\n                \"data\": null\r\n            },\r\n            \"transgressionReasonRequired\": false,\r\n            \"comment\": \"Compliance_01\",\r\n            \"portfolio\": null,\r\n            \"lowerLimit\": \"\",\r\n            \"lowerRemaining\": null,\r\n            \"upperLimit\": \"\",\r\n            \"accountNumber\": null,\r\n            \"transgressed\": true\r\n        }\r\n    ],\r\n    \"status\": {\r\n        \"internalCode\": \"030\",\r\n        \"externalCode\": \"SAISI\",\r\n        \"label\": \"SAISI\",\r\n        \"data\": null\r\n    },\r\n    \"comment\": \"Fatma Test Bank Transfere\",\r\n    \"ibanAddressData\": {\r\n        \"ibanAddressDataId\": \"0000000063\",\r\n        \"bankName\": \"Fatma Bank\",\r\n        \"externalIdentifierOfTheBank\": null,\r\n        \"iban\": \"FR7630001007941234567890185\",\r\n        \"country\": \"001\",\r\n        \"bicCode\": \"XXXXXXXXXXX\",\r\n        \"currency\": null,\r\n        \"accountOwner\": \"fatma\",\r\n        \"thirdParty\": {\r\n            \"internalId\": \"0000000001\",\r\n            \"mnemonic\": \"ENT            \",\r\n            \"name\": \"Entité SOLIAM\"\r\n        }\r\n    },\r\n    \"scheduled\": false\r\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "4f037251-ce34-44cf-8fdd-409ab2b189dc",
-					"name": "Create Internal Bank Transfer",
-					"url": "http://{{HOST}}:{{PORT}}/tms/services/rest/bankTransfer/transfer/save/",
-					"description": null,
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "basic",
-						"basic": [
-							{
-								"key": "username",
-								"value": "{{BASIC_USER}}",
-								"type": "string"
-							},
-							{
-								"key": "password",
-								"value": "INI",
-								"type": "string"
-							}
-						]
-					},
-					"events": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "00b3271d-6dfe-42a1-8508-062c1a334780",
-								"exec": [
-									"\r",
-									"\r",
-									"pm.test(\"Status code must be 200 (Successful request)\", function () {\r",
-									"    pm.response.to.be.ok;\r",
-									"});\r",
-									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
-									"\r",
-									"pm.test(\"Check if the Transfer is saved and that it has an Id\", function(){\r",
-									"    pm.expect(jsonData).to.have.property('ormId');\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Check that the Id is not null\", function(){\r",
-									"    tests[\"Id is not null\"] = jsonData.ormId !== null\r",
-									"});\r",
-									"\r",
-									"postman.setEnvironmentVariable(\"ormId\", jsonData.ormId)\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"folder": null,
-					"preRequestScript": null,
-					"tests": "\r\n\r\npm.test(\"Status code must be 200 (Successful request)\", function () {\r\n    pm.response.to.be.ok;\r\n});\r\n\r\nvar jsonData = JSON.parse(responseBody);\r\n\r\npm.test(\"Check if the Transfer is saved and that it has an Id\", function(){\r\n    pm.expect(jsonData).to.have.property('ormId');\r\n});\r\n\r\npm.test(\"Check that the Id is not null\", function(){\r\n    tests[\"Id is not null\"] = jsonData.ormId !== null\r\n});\r\n\r\npostman.setEnvironmentVariable(\"ormId\", jsonData.ormId)\r\n\r\n",
-					"currentHelper": "basicAuth",
-					"helperAttributes": {
-						"id": "basic",
-						"username": "{{BASIC_USER}}",
-						"password": "INI"
-					},
-					"collectionId": "43cb22ea-07ce-4756-9d93-3010db69174c",
-					"rawModeData": "{\r\n    \"@type\": \"internalBankTransferNote\",\r\n    \"amount\": 8,\r\n    \"economicReasons\": \"Just some Test\",\r\n    \"beneficiaryLabel\": \"\",\r\n    \"executionDate\": null,\r\n    \"bankAccountOriginal\": {\r\n        \"identifier\": \"0000000045\",\r\n        \"thirdParty\": {\r\n            \"internalId\": \"0000000001\",\r\n            \"mnemonic\": \"ENT            \",\r\n            \"name\": \"Entité SOLIAM\"\r\n        },\r\n        \"portfolio\": null,\r\n        \"currency\": {\r\n            \"internalCode\": \"001\",\r\n            \"externalCode\": \"EUR\",\r\n            \"label\": \"EURO\"\r\n        }\r\n    },\r\n    \"complianceValidation\": [\r\n        {\r\n            \"complianceDecision\": null,\r\n            \"complianceID\": \"0000000000\",\r\n            \"label\": \"Compliance_01_FR\",\r\n            \"errorEncodeMessage\": \"wrnConf[Avertissement] PTF_FID_001 | La contrainte 'Compliance_01_FR' est transgressée : Compliance_01 zzzzz\",\r\n            \"typeOfCompliance\": null,\r\n            \"rule\": null,\r\n            \"priority\": {\r\n                \"internalCode\": \"002\",\r\n                \"externalCode\": \"002\",\r\n                \"label\": \"[Avertissement]\",\r\n                \"data\": null\r\n            },\r\n            \"transgressionReasonRequired\": false,\r\n            \"comment\": \"Compliance_01\",\r\n            \"portfolio\": null,\r\n            \"lowerLimit\": \"\",\r\n            \"lowerRemaining\": null,\r\n            \"upperLimit\": \"\",\r\n            \"accountNumber\": null,\r\n            \"transgressed\": true\r\n        }\r\n    ],\r\n    \"comment\": \"Test Bank Transfere\",\r\n    \"bankAccountInternal\": {\r\n        \"identifier\": \"0000000053\",\r\n        \"thirdParty\": {\r\n            \"internalId\": \"0000000001\",\r\n            \"mnemonic\": \"ENT            \",\r\n            \"name\": \"Entité SOLIAM\"\r\n        },\r\n        \"portfolio\": null,\r\n        \"currency\": null\r\n    },\r\n    \"scheduled\": false\r\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "675280bb-2511-47ea-9101-cfe3568982ed",
-					"name": "Validate",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/bankTransfer/transfer/validate",
-					"description": null,
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}"
-							}
-						]
-					},
-					"events": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "02fb380a-d0ee-4d0c-8e33-3d9872f6b58c",
-								"exec": [
-									"pm.test(\"Status code must be 200 (Successful request)\", function () {\r",
-									"    pm.response.to.be.ok;\r",
-									"});\r",
-									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
-									"\r",
-									"pm.test(\"Check if the Transfer is saved and that it has an Id\", function(){\r",
-									"    pm.expect(jsonData).to.have.property('ormId');\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Check that the Id is not null\", function(){\r",
-									"    tests[\"Id is not null\"] = jsonData.ormId !== null\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Check that the status is not null\", function(){\r",
-									"    tests[\"The Status is not null\"] = jsonData.status !== null\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Check that the status is Canceled\", function(){\r",
-									"    tests[\"The Bank Transfer is Canceled \"] = jsonData.status.internalCode === \"120\"\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"folder": null,
-					"preRequestScript": null,
-					"tests": "pm.test(\"Status code must be 200 (Successful request)\", function () {\r\n    pm.response.to.be.ok;\r\n});\r\n\r\nvar jsonData = JSON.parse(responseBody);\r\n\r\npm.test(\"Check if the Transfer is saved and that it has an Id\", function(){\r\n    pm.expect(jsonData).to.have.property('ormId');\r\n});\r\n\r\npm.test(\"Check that the Id is not null\", function(){\r\n    tests[\"Id is not null\"] = jsonData.ormId !== null\r\n});\r\n\r\n\r\npm.test(\"Check that the status is not null\", function(){\r\n    tests[\"The Status is not null\"] = jsonData.status !== null\r\n});\r\n\r\npm.test(\"Check that the status is Canceled\", function(){\r\n    tests[\"The Bank Transfer is Canceled \"] = jsonData.status.internalCode === \"120\"\r\n});",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "43cb22ea-07ce-4756-9d93-3010db69174c",
-					"rawModeData": "{\n    \"@type\": \"internalBankTransferNote\",\n    \"amount\": \"120\",\n    \"economicReasons\": \"\",\n    \"beneficiaryLabel\": \"\",\n    \"executionDate\": \"15/04/2020\",\n    \"originalBankAccount\": {\n        \"identifier\": \"0000000159\",\n        \"thirdParty\": {\n            \"internalId\": \"0000000001\",\n            \"mnemonic\": null,\n            \"name\": null\n        },\n        \"portfolio\": {\n            \"portfolioId\": \"0000000233\",\n            \"portfolioNumber\": \"PTF_FIN101                         \",\n            \"portfolioLabel\": null,\n            \"entity\": null,\n            \"currency\": null,\n            \"strongDecimality\": null,\n            \"isStrongDecimality\": null\n        },\n        \"currency\": {\n            \"internalCode\": null,\n            \"externalCode\": \"EUR\",\n            \"label\": null,\n            \"data\": null\n        }\n    },\n    \"internalBeneficiaryBankAccount\": {\n        \"identifier\": \"0000000000\",\n        \"thirdParty\": {\n            \"internalId\": \"0000000001\",\n            \"mnemonic\": null,\n            \"name\": null\n        },\n        \"portfolio\": {\n            \"portfolioId\": \"0000000001\",\n            \"portfolioNumber\": \"PORTFOLIO BSB 001                  \",\n            \"portfolioLabel\": null,\n            \"entity\": null,\n            \"currency\": null,\n            \"strongDecimality\": null,\n            \"isStrongDecimality\": null\n        },\n        \"currency\": {\n            \"internalCode\": null,\n            \"externalCode\": \"EUR\",\n            \"label\": null,\n            \"data\": null\n        }\n    },\n    \"complianceValidation\": null,\n    \"comment\": \"\",\n    \"forcingUser\": null,\n    \"forcingPassword\": null,\n    \"scheduled\": false,\n    \"status\": {\n        \"internalCode\": \"120\",\n        \"externalCode\": \"ANNULEE\",\n        \"label\": \"ANNULEE\",\n        \"data\": null\n    }\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "977c6334-93c3-4c25-b20e-2f7198316d03",
-					"name": "ForceAllSuperUser",
-					"url": "{{host}}:{{port}}/tms/services/rest/order/ordermanagement/isAllowNewOrderForNewAsset",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": null,
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "43cb22ea-07ce-4756-9d93-3010db69174c",
-					"pathVariables": {}
-				},
-				{
-					"id": "d7aa36df-628d-4756-8630-df365d766ad7",
-					"name": "Create Scheduled External Bank Transfer",
-					"url": "http://{{HOST}}:{{PORT}}/tms/services/rest/bankTransfer/transfer/save/",
-					"description": null,
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"type": "text",
-							"value": "application/json"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "basic",
-						"basic": [
-							{
-								"key": "username",
-								"value": "{{BASIC_USER}}",
-								"type": "string"
-							},
-							{
-								"key": "password",
-								"value": "INI",
-								"type": "string"
-							}
-						]
-					},
-					"events": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "00b3271d-6dfe-42a1-8508-062c1a334780",
-								"exec": [
-									"\r",
-									"\r",
-									"pm.test(\"Status code must be 200 (Successful request)\", function () {\r",
-									"    pm.response.to.be.ok;\r",
-									"});\r",
-									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
-									"\r",
-									"pm.test(\"Check if the Transfer is saved and that it has an Id\", function(){\r",
-									"    pm.expect(jsonData).to.have.property('ormId');\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Check that the Id is not null\", function(){\r",
-									"    tests[\"Id is not null\"] = jsonData.ormId !== null\r",
-									"});\r",
-									"\r",
-									"postman.setEnvironmentVariable(\"ormId\", jsonData.ormId)\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"folder": null,
-					"preRequestScript": null,
-					"tests": "\r\n\r\npm.test(\"Status code must be 200 (Successful request)\", function () {\r\n    pm.response.to.be.ok;\r\n});\r\n\r\nvar jsonData = JSON.parse(responseBody);\r\n\r\npm.test(\"Check if the Transfer is saved and that it has an Id\", function(){\r\n    pm.expect(jsonData).to.have.property('ormId');\r\n});\r\n\r\npm.test(\"Check that the Id is not null\", function(){\r\n    tests[\"Id is not null\"] = jsonData.ormId !== null\r\n});\r\n\r\npostman.setEnvironmentVariable(\"ormId\", jsonData.ormId)\r\n\r\n",
-					"currentHelper": "basicAuth",
-					"helperAttributes": {
-						"id": "basic",
-						"username": "{{BASIC_USER}}",
-						"password": "INI"
-					},
-					"collectionId": "43cb22ea-07ce-4756-9d93-3010db69174c",
-					"rawModeData": "{\n    \"@type\": \"externalBankTransferNote\",\n    \"amount\": 15,\n    \"economicReasons\": \"Just some Test Fatma\",\n    \"beneficiaryLabel\": \"\",\n    \"executionDate\": \"2019-12-09\",\n    \"bankAccountOriginal\": {\n        \"identifier\": \"0000000045\",\n        \"thirdParty\": {\n            \"internalId\": \"0000000001\",\n            \"mnemonic\": \"ENT            \",\n            \"name\": \"Entité SOLIAM\"\n        },\n        \"portfolio\": null,\n        \"currency\": {\n            \"internalCode\": \"001\",\n            \"externalCode\": \"EUR\",\n            \"label\": \"EURO\"\n        }\n    },\n    \"complianceValidation\": [\n        {\n            \"complianceDecision\": null,\n            \"complianceID\": \"0000000000\",\n            \"label\": \"Fatma Compliance_01_FR\",\n            \"errorEncodeMessage\": \"Fatma wrnConf[Avertissement] PTF_FID_001 | La contrainte 'Compliance_01_FR' est transgressée : Compliance_01 zzzzz\",\n            \"typeOfCompliance\": null,\n            \"rule\": null,\n            \"priority\": {\n                \"internalCode\": \"002\",\n                \"externalCode\": \"002\",\n                \"label\": \"[Avertissement]\",\n                \"data\": null\n            },\n            \"transgressionReasonRequired\": false,\n            \"comment\": \"Fatma Compliance_01\",\n            \"portfolio\": null,\n            \"lowerLimit\": \"\",\n            \"lowerRemaining\": null,\n            \"upperLimit\": \"\",\n            \"accountNumber\": null,\n            \"transgressed\": true\n        }\n    ],\n    \"comment\": \"Fatma Test Bank Transfere\",\n    \"ibanAddressData\": {\n        \"bankName\": \"Fatma Bank\",\n        \"bicCode\": \"XXXXXXXXXXX\",\n        \"accountOwner\": \"fatma\",\n        \"iban\": \"FR7630001007941234567890185\",\n        \"country\": \"001\",\n        \"ibanAddressDataId\": \"0000000063\",\n        \"thirdParty\": {\n            \"internalId\": \"0000000001\",\n            \"mnemonic\": \"ENT            \",\n            \"name\": \"Entité SOLIAM\"\n        }\n    },\n    \"scheduled\": true\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "f4a4b014-f605-44ef-8d37-a6fff60efc5b",
-					"name": "Create External Bank Transfer",
-					"url": "http://{{HOST}}:{{PORT}}/tms/services/rest/bankTransfer/transfer/save/",
-					"description": null,
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"type": "text",
-							"value": "application/json"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "basic",
-						"basic": [
-							{
-								"key": "username",
-								"value": "{{BASIC_USER}}",
-								"type": "string"
-							},
-							{
-								"key": "password",
-								"value": "INI",
-								"type": "string"
-							}
-						]
-					},
-					"events": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "00b3271d-6dfe-42a1-8508-062c1a334780",
-								"exec": [
-									"\r",
-									"\r",
-									"pm.test(\"Status code must be 200 (Successful request)\", function () {\r",
-									"    pm.response.to.be.ok;\r",
-									"});\r",
-									"\r",
-									"var jsonData = JSON.parse(responseBody);\r",
-									"\r",
-									"pm.test(\"Check if the Transfer is saved and that it has an Id\", function(){\r",
-									"    pm.expect(jsonData).to.have.property('ormId');\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Check that the Id is not null\", function(){\r",
-									"    tests[\"Id is not null\"] = jsonData.ormId !== null\r",
-									"});\r",
-									"\r",
-									"postman.setEnvironmentVariable(\"ormId\", jsonData.ormId)\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"folder": null,
-					"preRequestScript": null,
-					"tests": "\r\n\r\npm.test(\"Status code must be 200 (Successful request)\", function () {\r\n    pm.response.to.be.ok;\r\n});\r\n\r\nvar jsonData = JSON.parse(responseBody);\r\n\r\npm.test(\"Check if the Transfer is saved and that it has an Id\", function(){\r\n    pm.expect(jsonData).to.have.property('ormId');\r\n});\r\n\r\npm.test(\"Check that the Id is not null\", function(){\r\n    tests[\"Id is not null\"] = jsonData.ormId !== null\r\n});\r\n\r\npostman.setEnvironmentVariable(\"ormId\", jsonData.ormId)\r\n\r\n",
-					"currentHelper": "basicAuth",
-					"helperAttributes": {
-						"id": "basic",
-						"username": "{{BASIC_USER}}",
-						"password": "INI"
-					},
-					"collectionId": "43cb22ea-07ce-4756-9d93-3010db69174c",
-					"rawModeData": "{\n    \"@type\": \"externalBankTransferNote\",\n    \"amount\": 15,\n    \"economicReasons\": \"Just some Test Fatma\",\n    \"beneficiaryLabel\": \"\",\n    \"executionDate\": 1620687600000,\n    \"bankAccountOriginal\": {\n        \"identifier\": \"0000000045\",\n        \"thirdParty\": {\n            \"internalId\": \"0000000001\",\n            \"mnemonic\": \"ENT            \",\n            \"name\": \"Entité SOLIAM\"\n        },\n        \"portfolio\": null,\n        \"currency\": {\n            \"internalCode\": \"001\",\n            \"externalCode\": \"EUR\",\n            \"label\": \"EURO\"\n        }\n    },\n    \"complianceValidation\": [\n        {\n            \"complianceDecision\": null,\n            \"complianceID\": \"0000000000\",\n            \"label\": \"Fatma Compliance_01_FR\",\n            \"errorEncodeMessage\": \"Fatma wrnConf[Avertissement] PTF_FID_001 | La contrainte 'Compliance_01_FR' est transgressée : Compliance_01 zzzzz\",\n            \"typeOfCompliance\": null,\n            \"rule\": null,\n            \"priority\": {\n                \"internalCode\": \"002\",\n                \"externalCode\": \"002\",\n                \"label\": \"[Avertissement]\",\n                \"data\": null\n            },\n            \"transgressionReasonRequired\": false,\n            \"comment\": \"Fatma Compliance_01\",\n            \"portfolio\": null,\n            \"lowerLimit\": \"\",\n            \"lowerRemaining\": null,\n            \"upperLimit\": \"\",\n            \"accountNumber\": null,\n            \"transgressed\": true\n        }\n    ],\n    \"comment\": \"Fatma Test Bank Transfere\",\n    \"ibanAddressData\": {\n        \"bankName\": \"Fatma Bank\",\n        \"bicCode\": \"XXXXXXXXXXX\",\n        \"accountOwner\": \"fatma\",\n        \"iban\": \"FR7630001007941234567890185\",\n        \"country\": \"001\",\n        \"ibanAddressDataId\": \"0000000063\",\n        \"thirdParty\": {\n            \"internalId\": \"0000000001\",\n            \"mnemonic\": \"ENT            \",\n            \"name\": \"Entité SOLIAM\"\n        }\n    },\n    \"scheduled\": false\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				}
-			]
-		},
-		{
-			"id": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-			"name": "Finder",
-			"description": "",
-			"auth": null,
-			"events": null,
-			"variables": [],
-			"order": [
-				"fd72904b-f2b8-4c74-b70f-9d50f4070b5e",
-				"d68a9e3a-c298-4a60-bbd3-c5078f269101",
-				"040b63ba-8e0b-4058-8b86-60507e66ec8b",
-				"617f758c-0489-4cf9-9327-d51e83c45714",
-				"d16dfd71-1660-4a9d-ad5d-3df9b397ba83",
-				"5914e2de-1b76-4a9e-b238-04857ae94593"
-			],
-			"folders_order": [
-				"9e09ada1-aa8f-4cde-9a36-1834a7db0bdd"
-			],
-			"folders": [
-				{
-					"id": "9e09ada1-aa8f-4cde-9a36-1834a7db0bdd",
-					"name": "params",
-					"description": "",
-					"auth": null,
-					"events": null,
-					"collection": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-					"folder": null,
-					"order": [
-						"3b69857b-2169-4d98-b709-eb757680c6a5",
-						"345ebd2c-d0c9-40ae-90f2-dd748e4c2f19",
-						"77df5f06-82ef-4d54-ad89-f48345ed735d",
-						"8adf60ec-8f49-4ed0-9432-a512221a4404"
-					],
-					"folders_order": [],
-					"collectionId": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-					"folderId": "9e09ada1-aa8f-4cde-9a36-1834a7db0bdd"
-				}
-			],
-			"requests": [
-				{
-					"id": "040b63ba-8e0b-4058-8b86-60507e66ec8b",
-					"name": "Mirror Account Finder",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/finder/portfolios",
-					"description": "",
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"description": "",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-					"rawModeData": "{\n    \"entity\": \"ENT\",\n    \"multiPtf\": null,\n    \"accountNumber\": null,\n    \"label\": null,\n    \"accountClass\": \"002\",\n    \"accountSubClass\": null,\n    \"custodian\": null,\n    \"rc1\": null,\n    \"rc2\": null,\n    \"rc3\": null,\n    \"rc4\": null,\n    \"rc5\": null,\n    \"rc6\": null,\n    \"rc7\": null,\n    \"rc8\": null,\n    \"investmentType\": null,\n    \"thirdHolder\": null,\n    \"investmentPoduct\": null\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "345ebd2c-d0c9-40ae-90f2-dd748e4c2f19",
-					"name": "BankAccount Params",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/finder/thirdParties/paramsDef/",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": [],
-					"folder": "9e09ada1-aa8f-4cde-9a36-1834a7db0bdd",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "3b69857b-2169-4d98-b709-eb757680c6a5",
-					"name": "ThirdParties Params",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/finder/thirdParties/paramsDef/",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": [],
-					"folder": "9e09ada1-aa8f-4cde-9a36-1834a7db0bdd",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "5914e2de-1b76-4a9e-b238-04857ae94593",
-					"name": "IBAN Finder",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/finder/ribAddress",
-					"description": "",
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"description": "",
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"type": "text",
-							"value": "application/json"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"bearer": [
-							{
-								"key": "token",
-								"type": "string",
-								"value": "{{PASS}}"
-							}
-						],
-						"type": "bearer"
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-					"rawModeData": "{\n\t\"portfolioNumber\": \"0000000177\"\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "617f758c-0489-4cf9-9327-d51e83c45714",
-					"name": "ThirdParties Finder",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/finder/thirdParties",
-					"description": "",
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"description": "",
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"type": "text",
-							"value": "application/json"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-					"rawModeData": "{\n\t\"internalCode\": \"0000000001\"\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "77df5f06-82ef-4d54-ad89-f48345ed735d",
-					"name": "Securities Params",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/finder/securities/paramsDef/",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": [],
-					"folder": "9e09ada1-aa8f-4cde-9a36-1834a7db0bdd",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "8adf60ec-8f49-4ed0-9432-a512221a4404",
-					"name": "Portfolios Params",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/finder/portfolios/paramsDef/",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": [],
-					"folder": "9e09ada1-aa8f-4cde-9a36-1834a7db0bdd",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "d16dfd71-1660-4a9d-ad5d-3df9b397ba83",
-					"name": "Bank Account Finder",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/finder/bankAccounts",
-					"description": "",
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"description": "",
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"type": "text",
-							"value": "application/json"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-					"rawModeData": "{\n    \"entity\": \"ENT\",\n    \"currency\": \"001\",\n    \"allCurrency\": false,\n    \"ignorePortfolios\": false,\n    \"bankTransfer\": true,\n    \"originalBankAccount\": [\n        \"DUAL\",\n        \"DEBITER\"\n    ],\n    \"beneficiaryBankAccount\": [\n        \"DUAL\",\n        \"CREDITER\"\n    ],\n    \"tctTctParamProfil\": [\n        \"000\"\n    ],\n    \"bankTransferType\": \"BENEFICIARY\",\n    \"portfolioInternalCode\": \"0000000233\",\n    \"internalBankAccountPtfAccess\": [\n        \"GEST\"\n    ],\n    \"exceptBanksAccount\": [\n        \"0000000159\"\n    ]\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "d68a9e3a-c298-4a60-bbd3-c5078f269101",
-					"name": "Portfolio Finder",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/finder/portfolios",
-					"description": "",
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"description": "",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-					"rawModeData": "{\n    \"entity\": \"ENT\",\n    \"multiPtf\": null,\n    \"accountNumber\": null,\n    \"label\": null,\n    \"accountClass\": \"002\",\n    \"accountSubClass\": null,\n    \"custodian\": null,\n    \"rc1\": null,\n    \"rc2\": null,\n    \"rc3\": null,\n    \"rc4\": null,\n    \"rc5\": null,\n    \"rc6\": null,\n    \"rc7\": null,\n    \"rc8\": null,\n    \"investmentType\": null,\n    \"thirdHolder\": null,\n    \"investmentPoduct\": null\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "fd72904b-f2b8-4c74-b70f-9d50f4070b5e",
-					"name": "Security Finder",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/finder/securities",
-					"description": "",
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"description": "",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "5dd0f22c-61d6-40d5-93f2-aefa98f6e6d2",
-					"rawModeData": "{\n\t\"internalCode\": \"0000026836\"\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				}
-			]
-		},
-		{
-			"id": "61c08321-2b5e-4141-8ed2-158c0463b873",
-			"name": "Order unitary",
-			"description": null,
-			"auth": null,
-			"events": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "074109d5-267b-4639-99d5-79fc45df1144",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "2ae6d30c-fdee-470f-871f-cb8bc7dac2e8",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			],
-			"variables": [],
-			"order": [
-				"9d35568c-7dc4-4a46-9861-5c0f22318dd2",
-				"57d65b4f-4e7b-43e4-b6aa-748b511d2b84",
-				"e4029f9b-654d-4980-9ba6-911b95f04392",
-				"59130fc1-7107-4df0-9e31-72a40f1479fb"
-			],
-			"folders_order": [
-				"90e4bacb-dbcb-4cdc-a57c-a56a0e168906",
-				"93cf3ce2-48eb-427b-87b8-8a671b468a81"
-			],
-			"folders": [
-				{
-					"id": "90e4bacb-dbcb-4cdc-a57c-a56a0e168906",
-					"name": "Asset",
-					"description": "",
-					"auth": null,
-					"events": null,
-					"collection": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"folder": null,
-					"order": [
-						"7c486bc4-fe33-4b85-8fbc-d79a51f7dfe7",
-						"f933c9d2-933f-4907-86e9-4cbd1a2080a1",
-						"76d3162b-8c0b-42d4-aa56-7b67ddc453f7"
-					],
-					"folders_order": [],
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"folderId": "90e4bacb-dbcb-4cdc-a57c-a56a0e168906"
-				},
-				{
-					"id": "93cf3ce2-48eb-427b-87b8-8a671b468a81",
-					"name": "Cash",
-					"description": "",
-					"auth": null,
-					"events": null,
-					"collection": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"folder": null,
-					"order": [
-						"a7ed66e7-45bd-4c42-9af6-9b73bd88a330",
-						"42958ecc-a1d4-4235-848b-ee3a7397bc1b",
-						"46c9129a-6ae5-4536-b5d2-4a4f7579bbdd",
-						"1d03e513-e390-4b1d-9a3c-73faff624b17"
-					],
-					"folders_order": [],
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"folderId": "93cf3ce2-48eb-427b-87b8-8a671b468a81"
-				}
-			],
-			"requests": [
-				{
-					"id": "1d03e513-e390-4b1d-9a3c-73faff624b17",
-					"name": "(3) Order Simulation Copy Copy",
-					"url": "",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": null,
-					"events": [],
-					"folder": "93cf3ce2-48eb-427b-87b8-8a671b468a81",
-					"currentHelper": null,
-					"helperAttributes": null,
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "42958ecc-a1d4-4235-848b-ee3a7397bc1b",
-					"name": "(2) Order Informations Copy",
-					"url": "{{host}}:{{port}}/tms/services/rest/order/ordermanagement/getOrderInformations",
-					"description": "",
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"description": "",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": [],
-					"folder": "93cf3ce2-48eb-427b-87b8-8a671b468a81",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"rawModeData": "{\r\n    \"@type\": \"derivativeOrder\",\r\n    \"orderType\": {\r\n        \"internalCode\": \"000\",\r\n        \"externalCode\": \"MARKET\",\r\n        \"label\": \"Marché\",\r\n        \"data\": null\r\n    },\r\n    \"currencyPrecision\": 0.0,\r\n    \"securityPrecision\": 0.0,\r\n    \"entity\": \"ENT\",\r\n    \"creationUser\": \"INI\",\r\n    \"validateOrder\": false,\r\n    \"minTradeAmount\": 0.0,\r\n    \"mulTradeAmount\": 0.0,\r\n    \"validityPeriod\": {\r\n        \"internalCode\": \"000\",\r\n        \"externalCode\": \"GTC\",\r\n        \"label\": \"Good till cancel\",\r\n        \"data\": null\r\n    },\r\n    \"orderStatus\": {\r\n        \"internalCode\": \"030\",\r\n        \"externalCode\": \"SAISI\",\r\n        \"label\": \"SAISI\",\r\n        \"data\": null\r\n    },\r\n    \"valueDate\": \"2020-02-27 22:00:00\",\r\n    \"orderDate\": \"2020-02-27 16:53:00\",\r\n    \"price\": 0.0,\r\n    \"media\": {\r\n        \"internalCode\": \"000\",\r\n        \"externalCode\": \"PHONE\",\r\n        \"label\": \"Téléphone\",\r\n        \"data\": null\r\n    },\r\n    \"clientOrders\": [\r\n        {\r\n            \"mirrorAccount\": \"0000000301\",\r\n            \"principalMirrorAccount\": null,\r\n            \"bankAccount\": \"0000000212\",\r\n            \"quantity\": null,\r\n            \"underlyingAssetQuantity\": null,\r\n            \"price\": null,\r\n            \"currency\": {\r\n                \"internalCode\": \"001\",\r\n                \"externalCode\": \"EUR\",\r\n                \"label\": \"EUR\",\r\n                \"data\": null\r\n            },\r\n            \"accruedCoupon\": null,\r\n            \"portfolioModel\": {\r\n                \"portfolioId\": \"0000000302\",\r\n                \"portfolioNumber\": \"AHA_PTF_1                          \",\r\n                \"portfolioLabel\": \"AHA_PTF_1\",\r\n                \"entity\": \"ENT\",\r\n                \"currency\": null,\r\n                \"strongDecimality\": false,\r\n                \"isStrongDecimality\": false\r\n            },\r\n            \"fees\": [\r\n                {\r\n                    \"feeID\": \"000\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"001\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"002\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"003\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"004\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"005\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"006\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"007\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"008\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"009\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"010\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"011\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"012\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"013\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"014\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"015\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"016\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"017\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"018\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"019\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"020\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                }\r\n            ],\r\n            \"availableCash\": null,\r\n            \"positionEvaluation\": 0,\r\n            \"heldSecurities\": null,\r\n            \"buyQuantity\": 0,\r\n            \"sellQuantity\": 0\r\n        }\r\n    ],\r\n    \"cotation\": {\r\n        \"internalCode\": \"001\",\r\n        \"externalCode\": \"DEV\",\r\n        \"label\": \"En devise\",\r\n        \"data\": null\r\n    },\r\n    \"accountingMode\": {\r\n        \"internalCode\": \"001\",\r\n        \"externalCode\": \"PIE\",\r\n        \"label\": \"A la pièce\",\r\n        \"data\": null\r\n    },\r\n    \"priceCurrency\": {\r\n        \"internalCode\": \"001\",\r\n        \"externalCode\": \"EUR\",\r\n        \"label\": \"EUR\",\r\n        \"data\": null\r\n    },\r\n    \"issuer\": \"0000000002\",\r\n    \"security\": {\r\n        \"yieldToMaturity\": 0.0,\r\n        \"internalSecurityId\": \"0000001936\",\r\n        \"economicSector\": null,\r\n        \"securityLabel\": \"CALL_LG_AHA\",\r\n        \"securityLabelAbr\": null,\r\n        \"securityValueType\": null,\r\n        \"securityCurrency\": {\r\n            \"internalCode\": \"001\",\r\n            \"externalCode\": \"EUR\",\r\n            \"label\": \"EUR\",\r\n            \"data\": null\r\n        },\r\n        \"securityNature\": null,\r\n        \"externalSecurityId\": null,\r\n        \"unitaryNominal\": null,\r\n        \"duration\": null,\r\n        \"securityClass\": {\r\n            \"internalCode\": \"005\",\r\n            \"externalCode\": \"CALL ACH\",\r\n            \"label\": \"Call acheté\",\r\n            \"data\": null\r\n        },\r\n        \"issuer\": {\r\n            \"internalCode\": \"0000000002\",\r\n            \"externalCode\": \"DEFAULT        \",\r\n            \"label\": \"DEFAULT\",\r\n            \"data\": null\r\n        },\r\n        \"dateDebInterest\": null,\r\n        \"dateRemboursement\": null,\r\n        \"computationMethod\": null,\r\n        \"periodicity\": null,\r\n        \"dateFirstCoup\": null,\r\n        \"percCoup\": null,\r\n        \"groupingCode1\": null,\r\n        \"groupingCode2\": null,\r\n        \"groupingCode3\": null,\r\n        \"groupingCode4\": null,\r\n        \"groupingCode5\": null,\r\n        \"groupingCode6\": null,\r\n        \"groupingCode7\": null,\r\n        \"groupingCode8\": null,\r\n        \"freeZones\": null\r\n    },\r\n    \"portfolioScreenParameter\": 1,\r\n    \"hasCurrency\": true,\r\n    \"securityClass\": \"CALL\",\r\n    \"hasPortfolioMovementUnderlyingAsset\": true,\r\n    \"strikePriceCurrency\": \"EUR\",\r\n    \"exerciseStartDate\": \"2020-01-01\",\r\n    \"exerciseEndDate\": \"2020-01-01\",\r\n    \"exerciseValueDate\": \"2020-01-04\",\r\n    \"underlyingSecurity\": \"0000001938\",\r\n    \"underlyingAsset\": {\r\n        \"yieldToMaturity\": null,\r\n        \"internalSecurityId\": null,\r\n        \"economicSector\": null,\r\n        \"securityLabel\": null,\r\n        \"securityLabelAbr\": null,\r\n        \"securityValueType\": {\r\n            \"internalCode\": \"092\",\r\n            \"externalCode\": \"ACTC\",\r\n            \"label\": \"Actions Cotées\",\r\n            \"data\": null\r\n        },\r\n        \"securityCurrency\": {\r\n            \"internalCode\": \"001\",\r\n            \"externalCode\": \"EUR\",\r\n            \"label\": \"EUR\",\r\n            \"data\": null\r\n        },\r\n        \"securityNature\": {\r\n            \"internalCode\": \"000\",\r\n            \"externalCode\": \"ISIN\",\r\n            \"label\": \"ISIN\",\r\n            \"data\": null\r\n        },\r\n        \"externalSecurityId\": \"ACT AHA\",\r\n        \"unitaryNominal\": null,\r\n        \"duration\": null,\r\n        \"securityClass\": null,\r\n        \"issuer\": null,\r\n        \"dateDebInterest\": null,\r\n        \"dateRemboursement\": null,\r\n        \"computationMethod\": null,\r\n        \"periodicity\": null,\r\n        \"dateFirstCoup\": null,\r\n        \"percCoup\": null,\r\n        \"groupingCode1\": null,\r\n        \"groupingCode2\": null,\r\n        \"groupingCode3\": null,\r\n        \"groupingCode4\": null,\r\n        \"groupingCode5\": null,\r\n        \"groupingCode6\": null,\r\n        \"groupingCode7\": null,\r\n        \"groupingCode8\": null,\r\n        \"freeZones\": null\r\n    },\r\n    \"strikePrice\": 10,\r\n    \"multiplyingCoefficient\": 1.0,\r\n    \"option\": true,\r\n    \"forward\": false,\r\n    \"future\": false,\r\n    \"american\": false,\r\n    \"capOrFloor\": false,\r\n    \"portfolioMovement\": true,\r\n    \"cashEquivalent\": false,\r\n    \"modificationMode\": false,\r\n    \"creationMode\": true,\r\n    \"forceWarnings\": false,\r\n    \"newValueMode\": false\r\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "46c9129a-6ae5-4536-b5d2-4a4f7579bbdd",
-					"name": "(3) Order Simulation Copy",
-					"url": "{{host}}:{{port}}/tms/services/rest/order/ordermanagement/simulate",
-					"description": "",
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"description": "",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}"
-							}
-						]
-					},
-					"events": [],
-					"folder": "93cf3ce2-48eb-427b-87b8-8a671b468a81",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"rawModeData": "{\n    \"@type\": \"placementOrder\",\n    \"orderType\": {\n        \"internalCode\": \"000\",\n        \"externalCode\": \"MARKET\",\n        \"label\": \"Market\",\n        \"data\": null\n    },\n    \"currencyPrecision\": 2,\n    \"securityPrecision\": 2,\n    \"entity\": \"ENT\",\n    \"creationUser\": \"INI\",\n    \"validateOrder\": false,\n    \"computationMethod\": {\n        \"internalCode\": \"006\",\n        \"externalCode\": \"ACT/360\",\n        \"label\": \"ACT/360\",\n        \"data\": \"001\"\n    },\n    \"validityPeriod\": {\n        \"internalCode\": \"000\",\n        \"externalCode\": \"GTC\",\n        \"label\": \"Good till cancel\",\n        \"data\": null\n    },\n    \"orderStatus\": {\n        \"internalCode\": \"000\",\n        \"externalCode\": \"INI\",\n        \"label\": \"SIMULATED\",\n        \"data\": null\n    },\n    \"valueDate\": \"2020-03-23 18:30:58\",\n    \"orderDate\": \"2020-03-23 18:30:56\",\n    \"price\": 0,\n    \"media\": {\n        \"internalCode\": \"001\",\n        \"externalCode\": \"FAX\",\n        \"label\": \"Fax\",\n        \"data\": null\n    },\n    \"clientOrders\": [\n        {\n            \"mirrorAccount\": \"0000000301\",\n            \"principalMirrorAccount\": null,\n            \"bankAccount\": \"0000000212\",\n            \"quantity\": \"10\",\n            \"underlyingAssetQuantity\": null,\n            \"price\": null,\n            \"currency\": null,\n            \"accruedCoupon\": null,\n            \"portfolioModel\": {\n                \"portfolioId\": \"0000000302\",\n                \"portfolioNumber\": \"AHA_PTF_1                          \",\n                \"portfolioLabel\": \"AHA_PTF_1\",\n                \"entity\": \"ENT\",\n                \"currency\": null,\n                \"strongDecimality\": false,\n                \"isStrongDecimality\": false\n            },\n            \"fees\": [\n                {\n                    \"feeID\": \"000\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"001\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"002\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"003\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"004\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"005\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"006\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"007\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"008\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"009\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"010\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"011\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"012\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"013\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"014\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"015\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"016\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"017\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"018\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"019\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"020\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                }\n            ],\n            \"availableCash\": -11725103834.95,\n            \"positionEvaluation\": 0,\n            \"heldSecurities\": 0,\n            \"buyQuantity\": 0,\n            \"sellQuantity\": 0\n        }\n    ],\n    \"contractId\": 1,\n    \"contractType\": {\n        \"internalCode\": \"001\",\n        \"externalCode\": \"DEPOSIT\",\n        \"label\": \"Deposit\",\n        \"contractClass\": \"TERM_DEPOSIT\",\n        \"empty\": false,\n        \"custodianMovement\": false,\n        \"collateral\": false,\n        \"liquidation\": false\n    },\n    \"capitalization\": false,\n    \"renewable\": false,\n    \"rate\": 10,\n    \"cashAccountMovement\": false,\n    \"cashInstrumentMovement\": true,\n    \"creationMode\": true,\n    \"forceWarnings\": false,\n    \"newValueMode\": false,\n    \"modificationMode\": false,\n    \"transactionType\": {\n        \"internalCode\": \"971\",\n        \"externalCode\": \"CONCLUS\",\n        \"label\": \"Contract in the long term conclusion\",\n        \"data\": null\n    },\n    \"quantity\": 10,\n    \"quotationMarket\": {\n        \"internalCode\": \"183\",\n        \"externalCode\": \"393\",\n        \"label\": \"ABN LONDRES\",\n        \"data\": null\n    },\n    \"contractCurrency\": {\n        \"internalCode\": \"001\",\n        \"externalCode\": \"EUR\",\n        \"label\": \"EURO\",\n        \"data\": null\n    },\n    \"maturityDate\": \"2020-03-25 18:31:02\"\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "57d65b4f-4e7b-43e4-b6aa-748b511d2b84",
-					"name": "FRS",
-					"url": "",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": null,
-					"events": [],
-					"folder": null,
-					"currentHelper": null,
-					"helperAttributes": null,
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "59130fc1-7107-4df0-9e31-72a40f1479fb",
-					"name": "get order",
-					"url": "{{host}}:{{port}}/tms/services/rest/order/ordermanagement/get/0000031469",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}"
-							}
-						]
-					},
-					"events": [],
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "76d3162b-8c0b-42d4-aa56-7b67ddc453f7",
-					"name": "(3) Order Simulation",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/order/ordermanagement/simulate",
-					"description": "",
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"description": "",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}"
-							}
-						]
-					},
-					"events": [],
-					"folder": "90e4bacb-dbcb-4cdc-a57c-a56a0e168906",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"rawModeData": "{\n    \"@type\": \"derivativeOrder\",\n    \"orderId\": \"0000031469\",\n    \"relatedOrderId\": \"0000031469\",\n    \"orderType\": {\n        \"internalCode\": \"000\",\n        \"externalCode\": \"MARKET\",\n        \"label\": \"Marché\",\n        \"data\": null\n    },\n    \"currencyPrecision\": 2,\n    \"securityPrecision\": 0,\n    \"entity\": \"ENT\",\n    \"creationUser\": \"INI\",\n    \"validateOrder\": false,\n    \"validityPeriod\": {\n        \"internalCode\": \"000\",\n        \"externalCode\": \"GTC\",\n        \"label\": \"Good till cancel\",\n        \"data\": null\n    },\n    \"transactionType\": {\n        \"internalCode\": \"000\",\n        \"externalCode\": \"ACHAT\",\n        \"label\": \"Achat\",\n        \"data\": null\n    },\n    \"orderStatus\": {\n        \"internalCode\": \"100\",\n        \"externalCode\": \"VALIDEFO\",\n        \"label\": \"VALIDEFO\",\n        \"data\": null\n    },\n    \"orderDate\": \"2020-06-10 12:48:11\",\n    \"counterParty\": \"0000000018\",\n    \"broker\": \"0000000018\",\n    \"custodian\": \"0000000025\",\n    \"price\": 10,\n    \"quantity\": 11,\n    \"media\": {\n        \"internalCode\": \"000\",\n        \"externalCode\": \"PHONE\",\n        \"label\": \"Téléphone\",\n        \"data\": null\n    },\n    \"clientOrders\": [\n        {\n            \"mirrorAccount\": \"0000000069\",\n            \"principalMirrorAccount\": null,\n            \"bankAccount\": \"0000000163\",\n            \"quantity\": 1,\n            \"underlyingAssetQuantity\": null,\n            \"price\": 10,\n            \"currency\": {\n                \"internalCode\": \"001\",\n                \"externalCode\": \"EUR\",\n                \"label\": \"EURO\",\n                \"data\": null\n            },\n            \"accruedCoupon\": null,\n            \"portfolioModel\": {\n                \"portfolioId\": \"0000000232\",\n                \"portfolioNumber\": \"PTF_FIN100                         \",\n                \"portfolioLabel\": \"PTF_FIN100\",\n                \"entity\": \"ENT\",\n                \"currency\": null,\n                \"strongDecimality\": false,\n                \"isStrongDecimality\": false\n            },\n            \"fees\": [\n                {\n                    \"feeID\": \"000\",\n                    \"unit\": null,\n                    \"percentage\": 0,\n                    \"amount\": 0,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"001\",\n                    \"unit\": \"000\",\n                    \"percentage\": 10,\n                    \"amount\": 1,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"002\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"003\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"004\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"005\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"006\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"007\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"008\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"009\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"010\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"011\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"012\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"013\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"014\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"015\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"016\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"017\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"018\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"019\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                },\n                {\n                    \"feeID\": \"020\",\n                    \"unit\": null,\n                    \"percentage\": null,\n                    \"amount\": null,\n                    \"manual\": false\n                }\n            ],\n            \"availableCash\": null,\n            \"positionEvaluation\": null,\n            \"heldSecurities\": null,\n            \"buyQuantity\": 0,\n            \"sellQuantity\": 0\n        }\n    ],\n    \"cotation\": {\n        \"internalCode\": \"001\",\n        \"externalCode\": \"DEV\",\n        \"label\": \"En devise\",\n        \"data\": null\n    },\n    \"accountingMode\": {\n        \"internalCode\": \"001\",\n        \"externalCode\": \"PIE\",\n        \"label\": \"A la pièce\",\n        \"data\": null\n    },\n    \"priceCurrency\": {\n        \"internalCode\": \"001\",\n        \"externalCode\": \"EUR\",\n        \"label\": \"EURO\",\n        \"data\": null\n    },\n    \"security\": {\n        \"yieldToMaturity\": null,\n        \"internalSecurityId\": \"0000001942\",\n        \"economicSector\": null,\n        \"securityLabel\": null,\n        \"securityLabelAbr\": null,\n        \"securityValueType\": null,\n        \"securityCurrency\": {\n            \"internalCode\": \"001\",\n            \"externalCode\": \"EUR\",\n            \"label\": \"EURO\",\n            \"data\": null\n        },\n        \"securityNature\": null,\n        \"externalSecurityId\": \"ISIN WARRANT_AHA WARRANT_AHA\",\n        \"unitaryNominal\": 1,\n        \"duration\": null,\n        \"securityClass\": {\n            \"internalCode\": \"003\",\n            \"externalCode\": \"DRT\\\\WAR\",\n            \"label\": \"Droit \\\\   Warrant\",\n            \"data\": null\n        },\n        \"issuer\": null,\n        \"dateDebInterest\": null,\n        \"dateEndInterest\": null,\n        \"dateRemboursement\": null,\n        \"computationMethod\": null,\n        \"periodicity\": null,\n        \"dateFirstCoup\": null,\n        \"percCoup\": null,\n        \"groupingCode1\": null,\n        \"groupingCode2\": null,\n        \"groupingCode3\": null,\n        \"groupingCode4\": null,\n        \"groupingCode5\": null,\n        \"groupingCode6\": null,\n        \"groupingCode7\": null,\n        \"groupingCode8\": null,\n        \"freeZones\": null\n    },\n    \"portfolioScreenParameter\": 1,\n    \"hasCurrency\": true,\n    \"securityClass\": \"RIGHT_WARRANT\",\n    \"quantityAllocationRule\": \"001\",\n    \"quotationCurrency\": {\n        \"internalCode\": \"001\",\n        \"externalCode\": \"EUR\",\n        \"label\": \"EURO\",\n        \"data\": null\n    },\n    \"lastPrice\": 10,\n    \"hasPortfolioMovementUnderlyingAsset\": true,\n    \"nominalTargetCurrency\": {\n        \"internalCode\": \"001\",\n        \"externalCode\": \"EUR\",\n        \"label\": \"EURO\",\n        \"data\": null\n    },\n    \"strikePriceCurrency\": {\n        \"internalCode\": \"001\",\n        \"externalCode\": \"EUR\",\n        \"label\": \"EURO\",\n        \"data\": null\n    },\n    \"exerciseStartDate\": \"2020-01-01\",\n    \"exerciseEndDate\": \"2020-02-01\",\n    \"nominalValue\": 1,\n    \"underlyingSecurity\": \"0000001938\",\n    \"underlyingAsset\": {\n        \"yieldToMaturity\": null,\n        \"internalSecurityId\": null,\n        \"economicSector\": null,\n        \"securityLabel\": null,\n        \"securityLabelAbr\": null,\n        \"securityValueType\": {\n            \"internalCode\": \"092\",\n            \"externalCode\": \"ACTC\",\n            \"label\": \"Actions Cotées\",\n            \"data\": null\n        },\n        \"securityCurrency\": {\n            \"internalCode\": \"001\",\n            \"externalCode\": \"EUR\",\n            \"label\": \"EURO\",\n            \"data\": null\n        },\n        \"securityNature\": {\n            \"internalCode\": \"000\",\n            \"externalCode\": \"ISIN\",\n            \"label\": \"ISIN\",\n            \"data\": null\n        },\n        \"externalSecurityId\": \"ACT AHA\",\n        \"unitaryNominal\": null,\n        \"duration\": null,\n        \"securityClass\": null,\n        \"issuer\": null,\n        \"dateDebInterest\": null,\n        \"dateEndInterest\": null,\n        \"dateRemboursement\": null,\n        \"computationMethod\": null,\n        \"periodicity\": null,\n        \"dateFirstCoup\": null,\n        \"percCoup\": null,\n        \"groupingCode1\": null,\n        \"groupingCode2\": null,\n        \"groupingCode3\": null,\n        \"groupingCode4\": null,\n        \"groupingCode5\": null,\n        \"groupingCode6\": null,\n        \"groupingCode7\": null,\n        \"groupingCode8\": null,\n        \"freeZones\": null\n    },\n    \"multiplyingCoefficient\": 1,\n    \"option\": false,\n    \"forward\": false,\n    \"american\": false,\n    \"capOrFloor\": false,\n    \"future\": false,\n    \"futureAlternatif\": false,\n    \"portfolioMovement\": true,\n    \"cashEquivalent\": false,\n    \"modificationMode\": true,\n    \"forceWarnings\": false,\n    \"creationMode\": false,\n    \"newValueMode\": false\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "7c486bc4-fe33-4b85-8fbc-d79a51f7dfe7",
-					"name": "(1) Create Order",
-					"url": "{{host}}:{{port}}/tms/services/rest/order/ordermanagement/createDraft/internal/fromAsset/0000001936/0000000302/ENT",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": [],
-					"folder": "90e4bacb-dbcb-4cdc-a57c-a56a0e168906",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "9d35568c-7dc4-4a46-9861-5c0f22318dd2",
-					"name": "Instrument Class",
-					"url": "",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": null,
-					"events": [],
-					"folder": null,
-					"currentHelper": null,
-					"helperAttributes": null,
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "a7ed66e7-45bd-4c42-9af6-9b73bd88a330",
-					"name": "(1) Create Order",
-					"url": "{{host}}:{{port}}/tms/services/rest/order/ordermanagement/createDraft/internal/fromAsset/0000001936/0000000302/ENT",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": [],
-					"folder": "93cf3ce2-48eb-427b-87b8-8a671b468a81",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "e4029f9b-654d-4980-9ba6-911b95f04392",
-					"name": "order-form",
-					"url": "",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": null,
-					"events": [],
-					"folder": null,
-					"currentHelper": null,
-					"helperAttributes": null,
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "f933c9d2-933f-4907-86e9-4cbd1a2080a1",
-					"name": "(2) Order Informations",
-					"url": "{{host}}:{{port}}/tms/services/rest/order/ordermanagement/getOrderInformations",
-					"description": "",
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"description": "",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": [],
-					"folder": "90e4bacb-dbcb-4cdc-a57c-a56a0e168906",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "61c08321-2b5e-4141-8ed2-158c0463b873",
-					"rawModeData": "{\r\n    \"@type\": \"derivativeOrder\",\r\n    \"orderType\": {\r\n        \"internalCode\": \"000\",\r\n        \"externalCode\": \"MARKET\",\r\n        \"label\": \"Marché\",\r\n        \"data\": null\r\n    },\r\n    \"currencyPrecision\": 0.0,\r\n    \"securityPrecision\": 0.0,\r\n    \"entity\": \"ENT\",\r\n    \"creationUser\": \"INI\",\r\n    \"validateOrder\": false,\r\n    \"minTradeAmount\": 0.0,\r\n    \"mulTradeAmount\": 0.0,\r\n    \"validityPeriod\": {\r\n        \"internalCode\": \"000\",\r\n        \"externalCode\": \"GTC\",\r\n        \"label\": \"Good till cancel\",\r\n        \"data\": null\r\n    },\r\n    \"orderStatus\": {\r\n        \"internalCode\": \"030\",\r\n        \"externalCode\": \"SAISI\",\r\n        \"label\": \"SAISI\",\r\n        \"data\": null\r\n    },\r\n    \"valueDate\": \"2020-02-27 22:00:00\",\r\n    \"orderDate\": \"2020-02-27 16:53:00\",\r\n    \"price\": 0.0,\r\n    \"media\": {\r\n        \"internalCode\": \"000\",\r\n        \"externalCode\": \"PHONE\",\r\n        \"label\": \"Téléphone\",\r\n        \"data\": null\r\n    },\r\n    \"clientOrders\": [\r\n        {\r\n            \"mirrorAccount\": \"0000000301\",\r\n            \"principalMirrorAccount\": null,\r\n            \"bankAccount\": \"0000000212\",\r\n            \"quantity\": null,\r\n            \"underlyingAssetQuantity\": null,\r\n            \"price\": null,\r\n            \"currency\": {\r\n                \"internalCode\": \"001\",\r\n                \"externalCode\": \"EUR\",\r\n                \"label\": \"EUR\",\r\n                \"data\": null\r\n            },\r\n            \"accruedCoupon\": null,\r\n            \"portfolioModel\": {\r\n                \"portfolioId\": \"0000000302\",\r\n                \"portfolioNumber\": \"AHA_PTF_1                          \",\r\n                \"portfolioLabel\": \"AHA_PTF_1\",\r\n                \"entity\": \"ENT\",\r\n                \"currency\": null,\r\n                \"strongDecimality\": false,\r\n                \"isStrongDecimality\": false\r\n            },\r\n            \"fees\": [\r\n                {\r\n                    \"feeID\": \"000\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"001\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"002\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"003\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"004\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"005\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"006\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"007\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"008\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"009\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"010\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"011\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"012\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"013\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"014\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"015\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"016\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"017\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"018\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"019\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                },\r\n                {\r\n                    \"feeID\": \"020\",\r\n                    \"unit\": null,\r\n                    \"percentage\": null,\r\n                    \"amount\": null,\r\n                    \"manual\": false\r\n                }\r\n            ],\r\n            \"availableCash\": null,\r\n            \"positionEvaluation\": 0,\r\n            \"heldSecurities\": null,\r\n            \"buyQuantity\": 0,\r\n            \"sellQuantity\": 0\r\n        }\r\n    ],\r\n    \"cotation\": {\r\n        \"internalCode\": \"001\",\r\n        \"externalCode\": \"DEV\",\r\n        \"label\": \"En devise\",\r\n        \"data\": null\r\n    },\r\n    \"accountingMode\": {\r\n        \"internalCode\": \"001\",\r\n        \"externalCode\": \"PIE\",\r\n        \"label\": \"A la pièce\",\r\n        \"data\": null\r\n    },\r\n    \"priceCurrency\": {\r\n        \"internalCode\": \"001\",\r\n        \"externalCode\": \"EUR\",\r\n        \"label\": \"EUR\",\r\n        \"data\": null\r\n    },\r\n    \"issuer\": \"0000000002\",\r\n    \"security\": {\r\n        \"yieldToMaturity\": 0.0,\r\n        \"internalSecurityId\": \"0000001936\",\r\n        \"economicSector\": null,\r\n        \"securityLabel\": \"CALL_LG_AHA\",\r\n        \"securityLabelAbr\": null,\r\n        \"securityValueType\": null,\r\n        \"securityCurrency\": {\r\n            \"internalCode\": \"001\",\r\n            \"externalCode\": \"EUR\",\r\n            \"label\": \"EUR\",\r\n            \"data\": null\r\n        },\r\n        \"securityNature\": null,\r\n        \"externalSecurityId\": null,\r\n        \"unitaryNominal\": null,\r\n        \"duration\": null,\r\n        \"securityClass\": {\r\n            \"internalCode\": \"005\",\r\n            \"externalCode\": \"CALL ACH\",\r\n            \"label\": \"Call acheté\",\r\n            \"data\": null\r\n        },\r\n        \"issuer\": {\r\n            \"internalCode\": \"0000000002\",\r\n            \"externalCode\": \"DEFAULT        \",\r\n            \"label\": \"DEFAULT\",\r\n            \"data\": null\r\n        },\r\n        \"dateDebInterest\": null,\r\n        \"dateRemboursement\": null,\r\n        \"computationMethod\": null,\r\n        \"periodicity\": null,\r\n        \"dateFirstCoup\": null,\r\n        \"percCoup\": null,\r\n        \"groupingCode1\": null,\r\n        \"groupingCode2\": null,\r\n        \"groupingCode3\": null,\r\n        \"groupingCode4\": null,\r\n        \"groupingCode5\": null,\r\n        \"groupingCode6\": null,\r\n        \"groupingCode7\": null,\r\n        \"groupingCode8\": null,\r\n        \"freeZones\": null\r\n    },\r\n    \"portfolioScreenParameter\": 1,\r\n    \"hasCurrency\": true,\r\n    \"securityClass\": \"CALL\",\r\n    \"hasPortfolioMovementUnderlyingAsset\": true,\r\n    \"strikePriceCurrency\": \"EUR\",\r\n    \"exerciseStartDate\": \"2020-01-01\",\r\n    \"exerciseEndDate\": \"2020-01-01\",\r\n    \"exerciseValueDate\": \"2020-01-04\",\r\n    \"underlyingSecurity\": \"0000001938\",\r\n    \"underlyingAsset\": {\r\n        \"yieldToMaturity\": null,\r\n        \"internalSecurityId\": null,\r\n        \"economicSector\": null,\r\n        \"securityLabel\": null,\r\n        \"securityLabelAbr\": null,\r\n        \"securityValueType\": {\r\n            \"internalCode\": \"092\",\r\n            \"externalCode\": \"ACTC\",\r\n            \"label\": \"Actions Cotées\",\r\n            \"data\": null\r\n        },\r\n        \"securityCurrency\": {\r\n            \"internalCode\": \"001\",\r\n            \"externalCode\": \"EUR\",\r\n            \"label\": \"EUR\",\r\n            \"data\": null\r\n        },\r\n        \"securityNature\": {\r\n            \"internalCode\": \"000\",\r\n            \"externalCode\": \"ISIN\",\r\n            \"label\": \"ISIN\",\r\n            \"data\": null\r\n        },\r\n        \"externalSecurityId\": \"ACT AHA\",\r\n        \"unitaryNominal\": null,\r\n        \"duration\": null,\r\n        \"securityClass\": null,\r\n        \"issuer\": null,\r\n        \"dateDebInterest\": null,\r\n        \"dateRemboursement\": null,\r\n        \"computationMethod\": null,\r\n        \"periodicity\": null,\r\n        \"dateFirstCoup\": null,\r\n        \"percCoup\": null,\r\n        \"groupingCode1\": null,\r\n        \"groupingCode2\": null,\r\n        \"groupingCode3\": null,\r\n        \"groupingCode4\": null,\r\n        \"groupingCode5\": null,\r\n        \"groupingCode6\": null,\r\n        \"groupingCode7\": null,\r\n        \"groupingCode8\": null,\r\n        \"freeZones\": null\r\n    },\r\n    \"strikePrice\": 10,\r\n    \"multiplyingCoefficient\": 1.0,\r\n    \"option\": true,\r\n    \"forward\": false,\r\n    \"future\": false,\r\n    \"american\": false,\r\n    \"capOrFloor\": false,\r\n    \"portfolioMovement\": true,\r\n    \"cashEquivalent\": false,\r\n    \"modificationMode\": false,\r\n    \"creationMode\": true,\r\n    \"forceWarnings\": false,\r\n    \"newValueMode\": false\r\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				}
-			]
-		},
-		{
-			"id": "82bf0000-bf83-4822-9766-985ad5a2e9b7",
-			"name": "General",
-			"description": "",
-			"auth": null,
-			"events": null,
-			"variables": [],
-			"order": [
-				"4bcd0291-1213-4a04-8d36-3af55b380826",
-				"b39fdff1-5805-437d-b6a3-a86729641733",
-				"f27edf0c-b1a6-4039-8f40-31232f942e3e",
-				"c09b2314-bfad-4ff3-8cf5-dc6e8b932f9a",
-				"a9fbf67d-cdbc-40c5-a230-8eea7ba537bc",
-				"6a05b888-f97f-404f-b774-2e0c6d478451",
-				"b2065b93-1d16-42de-900d-170ead129ad4",
-				"248fae7f-2790-4577-93a7-84d086397101",
-				"2abfbd85-5de3-40e6-aaa7-abaa85233227",
-				"177ff83d-9c70-4a99-9c69-f0573d1ca187"
-			],
-			"folders_order": [],
-			"folders": [],
-			"requests": [
-				{
-					"id": "177ff83d-9c70-4a99-9c69-f0573d1ca187",
-					"name": "JSON write",
-					"url": "{{host}}:{{port}}/tms/services/rest/order/ordermanagement/getContractClass/000",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "82bf0000-bf83-4822-9766-985ad5a2e9b7",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "248fae7f-2790-4577-93a7-84d086397101",
-					"name": "CLC",
-					"url": "{{host}}:{{port}}/tms/services/rest/parameters/list-of-value/values/CLC/EN",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "82bf0000-bf83-4822-9766-985ad5a2e9b7",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "2abfbd85-5de3-40e6-aaa7-abaa85233227",
-					"name": "Contract class by TCT",
-					"url": "{{host}}:{{port}}/tms/services/rest/order/ordermanagement/getContractClass/002",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "82bf0000-bf83-4822-9766-985ad5a2e9b7",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "4bcd0291-1213-4a04-8d36-3af55b380826",
-					"name": "Authentication",
-					"url": "{{host}}:{{port}}/tms/services/rest/security/auth/authenticate/",
-					"description": "",
-					"data": [
-						{
-							"key": "username",
-							"value": "INI",
-							"description": "",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "password",
-							"value": "INI",
-							"description": "",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "additionalParam",
-							"value": "ENT",
-							"description": "",
-							"type": "text",
-							"enabled": true
-						}
-					],
-					"dataMode": "urlencoded",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/x-www-form-urlencoded",
-							"description": "",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "edgegrid",
-						"edgegrid": []
-					},
-					"events": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "348f59b8-5f1e-4c6b-b276-8d9e32fd7164",
-								"exec": [
-									"var data = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"PASS\", data.token)",
-									"console.log(data.token);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"folder": null,
-					"preRequestScript": null,
-					"tests": "var data = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"PASS\", data.token)\nconsole.log(data.token);",
-					"collectionId": "82bf0000-bf83-4822-9766-985ad5a2e9b7",
-					"headers": "Content-Type: application/x-www-form-urlencoded\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "6a05b888-f97f-404f-b774-2e0c6d478451",
-					"name": "CLV",
-					"url": "{{host}}:{{port}}/tms/services/rest/parameters/list-of-value/values/CLV/EN",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "82bf0000-bf83-4822-9766-985ad5a2e9b7",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "a9fbf67d-cdbc-40c5-a230-8eea7ba537bc",
-					"name": "TVL",
-					"url": "{{host}}:{{port}}/tms/services/rest/parameters/list-of-value/values/TVL/EN",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "82bf0000-bf83-4822-9766-985ad5a2e9b7",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "b2065b93-1d16-42de-900d-170ead129ad4",
-					"name": "TCT",
-					"url": "{{host}}:{{port}}/tms/services/rest/parameters/list-of-value/values/ENRICHED_TCT/EN",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "82bf0000-bf83-4822-9766-985ad5a2e9b7",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "b39fdff1-5805-437d-b6a3-a86729641733",
-					"name": "Parameters",
-					"url": "{{host}}:{{port}}/tms/services/rest/parameters/list-of-value/values/TOO|CLC=003|TCT=000/FF",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "82bf0000-bf83-4822-9766-985ad5a2e9b7",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "c09b2314-bfad-4ff3-8cf5-dc6e8b932f9a",
-					"name": "Country",
-					"url": "{{host}}:{{port}}/tms/services/rest/parameters/list-of-value/values/PAY/FF",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"bearer": [
-							{
-								"key": "token",
-								"type": "string",
-								"value": "{{PASS}}"
-							}
-						],
-						"type": "bearer"
-					},
-					"events": [],
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "82bf0000-bf83-4822-9766-985ad5a2e9b7",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "f27edf0c-b1a6-4039-8f40-31232f942e3e",
-					"name": "Currency",
-					"url": "http://{{host}}:{{port}}/tms/services/rest/bankTransfer/transfer/currencyOfEntity/ENT",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": [],
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "82bf0000-bf83-4822-9766-985ad5a2e9b7",
-					"headers": "",
-					"pathVariables": {}
-				}
-			]
-		},
-		{
-			"id": "99119078-cadc-4d6c-86f5-01e3ab27dd50",
-			"name": "Instrument Creation",
-			"description": "",
-			"auth": null,
-			"events": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "ad2eb8f9-ef8c-4feb-a0bd-021dc3c49ab8",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "05cd0188-7eb8-4061-b5a9-b00b2c0c4393",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			],
-			"variables": [],
-			"order": [
-				"a3b65d44-bae1-4269-8d15-ddbebf1e1079"
-			],
-			"folders_order": [],
-			"folders": [],
-			"requests": [
-				{
-					"id": "a3b65d44-bae1-4269-8d15-ddbebf1e1079",
-					"name": "New Asset",
-					"url": "{{host}}:{{port}}/tms/services/rest/order/ordermanagement/createDraft/fromNewAsset/001/0000000233/ENT",
-					"description": "",
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{PASS}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": null,
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{PASS}}"
-					},
-					"collectionId": "99119078-cadc-4d6c-86f5-01e3ab27dd50",
-					"headers": "",
-					"pathVariables": {}
-				}
-			]
-		},
-		{
-			"id": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-			"name": "HRMS-API",
-			"description": null,
-			"auth": null,
-			"events": null,
-			"variables": [],
-			"order": [
-				"06f23951-d63f-41c4-b8e8-3a327157c7b0"
-			],
-			"folders_order": [
-				"85c49c64-b082-4049-af48-c80d6967c109",
-				"76771e73-6cd0-45c1-984d-c99b5c450d44"
-			],
-			"folders": [
-				{
-					"id": "85c49c64-b082-4049-af48-c80d6967c109",
-					"name": "Role",
-					"description": null,
-					"auth": null,
-					"events": null,
-					"collection": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"folder": null,
-					"order": [
-						"abc91e00-7328-4764-af55-59f40a64d32c",
-						"0f4f6f25-b0bf-43ea-b6e6-b4e88cfb9986",
-						"6287ce82-bec3-4e11-833d-ffda2f541f03",
-						"efadb575-8d08-4dd2-a79a-6c56ed3424f6",
-						"a3a521cc-e0e8-4f12-bcbd-280a3a6e30a3",
-						"ea273077-0247-4fe3-8009-c785d3e9f82d"
-					],
-					"folders_order": [],
-					"collectionId": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"folderId": "85c49c64-b082-4049-af48-c80d6967c109"
-				},
-				{
-					"id": "76771e73-6cd0-45c1-984d-c99b5c450d44",
-					"name": "employee",
-					"description": null,
-					"auth": null,
-					"events": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "be1b63a3-f42c-4387-9ba1-a7eb7ab92d33",
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"id": "a01499da-f65f-4f16-b350-41bba96a2dd7",
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					],
-					"collection": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"folder": null,
-					"order": [
-						"5bfa429d-e68e-4b23-a7db-7b700a649a3d",
-						"9cfe9dd2-b0c0-4465-8ff1-e736838cda1a",
-						"6c650e3a-96f2-4874-a74d-19a03681afea"
-					],
-					"folders_order": [],
-					"collectionId": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"folderId": "76771e73-6cd0-45c1-984d-c99b5c450d44"
-				}
-			],
-			"requests": [
-				{
-					"id": "06f23951-d63f-41c4-b8e8-3a327157c7b0",
-					"name": "auth",
-					"url": "http://localhost:3000/auth",
-					"description": null,
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"description": "",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": null,
-					"events": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "dc34b65d-46e5-4d4a-8e9d-b1ffb6878c19",
-								"exec": [
-									"var data = JSON.parse(responseBody);",
-									"pm.environment.set('token', data.token);",
-									"console.log(data.token);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"folder": null,
-					"preRequestScript": null,
-					"tests": "var data = JSON.parse(responseBody);\npm.environment.set('token', data.token);\nconsole.log(data.token);",
-					"currentHelper": null,
-					"helperAttributes": null,
-					"collectionId": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"rawModeData": "{\n    \"email\": \"n@nuevera.com\",\n    \"password\": \"nuevera\"\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "0f4f6f25-b0bf-43ea-b6e6-b4e88cfb9986",
-					"name": "Roles list",
-					"url": "http://localhost:3000/roles",
-					"description": null,
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": "85c49c64-b082-4049-af48-c80d6967c109",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{token}}"
-					},
-					"collectionId": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "5bfa429d-e68e-4b23-a7db-7b700a649a3d",
-					"name": "Add employee",
-					"url": "http://localhost:3000/employees/records/add",
-					"description": null,
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"disabled": false,
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{token}}"
-							}
-						]
-					},
-					"events": null,
-					"folder": "76771e73-6cd0-45c1-984d-c99b5c450d44",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{token}}"
-					},
-					"collectionId": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"rawModeData": "{\n    \"username\": \"nuevera2\",\n    \"firstName\": \"Nuevera\",\n    \"lastName\": \"Nuevera\",\n    \"email\": \"n@nuevera2.com\",\n    \"password\": \"nuevera\",\n    \"cin\": \"01234569\",\n    \"prefix\": \"Mr.\",\n    \"role\": \"Employee\",\n    \"gender\": \"male\",\n    \"phone\": \"88887774\",\n    \"modeOfEmployment\": \"full-time\",\n    \"department\": \"IT\"\t\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "6287ce82-bec3-4e11-833d-ffda2f541f03",
-					"name": "Privileges list",
-					"url": "http://localhost:3000/roles",
-					"description": null,
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": "85c49c64-b082-4049-af48-c80d6967c109",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{token}}"
-					},
-					"collectionId": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "6c650e3a-96f2-4874-a74d-19a03681afea",
-					"name": "Employee details",
-					"url": "http://localhost:3000/employees/records/5f2495fff02fb21d8ce739ef",
-					"description": null,
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"bearer": [
-							{
-								"key": "token",
-								"type": "string",
-								"value": "{{token}}"
-							}
-						],
-						"type": "bearer"
-					},
-					"events": null,
-					"folder": "76771e73-6cd0-45c1-984d-c99b5c450d44",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{token}}"
-					},
-					"collectionId": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "9cfe9dd2-b0c0-4465-8ff1-e736838cda1a",
-					"name": "Employees list",
-					"url": "http://localhost:3000/employees/records?page=1&size=10",
-					"description": null,
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [
-						{
-							"key": "page",
-							"value": "1",
-							"equals": true,
-							"description": "",
-							"enabled": true
-						},
-						{
-							"key": "size",
-							"value": "10",
-							"equals": true,
-							"description": "",
-							"enabled": true
-						}
-					],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": "76771e73-6cd0-45c1-984d-c99b5c450d44",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{token}}"
-					},
-					"collectionId": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "a3a521cc-e0e8-4f12-bcbd-280a3a6e30a3",
-					"name": "Role details",
-					"url": "http://localhost:3000/roles/5f24aad63be6fc476c63c79d",
-					"description": null,
-					"data": null,
-					"dataMode": null,
-					"headerData": [],
-					"method": "GET",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": "85c49c64-b082-4049-af48-c80d6967c109",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{token}}"
-					},
-					"collectionId": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "abc91e00-7328-4764-af55-59f40a64d32c",
 					"name": "Add role",
-					"url": "http://localhost:3000/roles/add",
-					"description": null,
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": "85c49c64-b082-4049-af48-c80d6967c109",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{token}}"
-					},
-					"collectionId": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"rawModeData": "{\n    \"name\": \"Head of HR Manager Department\",\n    \"description\": \"Head of HR Manager Department\",\n    \"extendsRoles\": [],\n    \"privileges\": [\n        \"shared.requests.access\",\n        \"shared.requests.create\",\n        \"shared.requests.cancel\",\n        \"shared.requests.approve\",\n        \"shared.requests.reject\",\n        \"shared.notification.access\",\n        \"config.roles.access\",\n        \"config.roles.create\",\n        \"config.roles.edit\",\n        \"config.roles.delete\",\n        \"user.record.access\",\n        \"user.record.create\",\n        \"user.record.edit\",\n        \"user.record.delete\",\n        \"user.profile.access\",\n        \"user.profile.edit\"\n    ]\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				},
-				{
-					"id": "ea273077-0247-4fe3-8009-c785d3e9f82d",
-					"name": "Delete Role",
-					"url": "http://localhost:3000/roles/role/5f077496165d613d9cdc9eb8",
-					"description": null,
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [],
-					"method": "DELETE",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{token}}"
-							}
-						]
-					},
-					"events": null,
-					"folder": "85c49c64-b082-4049-af48-c80d6967c109",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{token}}"
-					},
-					"collectionId": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"rawModeData": "",
-					"headers": "",
-					"pathVariables": {}
-				},
-				{
-					"id": "efadb575-8d08-4dd2-a79a-6c56ed3424f6",
-					"name": "Update role",
-					"url": "http://localhost:3000/roles/update",
-					"description": null,
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": {
-						"type": "bearer",
-						"bearer": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"type": "string"
-							}
-						]
-					},
-					"events": null,
-					"folder": "85c49c64-b082-4049-af48-c80d6967c109",
-					"currentHelper": "bearerAuth",
-					"helperAttributes": {
-						"id": "bearer",
-						"token": "{{token}}"
-					},
-					"collectionId": "c58b1b04-c1b1-404d-a761-50ae064f9c12",
-					"rawModeData": "{\n    \"id\": \"5f24aad63be6fc476c63c79d\",\n    \"name\": \"Head of HR Management Department\",\n    \"description\": \"Head of HR Management Department\",\n    \"privileges\": [\n        \"shared.requests.access\",\n        \"shared.requests.create\",\n        \"shared.requests.cancel\",\n        \"shared.requests.approve\",\n        \"shared.requests.reject\",\n        \"shared.notification.access\",\n        \"config.roles.access\",\n        \"config.roles.create\",\n        \"config.roles.edit\",\n        \"config.roles.delete\",\n        \"employees.records.access\",\n        \"employees.records.create\",\n        \"employees.records.edit\",\n        \"employees.records.delete\",\n        \n        \"employees.profile.access\",\n        \"employees.profile.edit\"\n    ]\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
-				}
-			]
-		},
-		{
-			"id": "c9812958-2fd3-47bd-b5b5-a73b86d71000",
-			"name": "SIGMA",
-			"description": "",
-			"auth": null,
-			"events": null,
-			"variables": [],
-			"order": [
-				"a36b88fc-274c-4fae-8f56-36620d75ffad",
-				"4940b4d0-db36-4da7-9bc2-1c2a707509cd"
-			],
-			"folders_order": [],
-			"folders": [],
-			"requests": [
-				{
-					"id": "4940b4d0-db36-4da7-9bc2-1c2a707509cd",
-					"name": "Login",
-					"url": "http://localhost:8082/authenticate",
-					"description": "",
-					"data": [
-						{
-							"key": "username",
-							"value": "wassim2",
-							"description": "",
-							"type": "text",
-							"enabled": true
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
-						{
-							"key": "password",
-							"value": "wassim123",
-							"description": "",
-							"type": "text",
-							"enabled": true
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Head of HR Manager Department\",\n    \"description\": \"Head of HR Manager Department\",\n    \"extendsRoles\": [],\n    \"privileges\": [\n        \"shared.requests.access\",\n        \"shared.requests.create\",\n        \"shared.requests.cancel\",\n        \"shared.requests.approve\",\n        \"shared.requests.reject\",\n        \"shared.notification.access\",\n        \"config.roles.access\",\n        \"config.roles.create\",\n        \"config.roles.edit\",\n        \"config.roles.delete\",\n        \"user.record.access\",\n        \"user.record.create\",\n        \"user.record.edit\",\n        \"user.record.delete\",\n        \"user.profile.access\",\n        \"user.profile.edit\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://api.nuevera.com/roles/add",
+							"protocol": "http",
+							"host": [
+								"api",
+								"nuevera",
+								"com"
+							],
+							"path": [
+								"roles",
+								"add"
+							]
 						}
-					],
-					"dataMode": "params",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/x-www-form-urlencoded",
-							"description": "",
-							"type": "text"
-						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": null,
-					"events": [],
-					"folder": null,
-					"currentHelper": null,
-					"helperAttributes": null,
-					"collectionId": "c9812958-2fd3-47bd-b5b5-a73b86d71000",
-					"headers": "Content-Type: application/x-www-form-urlencoded\n",
-					"pathVariables": {}
+					},
+					"response": []
 				},
 				{
-					"id": "a36b88fc-274c-4fae-8f56-36620d75ffad",
-					"name": "Register",
-					"url": "http://localhost:8082/register/",
-					"description": "",
-					"data": [],
-					"dataMode": "raw",
-					"headerData": [
-						{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"description": "",
-							"type": "text"
+					"name": "Roles list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://api.nuevera.com/roles",
+							"protocol": "http",
+							"host": [
+								"api",
+								"nuevera",
+								"com"
+							],
+							"path": [
+								"roles"
+							]
 						}
-					],
-					"method": "POST",
-					"pathVariableData": [],
-					"queryParams": [],
-					"auth": null,
-					"events": [],
-					"folder": null,
-					"currentHelper": null,
-					"helperAttributes": null,
-					"collectionId": "c9812958-2fd3-47bd-b5b5-a73b86d71000",
-					"rawModeData": "{\n    \"email\": \"wassim@mail.com\",\n    \"username\": \"wassimx\",\n    \"password\": \"wassim123\",\n    \"address\": \"azer\",\n    \"phone\": \"87878787878\",\n    \"speciality\": \"XX\",\n    \"role\": \"client\",\n    \"companyName\": \"Nuevera\"\n}",
-					"headers": "Content-Type: application/json\n",
-					"pathVariables": {}
+					},
+					"response": []
+				},
+				{
+					"name": "Privileges list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://api.nuevera.com/roles",
+							"protocol": "http",
+							"host": [
+								"api",
+								"nuevera",
+								"com"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"5f24aad63be6fc476c63c79d\",\n    \"name\": \"Head of HR Management Department\",\n    \"description\": \"Head of HR Management Department\",\n    \"privileges\": [\n        \"shared.requests.access\",\n        \"shared.requests.create\",\n        \"shared.requests.cancel\",\n        \"shared.requests.approve\",\n        \"shared.requests.reject\",\n        \"shared.notification.access\",\n        \"config.roles.access\",\n        \"config.roles.create\",\n        \"config.roles.edit\",\n        \"config.roles.delete\",\n        \"employees.records.access\",\n        \"employees.records.create\",\n        \"employees.records.edit\",\n        \"employees.records.delete\",\n        \n        \"employees.profile.access\",\n        \"employees.profile.edit\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://api.nuevera.com/roles/update",
+							"protocol": "http",
+							"host": [
+								"api",
+								"nuevera",
+								"com"
+							],
+							"path": [
+								"roles",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Role details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://api.nuevera.com/roles/5f24aad63be6fc476c63c79d",
+							"protocol": "http",
+							"host": [
+								"api",
+								"nuevera",
+								"com"
+							],
+							"path": [
+								"roles",
+								"5f24aad63be6fc476c63c79d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete multiple roles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    \"aaa\",\n    \"5f31249bca878e0e7c16d02f\",\n    \"5f3116d0c38b141658b72d69\"\n]"
+						},
+						"url": {
+							"raw": "http://api.nuevera.com/roles",
+							"protocol": "http",
+							"host": [
+								"api",
+								"nuevera",
+								"com"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
 				}
 			]
+		},
+		{
+			"name": "employee",
+			"item": [
+				{
+					"name": "Add employee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"disabled": false,
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"nuevera2\",\n    \"firstName\": \"Nuevera\",\n    \"lastName\": \"Nuevera\",\n    \"email\": \"n@nuevera2.com\",\n    \"password\": \"nuevera\",\n    \"cin\": \"01234569\",\n    \"prefix\": \"Mr.\",\n    \"role\": \"Employee\",\n    \"gender\": \"male\",\n    \"phone\": \"88887774\",\n    \"modeOfEmployment\": \"full-time\",\n    \"department\": \"IT\"\t\n}"
+						},
+						"url": {
+							"raw": "http://api.nuevera.com/employees/records/add",
+							"protocol": "http",
+							"host": [
+								"api",
+								"nuevera",
+								"com"
+							],
+							"path": [
+								"employees",
+								"records",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Employees list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://api.nuevera.com/employees/records?page=1&size=10",
+							"protocol": "http",
+							"host": [
+								"api",
+								"nuevera",
+								"com"
+							],
+							"path": [
+								"employees",
+								"records"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Employee details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://api.nuevera.com/employees/records/5f2495fff02fb21d8ce739ef",
+							"protocol": "http",
+							"host": [
+								"api",
+								"nuevera",
+								"com"
+							],
+							"path": [
+								"employees",
+								"records",
+								"5f2495fff02fb21d8ce739ef"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "be1b63a3-f42c-4387-9ba1-a7eb7ab92d33",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a01499da-f65f-4f16-b350-41bba96a2dd7",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dc34b65d-46e5-4d4a-8e9d-b1ffb6878c19",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"pm.environment.set('token', data.token);",
+							"console.log(data.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"n@nuevera.com\",\n    \"password\": \"nuevera\"\n}"
+				},
+				"url": {
+					"raw": "http://api.nuevera.com/auth",
+					"protocol": "http",
+					"host": [
+						"api",
+						"nuevera",
+						"com"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
 		}
-	],
-	"environments": [
-		{
-			"id": "0be4a40b-500c-470f-a9cd-6310323dc7d9",
-			"name": "Azer Server",
-			"values": [
-				{
-					"key": "host",
-					"value": "TNLT653",
-					"enabled": true
-				},
-				{
-					"key": "port",
-					"value": "28080",
-					"enabled": true
-				},
-				{
-					"key": "PASS",
-					"value": "",
-					"enabled": true
-				}
-			]
-		},
-		{
-			"id": "160955a3-e04d-4376-bae4-1edab9400ee3",
-			"name": "Bank Transfer",
-			"values": [
-				{
-					"key": "BASIC_USER",
-					"value": "ENT/INI",
-					"enabled": true
-				},
-				{
-					"key": "ormId",
-					"value": "0000000207",
-					"enabled": true
-				}
-			]
-		},
-		{
-			"id": "17ae51b6-d90b-459d-b635-9f674644d03d",
-			"name": "My Workspace - globals",
-			"values": []
-		},
-		{
-			"id": "2d7092d7-39a8-41d4-bc30-b3eba50b02c4",
-			"name": "prod-win",
-			"values": [
-				{
-					"key": "host",
-					"value": "wsautotest-soliam-vm.vermeg.com",
-					"enabled": true
-				},
-				{
-					"key": "port",
-					"value": "28080",
-					"enabled": true
-				},
-				{
-					"key": "PASS",
-					"value": "eyJhbGciOiJSUzUxMiJ9.eyJpc3MiOiJWZXJtZWciLCJhdWQiOiJWZXJtZWciLCJzdWIiOiJJTkkiLCJpYXQiOjE1OTE4MzY4ODIsImV4cCI6MTU5MTgzNzc4MiwibmJmIjoxNTkxODM2ODgyLCJqdGkiOiJkZjE1YjVjNy1kMTA0LTQyMzktYWYyMi0zN2Y3ZjdhNzZkYjkiLCJzbG0uY2FuRGVsZXRlUHJvZmlsZSI6dHJ1ZSwic2xtLmFjcXVpc2l0aW9uTGluZXNBY2Nlc3MiOmZhbHNlLCJzbG0uaXNUaWVTZWciOnRydWUsInNsbS5pbkVudGl0eVJpZ2h0c1ZpZXdDb25maWd1cmF0aW9uIjp0cnVlLCJzbG0uYWxsUmlnaHRzVmlld0NvbmZpZ3VyYXRpb24iOnRydWUsInNsbS5pc1NjcmVlbk1BSiI6dHJ1ZSwic2xtLmNhbkFjY0ZpbmFuY2lhbFZpZXciOnRydWUsInNsbS5kaXNwbGF5U3RydWN0dXJlZFByb2R1Y3RDYW1wYWlnbiI6dHJ1ZSwic2xtLmRvY3VtZW50QWNjZXNzIjp0cnVlLCJzbG0uY2FuRGVsZXRlQ3VzdG9tTGlzdCI6dHJ1ZSwic2xtLmNhbkFjY2Vzc1Byb2dCYXRjaENyYyI6dHJ1ZSwic2xtLmNhbk1vZGlmeUFkZHJlc3MiOnRydWUsInNsbS5jYW5EZWxldGVDdXN0b21MaXN0Q29tcG9uZW50Ijp0cnVlLCJzbG0uY2FuQWNjZXNzUHRmcyI6dHJ1ZSwic2xtLmNybUFjY2VzcyI6dHJ1ZSwic2xtLmNhbkNyZWF0ZU9yZGVycyI6dHJ1ZSwic2xtLmNhbkFjY2Vzc0NvbnNvbGlkYXRpb25FbnRpdHkiOnRydWUsInNsbS5lQ29tcGxpYW5jZURFTEF2YWlsYWJsZSI6dHJ1ZSwic2xtLmNhbkNyZWF0ZVNjcmVlbnMiOnRydWUsInNsbS5jYW5BZGRTaGFyZWRMaXN0Q29tcG9uZW50Ijp0cnVlLCJzbG0uY2FuQWNjZXB0Q29udGFjdHMiOnRydWUsImRiQWNjZXNzIjp7ImFjY2Vzc1N0YXR1cyI6Ik9QRU4iLCJzdGF0dXNFeHBpcmVkR3JhY2UiOmZhbHNlLCJwYXNzd29yZEV4cGlyeURhdGUiOnsic3RhcnREYXRlIjpudWxsLCJlbmREYXRlIjoiMjkvMTEvMjAyMCIsInJlZkRhdGUiOm51bGwsInJhbmdlIjpmYWxzZSwic3RkUGVyaW9kIjoiUEVSSU9EX05PTkUiLCJkZWx0YSI6MCwiZGF0ZVN0cmluZyI6bnVsbH0sImRheUxlZnRCZWZvcmVQYXNzd29yZEV4cGlyeSI6MTcxLCJtc2dFeHBpcmVkR3JhY2UiOm51bGwsIm11c3RDaGFuZ2VQYXNzd29yZCI6ZmFsc2V9LCJzbG0uZUNvbXBsaWFuY2VNQUpBdmFpbGFibGUiOnRydWUsInNsbS5jYW5EZWxldGVTaGFyZWRMaXN0Ijp0cnVlLCJzbG0uY2FuQ29uZmlndXJlUHJlY29tcHV0ZWRWaWV3cyI6dHJ1ZSwic2xtLmNhbkFkZEN1c3RvbUxpc3QiOnRydWUsInNsbS5jYW5BZGRTaGFyZWRMaXN0Ijp0cnVlLCJzbG0uY2FuQWNjZXNzU2VxdWVuY2VyQ29ucyI6dHJ1ZSwic2xtLmZvcm11bGFNb2RpZmljYXRpb24iOnRydWUsInNsbS5jYW5BcmNoaXZlRmluYW5jaWFsTWVzc2FnZXMiOnRydWUsInNsbS5jb21wbGlhbmNlTGlzdEFjY2VzcyI6dHJ1ZSwic2xtLnJlcG9ydGluZ0FjY2VzcyI6dHJ1ZSwic2xtLmNhblJlZnVzZUNvbnRhY3RzIjp0cnVlLCJzbG0uY2FuQWNjZXNzVHJhbnNsYXRpb25Ub29sIjp0cnVlLCJzbG0uY2FuQWNjZXNzSUJBTiI6dHJ1ZSwic2xtLm9ybUFkbWluIjp0cnVlLCJzbG0uY2FuU2hhcmVQcm9maWxlIjp0cnVlLCJzbG0uY2FuU3RhcnRBYm4iOnRydWUsInNsbS5pc0Zyb250T2ZmaWNlciI6dHJ1ZSwic2xtLmRvY3VtZW50REVMIjp0cnVlLCJzbG0uY2FuRGVsZXRlQWRkcmVzcyI6dHJ1ZSwic2xtLmNhbk1vZGlmeU1lc3NhZ2VzIjp0cnVlLCJzbG0uY2FuQWRkQ3VzdG9tTGlzdENvbXBvbmVudCI6dHJ1ZSwic2xtLmNhbkNyZWF0ZUNvbnRhY3RzIjp0cnVlLCJzbG0uY2FuQWRkQWRkcmVzcyI6dHJ1ZSwic2xtLmNhbkNhbmNlbEJhbmtUcmFuc2ZlciI6dHJ1ZSwic2xtLmNhbkFjY2Vzc01hc3NNb2QiOnRydWUsInNsbS5jYW5BY2Nlc3NDdXN0b21SZXBvcnRDb25maWciOnRydWUsInNsbS5jYW5Nb2RpZnlTaGFyZWRMaXN0Q29tcG9uZW50Ijp0cnVlLCJzbG0uaXNTY3JlZW5BZG1pbkluRW50aXR5Ijp0cnVlLCJzbG0uY2FuTW9kaWZ5RmVlc0FsbFJpZ2h0cyI6dHJ1ZSwic2xtLmFkdmlzb3J5RGVza1JlY29tbWVuZGF0aW9uQWNjZXNzIjp0cnVlLCJzbG0uYXJiaXRyYWdlQWNjZXNzIjp0cnVlLCJzbG0uY2FuQWNjZXNzQWRkcmVzcyI6dHJ1ZSwic2xtLmNhbk1vZGlmeUZlZXNNQUoiOnRydWUsInNsbS5jcm1XaXpBY2Nlc3MiOnRydWUsInNsbS5jYW5EZWxldGVPcmRlckxpbmsiOnRydWUsInNsbS5jYW5BY2Nlc3NNYXNzT3JkZXIiOnRydWUsInNsbS5jYW5EZWxldGVDb25zb2xpZGF0aW9uRW50aXR5QXNzb2NpYXRpb24iOnRydWUsInNsbS5jYW5BZGRDb25zb2xpZGF0aW9uRW50aXR5Ijp0cnVlLCJzbG0uaXNNYW5hZ2VyIjp0cnVlLCJzbG0uY2FuQnVsa0NoYW5nZWRBdHRyaWJ1dGVzIjp0cnVlLCJzbG0uY2FuQWNjZXNzTWVzc2FnZXMiOnRydWUsInNsbS5hZHZpc29yeURlc2tBbGxSZWNvbW1lbmRhdGlvbnNBY2Nlc3MiOnRydWUsInNsbS5jYW5DaGFuZ2VNYW5hZ2VyIjp0cnVlLCJzbG0uY2FuQWNjZXNzQ29uc29saWRhdGlvbkVudGl0eUFzc29jaWF0aW9uIjp0cnVlLCJzbG0uY2FuTW9kaWZ5Q3VzdG9tUmVwb3J0Q29uZmlnIjp0cnVlLCJzbG0uaXNTY3JlZW5BbGxSaWdodHMiOnRydWUsInNsbS5jYW5DcmVhdGVJQkFOIjp0cnVlLCJzbG0uY2FuTW9kaWZ5T3JkZXJzIjp0cnVlLCJzbG0uYXJiaXRyYWdlR2VuT3JkIjp0cnVlLCJzbG0uZG9jdW1lbnRNQUoiOnRydWUsInNsbS5jYW5VbmJsb2NrT3JkZXJzIjp0cnVlLCJzbG0uY2FuTGlua1JlY29tbWVuZGF0aW9uIjp0cnVlLCJzbG0uZGVsZXRlRm9ybUNvbmZpZ3VyYXRpb24iOnRydWUsInNsbS5lQ29tcGxpYW5jZUFkbWluQXZhaWxhYmxlIjp0cnVlLCJzbG0uY2FuQ3JlYXRlRXNwT3JkZXIiOnRydWUsInNsbS51cGRhdGVGb3JtQ29uZmlndXJhdGlvbiI6dHJ1ZSwic2xtLmNhbkFsdGVyUXVpY2tTZWFyY2giOnRydWUsInNsbS5jcm1UaWVNYWoiOnRydWUsInNsbS5jYW5Nb2RpZnlJYmFuQWRkcmVzcyI6dHJ1ZSwic2xtLmNhblRyZWF0ZUNvbnRhY3RzIjp0cnVlLCJzbG0uZ3JvdXBPZlBvcnRmb2xpb01BSiI6dHJ1ZSwic2xtLmNhbkV2b2x2ZVN0YXR1cyI6dHJ1ZSwic2xtLmNhblNlZVN0YXR1cyI6dHJ1ZSwic2xtLmNhbkFkZENvbnNvbGlkYXRpb25FbnRpdHlBc3NvY2lhdGlvbiI6dHJ1ZSwic2xtLmNybURvY0Z1c0FjY2VzcyI6dHJ1ZSwic2xtLmlzU2NyZWVuQWRtaW4iOnRydWUsInNsbS5jYW5EZWxldGVTY3JlZW5zIjp0cnVlLCJzbG0uY2FuQ3JlYXRlTWVzc2FnZXMiOnRydWUsInNsbS5pc0JhdGNoQWRtaW4iOnRydWUsInNsbS5jYW5DcmVhdGVCYW5rVHJhbnNmZXIiOnRydWUsInNsbS5jYW5CZVN1YnN0aXR1dGVkSW5QdWJsaWNXZWJTZXJ2aWNlIjp0cnVlLCJzbG0uY2FuRGVsZXRlU2hhcmVkTGlzdENvbXBvbmVudCI6dHJ1ZSwic2xtLmNhbkNyZWF0ZUdwck1lc3NhZ2VzIjp0cnVlLCJzbG0uY2FuQWNjZXNzQmFua1RyYW5zZmVyIjp0cnVlLCJzbG0uY29uc3VsdEZvcm1Db25maWd1cmF0aW9uIjp0cnVlLCJzbG0uY2FuTW9kaWZ5Q29udGFjdHMiOnRydWUsInNsbS52aWV3c1NjcmVlbnNDb21wb25lbnRzSW5qRXh0Ijp0cnVlLCJzbG0uY2FuU2ZvVGllRGVsZXRlIjp0cnVlLCJzbG0uY2FuU2VjdXJpdGllc0Rlc2NyaXB0aXZlIjp0cnVlLCJzbG0uY2FuQWNjZXNzVmlld0FjdGl2aXR5Ijp0cnVlLCJzbG0uY2FuQWNjZXNzVHJpZ2dlcnNSZWNvdmVyaW5nQ29ucyI6dHJ1ZSwic2xtLmlzU2ltcGxlVXNlciI6ZmFsc2UsInNsbS5jYW5Nb2RpZnlDb25zb2xpZGF0aW9uRW50aXR5Ijp0cnVlLCJzbG0uY2FuQWNjZXNzTWVzc2FnaW5nQ29ucyI6dHJ1ZSwic2xtLmNhbkV4cG9ydCI6dHJ1ZSwic2xtLmNhbkRlbGV0ZUNvbnNvbGlkYXRpb25FbnRpdHkiOnRydWUsInNsbS5jYW5SZWluamVjdE9yZGVycyI6dHJ1ZSwic2xtLnZpZXdQZXJpbWV0ZXJSZWNvbW1lbmRhdGlvbkFjY2VzcyI6dHJ1ZSwic2xtLmNhblBlcnNvQ3JjIjp0cnVlLCJzbG0uYWR2aXNvcnlEZXNrQ29tbXVuaWNhdGlvbkFjY2VzcyI6dHJ1ZSwic2xtLmNhbk1vZGlmeVZpZXdDb25maWd1cmF0aW9uIjp0cnVlLCJzbG0uY2FuSW5qZWN0T3JkZXJzIjp0cnVlLCJzbG0uY2FuTUFKQWJuIjp0cnVlLCJzbG0uY2FuQ29uc3VsdFJlY29tbWVuZGF0aW9uIjp0cnVlLCJzbG0uY2FuU2VuZEZpbmFuY2lhbE1lc3NhZ2VzIjp0cnVlLCJzbG0uY2FuQ3JlYXRlQW5kTW9kaWZ5UHJvZmlsZSI6dHJ1ZSwic2xtLmNhbk1vZGlmeUN1c3RvbUxpc3QiOnRydWUsInNsbS5jYW5Nb2RpZnlDdXN0b21MaXN0Q29tcG9uZW50Ijp0cnVlLCJzbG0uY2FuTWFuYWdlU3RhdHVzIjp0cnVlLCJzbG0uY2FuQWNjZXNzU2NoZWR1bGVyQ29ucyI6dHJ1ZSwic2xtLmNhbkRlbGV0ZU9yZGVycyI6dHJ1ZSwic2xtLmhhc1Nmb1RpZUFkbWluIjp0cnVlLCJzbG0uY2FuTW9kaWZ5U2hhcmVkTGlzdCI6dHJ1ZSwic2xtLmNhbk1vZGlmeUNvbnNvbGlkYXRpb25FbnRpdHlBc3NvY2lhdGlvbiI6dHJ1ZSwic2xtLmNhbkNhbmNlbENvbnRhY3RzIjp0cnVlLCJzbG0uY2FuQWRkT3JkZXJMaW5rIjp0cnVlLCJzbG0uYWRkRm9ybUNvbmZpZ3VyYXRpb24iOnRydWUsInNsbS5jb21wbGlhbmNlSGlzdG9yeSI6dHJ1ZSwic2xtLmNhblVwZGF0ZVRyYW5zbGF0aW9uVG9vbCI6dHJ1ZSwic2xtLmlzTGlzdEFkbWluIjp0cnVlfQ.KlOtEEKuZOT6bbaQ9ME24j7eq0BOeM0JRok0UfY--wjD9lBYUfqZIXA6FFfzJjdi38nkn6b-90fzsr6QeESLBMd9fXQ-aujqfZ2HTvJ2_cGMNnAUll2CH_BrkLWGFGZbahBvRpaCwr9EK_Bru264DKVazkm1CjmWF7WsxscePi953XfmfRspSlB6AMWmF_MjBX2CxgAHRSpyMGI4ew0OHx8WpZSpYzZb1mWAw3edeuTcbFKHcBFJWEHjtX_3sW_5rXFzJ0_NCVxwf5EXlH33km8rtd-JUJxsPmAcQuEA1L3VP2T32wUk4xYuxqtwJlLLCtfpwOkAb1IAKsHvhM7YFw",
-					"enabled": true
-				}
-			]
-		},
-		{
-			"id": "34c1ad23-eb93-414e-b6ae-cfc55c07e2e5",
-			"name": "Zied Server",
-			"values": [
-				{
-					"key": "host",
-					"value": "TNDT207",
-					"enabled": true
-				},
-				{
-					"key": "port",
-					"value": "28080",
-					"enabled": true
-				},
-				{
-					"key": "PASS",
-					"value": "",
-					"enabled": true
-				}
-			]
-		},
-		{
-			"id": "3e562026-afdf-4ee9-a903-6953a373f78a",
-			"name": "Localhost",
-			"values": [
-				{
-					"key": "host",
-					"value": "localhost",
-					"enabled": true
-				},
-				{
-					"key": "port",
-					"value": "18080",
-					"enabled": true
-				},
-				{
-					"key": "PASS",
-					"value": "eyJhbGciOiJSUzUxMiJ9.eyJpc3MiOiJWZXJtZWciLCJhdWQiOiJWZXJtZWciLCJzdWIiOiJJTkkiLCJpYXQiOjE1ODQyNTg0NTQsImV4cCI6MTU4NDI1OTM1NCwibmJmIjoxNTg0MjU4NDU0LCJqdGkiOiI4YWQ2ZTVmYi01OTQ5LTQ0ZmYtOTQyZS1iYWQ0NzU4YTAwMTciLCJzbG0uY2FuRGVsZXRlUHJvZmlsZSI6dHJ1ZSwic2xtLmFjcXVpc2l0aW9uTGluZXNBY2Nlc3MiOmZhbHNlLCJzbG0uaXNUaWVTZWciOnRydWUsInNsbS5pbkVudGl0eVJpZ2h0c1ZpZXdDb25maWd1cmF0aW9uIjp0cnVlLCJzbG0uYWxsUmlnaHRzVmlld0NvbmZpZ3VyYXRpb24iOnRydWUsInNsbS5pc1NjcmVlbk1BSiI6dHJ1ZSwic2xtLmNhbkFjY0ZpbmFuY2lhbFZpZXciOnRydWUsInNsbS5kaXNwbGF5U3RydWN0dXJlZFByb2R1Y3RDYW1wYWlnbiI6dHJ1ZSwic2xtLmRvY3VtZW50QWNjZXNzIjp0cnVlLCJzbG0uY2FuRGVsZXRlQ3VzdG9tTGlzdCI6dHJ1ZSwic2xtLmNhbkFjY2Vzc1Byb2dCYXRjaENyYyI6dHJ1ZSwic2xtLmNhbk1vZGlmeUFkZHJlc3MiOnRydWUsInNsbS5jYW5EZWxldGVDdXN0b21MaXN0Q29tcG9uZW50Ijp0cnVlLCJzbG0uY2FuQWNjZXNzUHRmcyI6dHJ1ZSwic2xtLmNybUFjY2VzcyI6dHJ1ZSwic2xtLmNhbkNyZWF0ZU9yZGVycyI6dHJ1ZSwic2xtLmNhbkFjY2Vzc0NvbnNvbGlkYXRpb25FbnRpdHkiOnRydWUsInNsbS5lQ29tcGxpYW5jZURFTEF2YWlsYWJsZSI6dHJ1ZSwic2xtLmNhbkNyZWF0ZVNjcmVlbnMiOnRydWUsInNsbS5jYW5BZGRTaGFyZWRMaXN0Q29tcG9uZW50Ijp0cnVlLCJzbG0uY2FuQWNjZXB0Q29udGFjdHMiOnRydWUsImRiQWNjZXNzIjp7ImFjY2Vzc1N0YXR1cyI6Ik9QRU4iLCJzdGF0dXNFeHBpcmVkR3JhY2UiOmZhbHNlLCJwYXNzd29yZEV4cGlyeURhdGUiOnsic3RhcnREYXRlIjpudWxsLCJlbmREYXRlIjoiMDkvMDkvMjAyMCIsInJlZkRhdGUiOm51bGwsInJhbmdlIjpmYWxzZSwic3RkUGVyaW9kIjoiUEVSSU9EX05PTkUiLCJkZWx0YSI6MCwiZGF0ZVN0cmluZyI6bnVsbH0sImRheUxlZnRCZWZvcmVQYXNzd29yZEV4cGlyeSI6MTc4LCJtc2dFeHBpcmVkR3JhY2UiOm51bGwsIm11c3RDaGFuZ2VQYXNzd29yZCI6ZmFsc2V9LCJzbG0uZUNvbXBsaWFuY2VNQUpBdmFpbGFibGUiOnRydWUsInNsbS5jYW5EZWxldGVTaGFyZWRMaXN0Ijp0cnVlLCJzbG0uY2FuQ29uZmlndXJlUHJlY29tcHV0ZWRWaWV3cyI6dHJ1ZSwic2xtLmNhbkFkZEN1c3RvbUxpc3QiOnRydWUsInNsbS5jYW5BZGRTaGFyZWRMaXN0Ijp0cnVlLCJzbG0uY2FuQWNjZXNzU2VxdWVuY2VyQ29ucyI6dHJ1ZSwic2xtLmZvcm11bGFNb2RpZmljYXRpb24iOnRydWUsInNsbS5jYW5BcmNoaXZlRmluYW5jaWFsTWVzc2FnZXMiOnRydWUsInNsbS5jb21wbGlhbmNlTGlzdEFjY2VzcyI6dHJ1ZSwic2xtLnJlcG9ydGluZ0FjY2VzcyI6dHJ1ZSwic2xtLmNhblJlZnVzZUNvbnRhY3RzIjp0cnVlLCJzbG0uY2FuQWNjZXNzVHJhbnNsYXRpb25Ub29sIjp0cnVlLCJzbG0uY2FuQWNjZXNzSUJBTiI6dHJ1ZSwic2xtLm9ybUFkbWluIjp0cnVlLCJzbG0uY2FuU2hhcmVQcm9maWxlIjp0cnVlLCJzbG0uY2FuU3RhcnRBYm4iOnRydWUsInNsbS5pc0Zyb250T2ZmaWNlciI6dHJ1ZSwic2xtLmRvY3VtZW50REVMIjp0cnVlLCJzbG0uY2FuRGVsZXRlQWRkcmVzcyI6dHJ1ZSwic2xtLmNhbk1vZGlmeU1lc3NhZ2VzIjp0cnVlLCJzbG0uY2FuQWRkQ3VzdG9tTGlzdENvbXBvbmVudCI6dHJ1ZSwic2xtLmNhbkNyZWF0ZUNvbnRhY3RzIjp0cnVlLCJzbG0uY2FuQWRkQWRkcmVzcyI6dHJ1ZSwic2xtLmNhbkNhbmNlbEJhbmtUcmFuc2ZlciI6dHJ1ZSwic2xtLmNhbkFjY2Vzc01hc3NNb2QiOnRydWUsInNsbS5jYW5BY2Nlc3NDdXN0b21SZXBvcnRDb25maWciOnRydWUsInNsbS5jYW5Nb2RpZnlTaGFyZWRMaXN0Q29tcG9uZW50Ijp0cnVlLCJzbG0uaXNTY3JlZW5BZG1pbkluRW50aXR5Ijp0cnVlLCJzbG0uY2FuTW9kaWZ5RmVlc0FsbFJpZ2h0cyI6dHJ1ZSwic2xtLmFkdmlzb3J5RGVza1JlY29tbWVuZGF0aW9uQWNjZXNzIjp0cnVlLCJzbG0uYXJiaXRyYWdlQWNjZXNzIjp0cnVlLCJzbG0uY2FuQWNjZXNzQWRkcmVzcyI6dHJ1ZSwic2xtLmNhbk1vZGlmeUZlZXNNQUoiOnRydWUsInNsbS5jcm1XaXpBY2Nlc3MiOnRydWUsInNsbS5jYW5EZWxldGVPcmRlckxpbmsiOnRydWUsInNsbS5jYW5BY2Nlc3NNYXNzT3JkZXIiOnRydWUsInNsbS5jYW5EZWxldGVDb25zb2xpZGF0aW9uRW50aXR5QXNzb2NpYXRpb24iOnRydWUsInNsbS5jYW5BZGRDb25zb2xpZGF0aW9uRW50aXR5Ijp0cnVlLCJzbG0uaXNNYW5hZ2VyIjp0cnVlLCJzbG0uY2FuQnVsa0NoYW5nZWRBdHRyaWJ1dGVzIjp0cnVlLCJzbG0uY2FuQWNjZXNzTWVzc2FnZXMiOnRydWUsInNsbS5hZHZpc29yeURlc2tBbGxSZWNvbW1lbmRhdGlvbnNBY2Nlc3MiOnRydWUsInNsbS5jYW5DaGFuZ2VNYW5hZ2VyIjp0cnVlLCJzbG0uY2FuQWNjZXNzQ29uc29saWRhdGlvbkVudGl0eUFzc29jaWF0aW9uIjp0cnVlLCJzbG0uY2FuTW9kaWZ5Q3VzdG9tUmVwb3J0Q29uZmlnIjp0cnVlLCJzbG0uaXNTY3JlZW5BbGxSaWdodHMiOnRydWUsInNsbS5jYW5DcmVhdGVJQkFOIjp0cnVlLCJzbG0uY2FuTW9kaWZ5T3JkZXJzIjp0cnVlLCJzbG0uYXJiaXRyYWdlR2VuT3JkIjp0cnVlLCJzbG0uZG9jdW1lbnRNQUoiOnRydWUsInNsbS5jYW5VbmJsb2NrT3JkZXJzIjp0cnVlLCJzbG0uY2FuTGlua1JlY29tbWVuZGF0aW9uIjp0cnVlLCJzbG0uZGVsZXRlRm9ybUNvbmZpZ3VyYXRpb24iOnRydWUsInNsbS5lQ29tcGxpYW5jZUFkbWluQXZhaWxhYmxlIjp0cnVlLCJzbG0uY2FuQ3JlYXRlRXNwT3JkZXIiOnRydWUsInNsbS51cGRhdGVGb3JtQ29uZmlndXJhdGlvbiI6dHJ1ZSwic2xtLmNhbkFsdGVyUXVpY2tTZWFyY2giOnRydWUsInNsbS5jcm1UaWVNYWoiOnRydWUsInNsbS5jYW5Nb2RpZnlJYmFuQWRkcmVzcyI6dHJ1ZSwic2xtLmNhblRyZWF0ZUNvbnRhY3RzIjp0cnVlLCJzbG0uZ3JvdXBPZlBvcnRmb2xpb01BSiI6dHJ1ZSwic2xtLmNhbkV2b2x2ZVN0YXR1cyI6dHJ1ZSwic2xtLmNhblNlZVN0YXR1cyI6dHJ1ZSwic2xtLmNhbkFkZENvbnNvbGlkYXRpb25FbnRpdHlBc3NvY2lhdGlvbiI6dHJ1ZSwic2xtLmNybURvY0Z1c0FjY2VzcyI6dHJ1ZSwic2xtLmlzU2NyZWVuQWRtaW4iOnRydWUsInNsbS5jYW5EZWxldGVTY3JlZW5zIjp0cnVlLCJzbG0uY2FuQ3JlYXRlTWVzc2FnZXMiOnRydWUsInNsbS5pc0JhdGNoQWRtaW4iOnRydWUsInNsbS5jYW5DcmVhdGVCYW5rVHJhbnNmZXIiOnRydWUsInNsbS5jYW5CZVN1YnN0aXR1dGVkSW5QdWJsaWNXZWJTZXJ2aWNlIjp0cnVlLCJzbG0uY2FuRGVsZXRlU2hhcmVkTGlzdENvbXBvbmVudCI6dHJ1ZSwic2xtLmNhbkNyZWF0ZUdwck1lc3NhZ2VzIjp0cnVlLCJzbG0uY2FuQWNjZXNzQmFua1RyYW5zZmVyIjp0cnVlLCJzbG0uY29uc3VsdEZvcm1Db25maWd1cmF0aW9uIjp0cnVlLCJzbG0uY2FuTW9kaWZ5Q29udGFjdHMiOnRydWUsInNsbS52aWV3c1NjcmVlbnNDb21wb25lbnRzSW5qRXh0Ijp0cnVlLCJzbG0uY2FuU2ZvVGllRGVsZXRlIjp0cnVlLCJzbG0uY2FuU2VjdXJpdGllc0Rlc2NyaXB0aXZlIjp0cnVlLCJzbG0uY2FuQWNjZXNzVmlld0FjdGl2aXR5Ijp0cnVlLCJzbG0uY2FuQWNjZXNzVHJpZ2dlcnNSZWNvdmVyaW5nQ29ucyI6dHJ1ZSwic2xtLmlzU2ltcGxlVXNlciI6ZmFsc2UsInNsbS5jYW5Nb2RpZnlDb25zb2xpZGF0aW9uRW50aXR5Ijp0cnVlLCJzbG0uY2FuQWNjZXNzTWVzc2FnaW5nQ29ucyI6dHJ1ZSwic2xtLmNhbkV4cG9ydCI6dHJ1ZSwic2xtLmNhbkRlbGV0ZUNvbnNvbGlkYXRpb25FbnRpdHkiOnRydWUsInNsbS5jYW5SZWluamVjdE9yZGVycyI6dHJ1ZSwic2xtLnZpZXdQZXJpbWV0ZXJSZWNvbW1lbmRhdGlvbkFjY2VzcyI6dHJ1ZSwic2xtLmNhblBlcnNvQ3JjIjp0cnVlLCJzbG0uYWR2aXNvcnlEZXNrQ29tbXVuaWNhdGlvbkFjY2VzcyI6dHJ1ZSwic2xtLmNhbk1vZGlmeVZpZXdDb25maWd1cmF0aW9uIjp0cnVlLCJzbG0uY2FuSW5qZWN0T3JkZXJzIjp0cnVlLCJzbG0uY2FuTUFKQWJuIjp0cnVlLCJzbG0uY2FuQ29uc3VsdFJlY29tbWVuZGF0aW9uIjp0cnVlLCJzbG0uY2FuU2VuZEZpbmFuY2lhbE1lc3NhZ2VzIjp0cnVlLCJzbG0uY2FuQ3JlYXRlQW5kTW9kaWZ5UHJvZmlsZSI6dHJ1ZSwic2xtLmNhbk1vZGlmeUN1c3RvbUxpc3QiOnRydWUsInNsbS5jYW5Nb2RpZnlDdXN0b21MaXN0Q29tcG9uZW50Ijp0cnVlLCJzbG0uY2FuTWFuYWdlU3RhdHVzIjp0cnVlLCJzbG0uY2FuQWNjZXNzU2NoZWR1bGVyQ29ucyI6dHJ1ZSwic2xtLmNhbkRlbGV0ZU9yZGVycyI6dHJ1ZSwic2xtLmhhc1Nmb1RpZUFkbWluIjp0cnVlLCJzbG0uY2FuTW9kaWZ5U2hhcmVkTGlzdCI6dHJ1ZSwic2xtLmNhbk1vZGlmeUNvbnNvbGlkYXRpb25FbnRpdHlBc3NvY2lhdGlvbiI6dHJ1ZSwic2xtLmNhbkNhbmNlbENvbnRhY3RzIjp0cnVlLCJzbG0uY2FuQWRkT3JkZXJMaW5rIjp0cnVlLCJzbG0uYWRkRm9ybUNvbmZpZ3VyYXRpb24iOnRydWUsInNsbS5jb21wbGlhbmNlSGlzdG9yeSI6dHJ1ZSwic2xtLmNhblVwZGF0ZVRyYW5zbGF0aW9uVG9vbCI6dHJ1ZSwic2xtLmlzTGlzdEFkbWluIjp0cnVlfQ.ptbux4ehwPpuG9WCqwpjfZsz6d_mfUy5woqfN5BGxsF_2JeEqUyIr0zEhGCb1N3GVf0lnSZp5dHp_kkiSoznDeLR4oAvSUTQ81kXSyVldAojZ1uR7a14-NAS4gGHh4RtPkkn0sxuSSptNLfxb51aXKYrQ3RazBQrgnV-2Q0uox_VANMrtk5dG2-nAoF0Nt7hWDoR85WvrRuAwderWtLa_tzByjAH_y3cgWjgbW-E9vf8O1tz38z0RzRnqLCs_w5WXsKrlMCJeqtTXLqnu71jR37RW6-c6PREVzfJNJPdxYr5F82Q0KtReesgrD2luAWnqVVybCigfo6SMK5VF0yczg",
-					"enabled": true
-				},
-				{
-					"key": "ormId",
-					"value": "0000000207",
-					"enabled": true
-				}
-			]
-		},
-		{
-			"id": "4435eac7-9014-4b7c-9a9c-98b7e0b83631",
-			"name": "Oussema Server",
-			"values": [
-				{
-					"key": "host",
-					"value": "TNLT387",
-					"enabled": true
-				},
-				{
-					"key": "port",
-					"value": "18080",
-					"enabled": true
-				},
-				{
-					"key": "PASS",
-					"value": "",
-					"enabled": true
-				}
-			]
-		},
-		{
-			"id": "6de74267-c58a-49dd-9d85-1d94762d1efb",
-			"name": "DEV",
-			"values": [
-				{
-					"key": "token",
-					"value": "",
-					"type": "text",
-					"description": "",
-					"enabled": true
-				}
-			]
-		},
-		{
-			"id": "81878a21-4f9f-44af-88a3-3d574b655d8b",
-			"name": "My Workspace - globals",
-			"values": []
-		},
-		{
-			"id": "852d0ec9-f982-49fc-b691-040598b74ed6",
-			"name": "Amine Server",
-			"values": [
-				{
-					"key": "host",
-					"value": "TNLT547",
-					"enabled": true
-				},
-				{
-					"key": "port",
-					"value": "18080",
-					"enabled": true
-				},
-				{
-					"key": "PASS",
-					"value": "",
-					"enabled": true
-				}
-			]
-		},
-		{
-			"id": "af04a60d-54be-4943-a0f9-b33f227cab15",
-			"name": "Abdesslem Server",
-			"values": [
-				{
-					"key": "host",
-					"value": " 10.111.109.1",
-					"enabled": true
-				},
-				{
-					"key": "port",
-					"value": "28080",
-					"enabled": true
-				},
-				{
-					"key": "PASS",
-					"value": "",
-					"enabled": true
-				}
-			]
-		},
-		{
-			"id": "db43e893-a0ea-457d-9df2-a89b7c55c1b7",
-			"name": "Yamachar Server",
-			"values": [
-				{
-					"key": "host",
-					"value": "TNDT001",
-					"enabled": true
-				},
-				{
-					"key": "port",
-					"value": "18080",
-					"enabled": true
-				},
-				{
-					"key": "PASS",
-					"value": "",
-					"enabled": false
-				},
-				{
-					"key": "PASS",
-					"value": "",
-					"enabled": true
-				}
-			]
-		},
-		{
-			"id": "de470ded-edb5-4fe9-b34a-1b575a856979",
-			"name": "SLM-Release",
-			"values": [
-				{
-					"key": "host",
-					"value": "slm-release.vermeg.com",
-					"enabled": true
-				},
-				{
-					"key": "port",
-					"value": "38080",
-					"enabled": true
-				},
-				{
-					"key": "PASS",
-					"value": "eyJhbGciOiJSUzUxMiJ9.eyJpc3MiOiJWZXJtZWciLCJhdWQiOiJWZXJtZWciLCJzdWIiOiJJTkkiLCJpYXQiOjE1ODQzNjM0NzQsImV4cCI6MTU4NDM2NDM3NCwibmJmIjoxNTg0MzYzNDc0LCJqdGkiOiJmZTRhNWI5OC03ZTFlLTRkMDYtODUwOC04ZDQ5N2M3Njg3Y2UiLCJzbG0uY2FuRGVsZXRlUHJvZmlsZSI6dHJ1ZSwic2xtLmFjcXVpc2l0aW9uTGluZXNBY2Nlc3MiOmZhbHNlLCJzbG0uaXNUaWVTZWciOnRydWUsInNsbS5pbkVudGl0eVJpZ2h0c1ZpZXdDb25maWd1cmF0aW9uIjp0cnVlLCJzbG0uYWxsUmlnaHRzVmlld0NvbmZpZ3VyYXRpb24iOnRydWUsInNsbS5pc1NjcmVlbk1BSiI6dHJ1ZSwic2xtLmNhbkFjY0ZpbmFuY2lhbFZpZXciOnRydWUsInNsbS5kaXNwbGF5U3RydWN0dXJlZFByb2R1Y3RDYW1wYWlnbiI6dHJ1ZSwic2xtLmRvY3VtZW50QWNjZXNzIjp0cnVlLCJzbG0uY2FuRGVsZXRlQ3VzdG9tTGlzdCI6dHJ1ZSwic2xtLmNhbkFjY2Vzc1Byb2dCYXRjaENyYyI6dHJ1ZSwic2xtLmNhbk1vZGlmeUFkZHJlc3MiOnRydWUsInNsbS5jYW5EZWxldGVDdXN0b21MaXN0Q29tcG9uZW50Ijp0cnVlLCJzbG0uY2FuQWNjZXNzUHRmcyI6dHJ1ZSwic2xtLmNybUFjY2VzcyI6dHJ1ZSwic2xtLmNhbkNyZWF0ZU9yZGVycyI6dHJ1ZSwic2xtLmNhbkFjY2Vzc0NvbnNvbGlkYXRpb25FbnRpdHkiOnRydWUsInNsbS5lQ29tcGxpYW5jZURFTEF2YWlsYWJsZSI6dHJ1ZSwic2xtLmNhbkNyZWF0ZVNjcmVlbnMiOnRydWUsInNsbS5jYW5BZGRTaGFyZWRMaXN0Q29tcG9uZW50Ijp0cnVlLCJzbG0uY2FuQWNjZXB0Q29udGFjdHMiOnRydWUsImRiQWNjZXNzIjp7ImFjY2Vzc1N0YXR1cyI6Ik9QRU4iLCJzdGF0dXNFeHBpcmVkR3JhY2UiOmZhbHNlLCJwYXNzd29yZEV4cGlyeURhdGUiOnsic3RhcnREYXRlIjpudWxsLCJlbmREYXRlIjoiMDkvMDkvMjAyMCIsInJlZkRhdGUiOm51bGwsInJhbmdlIjpmYWxzZSwic3RkUGVyaW9kIjoiUEVSSU9EX05PTkUiLCJkZWx0YSI6MCwiZGF0ZVN0cmluZyI6bnVsbH0sImRheUxlZnRCZWZvcmVQYXNzd29yZEV4cGlyeSI6MTc3LCJtc2dFeHBpcmVkR3JhY2UiOm51bGwsIm11c3RDaGFuZ2VQYXNzd29yZCI6ZmFsc2V9LCJzbG0uZUNvbXBsaWFuY2VNQUpBdmFpbGFibGUiOnRydWUsInNsbS5jYW5EZWxldGVTaGFyZWRMaXN0Ijp0cnVlLCJzbG0uY2FuQ29uZmlndXJlUHJlY29tcHV0ZWRWaWV3cyI6dHJ1ZSwic2xtLmNhbkFkZEN1c3RvbUxpc3QiOnRydWUsInNsbS5jYW5BZGRTaGFyZWRMaXN0Ijp0cnVlLCJzbG0uY2FuQWNjZXNzU2VxdWVuY2VyQ29ucyI6dHJ1ZSwic2xtLmZvcm11bGFNb2RpZmljYXRpb24iOnRydWUsInNsbS5jYW5BcmNoaXZlRmluYW5jaWFsTWVzc2FnZXMiOnRydWUsInNsbS5jb21wbGlhbmNlTGlzdEFjY2VzcyI6dHJ1ZSwic2xtLnJlcG9ydGluZ0FjY2VzcyI6dHJ1ZSwic2xtLmNhblJlZnVzZUNvbnRhY3RzIjp0cnVlLCJzbG0uY2FuQWNjZXNzVHJhbnNsYXRpb25Ub29sIjp0cnVlLCJzbG0uY2FuQWNjZXNzSUJBTiI6dHJ1ZSwic2xtLm9ybUFkbWluIjp0cnVlLCJzbG0uY2FuU2hhcmVQcm9maWxlIjp0cnVlLCJzbG0uY2FuU3RhcnRBYm4iOnRydWUsInNsbS5pc0Zyb250T2ZmaWNlciI6dHJ1ZSwic2xtLmRvY3VtZW50REVMIjp0cnVlLCJzbG0uY2FuRGVsZXRlQWRkcmVzcyI6dHJ1ZSwic2xtLmNhbk1vZGlmeU1lc3NhZ2VzIjp0cnVlLCJzbG0uY2FuQWRkQ3VzdG9tTGlzdENvbXBvbmVudCI6dHJ1ZSwic2xtLmNhbkNyZWF0ZUNvbnRhY3RzIjp0cnVlLCJzbG0uY2FuQWRkQWRkcmVzcyI6dHJ1ZSwic2xtLmNhbkNhbmNlbEJhbmtUcmFuc2ZlciI6dHJ1ZSwic2xtLmNhbkFjY2Vzc01hc3NNb2QiOnRydWUsInNsbS5jYW5BY2Nlc3NDdXN0b21SZXBvcnRDb25maWciOnRydWUsInNsbS5jYW5Nb2RpZnlTaGFyZWRMaXN0Q29tcG9uZW50Ijp0cnVlLCJzbG0uaXNTY3JlZW5BZG1pbkluRW50aXR5Ijp0cnVlLCJzbG0uY2FuTW9kaWZ5RmVlc0FsbFJpZ2h0cyI6dHJ1ZSwic2xtLmFkdmlzb3J5RGVza1JlY29tbWVuZGF0aW9uQWNjZXNzIjp0cnVlLCJzbG0uYXJiaXRyYWdlQWNjZXNzIjp0cnVlLCJzbG0uY2FuQWNjZXNzQWRkcmVzcyI6dHJ1ZSwic2xtLmNhbk1vZGlmeUZlZXNNQUoiOnRydWUsInNsbS5jcm1XaXpBY2Nlc3MiOnRydWUsInNsbS5jYW5EZWxldGVPcmRlckxpbmsiOnRydWUsInNsbS5jYW5BY2Nlc3NNYXNzT3JkZXIiOnRydWUsInNsbS5jYW5EZWxldGVDb25zb2xpZGF0aW9uRW50aXR5QXNzb2NpYXRpb24iOnRydWUsInNsbS5jYW5BZGRDb25zb2xpZGF0aW9uRW50aXR5Ijp0cnVlLCJzbG0uaXNNYW5hZ2VyIjp0cnVlLCJzbG0uY2FuQnVsa0NoYW5nZWRBdHRyaWJ1dGVzIjp0cnVlLCJzbG0uY2FuQWNjZXNzTWVzc2FnZXMiOnRydWUsInNsbS5hZHZpc29yeURlc2tBbGxSZWNvbW1lbmRhdGlvbnNBY2Nlc3MiOnRydWUsInNsbS5jYW5DaGFuZ2VNYW5hZ2VyIjp0cnVlLCJzbG0uY2FuQWNjZXNzQ29uc29saWRhdGlvbkVudGl0eUFzc29jaWF0aW9uIjp0cnVlLCJzbG0uY2FuTW9kaWZ5Q3VzdG9tUmVwb3J0Q29uZmlnIjp0cnVlLCJzbG0uaXNTY3JlZW5BbGxSaWdodHMiOnRydWUsInNsbS5jYW5DcmVhdGVJQkFOIjp0cnVlLCJzbG0uY2FuTW9kaWZ5T3JkZXJzIjp0cnVlLCJzbG0uYXJiaXRyYWdlR2VuT3JkIjp0cnVlLCJzbG0uZG9jdW1lbnRNQUoiOnRydWUsInNsbS5jYW5VbmJsb2NrT3JkZXJzIjp0cnVlLCJzbG0uY2FuTGlua1JlY29tbWVuZGF0aW9uIjp0cnVlLCJzbG0uZGVsZXRlRm9ybUNvbmZpZ3VyYXRpb24iOnRydWUsInNsbS5lQ29tcGxpYW5jZUFkbWluQXZhaWxhYmxlIjp0cnVlLCJzbG0uY2FuQ3JlYXRlRXNwT3JkZXIiOnRydWUsInNsbS51cGRhdGVGb3JtQ29uZmlndXJhdGlvbiI6dHJ1ZSwic2xtLmNhbkFsdGVyUXVpY2tTZWFyY2giOnRydWUsInNsbS5jcm1UaWVNYWoiOnRydWUsInNsbS5jYW5Nb2RpZnlJYmFuQWRkcmVzcyI6dHJ1ZSwic2xtLmNhblRyZWF0ZUNvbnRhY3RzIjp0cnVlLCJzbG0uZ3JvdXBPZlBvcnRmb2xpb01BSiI6dHJ1ZSwic2xtLmNhbkV2b2x2ZVN0YXR1cyI6dHJ1ZSwic2xtLmNhblNlZVN0YXR1cyI6dHJ1ZSwic2xtLmNhbkFkZENvbnNvbGlkYXRpb25FbnRpdHlBc3NvY2lhdGlvbiI6dHJ1ZSwic2xtLmNybURvY0Z1c0FjY2VzcyI6dHJ1ZSwic2xtLmlzU2NyZWVuQWRtaW4iOnRydWUsInNsbS5jYW5EZWxldGVTY3JlZW5zIjp0cnVlLCJzbG0uY2FuQ3JlYXRlTWVzc2FnZXMiOnRydWUsInNsbS5pc0JhdGNoQWRtaW4iOnRydWUsInNsbS5jYW5DcmVhdGVCYW5rVHJhbnNmZXIiOnRydWUsInNsbS5jYW5CZVN1YnN0aXR1dGVkSW5QdWJsaWNXZWJTZXJ2aWNlIjp0cnVlLCJzbG0uY2FuRGVsZXRlU2hhcmVkTGlzdENvbXBvbmVudCI6dHJ1ZSwic2xtLmNhbkNyZWF0ZUdwck1lc3NhZ2VzIjp0cnVlLCJzbG0uY2FuQWNjZXNzQmFua1RyYW5zZmVyIjp0cnVlLCJzbG0uY29uc3VsdEZvcm1Db25maWd1cmF0aW9uIjp0cnVlLCJzbG0uY2FuTW9kaWZ5Q29udGFjdHMiOnRydWUsInNsbS52aWV3c1NjcmVlbnNDb21wb25lbnRzSW5qRXh0Ijp0cnVlLCJzbG0uY2FuU2ZvVGllRGVsZXRlIjp0cnVlLCJzbG0uY2FuU2VjdXJpdGllc0Rlc2NyaXB0aXZlIjp0cnVlLCJzbG0uY2FuQWNjZXNzVmlld0FjdGl2aXR5Ijp0cnVlLCJzbG0uY2FuQWNjZXNzVHJpZ2dlcnNSZWNvdmVyaW5nQ29ucyI6dHJ1ZSwic2xtLmlzU2ltcGxlVXNlciI6ZmFsc2UsInNsbS5jYW5Nb2RpZnlDb25zb2xpZGF0aW9uRW50aXR5Ijp0cnVlLCJzbG0uY2FuQWNjZXNzTWVzc2FnaW5nQ29ucyI6dHJ1ZSwic2xtLmNhbkV4cG9ydCI6dHJ1ZSwic2xtLmNhbkRlbGV0ZUNvbnNvbGlkYXRpb25FbnRpdHkiOnRydWUsInNsbS5jYW5SZWluamVjdE9yZGVycyI6dHJ1ZSwic2xtLnZpZXdQZXJpbWV0ZXJSZWNvbW1lbmRhdGlvbkFjY2VzcyI6dHJ1ZSwic2xtLmNhblBlcnNvQ3JjIjp0cnVlLCJzbG0uYWR2aXNvcnlEZXNrQ29tbXVuaWNhdGlvbkFjY2VzcyI6dHJ1ZSwic2xtLmNhbk1vZGlmeVZpZXdDb25maWd1cmF0aW9uIjp0cnVlLCJzbG0uY2FuSW5qZWN0T3JkZXJzIjp0cnVlLCJzbG0uY2FuTUFKQWJuIjp0cnVlLCJzbG0uY2FuQ29uc3VsdFJlY29tbWVuZGF0aW9uIjp0cnVlLCJzbG0uY2FuU2VuZEZpbmFuY2lhbE1lc3NhZ2VzIjp0cnVlLCJzbG0uY2FuQ3JlYXRlQW5kTW9kaWZ5UHJvZmlsZSI6dHJ1ZSwic2xtLmNhbk1vZGlmeUN1c3RvbUxpc3QiOnRydWUsInNsbS5jYW5Nb2RpZnlDdXN0b21MaXN0Q29tcG9uZW50Ijp0cnVlLCJzbG0uY2FuTWFuYWdlU3RhdHVzIjp0cnVlLCJzbG0uY2FuQWNjZXNzU2NoZWR1bGVyQ29ucyI6dHJ1ZSwic2xtLmNhbkRlbGV0ZU9yZGVycyI6dHJ1ZSwic2xtLmhhc1Nmb1RpZUFkbWluIjp0cnVlLCJzbG0uY2FuTW9kaWZ5U2hhcmVkTGlzdCI6dHJ1ZSwic2xtLmNhbk1vZGlmeUNvbnNvbGlkYXRpb25FbnRpdHlBc3NvY2lhdGlvbiI6dHJ1ZSwic2xtLmNhbkNhbmNlbENvbnRhY3RzIjp0cnVlLCJzbG0uY2FuQWRkT3JkZXJMaW5rIjp0cnVlLCJzbG0uYWRkRm9ybUNvbmZpZ3VyYXRpb24iOnRydWUsInNsbS5jb21wbGlhbmNlSGlzdG9yeSI6dHJ1ZSwic2xtLmNhblVwZGF0ZVRyYW5zbGF0aW9uVG9vbCI6dHJ1ZSwic2xtLmlzTGlzdEFkbWluIjp0cnVlfQ.e2ECb-DPBKvika_KIqtkPIOTTOYPxjnoX50E6QEfBE3ViikBKCdrbyJMiACm5lFMHslq3mQFk5ppaK28XHT9FKdYsRqb4Z-XwpcUKgHkwHx_16W6rXRmd3EGApRj-uPcTb6t2bUJIRPzGwV3bmu-kZ1mJup5JsuaR2XFPr67W4Eht9JbLFzIfwPUJYeAPUsa-tYsf9dBlx9caHVYKZhiSL7skkoebVG6KZx8px9MDgwjVy1yVdqvVKM1pabiEqRcQBbqrhuavftrTg2ptc6pK5WyzQUQ0_iZXrXt6i_FOAy4DUQPAgTGa9mIf-mebQbmKSwFtwrIHuco-tHzZlGqVQ",
-					"enabled": true
-				},
-				{
-					"key": "ormId",
-					"value": "",
-					"enabled": true
-				}
-			]
-		},
-		{
-			"id": "0df6d035-ab53-4e93-8bfa-b68266f37926",
-			"name": "My Workspace - globals",
-			"values": []
-		}
-	],
-	"headerPresets": [],
-	"globals": []
+	]
 }
