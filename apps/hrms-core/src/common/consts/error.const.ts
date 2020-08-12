@@ -44,7 +44,8 @@ export const ErrorMessage: ErrorCodeMessage = {
     42115: 'Invalid user : CIN must be 8 digits long!',
 
     // Facade error (422xx)
-    42200: 'Unknown role given',
+    42200: 'Invalid role id',
+    42201: 'Unknown role',
 
 
     //---------------------------------- Role (43xxx) ---------------------------------- 

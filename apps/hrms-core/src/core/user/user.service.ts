@@ -27,7 +27,12 @@ export class UserService {
 
         return user
             .save()
-            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
+            .catch(err => {
+                if (err.code == 11000) { // Duplicated key error.
+                    return Promise.reject(this.dtoService.error(42010));
+                }
+                return Promise.reject(this.dtoService.error(50000, { detailedMessage: err }))
+            });
     }
 
     /**
