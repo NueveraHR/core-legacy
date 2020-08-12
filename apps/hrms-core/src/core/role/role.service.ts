@@ -21,7 +21,12 @@ export class RoleService {
     update(role: Role): Promise<Role> {
         return role
             .save()
-            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
+            .catch(err => {
+                if (err.code == 11000) { // Duplicated key error.
+                    return Promise.reject(this.dtoService.error(43010));
+                }
+                return Promise.reject(this.dtoService.error(50000, { detailedMessage: err }))
+            });
 
     }
 
