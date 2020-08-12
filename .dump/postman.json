@@ -9,48 +9,6 @@
 			"name": "Role",
 			"item": [
 				{
-					"name": "Add role",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Head of HR Manager Department\",\n    \"description\": \"Head of HR Manager Department\",\n    \"extendsRoles\": [],\n    \"privileges\": [\n        \"shared.requests.access\",\n        \"shared.requests.create\",\n        \"shared.requests.cancel\",\n        \"shared.requests.approve\",\n        \"shared.requests.reject\",\n        \"shared.notification.access\",\n        \"config.roles.access\",\n        \"config.roles.create\",\n        \"config.roles.edit\",\n        \"config.roles.delete\",\n        \"user.record.access\",\n        \"user.record.create\",\n        \"user.record.edit\",\n        \"user.record.delete\",\n        \"user.profile.access\",\n        \"user.profile.edit\"\n    ]\n}"
-						},
-						"url": {
-							"raw": "http://api.nuevera.com/roles/add",
-							"protocol": "http",
-							"host": [
-								"api",
-								"nuevera",
-								"com"
-							],
-							"path": [
-								"roles",
-								"add"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Roles list",
 					"request": {
 						"auth": {
@@ -65,17 +23,11 @@
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://api.nuevera.com/roles",
+							"raw": "http://{{host}}/roles",
 							"protocol": "http",
 							"host": [
-								"api",
-								"nuevera",
-								"com"
+								"{{host}}"
 							],
 							"path": [
 								"roles"
@@ -99,62 +51,14 @@
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://api.nuevera.com/roles",
+							"raw": "http://{{host}}/roles",
 							"protocol": "http",
 							"host": [
-								"api",
-								"nuevera",
-								"com"
+								"{{host}}"
 							],
 							"path": [
 								"roles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update role",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": \"5f24aad63be6fc476c63c79d\",\n    \"name\": \"Head of HR Management Department\",\n    \"description\": \"Head of HR Management Department\",\n    \"privileges\": [\n        \"shared.requests.access\",\n        \"shared.requests.create\",\n        \"shared.requests.cancel\",\n        \"shared.requests.approve\",\n        \"shared.requests.reject\",\n        \"shared.notification.access\",\n        \"config.roles.access\",\n        \"config.roles.create\",\n        \"config.roles.edit\",\n        \"config.roles.delete\",\n        \"employees.records.access\",\n        \"employees.records.create\",\n        \"employees.records.edit\",\n        \"employees.records.delete\",\n        \n        \"employees.profile.access\",\n        \"employees.profile.edit\"\n    ]\n}"
-						},
-						"url": {
-							"raw": "http://api.nuevera.com/roles/update",
-							"protocol": "http",
-							"host": [
-								"api",
-								"nuevera",
-								"com"
-							],
-							"path": [
-								"roles",
-								"update"
 							]
 						}
 					},
@@ -175,17 +79,11 @@
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "http://api.nuevera.com/roles/5f24aad63be6fc476c63c79d",
+							"raw": "http://{{host}}/roles/5f24aad63be6fc476c63c79d",
 							"protocol": "http",
 							"host": [
-								"api",
-								"nuevera",
-								"com"
+								"{{host}}"
 							],
 							"path": [
 								"roles",
@@ -222,15 +120,93 @@
 							"raw": "[\n    \"aaa\",\n    \"5f31249bca878e0e7c16d02f\",\n    \"5f3116d0c38b141658b72d69\"\n]"
 						},
 						"url": {
-							"raw": "http://api.nuevera.com/roles",
+							"raw": "http://{{host}}/roles",
 							"protocol": "http",
 							"host": [
-								"api",
-								"nuevera",
-								"com"
+								"{{host}}"
 							],
 							"path": [
 								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Head of HR Manager Department\",\n    \"description\": \"Head of HR Manager Department\",\n    \"extendsRoles\": [],\n    \"privileges\": [\n        \"shared.requests.access\",\n        \"shared.requests.create\",\n        \"shared.requests.cancel\",\n        \"shared.requests.approve\",\n        \"shared.requests.reject\",\n        \"shared.notification.access\",\n        \"config.roles.access\",\n        \"config.roles.create\",\n        \"config.roles.edit\",\n        \"config.roles.delete\",\n        \"user.record.access\",\n        \"user.record.create\",\n        \"user.record.edit\",\n        \"user.record.delete\",\n        \"user.profile.access\",\n        \"user.profile.edit\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://{{host}}/roles/add",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"5f24aad63be6fc476c63c79d\",\n    \"name\": \"Head of HR Management Department\",\n    \"description\": \"Head of HR Management Department\",\n    \"privileges\": [\n        \"shared.requests.access\",\n        \"shared.requests.create\",\n        \"shared.requests.cancel\",\n        \"shared.requests.approve\",\n        \"shared.requests.reject\",\n        \"shared.notification.access\",\n        \"config.roles.access\",\n        \"config.roles.create\",\n        \"config.roles.edit\",\n        \"config.roles.delete\",\n        \"employees.records.access\",\n        \"employees.records.create\",\n        \"employees.records.edit\",\n        \"employees.records.delete\",\n        \n        \"employees.profile.access\",\n        \"employees.profile.edit\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://{{host}}/roles/update",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"update"
 							]
 						}
 					},
@@ -241,6 +217,75 @@
 		{
 			"name": "employee",
 			"item": [
+				{
+					"name": "Employee details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}/employees/records/5f2495fff02fb21d8ce739ef",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employees",
+								"records",
+								"5f2495fff02fb21d8ce739ef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Employees list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}/employees/records?page=1&size=10",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employees",
+								"records"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Add employee",
 					"request": {
@@ -267,98 +312,15 @@
 							"raw": "{\n    \"username\": \"nuevera2\",\n    \"firstName\": \"Nuevera\",\n    \"lastName\": \"Nuevera\",\n    \"email\": \"n@nuevera2.com\",\n    \"password\": \"nuevera\",\n    \"cin\": \"01234569\",\n    \"prefix\": \"Mr.\",\n    \"role\": \"Employee\",\n    \"gender\": \"male\",\n    \"phone\": \"88887774\",\n    \"modeOfEmployment\": \"full-time\",\n    \"department\": \"IT\"\t\n}"
 						},
 						"url": {
-							"raw": "http://api.nuevera.com/employees/records/add",
+							"raw": "http://{{host}}/employees/records/add",
 							"protocol": "http",
 							"host": [
-								"api",
-								"nuevera",
-								"com"
+								"{{host}}"
 							],
 							"path": [
 								"employees",
 								"records",
 								"add"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Employees list",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://api.nuevera.com/employees/records?page=1&size=10",
-							"protocol": "http",
-							"host": [
-								"api",
-								"nuevera",
-								"com"
-							],
-							"path": [
-								"employees",
-								"records"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "size",
-									"value": "10"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Employee details",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://api.nuevera.com/employees/records/5f2495fff02fb21d8ce739ef",
-							"protocol": "http",
-							"host": [
-								"api",
-								"nuevera",
-								"com"
-							],
-							"path": [
-								"employees",
-								"records",
-								"5f2495fff02fb21d8ce739ef"
 							]
 						}
 					},
@@ -419,12 +381,10 @@
 					"raw": "{\n    \"email\": \"n@nuevera.com\",\n    \"password\": \"nuevera\"\n}"
 				},
 				"url": {
-					"raw": "http://api.nuevera.com/auth",
+					"raw": "http://{{host}}/auth",
 					"protocol": "http",
 					"host": [
-						"api",
-						"nuevera",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"auth"
