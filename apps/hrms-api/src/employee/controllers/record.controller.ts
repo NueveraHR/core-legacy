@@ -5,7 +5,7 @@ import { Response } from 'express';
 import { ErrorUtils } from '@hrms-api/common/error.utils';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 
-@Controller('/employees/records')
+@Controller('/employees')
 @Privileges('employees.records.access')
 export class EmployeeRecordController {
     constructor(private employeeFacade: UserFacade) { }
@@ -33,7 +33,7 @@ export class EmployeeRecordController {
     }
 
 
-    @Post('/add')
+    @Post()
     @Privileges('employees.records.create')
     addUser(@Body() userDto: UserDto, @Res() response: Response): Promise<Response> {
         return this.employeeFacade.createUser(userDto)

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Res, HttpStatus, Query, Param, Delete, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, HttpStatus, Query, Param, Delete, HttpCode, Put } from '@nestjs/common';
 import { RoleDto, RolePaginateDto } from '@hrms-core/dto/role.dto';
 import { RoleFacade, RoleFilterCriteria } from '@hrms-core/modules/config/facades/role.facade';
 import { Response } from 'express';
@@ -33,7 +33,7 @@ export class RoleController {
         return response.json(this.roleFacade.allPrivileges());
     }
 
-    @Post('/add')
+    @Post()
     @Privileges('config.roles.create')
     createRole(@Body() roleDto: RoleDto, @Res() response: Response): Promise<Response> {
         return this.roleFacade.createRole(roleDto)
@@ -41,10 +41,10 @@ export class RoleController {
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
 
-    @Post('/update')
+    @Put('/:roleId')
     @Privileges('config.roles.edit')
-    updateRole(@Body() roleDto: RoleDto, @Res() response: Response): Promise<Response> {
-        return this.roleFacade.updateRole(roleDto)
+    updateRole(@Param('roleId') roleId: string, @Body() roleDto: RoleDto, @Res() response: Response): Promise<Response> {
+        return this.roleFacade.updateRole(roleId, roleDto)
             .then(role => response.json(role))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }

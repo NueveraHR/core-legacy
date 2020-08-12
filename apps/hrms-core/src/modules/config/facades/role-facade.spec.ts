@@ -80,7 +80,7 @@ describe('Role Management Facade', () => {
                 fail('Cannot update uncreated role');
             }
             createdRole.name = 'Modified role';
-            await roleManagementFacade.updateRole(createdRole).then((role: Role) => {
+            await roleManagementFacade.updateRole(createdRole.id, createdRole).then((role: Role) => {
                 expect(role.name).toEqual('Modified role');
             });
         });

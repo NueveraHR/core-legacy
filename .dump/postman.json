@@ -52,13 +52,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}/roles",
+							"raw": "http://{{host}}/roles/privileges",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"roles"
+								"roles",
+								"privileges"
 							]
 						}
 					},
@@ -159,14 +160,13 @@
 							"raw": "{\n    \"name\": \"Head of HR Manager Department\",\n    \"description\": \"Head of HR Manager Department\",\n    \"extendsRoles\": [],\n    \"privileges\": [\n        \"shared.requests.access\",\n        \"shared.requests.create\",\n        \"shared.requests.cancel\",\n        \"shared.requests.approve\",\n        \"shared.requests.reject\",\n        \"shared.notification.access\",\n        \"config.roles.access\",\n        \"config.roles.create\",\n        \"config.roles.edit\",\n        \"config.roles.delete\",\n        \"user.record.access\",\n        \"user.record.create\",\n        \"user.record.edit\",\n        \"user.record.delete\",\n        \"user.profile.access\",\n        \"user.profile.edit\"\n    ]\n}"
 						},
 						"url": {
-							"raw": "http://{{host}}/roles/add",
+							"raw": "http://{{host}}/roles",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"roles",
-								"add"
+								"roles"
 							]
 						}
 					},
@@ -185,7 +185,7 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -196,17 +196,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"5f24aad63be6fc476c63c79d\",\n    \"name\": \"Head of HR Management Department\",\n    \"description\": \"Head of HR Management Department\",\n    \"privileges\": [\n        \"shared.requests.access\",\n        \"shared.requests.create\",\n        \"shared.requests.cancel\",\n        \"shared.requests.approve\",\n        \"shared.requests.reject\",\n        \"shared.notification.access\",\n        \"config.roles.access\",\n        \"config.roles.create\",\n        \"config.roles.edit\",\n        \"config.roles.delete\",\n        \"employees.records.access\",\n        \"employees.records.create\",\n        \"employees.records.edit\",\n        \"employees.records.delete\",\n        \n        \"employees.profile.access\",\n        \"employees.profile.edit\"\n    ]\n}"
+							"raw": "{\n    \"name\": \"Head of HR Department\",\n    \"description\": \"Head of HR Management Department\",\n    \"privileges\": [\n        \"shared.requests.access\",\n        \"shared.requests.create\",\n        \"shared.requests.cancel\",\n        \"shared.requests.approve\",\n        \"shared.requests.reject\",\n        \"shared.notification.access\",\n        \"config.roles.access\",\n        \"config.roles.create\",\n        \"config.roles.edit\",\n        \"config.roles.delete\",\n        \"employees.records.access\",\n        \"employees.records.create\",\n        \"employees.records.edit\",\n        \"employees.records.delete\",\n        \n        \"employees.profile.access\",\n        \"employees.profile.edit\"\n    ]\n}"
 						},
 						"url": {
-							"raw": "http://{{host}}/roles/update",
+							"raw": "http://{{host}}/roles/5f24aad63be6fc476c63c79d",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"roles",
-								"update"
+								"5f24aad63be6fc476c63c79d"
 							]
 						}
 					},
@@ -233,14 +233,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}/employees/records/5f2495fff02fb21d8ce739ef",
+							"raw": "http://{{host}}/employees/5f2495fff02fb21d8ce739ef",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"employees",
-								"records",
 								"5f2495fff02fb21d8ce739ef"
 							]
 						}
@@ -263,14 +262,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{host}}/employees/records?page=1&size=10",
+							"raw": "http://{{host}}/employees?page=1&size=10",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"employees",
-								"records"
+								"employees"
 							],
 							"query": [
 								{
@@ -312,15 +310,13 @@
 							"raw": "{\n    \"username\": \"nuevera2\",\n    \"firstName\": \"Nuevera\",\n    \"lastName\": \"Nuevera\",\n    \"email\": \"n@nuevera2.com\",\n    \"password\": \"nuevera\",\n    \"cin\": \"01234569\",\n    \"prefix\": \"Mr.\",\n    \"role\": \"Employee\",\n    \"gender\": \"male\",\n    \"phone\": \"88887774\",\n    \"modeOfEmployment\": \"full-time\",\n    \"department\": \"IT\"\t\n}"
 						},
 						"url": {
-							"raw": "http://{{host}}/employees/records/add",
+							"raw": "http://{{host}}/employees",
 							"protocol": "http",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"employees",
-								"records",
-								"add"
+								"employees"
 							]
 						}
 					},

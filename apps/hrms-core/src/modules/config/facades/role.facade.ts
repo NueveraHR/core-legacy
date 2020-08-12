@@ -102,10 +102,10 @@ export class RoleFacade {
         });
     }
 
-    async updateRole(roleDto: RoleDto): Promise<RoleDto> {
+    async updateRole(roleId: string, roleDto: RoleDto): Promise<RoleDto> {
 
-        //  * Validate given roleDto data
-        const validationResult = this.roleDtoValidator.validate(roleDto, { required: ['id'] });
+        //  Validate given roleDto data
+        const validationResult = this.roleDtoValidator.validate(roleDto);
         if (this.dtoService.isError(validationResult)) {
             return Promise.reject(validationResult);
         }
@@ -113,7 +113,7 @@ export class RoleFacade {
         // retrieve current registered role record.
         let result: Role | ErrorDto;
         await this.roleService
-            .findById(roleDto.id)
+            .findById(roleId)
             .then(role => result = role)
             .catch(err => result = err);
 
@@ -123,8 +123,7 @@ export class RoleFacade {
             return Promise.reject(result);
         else if (!result)
             return Promise.reject(this.dtoService.error(43003));
-
-
+        
         // overwrite saved role properties
         const savedRole = this.roleDtoReversePipe.transformExistent(roleDto, result as Role);
         return this.roleService.update(savedRole).then(role =>
