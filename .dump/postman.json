@@ -321,6 +321,44 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Edit employee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"5f2495fff02fb21d8ce739ef\",\r\n    \"email\": \"n@nuevera.com\",\r\n    \"firstName\": \"Nuevera\",\r\n    \"lastName\": \"Nuevera\",\r\n    \"gender\": \"male\",\r\n    \"username\": \"nuevera\",\r\n    \"cin\": \"01234567\",\r\n    \"prefix\": \"Mr.\",\r\n    \"phone\": 88887774,\r\n    \"role\": \"5f24aad63be6fc476c63c79d\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}/employees/5f2495fff02fb21d8ce739ef",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employees",
+								"5f2495fff02fb21d8ce739ef"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"event": [

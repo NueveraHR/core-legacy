@@ -22,8 +22,7 @@ export const ErrorMessage: ErrorCodeMessage = {
     42010: 'Cannot creat user, a user with similar username or email already exists!',
     42001: 'Invalid request, Cannot find list of users',
     42002: 'Invalid request, Cannot find user details',
-    42003: 'Invalid request, Cannot update user details',
-    42004: 'Invalid request, Cannot update user details',
+    42003: 'Invalid request, Cannot update user details with unknown id',
 
     // Validator invalid data (421xx)
     42100: 'No user data provided!',
@@ -46,6 +45,7 @@ export const ErrorMessage: ErrorCodeMessage = {
     // Facade error (422xx)
     42200: 'Invalid role id',
     42201: 'Unknown role',
+    42202: 'Cannot update user details',
 
 
     //---------------------------------- Role (43xxx) ---------------------------------- 

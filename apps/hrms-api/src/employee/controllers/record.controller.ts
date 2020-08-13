@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Post, Body, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body, Res, HttpStatus, Put } from '@nestjs/common';
 import { UserFacade, UserFilterCriteria, UserPaginateDto } from '@hrms-core/modules/employee/facades/user.facade';
 import { UserDto } from '@hrms-core/dto/user.dto';
 import { Response } from 'express';
@@ -37,6 +37,14 @@ export class EmployeeRecordController {
     @Privileges('employees.records.create')
     addUser(@Body() userDto: UserDto, @Res() response: Response): Promise<Response> {
         return this.employeeFacade.createUser(userDto)
+            .then(user => response.json(user))
+            .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
+    }
+
+    @Put('/:id')
+    @Privileges('employees.records.edit')
+    updateEmployee(@Param('id') id: string, @Body() roleDto: UserDto, @Res() response: Response): Promise<Response> {
+        return this.employeeFacade.updateUser(id, roleDto)
             .then(user => response.json(user))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }

@@ -83,14 +83,14 @@ export class UserDtoValidator extends DtoValidator<UserDto> {
         }
 
 
-        if (!object.modeOfEmployment) {
-            return this.dtoService.error(42113);
-        }
+        // if (!object.modeOfEmployment) {
+        //     return this.dtoService.error(42113);
+        // }
 
 
-        if (!object.department) {
-            return this.dtoService.error(42114);
-        }
+        // if (!object.department) {
+        //     return this.dtoService.error(42114);
+        // }
 
         return true;
     }
