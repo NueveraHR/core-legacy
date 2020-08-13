@@ -7,7 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { LoggerService } from '@libs/logger';
 import { RoleService } from '../role/role.service';
 import { PaginateResult } from 'mongoose';
-import { USERS } from '@hrms-core/mock/user-mock';
+import { USERS } from '@hrms-core/test/mock/user-mock';
 
 
 describe('User Service', () => {

@@ -5,16 +5,19 @@ import { LoggerService } from '@libs/logger';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { AuthFacade } from './auth.facade';
-import { USERS } from '@hrms-core/mock/user-mock';
+import { USERS } from '@hrms-core/test/mock/user-mock';
+import { MockUtils } from '@hrms-core/test/utils/mock.utils';
+import { EnvService } from '@libs/env';
 
 
 describe('Auth Facade', () => {
     let authFacade: AuthFacade;
     let dbManager: DBManager;
+    let envService: EnvService;
     let loggerService: LoggerService;
     let roleService: RoleService;
     let userService: UserService;
-
+    let mockUtils: MockUtils;
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
@@ -30,6 +33,8 @@ describe('Auth Facade', () => {
 
         userService = moduleRef.get<UserService>(UserService);
         roleService = moduleRef.get<RoleService>(RoleService);
+        envService = moduleRef.get<EnvService>(EnvService);
+        mockUtils = new MockUtils(envService, roleService, userService);
     });
 
     beforeEach(async () => {
@@ -62,7 +67,7 @@ describe('Auth Facade', () => {
         it('Should not accept invalid user credentials', async () => {
             //const role = await roleService.create(USERS.employeeRole);
             expect.assertions(1);
-            await userService.create(USERS.basicUser);
+            await mockUtils.createUser('basicUser');
             const loginCredentials = {
                 email: 'invalid-user@mail.com',
                 password: 'invalid'
@@ -74,12 +79,15 @@ describe('Auth Facade', () => {
 
         it('Should accept authentication', async () => {
             expect.assertions(1);
+            jest.setTimeout(30000);
 
-            await userService.create(USERS.basicUser);
             const loginCredentials = {
                 email: USERS.basicUser.email,
                 password: USERS.basicUser.password
-            }
+            };
+
+            await mockUtils.createUser('basicUser', 'employeeRole');
+
             await authFacade.auth(loginCredentials).then(result => {
                 expect((result as any).token.length).toBeGreaterThan(1);
             });

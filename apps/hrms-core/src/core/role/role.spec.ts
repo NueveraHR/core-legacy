@@ -3,7 +3,7 @@ import { HRMSCoreModule } from "@hrms-core/hrms-core.module";
 import { DBManager } from "@hrms-core/common/services/database/database-manager.service";
 import { LoggerService } from "@libs/logger";
 import { RoleService } from "./role.service";
-import { ROLES } from "@hrms-core/mock/role-mock";
+import { ROLES } from "@hrms-core/test/mock/role-mock";
 
 
 describe('Role Service', () => {
