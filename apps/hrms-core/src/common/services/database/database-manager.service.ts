@@ -19,7 +19,7 @@ export class DBManager {
      *
      * @memberof DBManager
      */
-    public async dropDatabaseCollections() {
+    async dropDatabaseCollections() {
         if (this.envService.isTest()) {
             const collections = this.connection.collections;
             for (const key in collections) {

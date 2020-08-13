@@ -3,8 +3,8 @@ import { HRMSCoreModule } from "@hrms-core/hrms-core.module";
 import { DBManager } from "@hrms-core/common/services/database/database-manager.service";
 import { LoggerService } from "@libs/logger";
 import { RoleFacade, MultipleDeleteResult } from "./role.facade";
-import { ROLES } from "@hrms-core/mock/role-mock";
-import { DtoService } from "@hrms-core/common/services/dto/error-dto.service";
+import { ROLES } from "@hrms-core/test/mock/role-mock";
+import { ErrorService } from "@hrms-core/common/error/error.service";
 import { RoleDto, RolePaginateDto } from "@hrms-core/dto/role.dto";
 import { Role } from "@hrms-core/core/role/role.schema";
 import { ConfigModule } from "../config.module";
@@ -14,7 +14,7 @@ describe('Role Management Facade', () => {
     let dbManager: DBManager;
     let roleManagementFacade: RoleFacade;
     let loggerService: LoggerService;
-    let dtoService: DtoService;
+    let errorService: ErrorService;
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
@@ -26,7 +26,7 @@ describe('Role Management Facade', () => {
         dbManager = moduleRef.get<DBManager>(DBManager);
         loggerService = moduleRef.get<LoggerService>(LoggerService);
         roleManagementFacade = moduleRef.get<RoleFacade>(RoleFacade);
-        dtoService = moduleRef.get<DtoService>(DtoService);
+        errorService = moduleRef.get<ErrorService>(ErrorService);
 
     });
 
@@ -76,7 +76,7 @@ describe('Role Management Facade', () => {
 
         it('should update role', async () => {
             expect.assertions(1);
-            if (!createdRole || dtoService.isError(createdRole)) {
+            if (!createdRole || errorService.isError(createdRole)) {
                 fail('Cannot update uncreated role');
             }
             createdRole.name = 'Modified role';
@@ -110,8 +110,6 @@ describe('Role Management Facade', () => {
                 };
                 await roleManagementFacade.createRole(generatedRole).then((res) => {
                     rolesId.push(res.id);
-                    console.log(res.id);
-
                 });
 
             }

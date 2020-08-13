@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Res, HttpStatus, Query, Param, Delete, Htt
 import { RoleDto, RolePaginateDto } from '@hrms-core/dto/role.dto';
 import { RoleFacade, RoleFilterCriteria } from '@hrms-core/modules/config/facades/role.facade';
 import { Response } from 'express';
-import { ErrorUtils } from '@hrms-api/common/error.utils';
+import { ErrorUtils } from '@hrms-core/common/error/error.utils';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 
 @Controller('/roles')

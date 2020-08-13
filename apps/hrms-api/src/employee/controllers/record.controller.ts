@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query, Post, Body, Res, HttpStatus, Put } from 
 import { UserFacade, UserFilterCriteria, UserPaginateDto } from '@hrms-core/modules/employee/facades/user.facade';
 import { UserDto } from '@hrms-core/dto/user.dto';
 import { Response } from 'express';
-import { ErrorUtils } from '@hrms-api/common/error.utils';
+import { ErrorUtils } from '@hrms-core/common/error/error.utils';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 
 @Controller('/employees')

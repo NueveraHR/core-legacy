@@ -4,12 +4,13 @@ import { UserService } from "@hrms-core/core/user/user.service";
 import { LoggerService } from "@libs/logger";
 import { ModuleRef } from "@nestjs/core";
 import { UserDtoPipe } from "../pipes/user-dto.pipe";
-import { DtoService, ErrorDto } from "@hrms-core/common/services/dto/error-dto.service";
+import { ErrorService, ErrorDto } from "@hrms-core/common/error/error.service";
 import { PaginateResult } from "mongoose";
 import { UserDtoValidator } from "../validators/user-dto.validator";
 import { RoleService } from "@hrms-core/core/role/role.service";
 import { User } from "@hrms-core/core/user/user.schema";
 import { UserDtoReversePipe } from "../pipes/user-dto-reverse.pipe";
+import { Errors } from "@hrms-core/common/error/error.const";
 
 @Injectable()
 export class UserFacade {
@@ -23,7 +24,7 @@ export class UserFacade {
         private moduleRef: ModuleRef
     ) { }
 
-    @Inject(DtoService) dtoService: DtoService;
+    @Inject(ErrorService) errorService: ErrorService;
 
     userList(filterCriteria?: UserFilterCriteria): Promise<UserPaginateDto> {
         return this.userService
@@ -46,13 +47,13 @@ export class UserFacade {
     async createUser(userDto: UserDto): Promise<UserDto> {
         const validationResult = this.userDtoValidator.validate(userDto, { required: ['password', 'role'] });
 
-        if (this.dtoService.isError(validationResult)) {
+        if (this.errorService.isError(validationResult)) {
             return Promise.reject(validationResult);
         }
 
         // assert role existence
         await this.roleService.findById(userDto.role)
-            .catch(() => Promise.reject(this.dtoService.error(42201)));
+            .catch(() => Promise.reject(this.errorService.generate(Errors.User.UNKNOWN_ROLE)));
 
         return this.userService.create(userDto).then(user =>
             this.userDtoPipe.transform(user)
@@ -65,13 +66,13 @@ export class UserFacade {
                 if (user)
                     return this.userDtoPipe.transform(user, { detailed: true });
                 else
-                    return Promise.reject(this.dtoService.error(42002));
+                    return Promise.reject(this.errorService.generate(Errors.User.DETAILS_INVALID_REQUEST));
             });
     }
 
     async updateUser(id: string, userDto: UserDto): Promise<UserDto> {
         const validationResult = this.userDtoValidator.validate(userDto);
-        if (this.dtoService.isError(validationResult)) {
+        if (this.errorService.isError(validationResult)) {
             return Promise.reject(validationResult);
         }
 
@@ -83,10 +84,10 @@ export class UserFacade {
             .catch(err => result = err);
 
         // Check for retrieval error
-        if (this.dtoService.isError(result))
+        if (this.errorService.isError(result))
             return Promise.reject(result);
         else if (!result)
-            return Promise.reject(this.dtoService.error(42003));
+            return Promise.reject(this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID));
 
         const userToUpdate = this.userDtoReversePipe.transformExistent(userDto, result as User);
         return this.userService.update(userToUpdate)

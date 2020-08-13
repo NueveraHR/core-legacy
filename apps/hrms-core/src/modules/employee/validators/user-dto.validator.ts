@@ -1,8 +1,9 @@
 import { DtoValidator, ValidatorOptions } from "@hrms-core/common/interfaces/dto-validator";
-import { ErrorDto, DtoService } from "@hrms-core/common/services/dto/error-dto.service";
+import { ErrorDto, ErrorService } from "@hrms-core/common/error/error.service";
 import { Injectable, Inject } from "@nestjs/common";
 import { UserDto } from "@hrms-core/dto/user.dto";
 import { ValidatorUtils } from "@hrms-core/common/utils/validator.utils";
+import { Errors } from "@hrms-core/common/error/error.const";
 
 const EMAIL_PATTERN = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
@@ -10,86 +11,86 @@ const EMAIL_PATTERN = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4}
 @Injectable()
 export class UserDtoValidator extends DtoValidator<UserDto> {
 
-    @Inject(DtoService) dtoService: DtoService;
+    @Inject(ErrorService) errorService: ErrorService;
 
     validate(object: UserDto, validatorOptions?: ValidatorOptions): boolean | ErrorDto | ErrorDto[] {
 
         if (!object) {
-            return this.dtoService.error(42100);
+            return this.errorService.generate(Errors.User.NO_DATA);
         }
 
         if (this.isRequired('id', validatorOptions)) {
             if (!object.id) {
-                return this.dtoService.error(42101);
+                return this.errorService.generate(Errors.User.MISSING_ID);
             }
         }
 
         if (!object.username) {
-            return this.dtoService.error(42102);
+            return this.errorService.generate(Errors.User.MISSING_USERNAME);
         }
 
         if (!object.firstName) {
-            return this.dtoService.error(42103);
+            return this.errorService.generate(Errors.User.MISSING_FIRSTNAME);
         }
 
 
         if (!object.lastName) {
-            return this.dtoService.error(42104);
+            return this.errorService.generate(Errors.User.MISSING_LASTNAME);
         }
 
 
         if (this.isRequired('password', validatorOptions)) {
             if (!object.password) {
-                return this.dtoService.error(42105);
+                return this.errorService.generate(Errors.User.MISSING_PASSWORD);
             }
         }
 
         if (!object.email) {
-            return this.dtoService.error(42106);
+            return this.errorService.generate(Errors.User.MISSING_EMAIL);
         }
 
         if (EMAIL_PATTERN.test(object.email) === false) {
-            return this.dtoService.error(42107);
+            return this.errorService.generate(Errors.User.INVALID_EMAIL);
         }
 
         if (!object.cin) {
-            return this.dtoService.error(42108);
+            return this.errorService.generate(Errors.User.MISSING_CIN);
         }
 
         if (object.cin.length != 8) {
-            return this.dtoService.error(42115);
+            return this.errorService.generate(Errors.User.INVALID_CIN);
         }
 
         if (!object.prefix) {
-            return this.dtoService.error(42109);
+            return this.errorService.generate(Errors.User.MISSING_PREFIX);
         }
 
 
         if (!object.role) {
-            return this.dtoService.error(42110);
+            return this.errorService.generate(Errors.User.MISSING_ROLE);
         }
 
         if (!ValidatorUtils.isValidId(object.role)) {
-            return (this.dtoService.error(42200));
+            return (this.errorService.generate(Errors.User.INVALID_ROLE_ID));
         }
 
         if (!object.gender) {
-            return this.dtoService.error(42111);
+            return this.errorService.generate(Errors.User.MISSING_GENDER);
         }
 
 
         if (!object.phone) {
-            return this.dtoService.error(42112);
+            return this.errorService.generate(Errors.User.MISSING_PHONE);
         }
 
 
         // if (!object.modeOfEmployment) {
-        //     return this.dtoService.error(42113);
+        //     return this.errorService.error(42113);
         // }
 
 
         // if (!object.department) {
-        //     return this.dtoService.error(42114);
+        //     return this.errorService.error(42114);
         // }
 
         return true;
