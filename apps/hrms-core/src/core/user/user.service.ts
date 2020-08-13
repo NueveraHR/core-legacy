@@ -6,6 +6,7 @@ import { UserDto } from "@hrms-core/dto/user.dto";
 import * as bcrypt from 'bcrypt';
 import { Role } from "../role/role.schema";
 import { ErrorService } from "@hrms-core/common/error/error.service";
+import { Errors } from "@hrms-core/common/error/error.const";
 
 const SALT_ROUNDS = 10;
 
@@ -29,9 +30,9 @@ export class UserService {
             .save()
             .catch(err => {
                 if (err.code == 11000) { // Duplicated key error.
-                    return Promise.reject(this.errorService.generate(42010));
+                    return Promise.reject(this.errorService.generate(Errors.User.CREATE_DUPLICATED));
                 }
-                return Promise.reject(this.errorService.generate(50000, { detailedMessage: err }))
+                return Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err }))
             });
     }
 
@@ -46,7 +47,7 @@ export class UserService {
 
         return user
             .save()
-            .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })));
+            .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })));
     }
 
     /**
@@ -57,7 +58,7 @@ export class UserService {
         return this.userModel
             .find()
             .exec()
-            .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })));
+            .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })));
     }
 
 
@@ -69,7 +70,7 @@ export class UserService {
 
         return this.userModel
             .paginate({}, options)
-            .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })))
+            .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })))
     }
 
 
@@ -81,7 +82,7 @@ export class UserService {
         return this.userModel
             .findById(id)
             .exec()
-            .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })))
+            .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })))
     }
 
     /**
@@ -94,7 +95,7 @@ export class UserService {
             await this.userModel
                 .findOne(criteria)
                 .exec()
-                .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })))
+                .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })))
         )
             .populate('role')
             .execPopulate();
@@ -110,7 +111,7 @@ export class UserService {
             await this.userModel
                 .findOne(criteria)
                 .exec()
-                .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })))
+                .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })))
         )
             .populate('role')
             .execPopulate();
@@ -120,7 +121,7 @@ export class UserService {
         user.role = role.id;
         return user
             .save()
-            .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })));
+            .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })));
     }
 
     /**
@@ -130,7 +131,7 @@ export class UserService {
     delete(user: User): Promise<{ deletedCount?: number }> {
         return this.userModel
             .deleteOne(user)
-            .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })));
+            .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })));
     }
 
     /**

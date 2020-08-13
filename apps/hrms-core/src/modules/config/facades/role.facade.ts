@@ -13,6 +13,7 @@ import { RoleDtoReversePipe } from '../pipes/role-dto-reverse.pipe';
 import { RoleDtoPipe } from '../pipes/role-dto.pipe';
 import { PrivilegesDtoPipe } from '../pipes/privilege-dto.pipe';
 import { ValidatorUtils } from '@hrms-core/common/utils/validator.utils';
+import { Errors } from '@hrms-core/common/error/error.const';
 
 @Injectable()
 export class RoleFacade {
@@ -59,7 +60,7 @@ export class RoleFacade {
                 if (role)
                     return this.roleDtoPipe.transform(role, options);
                 else
-                    return Promise.reject(this.errorService.generate(43002));
+                    return Promise.reject(this.errorService.generate(Errors.Role.DETAILS_INVALID_REQUEST));
 
             })
     }
@@ -91,14 +92,14 @@ export class RoleFacade {
         if (this.errorService.isError(exists))
             return Promise.reject(exists);
         else if (exists)
-            return Promise.reject(this.errorService.generate(43010))
+            return Promise.reject(this.errorService.generate(Errors.Role.CREATE_DUPLICATED))
 
         // otherwise, try to save new role
         return this.roleService.create(roleDto).then(role => {
             if (role)
                 return this.roleDtoPipe.transform(role)
             else
-                return Promise.reject(this.errorService.generate(43000))
+                return Promise.reject(this.errorService.generate(Errors.Role.CREATE_INVALID_REQUEST))
         });
     }
 
@@ -122,7 +123,7 @@ export class RoleFacade {
         if (this.errorService.isError(result))
             return Promise.reject(result);
         else if (!result)
-            return Promise.reject(this.errorService.generate(43003));
+            return Promise.reject(this.errorService.generate(Errors.Role.UPDATE_INVALID_REQUEST));
         
         // overwrite saved role properties
         const savedRole = this.roleDtoReversePipe.transformExistent(roleDto, result as Role);
@@ -133,7 +134,7 @@ export class RoleFacade {
 
     async deleteRole(roleId: string): Promise<boolean> {
         if (!ValidatorUtils.isValidId(roleId)) {
-            return Promise.reject((this.errorService.generate(43004)))
+            return Promise.reject((this.errorService.generate(Errors.Role.DELETE_INVALID_ID)))
         }
 
         // retrieve current registered role record.
@@ -148,7 +149,7 @@ export class RoleFacade {
         if (this.errorService.isError(result))
             return Promise.reject(result);
         else if (!result)
-            return Promise.reject(this.errorService.generate(43200));
+            return Promise.reject(this.errorService.generate(Errors.Role.UNKNOWN_ROLE));
 
         return this.roleService.delete((result as Role).id);
     }

@@ -125,7 +125,7 @@ describe('Role Management Facade', () => {
                 expect(result.failed.length).toEqual(1);
                 expect(Object.keys(result.errors).length).toEqual(1);
 
-            })
+            }) 
         });
 
 

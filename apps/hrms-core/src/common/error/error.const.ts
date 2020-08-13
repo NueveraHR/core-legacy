@@ -1,3 +1,5 @@
+import { LoginErrors, GeneralErrors, UserErrors, RoleErrors } from "./error.enum"
+
 export const ErrorMessage: ErrorCodeMessage = {
     500: 'Internal Server Error, Please Contact Your System Administrator',
     50000: 'Internal Server Error, Please Contact Your System Administrator',
@@ -58,17 +60,26 @@ export const ErrorMessage: ErrorCodeMessage = {
     43002: 'Invalid request, Cannot find role details',
     43003: 'Invalid request, Cannot update role details with invalid id',
     43004: 'Invalid request, Cannot delete role with invalid id',
-    
+
     // Validator invalid data (431xx)
     43100: 'No role data provided!',
     43101: 'Invalid role : Missing role name!',
     43102: 'Invalid role : Missing role description!',
     43103: 'Invalid role : Missing set of privileges!',
     43104: 'Invalid role : Missing role identifier!',
-    
-    
+
+
     // Facade error (432xx)
     43200: 'Cannot delete role, Unknown role id',
+    43201: 'Cannot delete role, Unknown role',
+
+}
+
+export const Errors = {
+    General: GeneralErrors,
+    Login: LoginErrors,
+    Role: RoleErrors,
+    User: UserErrors,
 
 }
 

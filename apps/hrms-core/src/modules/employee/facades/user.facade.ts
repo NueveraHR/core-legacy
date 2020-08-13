@@ -10,6 +10,7 @@ import { UserDtoValidator } from "../validators/user-dto.validator";
 import { RoleService } from "@hrms-core/core/role/role.service";
 import { User } from "@hrms-core/core/user/user.schema";
 import { UserDtoReversePipe } from "../pipes/user-dto-reverse.pipe";
+import { Errors } from "@hrms-core/common/error/error.const";
 
 @Injectable()
 export class UserFacade {
@@ -52,7 +53,7 @@ export class UserFacade {
 
         // assert role existence
         await this.roleService.findById(userDto.role)
-            .catch(() => Promise.reject(this.errorService.generate(42201)));
+            .catch(() => Promise.reject(this.errorService.generate(Errors.User.UNKNOWN_ROLE)));
 
         return this.userService.create(userDto).then(user =>
             this.userDtoPipe.transform(user)
@@ -65,7 +66,7 @@ export class UserFacade {
                 if (user)
                     return this.userDtoPipe.transform(user, { detailed: true });
                 else
-                    return Promise.reject(this.errorService.generate(42002));
+                    return Promise.reject(this.errorService.generate(Errors.User.DETAILS_INVALID_REQUEST));
             });
     }
 
@@ -86,7 +87,7 @@ export class UserFacade {
         if (this.errorService.isError(result))
             return Promise.reject(result);
         else if (!result)
-            return Promise.reject(this.errorService.generate(42003));
+            return Promise.reject(this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID));
 
         const userToUpdate = this.userDtoReversePipe.transformExistent(userDto, result as User);
         return this.userService.update(userToUpdate)
