@@ -1,4 +1,4 @@
-import { ErrorDto } from "@hrms-core/common/services/dto/error-dto.service";
+import { ErrorDto } from "@hrms-core/common/error/error.service";
 
 export abstract class DtoValidator<T> {
 

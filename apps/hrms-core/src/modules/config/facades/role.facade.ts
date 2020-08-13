@@ -7,7 +7,7 @@ import { Role } from '@hrms-core/core/role/role.schema';
 import { RoleService } from '@hrms-core/core/role/role.service';
 import { PrivilegeService } from '@hrms-core/core/privilege/privilege.service';
 import { PrivilegeDto } from '@hrms-core/dto/privilege.dto';
-import { ErrorDto, DtoService } from '@hrms-core/common/services/dto/error-dto.service';
+import { ErrorDto, ErrorService } from '@hrms-core/common/error/error.service';
 import { RoleDtoValidator } from '../validators/role-dto.validator';
 import { RoleDtoReversePipe } from '../pipes/role-dto-reverse.pipe';
 import { RoleDtoPipe } from '../pipes/role-dto.pipe';
@@ -16,7 +16,7 @@ import { ValidatorUtils } from '@hrms-core/common/utils/validator.utils';
 
 @Injectable()
 export class RoleFacade {
-    @Inject(DtoService) dtoService: DtoService;
+    @Inject(ErrorService) errorService: ErrorService;
 
     constructor(
         private readonly moduleRef: ModuleRef,
@@ -59,7 +59,7 @@ export class RoleFacade {
                 if (role)
                     return this.roleDtoPipe.transform(role, options);
                 else
-                    return Promise.reject(this.dtoService.error(43002));
+                    return Promise.reject(this.errorService.generate(43002));
 
             })
     }
@@ -78,7 +78,7 @@ export class RoleFacade {
 
         //  * Validate given roleDto data
         const validationResult = this.roleDtoValidator.validate(roleDto);
-        if (this.dtoService.isError(validationResult)) {
+        if (this.errorService.isError(validationResult)) {
             return Promise.reject(validationResult);
         }
 
@@ -88,17 +88,17 @@ export class RoleFacade {
             .then(role => exists = role != null)
             .catch(err => exists = err);
 
-        if (this.dtoService.isError(exists))
+        if (this.errorService.isError(exists))
             return Promise.reject(exists);
         else if (exists)
-            return Promise.reject(this.dtoService.error(43010))
+            return Promise.reject(this.errorService.generate(43010))
 
         // otherwise, try to save new role
         return this.roleService.create(roleDto).then(role => {
             if (role)
                 return this.roleDtoPipe.transform(role)
             else
-                return Promise.reject(this.dtoService.error(43000))
+                return Promise.reject(this.errorService.generate(43000))
         });
     }
 
@@ -106,7 +106,7 @@ export class RoleFacade {
 
         //  Validate given roleDto data
         const validationResult = this.roleDtoValidator.validate(roleDto);
-        if (this.dtoService.isError(validationResult)) {
+        if (this.errorService.isError(validationResult)) {
             return Promise.reject(validationResult);
         }
 
@@ -119,10 +119,10 @@ export class RoleFacade {
 
 
         // Check for retrieval error
-        if (this.dtoService.isError(result))
+        if (this.errorService.isError(result))
             return Promise.reject(result);
         else if (!result)
-            return Promise.reject(this.dtoService.error(43003));
+            return Promise.reject(this.errorService.generate(43003));
         
         // overwrite saved role properties
         const savedRole = this.roleDtoReversePipe.transformExistent(roleDto, result as Role);
@@ -133,7 +133,7 @@ export class RoleFacade {
 
     async deleteRole(roleId: string): Promise<boolean> {
         if (!ValidatorUtils.isValidId(roleId)) {
-            return Promise.reject((this.dtoService.error(43004)))
+            return Promise.reject((this.errorService.generate(43004)))
         }
 
         // retrieve current registered role record.
@@ -145,10 +145,10 @@ export class RoleFacade {
 
 
         // Check for retrieval error
-        if (this.dtoService.isError(result))
+        if (this.errorService.isError(result))
             return Promise.reject(result);
         else if (!result)
-            return Promise.reject(this.dtoService.error(43200));
+            return Promise.reject(this.errorService.generate(43200));
 
         return this.roleService.delete((result as Role).id);
     }

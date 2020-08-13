@@ -4,18 +4,18 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { RoleDto } from '@hrms-core/dto/role.dto';
 import { Role } from './role.schema';
-import { DtoService } from '@hrms-core/common/services/dto/error-dto.service';
+import { ErrorService } from '@hrms-core/common/error/error.service';
 
 @Injectable()
 export class RoleService {
-    @Inject(DtoService) dtoService: DtoService;
+    @Inject(ErrorService) errorService: ErrorService;
 
     constructor(@InjectModel(Role.name) private readonly roleModel: PaginateModel<Role>) { }
 
     create(roleDto: RoleDto): Promise<Role> {
         const role = new this.roleModel(roleDto);
         return role.save()
-            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
+            .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })));
     }
 
     update(role: Role): Promise<Role> {
@@ -23,9 +23,9 @@ export class RoleService {
             .save()
             .catch(err => {
                 if (err.code == 11000) { // Duplicated key error.
-                    return Promise.reject(this.dtoService.error(43010));
+                    return Promise.reject(this.errorService.generate(43010));
                 }
-                return Promise.reject(this.dtoService.error(50000, { detailedMessage: err }))
+                return Promise.reject(this.errorService.generate(50000, { detailedMessage: err }))
             });
 
     }
@@ -35,14 +35,14 @@ export class RoleService {
             .deleteOne({ _id: id })
             .exec()
             .then(result => result.deletedCount == 1)
-            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
+            .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })));
     }
 
     findAll(): Promise<Role[]> {
         return this.roleModel
             .find()
             .exec()
-            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
+            .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })));
 
     }
 
@@ -53,20 +53,20 @@ export class RoleService {
         };
         return this.roleModel
             .paginate({}, options)
-            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
+            .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })));
     }
 
     findByName(name: string): Promise<Role> {
         return this.roleModel
             .findOne({ name: name })
             .exec()
-            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
+            .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })));
     }
 
     findById(id: string): Promise<Role> {
         return this.roleModel
             .findById(id)
             .exec()
-            .catch(err => Promise.reject(this.dtoService.error(50000, { detailedMessage: err })));
+            .catch(err => Promise.reject(this.errorService.generate(50000, { detailedMessage: err })));
     }
 }

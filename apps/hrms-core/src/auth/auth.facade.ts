@@ -6,13 +6,13 @@ import { RoleService } from '@hrms-core/core/role/role.service';
 import { User } from '@hrms-core/core/user/user.schema';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { UserDto } from '@hrms-core/dto/user.dto';
-import { DtoService } from '@hrms-core/common/services/dto/error-dto.service';
+import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Role } from '@hrms-core/core/role/role.schema';
 
 @Injectable()
 export class AuthFacade {
 
-    @Inject(DtoService) dtoService: DtoService;
+    @Inject(ErrorService) errorService: ErrorService;
 
     constructor(
         private _jwtService: JwtService,
@@ -42,21 +42,21 @@ export class AuthFacade {
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
         if (user?.email?.trim() === '') {
-            return Promise.reject(this.dtoService.error(41100));
+            return Promise.reject(this.errorService.generate(41100));
         }
 
         if (reg.test(user.email) === false) {
-            return Promise.reject(this.dtoService.error(41101));
+            return Promise.reject(this.errorService.generate(41101));
         }
 
         if (user?.password === '') {
-            return Promise.reject(this.dtoService.error(41102));
+            return Promise.reject(this.errorService.generate(41102));
         }
 
         let foundUser: User;
         await this.userService.findByEmail(user.email)
             .then((usr) => foundUser = usr)
-            .catch(err => Promise.reject(this.dtoService.error(41200)));
+            .catch(err => Promise.reject(this.errorService.generate(41200)));
 
         let token;
         if (foundUser) {
@@ -73,7 +73,7 @@ export class AuthFacade {
         }
 
 
-        return Promise.reject(this.dtoService.error(41200));
+        return Promise.reject(this.errorService.generate(41200));
     }
 
     private generateTokenForUser(user: any): string {

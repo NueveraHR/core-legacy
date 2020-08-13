@@ -1,8 +1,8 @@
-import { ErrorDto } from "@hrms-core/common/services/dto/error-dto.service";
+import { ErrorDto } from "@hrms-core/common/error/error.service";
 import { HttpStatus } from "@nestjs/common";
 
 export class ErrorUtils {
-    static responseCode(err: ErrorDto) {
+    static responseCode(err: ErrorDto): number {
 
         if (!err?.statusCode) {
             return HttpStatus.INTERNAL_SERVER_ERROR;

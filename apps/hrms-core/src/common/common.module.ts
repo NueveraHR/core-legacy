@@ -1,16 +1,16 @@
 import { Module, Global } from '@nestjs/common';
 import { DBManager } from './services/database/database-manager.service';
-import { DtoService } from './services/dto/error-dto.service';
+import { ErrorService } from './error/error.service';
 
 @Global()
 @Module({
     providers: [
         DBManager,
-        DtoService
+        ErrorService
     ],
     exports: [
         DBManager,
-        DtoService
+        ErrorService
     ]
 })
 export class CommonModule { }
