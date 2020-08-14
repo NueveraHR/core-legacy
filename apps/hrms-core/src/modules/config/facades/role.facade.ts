@@ -124,7 +124,7 @@ export class RoleFacade {
             return Promise.reject(result);
         else if (!result)
             return Promise.reject(this.errorService.generate(Errors.Role.UPDATE_INVALID_REQUEST));
-        
+
         // overwrite saved role properties
         const savedRole = this.roleDtoReversePipe.transformExistent(roleDto, result as Role);
         return this.roleService.update(savedRole).then(role =>
@@ -163,7 +163,13 @@ export class RoleFacade {
         rolesId.forEach(roleId => {
             deleteCalls.push(
                 this.deleteRole(roleId)
-                    .then(() => result.accepted.push(roleId)) //TODO: check if at any time returns false as result 
+                    .then((deleteRoleResult) => {
+                        if (deleteRoleResult) {
+                            result.accepted.push(roleId);
+                        } else {
+                            Promise.reject(this.errorService.generate(Errors.Role.UNKNOWN_ROLE));
+                        }
+                    })
                     .catch((err) => {
                         result.failed.push(roleId);
                         result.errors[roleId] = err;
