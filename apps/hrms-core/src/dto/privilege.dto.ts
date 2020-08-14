@@ -1,10 +1,6 @@
 
 export interface PrivilegeDto {
-    [module: string]: PagesPrivileges;
-}
-
-export interface PagesPrivileges {
-    [page: string]: Actions,
+    [module: string]: Actions,
 }
 
 export interface Actions {

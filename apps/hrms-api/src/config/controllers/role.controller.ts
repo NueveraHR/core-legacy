@@ -6,7 +6,7 @@ import { ErrorUtils } from '@hrms-core/common/error/error.utils';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 
 @Controller('/roles')
-@Privileges('config.roles.access')
+@Privileges('roles.access')
 export class RoleController {
     constructor(private roleFacade: RoleFacade) {
 
@@ -34,7 +34,7 @@ export class RoleController {
     }
 
     @Post()
-    @Privileges('config.roles.create')
+    @Privileges('roles.create')
     createRole(@Body() roleDto: RoleDto, @Res() response: Response): Promise<Response> {
         return this.roleFacade.createRole(roleDto)
             .then(role => response.json(role))
@@ -42,7 +42,7 @@ export class RoleController {
     }
 
     @Put('/:roleId')
-    @Privileges('config.roles.edit')
+    @Privileges('roles.edit')
     updateRole(@Param('roleId') roleId: string, @Body() roleDto: RoleDto, @Res() response: Response): Promise<Response> {
         return this.roleFacade.updateRole(roleId, roleDto)
             .then(role => response.json(role))
@@ -57,7 +57,7 @@ export class RoleController {
     }
 
     @Delete('/:roleId')
-    @Privileges('config.roles.delete')
+    @Privileges('roles.delete')
     deleteRole(@Param('roleId') roleId: string, @Res() response: Response): Promise<Response> {
         return this.roleFacade.deleteRole(roleId)
             .then(role => response.status(HttpStatus.OK).json(role))
@@ -65,7 +65,7 @@ export class RoleController {
     }
 
     @Delete()
-    @Privileges('config.roles.delete')
+    @Privileges('roles.delete')
     deleteRoles(@Body() rolesId: string[], @Res() response: Response): Promise<Response> {
         return this.roleFacade.deleteMultipleRoles(rolesId)
             .then(role => response.status(HttpStatus.OK).json(role))

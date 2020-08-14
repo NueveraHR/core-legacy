@@ -6,7 +6,7 @@ import { ErrorUtils } from '@hrms-core/common/error/error.utils';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 
 @Controller('/employees')
-@Privileges('employees.records.access')
+@Privileges('employees.access')
 export class EmployeeRecordController {
     constructor(private employeeFacade: UserFacade) { }
 
@@ -34,7 +34,7 @@ export class EmployeeRecordController {
 
 
     @Post()
-    @Privileges('employees.records.create')
+    @Privileges('employees.create')
     addUser(@Body() userDto: UserDto, @Res() response: Response): Promise<Response> {
         return this.employeeFacade.createUser(userDto)
             .then(user => response.json(user))
@@ -42,7 +42,7 @@ export class EmployeeRecordController {
     }
 
     @Put('/:id')
-    @Privileges('employees.records.edit')
+    @Privileges('employees.edit')
     updateEmployee(@Param('id') id: string, @Body() roleDto: UserDto, @Res() response: Response): Promise<Response> {
         return this.employeeFacade.updateUser(id, roleDto)
             .then(user => response.json(user))

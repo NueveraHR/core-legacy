@@ -1,42 +1,23 @@
 {
-    "shared": {
-        "_description": "General features",
-        "requests": {
-            "_description": "Requests section",
-            "access": "Allow access to requests section",
-            "create": "Create a new request",
-            "cancel": "Cancel request",
-            "approve": "Approve received request",
-            "reject": "Reject received request"
-        },
-        "notifications": {
-            "_description": "Notifications sections",
-            "access": "Allow access to notifications sections"
-        }
+    "notifications": {
+        "_description": "Notifications sections",
+        "access": "Allow access to notifications sections"
     },
-    "config": {
-        "_description": "HRMS configuration Section",
-        "roles": {
-            "_description": "Roles management page",
-            "access": "Allow access to role management",
-            "create": "Create a new role",
-            "edit": "Edit role",
-            "delete": "Delete role"
-        }
+    "roles": {
+        "_description": "Role and Privileges management",
+        "access": "Allow access to role management",
+        "create": "Create a new role",
+        "edit": "Edit role",
+        "delete": "Delete role"
     },
     "employees": {
-        "_description": "Employees Module",
-        "records": {
-            "_description": "employees list page",
-            "access": "Allow access to employees records",
-            "create": "Create new employee record",
-            "edit": "Edit an employee record",
-            "delete": "Delete an employee record"
-        },
-        "profile": {
-            "_description": "Profile page",
-            "access": "Allow employee to access his profile",
-            "edit": "Employee can edit his profile information"
-        }
+        "_description": "Employees Management",
+        "access": "Allow access to employees records",
+        "create": "Create new employee record",
+        "edit": "Edit an employee record",
+        "delete": "Delete an employee record",
+        "access-profile": "Allow employee to access his profile",
+        "edit-profile": "Employee can edit his profile information",
+        "change-job-title-request": "Create a job title changing request"
     }
 }
