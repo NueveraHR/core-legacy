@@ -52,7 +52,7 @@ describe('Privilege Service', () => {
             expect.assertions(2);
             const privileges = privilegeService.privileges;
             expect(privileges).not.toBeNull();
-            expect(privileges).toHaveProperty('shared.requests.approve');
+            expect(privileges).toHaveProperty('notifications.access');
         })
     })
 
