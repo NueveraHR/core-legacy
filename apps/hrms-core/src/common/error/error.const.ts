@@ -49,6 +49,8 @@ export const ErrorMessage: ErrorCodeMessage = {
     42201: 'Unknown role',
     42202: 'Cannot update user details',
 
+    42203: 'Invalid user id',
+
 
     //---------------------------------- Role (43xxx) ---------------------------------- 
 

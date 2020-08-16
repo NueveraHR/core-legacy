@@ -67,28 +67,25 @@ export class UserFacade {
             });
     }
 
-    async update(id: string, userDto: UserDto): Promise<UserDto> {
-        const validationResult = this.userDtoValidator.validate(userDto);
+    update(id: string, userDto: UserDto): Promise<UserDto> {
+        userDto.id = id;
+        const validationResult = this.userDtoValidator.validate(userDto, { required: ['id'] });
         if (this.errorService.isError(validationResult)) {
             return Promise.reject(validationResult);
         }
 
-        // retrieve current registered user record.
-        let result: User | ErrorDto;
-        await this.userService
+        return this.userService
             .findById(id)
-            .then(user => result = user)
-            .catch(err => result = err);
+            .then(user => {
+                if (!user) {
+                    return Promise.reject(this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID));
+                }
+                const userToUpdate = this.userDtoReversePipe.transformExistent(userDto, user);
+                return this.userService.update(userToUpdate)
+                    .then(user => this.userDtoPipe.transform(user, { detailed: true }))
+            });
 
-        // Check for retrieval error
-        if (this.errorService.isError(result))
-            return Promise.reject(result);
-        else if (!result)
-            return Promise.reject(this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID));
 
-        const userToUpdate = this.userDtoReversePipe.transformExistent(userDto, result as User);
-        return this.userService.update(userToUpdate)
-            .then(user => this.userDtoPipe.transform(user, { detailed: true }))
     }
 }
 

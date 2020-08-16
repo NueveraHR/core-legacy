@@ -46,4 +46,8 @@ export class EmployeeFacade extends UserFacade {
             });
     }
 
+    update(id: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
+        return 
+    }
+
 }
