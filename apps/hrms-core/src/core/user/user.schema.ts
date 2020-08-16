@@ -63,6 +63,7 @@ UserSchema.pre<User>('save', function (next) {
 });
 
 const PopulateByType = function (next) {
+    this.populate('role');
     this.populate('employee');
     this.populate('candidate');
     next();

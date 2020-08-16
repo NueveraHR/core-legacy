@@ -2,7 +2,6 @@ import { UserDto } from "@hrms-core/dto/user.dto";
 import { Injectable, Inject } from "@nestjs/common";
 import { UserService } from "@hrms-core/core/user/user.service";
 import { LoggerService } from "@libs/logger";
-import { ModuleRef } from "@nestjs/core";
 import { UserDtoPipe } from "../pipes/user-dto.pipe";
 import { ErrorService, ErrorDto } from "@hrms-core/common/error/error.service";
 import { PaginateResult } from "mongoose";
@@ -43,7 +42,7 @@ export class UserFacade {
             })
     }
 
-    async create(userDto: UserDto): Promise<any> {
+    create(userDto: UserDto): Promise<any> {
         const validationResult = this.userDtoValidator.validate(userDto, { required: ['password', 'role'] });
 
         if (this.errorService.isError(validationResult)) {
@@ -51,12 +50,11 @@ export class UserFacade {
         }
 
         // assert role existence
-        await this.roleService.findById(userDto.role)
-            .catch(() => Promise.reject(this.errorService.generate(Errors.User.UNKNOWN_ROLE)));
-
-        return this.userService.create(userDto).then(user =>
-            this.userDtoPipe.transform(user)
-        );
+        return this.roleService.assertExists(userDto.role as string)
+            .then(() => this.userService.create(userDto)
+                .then(user =>
+                    this.userDtoPipe.transform(user)
+                ))
     }
 
     details(id: string): Promise<UserDto> {
@@ -75,7 +73,7 @@ export class UserFacade {
             return Promise.reject(validationResult);
         }
 
-        // retrieve current registered role record.
+        // retrieve current registered user record.
         let result: User | ErrorDto;
         await this.userService
             .findById(id)
