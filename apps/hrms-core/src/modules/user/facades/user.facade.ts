@@ -15,12 +15,12 @@ import { Errors } from "@hrms-core/common/error/error.const";
 @Injectable()
 export class UserFacade {
     constructor(
-        private logger: LoggerService,
-        private userDtoValidator: UserDtoValidator,
-        private userDtoPipe: UserDtoPipe,
-        private userDtoReversePipe: UserDtoReversePipe,
-        private userService: UserService,
-        private roleService: RoleService,
+        protected logger: LoggerService,
+        protected userDtoValidator: UserDtoValidator,
+        protected userDtoPipe: UserDtoPipe,
+        protected userDtoReversePipe: UserDtoReversePipe,
+        protected userService: UserService,
+        protected roleService: RoleService,
     ) { }
 
     @Inject(ErrorService) errorService: ErrorService;
@@ -43,7 +43,7 @@ export class UserFacade {
             })
     }
 
-    async create(userDto: UserDto): Promise<UserDto> {
+    async create(userDto: UserDto): Promise<any> {
         const validationResult = this.userDtoValidator.validate(userDto, { required: ['password', 'role'] });
 
         if (this.errorService.isError(validationResult)) {

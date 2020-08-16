@@ -5,8 +5,6 @@ import { User } from "../user.schema";
 
 @Schema()
 export class Employee extends Document {
-    @Prop()
-    user: User;
 
     @Prop()
     workEmail: string;

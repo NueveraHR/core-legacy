@@ -5,6 +5,8 @@ import { Employee } from "./employee.schema";
 import { Model } from "mongoose";
 import { User } from "../user.schema";
 import { Errors } from "@hrms-core/common/error/error.const";
+import { ObjectId } from "mongodb";
+import { EmployeeDto } from "@hrms-core/dto/employee.dto";
 
 @Injectable()
 export class EmployeeService {
@@ -16,9 +18,8 @@ export class EmployeeService {
      * Create empty employee document associated to user
      *
      */
-    create(user: User): Promise<Employee> {
-        const employee = new this.employeeModel();
-        employee.user = user.id;
+    create(employeeDto: EmployeeDto): Promise<Employee> {
+        const employee = new this.employeeModel(employeeDto);
 
         return employee
             .save()
@@ -39,9 +40,9 @@ export class EmployeeService {
     }
 
 
-    delete(employee: Employee): Promise<boolean> {
+    delete(employeeId: string): Promise<boolean> {
         return this.employeeModel
-            .deleteOne({ _id: employee.id })
+            .deleteOne({ _id: employeeId })
             .exec()
             .then(result => result.deletedCount == 1)
             .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })));

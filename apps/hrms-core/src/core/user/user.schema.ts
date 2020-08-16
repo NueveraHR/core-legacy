@@ -41,13 +41,23 @@ export class User extends Document {
     @Prop({ ref: 'Role', type: Types.ObjectId })
     role: string | Role;
 
-
-    // Employee Properties 
+    @Prop({ ref: 'Employee', type: Types.ObjectId })
     employee: string | Employee;
 
-
+    @Prop()
+    candidate: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.plugin(mongoosePaginate);
+
+UserSchema.pre<User>('save', function (next) {
+    if (this.type == UserType.EMPLOYEE) {
+        this.employee = this.get('id')
+    } else if (this.type == UserType.CANDIDATE) {
+        this.candidate = this.get('id')
+    }
+
+    next();
+});

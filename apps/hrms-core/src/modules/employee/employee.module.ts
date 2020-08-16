@@ -1,27 +1,26 @@
-import { Module } from '@nestjs/common';
-import { CoreModule } from '@hrms-core/core/core.module';
-import { UserDtoPipe } from './pipes/user-dto.pipe';
-import { UserDtoValidator } from './validators/user-dto.validator';
-import { UserFacade } from './facades/user.facade';
-import { UserDtoReversePipe } from './pipes/user-dto-reverse.pipe';
+import { Module } from "@nestjs/common";
+import { CoreModule } from "@hrms-core/core/core.module";
+import { EmployeeDtoPipe } from "./pipes/employee-dto.pipe";
+import { EmployeeFacade } from "./facades/employee.facade";
+import { UserModule } from "../user/user.module";
+
 
 @Module({
     imports: [
         CoreModule,
+        UserModule,
     ],
     providers: [
         //validators
-        UserDtoValidator,
 
         // Pipes
-        UserDtoPipe,
-        UserDtoReversePipe,
-        
+        EmployeeDtoPipe,
+
         // Facades
-        UserFacade,
+        EmployeeFacade,
     ],
     exports: [
-        UserFacade,
+        EmployeeFacade,
     ]
 })
 export class EmployeeModule { }
