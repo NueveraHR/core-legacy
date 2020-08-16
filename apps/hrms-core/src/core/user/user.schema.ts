@@ -3,8 +3,7 @@ import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { Role } from "../role/role.schema";
 import * as mongoosePaginate from 'mongoose-paginate';
 import { UserType } from "@hrms-core/common/enums/user-type.enum";
-import { ObjectID } from "mongodb";
-import { Job } from "../job/job.schema";
+import { Employee } from "./employee/employee.schema";
 
 @Schema()
 export class User extends Document {
@@ -44,23 +43,8 @@ export class User extends Document {
 
 
     // Employee Properties 
+    employee: string | Employee;
 
-    @Prop()
-    workEmail: string;
-
-    @Prop()
-    personalEmail: string;
-
-    @Prop()
-    workPhone: string;
-
-    @Prop()
-    personalPhone: string;
-
-    @Prop({ ref: 'Job', type: Types.ObjectId })
-    currentJob: ObjectID | Job;
-
-    //TODO: add department and address
 
 }
 

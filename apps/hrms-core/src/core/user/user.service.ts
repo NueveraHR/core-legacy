@@ -62,14 +62,14 @@ export class UserService {
     }
 
 
-    findAllPaginated(page = 1, limit = 10): Promise<PaginateResult<User>> {
+    findAllPaginated(page = 1, limit = 10, filterOptions = {}): Promise<PaginateResult<User>> {
         const options = {
             page: page,
             limit: limit,
         };
 
         return this.userModel
-            .paginate({}, options)
+            .paginate(filterOptions, options)
             .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })))
     }
 

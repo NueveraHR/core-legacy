@@ -21,14 +21,13 @@ export class UserFacade {
         private userDtoReversePipe: UserDtoReversePipe,
         private userService: UserService,
         private roleService: RoleService,
-        private moduleRef: ModuleRef
     ) { }
 
     @Inject(ErrorService) errorService: ErrorService;
 
-    userList(filterCriteria?: UserFilterCriteria): Promise<UserPaginateDto> {
+    list(paginationOptions?: PaginationOptions, filterCriteria = {}): Promise<UserPaginateDto> {
         return this.userService
-            .findAllPaginated(filterCriteria?.page, filterCriteria?.pageSize)
+            .findAllPaginated(paginationOptions?.page, paginationOptions?.pageSize, filterCriteria)
             .then(result => {
                 const userPaginateDto: UserPaginateDto = {
                     total: result.total,
@@ -37,14 +36,14 @@ export class UserFacade {
                     limit: result.limit,
                     offset: result.offset,
                     docs: result.docs.map(
-                        user => this.userDtoPipe.transform(user, { detailed: filterCriteria?.detailed })
+                        user => this.userDtoPipe.transform(user, { detailed: paginationOptions?.detailed })
                     ),
                 };
                 return userPaginateDto;
             })
     }
 
-    async createUser(userDto: UserDto): Promise<UserDto> {
+    async create(userDto: UserDto): Promise<UserDto> {
         const validationResult = this.userDtoValidator.validate(userDto, { required: ['password', 'role'] });
 
         if (this.errorService.isError(validationResult)) {
@@ -60,7 +59,7 @@ export class UserFacade {
         );
     }
 
-    userDetails(id: string): Promise<UserDto> {
+    details(id: string): Promise<UserDto> {
         return this.userService.findById(id)
             .then(user => {
                 if (user)
@@ -70,7 +69,7 @@ export class UserFacade {
             });
     }
 
-    async updateUser(id: string, userDto: UserDto): Promise<UserDto> {
+    async update(id: string, userDto: UserDto): Promise<UserDto> {
         const validationResult = this.userDtoValidator.validate(userDto);
         if (this.errorService.isError(validationResult)) {
             return Promise.reject(validationResult);
@@ -95,7 +94,7 @@ export class UserFacade {
     }
 }
 
-export interface UserFilterCriteria {
+export interface PaginationOptions {
     page?: number,
     pageSize?: number,
 

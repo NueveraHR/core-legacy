@@ -7,14 +7,16 @@ import { HRMSConfigModule } from '@libs/config';
 import { Role, RoleSchema } from './role/role.schema';
 import { RoleService } from './role/role.service';
 import { Job, JobSchema } from './job/job.schema';
+import { Employee, EmployeeSchema } from './user/employee/employee.schema';
 
 
 @Module({
     imports: [
         HRMSConfigModule,
         MongooseModule.forFeature([
-            { name: User.name, schema: UserSchema },
             { name: Role.name, schema: RoleSchema },
+            { name: User.name, schema: UserSchema },
+            { name: Employee.name, schema: EmployeeSchema },
             { name: Job.name, schema: JobSchema }
         ])
     ],
