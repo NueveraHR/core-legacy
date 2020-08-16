@@ -35,16 +35,15 @@ export class EmployeeFacade extends UserFacade {
     }
 
     create(employeeDto: EmployeeDto): Promise<EmployeeDto> {
-
-        return this.employeeService.create(employeeDto).then(emp => {
-            employeeDto.id = emp.id;
-            return super.create(employeeDto);
-        }).catch(err => {
-            this.employeeService.delete(employeeDto.id);
-            return Promise.reject(err)
-        });
-
+        return this.employeeService.create(employeeDto)
+            .then(emp => {
+                employeeDto['_id'] = emp.id;
+                return super.create(employeeDto);
+            })
+            .catch(err => {
+                this.employeeService.delete(employeeDto['_id']); // on failure delete possible created employee.
+                return Promise.reject(err)
+            });
     }
-
 
 }

@@ -10,7 +10,7 @@ import { UserDto } from "@hrms-core/dto/user.dto";
 export class EmployeeDtoPipe extends UserDtoPipe implements DtoTransformPipe<User, EmployeeDto> {
 
     transform(user: User, options?: { detailed: boolean }): EmployeeDto {
-        const employeeDto = super.transform(user) as EmployeeDto;
+        const employeeDto = super.transform(user, options) as EmployeeDto;
         if (options?.detailed) {
             const employee = (user.employee as Employee);
 

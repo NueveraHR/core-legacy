@@ -61,3 +61,12 @@ UserSchema.pre<User>('save', function (next) {
 
     next();
 });
+
+const PopulateByType = function (next) {
+    this.populate('employee');
+    this.populate('candidate');
+    next();
+}
+
+UserSchema.pre<User>('find', PopulateByType);
+UserSchema.pre<User>('findOne', PopulateByType);

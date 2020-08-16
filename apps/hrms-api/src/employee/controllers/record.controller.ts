@@ -29,7 +29,7 @@ export class EmployeeRecordController {
 
     @Get('/:id')
     userDetails(@Param('id') id: string, @Res() response: Response): Promise<Response> {
-        return this.userFacade.details(id)
+        return this.employeeFacade.details(id)
             .then(user => response.status(HttpStatus.OK).json(user))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
