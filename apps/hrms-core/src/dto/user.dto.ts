@@ -1,3 +1,5 @@
+import { RoleDto } from "./role.dto";
+
 export class UserDto {
     constructor(
         public id?: string,

@@ -62,14 +62,14 @@ export class UserService {
     }
 
 
-    findAllPaginated(page = 1, limit = 10): Promise<PaginateResult<User>> {
+    findAllPaginated(page = 1, limit = 10, filterOptions = {}): Promise<PaginateResult<User>> {
         const options = {
             page: page,
             limit: limit,
         };
 
         return this.userModel
-            .paginate({}, options)
+            .paginate(filterOptions, options)
             .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })))
     }
 
@@ -92,13 +92,12 @@ export class UserService {
     async findByUsername(username: string): Promise<User> {
         const criteria = { username: username };
         return (
-            await this.userModel
-                .findOne(criteria)
-                .exec()
+            await this.userModel.findOne(criteria).exec()
                 .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })))
         )
             .populate('role')
-            .execPopulate();
+            .execPopulate()
+
     }
 
     /**
@@ -108,13 +107,11 @@ export class UserService {
     async findByEmail(email: string): Promise<User> {
         const criteria = { email: email };
         return (
-            await this.userModel
-                .findOne(criteria)
-                .exec()
+            await this.userModel.findOne(criteria).exec()
                 .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })))
         )
             .populate('role')
-            .execPopulate();
+            .execPopulate()
     }
 
     attachRole(user: User, role: Role): Promise<User> {

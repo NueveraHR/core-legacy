@@ -69,4 +69,15 @@ export class RoleService {
             .exec()
             .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })));
     }
+
+    assertExists(id: string): Promise<boolean> {
+        return this.roleModel
+            .findById(id)
+            .then(result => {
+                if (!result) {
+                    return Promise.reject(this.errorService.generate(Errors.Role.UNKNOWN_ROLE))
+                }
+                return true;
+            });
+    }
 }

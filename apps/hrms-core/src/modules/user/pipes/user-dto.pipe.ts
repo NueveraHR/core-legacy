@@ -4,16 +4,20 @@ import { User } from "@hrms-core/core/user/user.schema";
 import { UserDto } from "@hrms-core/dto/user.dto";
 import { PipTransformException } from "@hrms-core/common/exceptions/pipe-transform.exception";
 import { LoggerService } from "@libs/logger";
+import { RoleDtoPipe } from "@hrms-core/modules/config/pipes/role-dto.pipe";
+import { Role } from "@hrms-core/core/role/role.schema";
 
 
 @Injectable()
 export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
 
     @Inject(LoggerService) private logger: LoggerService;
+    @Inject(RoleDtoPipe) private roleDtoPipe: RoleDtoPipe;
+
 
     transform(source: User, options?: { detailed: boolean }): UserDto {
         if (!source) {
-            this.logger.warn('Could not transform User object: Invalid source value given ')
+            this.logger.warn(`Could not transform USer object: Invalid source value given : ${source}`)
             throw new PipTransformException(`Invalid source value given`);
         }
 
@@ -30,7 +34,7 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
             userDto.cin = source.cin;
             userDto.prefix = source.prefix;
             userDto.phone = Number(source.phone);
-            userDto.role = source.role as string;
+            userDto.role = source.role as string// this.roleDtoPipe.transform(source.role as Role);
         }
 
         return userDto;

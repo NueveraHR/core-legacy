@@ -23,7 +23,8 @@ import { PrivilegesDtoPipe } from './pipes/privilege-dto.pipe';
         RoleFacade,
     ],
     exports: [
-        RoleFacade
+        RoleDtoPipe,
+        RoleFacade,
     ]
 })
 export class ConfigModule { }

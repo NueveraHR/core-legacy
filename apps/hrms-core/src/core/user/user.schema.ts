@@ -3,8 +3,7 @@ import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { Role } from "../role/role.schema";
 import * as mongoosePaginate from 'mongoose-paginate';
 import { UserType } from "@hrms-core/common/enums/user-type.enum";
-import { ObjectID } from "mongodb";
-import { Job } from "../job/job.schema";
+import { Employee } from "./employee/employee.schema";
 
 @Schema()
 export class User extends Document {
@@ -42,28 +41,32 @@ export class User extends Document {
     @Prop({ ref: 'Role', type: Types.ObjectId })
     role: string | Role;
 
-
-    // Employee Properties 
-
-    @Prop()
-    workEmail: string;
+    @Prop({ ref: 'Employee', type: Types.ObjectId })
+    employee: string | Employee;
 
     @Prop()
-    personalEmail: string;
-
-    @Prop()
-    workPhone: string;
-
-    @Prop()
-    personalPhone: string;
-
-    @Prop({ ref: 'Job', type: Types.ObjectId })
-    currentJob: ObjectID | Job;
-
-    //TODO: add department and address
-
+    candidate: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.plugin(mongoosePaginate);
+
+UserSchema.pre<User>('save', function (next) {
+    if (this.type == UserType.EMPLOYEE) {
+        this.employee = this.get('id')
+    } else if (this.type == UserType.CANDIDATE) {
+        this.candidate = this.get('id')
+    }
+
+    next();
+});
+
+const PopulateByType = function (next) {
+    this.populate('employee');
+    this.populate('candidate');
+    next();
+}
+
+UserSchema.pre<User>('find', PopulateByType);
+UserSchema.pre<User>('findOne', PopulateByType);

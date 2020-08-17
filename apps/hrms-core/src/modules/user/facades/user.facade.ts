@@ -2,33 +2,30 @@ import { UserDto } from "@hrms-core/dto/user.dto";
 import { Injectable, Inject } from "@nestjs/common";
 import { UserService } from "@hrms-core/core/user/user.service";
 import { LoggerService } from "@libs/logger";
-import { ModuleRef } from "@nestjs/core";
 import { UserDtoPipe } from "../pipes/user-dto.pipe";
 import { ErrorService, ErrorDto } from "@hrms-core/common/error/error.service";
 import { PaginateResult } from "mongoose";
 import { UserDtoValidator } from "../validators/user-dto.validator";
 import { RoleService } from "@hrms-core/core/role/role.service";
-import { User } from "@hrms-core/core/user/user.schema";
 import { UserDtoReversePipe } from "../pipes/user-dto-reverse.pipe";
 import { Errors } from "@hrms-core/common/error/error.const";
 
 @Injectable()
 export class UserFacade {
     constructor(
-        private logger: LoggerService,
-        private userDtoValidator: UserDtoValidator,
-        private userDtoPipe: UserDtoPipe,
-        private userDtoReversePipe: UserDtoReversePipe,
-        private userService: UserService,
-        private roleService: RoleService,
-        private moduleRef: ModuleRef
+        protected logger: LoggerService,
+        protected userDtoValidator: UserDtoValidator,
+        protected userDtoPipe: UserDtoPipe,
+        protected userDtoReversePipe: UserDtoReversePipe,
+        protected userService: UserService,
+        protected roleService: RoleService,
     ) { }
 
     @Inject(ErrorService) errorService: ErrorService;
 
-    userList(filterCriteria?: UserFilterCriteria): Promise<UserPaginateDto> {
+    list(paginationOptions?: PaginationOptions, filterCriteria = {}): Promise<UserPaginateDto> {
         return this.userService
-            .findAllPaginated(filterCriteria?.page, filterCriteria?.pageSize)
+            .findAllPaginated(paginationOptions?.page, paginationOptions?.pageSize, filterCriteria)
             .then(result => {
                 const userPaginateDto: UserPaginateDto = {
                     total: result.total,
@@ -37,14 +34,14 @@ export class UserFacade {
                     limit: result.limit,
                     offset: result.offset,
                     docs: result.docs.map(
-                        user => this.userDtoPipe.transform(user, { detailed: filterCriteria?.detailed })
+                        user => this.userDtoPipe.transform(user, { detailed: paginationOptions?.detailed })
                     ),
                 };
                 return userPaginateDto;
             })
     }
 
-    async createUser(userDto: UserDto): Promise<UserDto> {
+    create(userDto: UserDto): Promise<any> {
         const validationResult = this.userDtoValidator.validate(userDto, { required: ['password', 'role'] });
 
         if (this.errorService.isError(validationResult)) {
@@ -52,15 +49,14 @@ export class UserFacade {
         }
 
         // assert role existence
-        await this.roleService.findById(userDto.role)
-            .catch(() => Promise.reject(this.errorService.generate(Errors.User.UNKNOWN_ROLE)));
-
-        return this.userService.create(userDto).then(user =>
-            this.userDtoPipe.transform(user)
-        );
+        return this.roleService.assertExists(userDto.role as string)
+            .then(() => this.userService.create(userDto)
+                .then(user =>
+                    this.userDtoPipe.transform(user)
+                ))
     }
 
-    userDetails(id: string): Promise<UserDto> {
+    details(id: string): Promise<UserDto> {
         return this.userService.findById(id)
             .then(user => {
                 if (user)
@@ -70,32 +66,29 @@ export class UserFacade {
             });
     }
 
-    async updateUser(id: string, userDto: UserDto): Promise<UserDto> {
-        const validationResult = this.userDtoValidator.validate(userDto);
+    async update(id: string, userDto: UserDto): Promise<UserDto> {
+        userDto.id = id;
+        const validationResult = this.userDtoValidator.validate(userDto, { required: ['id'] });
         if (this.errorService.isError(validationResult)) {
             return Promise.reject(validationResult);
         }
 
-        // retrieve current registered role record.
-        let result: User | ErrorDto;
-        await this.userService
+        await this.roleService.assertExists(userDto.role as string);
+
+        return this.userService
             .findById(id)
-            .then(user => result = user)
-            .catch(err => result = err);
-
-        // Check for retrieval error
-        if (this.errorService.isError(result))
-            return Promise.reject(result);
-        else if (!result)
-            return Promise.reject(this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID));
-
-        const userToUpdate = this.userDtoReversePipe.transformExistent(userDto, result as User);
-        return this.userService.update(userToUpdate)
-            .then(user => this.userDtoPipe.transform(user, { detailed: true }))
+            .then(user => {
+                if (!user) {
+                    return Promise.reject(this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID));
+                }
+                const userToUpdate = this.userDtoReversePipe.transformExistent(userDto, user);
+                return this.userService.update(userToUpdate)
+                    .then(user => this.userDtoPipe.transform(user, { detailed: true }))
+            });
     }
 }
 
-export interface UserFilterCriteria {
+export interface PaginationOptions {
     page?: number,
     pageSize?: number,
 
