@@ -5,7 +5,6 @@ import { UserDtoValidator } from './validators/user-dto.validator';
 import { UserFacade } from './facades/user.facade';
 import { UserDtoReversePipe } from './pipes/user-dto-reverse.pipe';
 import { ConfigModule } from '../config/config.module';
-import { RoleDtoPipe } from '../config/pipes/role-dto.pipe';
 
 @Module({
     imports: [

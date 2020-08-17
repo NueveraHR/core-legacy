@@ -89,12 +89,14 @@ export class UserService {
      * Find a single matching user for a given username
      *
      */
-    findByUsername(username: string): Promise<User> {
+    async findByUsername(username: string): Promise<User> {
         const criteria = { username: username };
-        return this.userModel
-            .findOne(criteria)
-            .exec()
-            .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })))
+        return (
+            await this.userModel.findOne(criteria).exec()
+                .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })))
+        )
+            .populate('role')
+            .execPopulate()
 
     }
 
@@ -102,13 +104,14 @@ export class UserService {
      * Find a single matching user for a given email
      *
      */
-    findByEmail(email: string): Promise<User> {
+    async findByEmail(email: string): Promise<User> {
         const criteria = { email: email };
-        return this.userModel
-            .findOne(criteria)
-            .exec()
-            .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })))
-
+        return (
+            await this.userModel.findOne(criteria).exec()
+                .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })))
+        )
+            .populate('role')
+            .execPopulate()
     }
 
     attachRole(user: User, role: Role): Promise<User> {

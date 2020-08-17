@@ -26,9 +26,9 @@ export class EmployeeService {
             .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })));
     }
 
-    find(user: User): Promise<Employee> {
+    find(employeeId: string): Promise<Employee> {
         return this.employeeModel
-            .findOne({ user: user.id })
+            .findOne({ _id: employeeId })
             .exec()
             .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })));
     }

@@ -46,8 +46,17 @@ export class EmployeeFacade extends UserFacade {
             });
     }
 
-    update(id: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
-        return 
-    }
+    async update(id: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
 
+        await super.update(id, employeeDto)
+        const employeeToUpdate = await this.employeeService.find(id)
+
+        employeeToUpdate.workEmail = employeeDto.workEmail;
+        employeeToUpdate.personalEmail = employeeDto.personalEmail;
+        employeeToUpdate.workPhone = employeeDto.workPhone;
+        employeeToUpdate.personalPhone = employeeDto.personalPhone;
+
+        return this.employeeService.update(employeeToUpdate)
+            .then(emp => super.details(id) as Promise<EmployeeDto>)
+    }
 }

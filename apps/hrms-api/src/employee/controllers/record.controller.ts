@@ -10,7 +10,7 @@ import { EmployeeDto } from '@hrms-core/dto/employee.dto';
 @Controller('/employees')
 @Privileges('employees.access')
 export class EmployeeRecordController {
-    constructor(private userFacade: UserFacade, private employeeFacade: EmployeeFacade) { }
+    constructor(private employeeFacade: EmployeeFacade) { }
 
     @Get()
     allUsers(@Query('page') page: string, @Query('pageSize') pageSize: string): Promise<UserPaginateDto> {
@@ -45,8 +45,8 @@ export class EmployeeRecordController {
 
     @Put('/:id')
     @Privileges('employees.edit')
-    updateEmployee(@Param('id') id: string, @Body() roleDto: UserDto, @Res() response: Response): Promise<Response> {
-        return this.userFacade.update(id, roleDto)
+    updateEmployee(@Param('id') id: string, @Body() employeeDto: EmployeeDto, @Res() response: Response): Promise<Response> {
+        return this.employeeFacade.update(id, employeeDto)
             .then(user => response.json(user))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }

@@ -7,7 +7,6 @@ import { ErrorService, ErrorDto } from "@hrms-core/common/error/error.service";
 import { PaginateResult } from "mongoose";
 import { UserDtoValidator } from "../validators/user-dto.validator";
 import { RoleService } from "@hrms-core/core/role/role.service";
-import { User } from "@hrms-core/core/user/user.schema";
 import { UserDtoReversePipe } from "../pipes/user-dto-reverse.pipe";
 import { Errors } from "@hrms-core/common/error/error.const";
 
@@ -67,12 +66,14 @@ export class UserFacade {
             });
     }
 
-    update(id: string, userDto: UserDto): Promise<UserDto> {
+    async update(id: string, userDto: UserDto): Promise<UserDto> {
         userDto.id = id;
         const validationResult = this.userDtoValidator.validate(userDto, { required: ['id'] });
         if (this.errorService.isError(validationResult)) {
             return Promise.reject(validationResult);
         }
+
+        await this.roleService.assertExists(userDto.role as string);
 
         return this.userService
             .findById(id)
@@ -84,8 +85,6 @@ export class UserFacade {
                 return this.userService.update(userToUpdate)
                     .then(user => this.userDtoPipe.transform(user, { detailed: true }))
             });
-
-
     }
 }
 

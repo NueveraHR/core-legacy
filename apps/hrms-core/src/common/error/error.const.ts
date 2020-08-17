@@ -73,7 +73,7 @@ export const ErrorMessage: ErrorCodeMessage = {
 
     // Facade error (432xx)
     43200: 'Cannot delete role, Unknown role id',
-    43201: 'Cannot delete role, Unknown role',
+    43201: 'Unknown role',
 
 }
 
