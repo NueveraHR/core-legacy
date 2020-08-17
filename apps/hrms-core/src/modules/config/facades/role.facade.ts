@@ -163,8 +163,8 @@ export class RoleFacade {
         rolesId.forEach(roleId => {
             deleteCalls.push(
                 this.deleteRole(roleId)
-                    .then((deleteRoleResult) => {
-                        if (deleteRoleResult) {
+                    .then((deleted) => {
+                        if (deleted) {
                             result.accepted.push(roleId);
                         } else {
                             Promise.reject(this.errorService.generate(Errors.Role.UNKNOWN_ROLE));
