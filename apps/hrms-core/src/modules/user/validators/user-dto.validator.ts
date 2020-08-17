@@ -24,7 +24,7 @@ export class UserDtoValidator extends DtoValidator<UserDto> {
                 return this.errorService.generate(Errors.User.MISSING_ID);
             }
 
-            if(!ValidatorUtils.isValidId(object.id)) {
+            if (!ValidatorUtils.isValidId(object.id)) {
                 return this.errorService.generate(Errors.User.INVALID_USER_ID);
             }
         }
@@ -74,7 +74,7 @@ export class UserDtoValidator extends DtoValidator<UserDto> {
             return this.errorService.generate(Errors.User.MISSING_ROLE);
         }
 
-        if (!ValidatorUtils.isValidId(object.role)) {
+        if (!ValidatorUtils.isValidId(object.role as string)) {
             return (this.errorService.generate(Errors.User.INVALID_ROLE_ID));
         }
 
