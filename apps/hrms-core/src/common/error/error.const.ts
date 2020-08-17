@@ -49,6 +49,8 @@ export const ErrorMessage: ErrorCodeMessage = {
     42201: 'Unknown role',
     42202: 'Cannot update user details',
 
+    42203: 'Invalid user id',
+
 
     //---------------------------------- Role (43xxx) ---------------------------------- 
 
@@ -71,7 +73,7 @@ export const ErrorMessage: ErrorCodeMessage = {
 
     // Facade error (432xx)
     43200: 'Cannot delete role, Unknown role id',
-    43201: 'Cannot delete role, Unknown role',
+    43201: 'Unknown role',
 
 }
 

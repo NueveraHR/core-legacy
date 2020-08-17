@@ -23,6 +23,10 @@ export class UserDtoValidator extends DtoValidator<UserDto> {
             if (!object.id) {
                 return this.errorService.generate(Errors.User.MISSING_ID);
             }
+
+            if(!ValidatorUtils.isValidId(object.id)) {
+                return this.errorService.generate(Errors.User.INVALID_USER_ID);
+            }
         }
 
         if (!object.username) {

@@ -36,6 +36,7 @@ export enum UserErrors {
     INVALID_ROLE_ID = 42200,
     UNKNOWN_ROLE = 42201,
     CANNOT_UPDATE_DETAILS = 42202,
+    INVALID_USER_ID = 42203, 
 }
 
 export enum RoleErrors {

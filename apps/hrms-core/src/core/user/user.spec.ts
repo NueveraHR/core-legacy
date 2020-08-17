@@ -112,15 +112,9 @@ describe('User Service', () => {
 
         it('Should find all added users', async () => {
             await userService.create(userDto);
-            let foundUsers: User[];
+            const foundUsers = await userService.findAll()
+                .catch(() => fail(`Couldn't fetch added users from DB`));
 
-            await userService.findAll().then(users => {
-                foundUsers = users;
-            }).catch(err => {
-                fail(`Couldn't fetch added users from DB`);
-            });
-
-            expect.assertions(2);
             expect(foundUsers).toBeInstanceOf(Array);
             expect(foundUsers.length).toBeGreaterThanOrEqual(1);
 
