@@ -10,7 +10,7 @@ export class UserDto {
         public email?: string,
         public cin?: string,
         public prefix?: string,
-        public role?: RoleDto | string,
+        public role?: string,
         public gender?: string,
         public phone?: number,
         public modeOfEmployment?: string,

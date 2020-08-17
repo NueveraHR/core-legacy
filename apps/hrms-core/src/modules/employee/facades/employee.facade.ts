@@ -48,8 +48,8 @@ export class EmployeeFacade extends UserFacade {
 
     async update(id: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
 
-        await super.update(id, employeeDto)
         const employeeToUpdate = await this.employeeService.find(id)
+        await super.update(id, employeeDto)
 
         employeeToUpdate.workEmail = employeeDto.workEmail;
         employeeToUpdate.personalEmail = employeeDto.personalEmail;

@@ -34,7 +34,7 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
             userDto.cin = source.cin;
             userDto.prefix = source.prefix;
             userDto.phone = Number(source.phone);
-            userDto.role = source.role // this.roleDtoPipe.transform(source.role as Role);
+            userDto.role = source.role as string// this.roleDtoPipe.transform(source.role as Role);
         }
 
         return userDto;
