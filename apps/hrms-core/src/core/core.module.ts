@@ -1,3 +1,4 @@
+import { JobService } from './job/job.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './user/user.schema';
@@ -10,28 +11,23 @@ import { Job, JobSchema } from './job/job.schema';
 import { Employee, EmployeeSchema } from './user/employee/employee.schema';
 import { EmployeeService } from './user/employee/employee.service';
 
-
 @Module({
-    imports: [
-        HRMSConfigModule,
-        MongooseModule.forFeature([
-            { name: Role.name, schema: RoleSchema },
-            { name: User.name, schema: UserSchema },
-            { name: Employee.name, schema: EmployeeSchema },
-            { name: Job.name, schema: JobSchema }
-        ])
-    ],
-    providers: [
-        UserService,
-        EmployeeService,
-        PrivilegeService,
-        RoleService
-    ],
-    exports: [
-        UserService,
-        EmployeeService,
-        PrivilegeService,
-        RoleService
-    ]
+  imports: [
+    HRMSConfigModule,
+    MongooseModule.forFeature([
+      { name: Role.name, schema: RoleSchema },
+      { name: User.name, schema: UserSchema },
+      { name: Employee.name, schema: EmployeeSchema },
+      { name: Job.name, schema: JobSchema },
+    ]),
+  ],
+  providers: [
+    UserService,
+    EmployeeService,
+    PrivilegeService,
+    RoleService,
+    JobService,
+  ],
+  exports: [UserService, EmployeeService, PrivilegeService, RoleService],
 })
-export class CoreModule { }
+export class CoreModule {}

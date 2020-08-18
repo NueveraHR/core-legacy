@@ -1,25 +1,35 @@
-import { Document } from "mongoose";
-import { Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Employee } from './../user/employee/employee.schema';
+import { Document, Types } from 'mongoose';
+import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 
 @Schema()
 export class Job extends Document {
-    title: string;
+  @Prop({ required: true })
+  title: string;
 
-    startDate: Date;
+  @Prop({ required: true })
+  startDate: Date;
 
-    endDate: Date;
+  @Prop()
+  endDate: Date;
 
-    location: string;
+  @Prop({ required: true })
+  location: string;
 
-    department: string; //TODO: ref Department
+  @Prop({ required: true })
+  department: string; //TODO: ref Department
 
-    supervisor: string; //TODO: ref user
-
-    salary: number;
-
-    salaryFrequency: string; //TODO: should ref class
-
-    salaryCurrency: string; //TODO: should ref class
+  @Prop({ ref: 'Employee', type: Types.ObjectId })
+  supervisor: string | Employee;
+  
+  @Prop({ required: true })
+  salary: number;
+ 
+ @Prop()
+  salaryFrequency: string; //TODO: should ref class
+  
+  @Prop()
+  salaryCurrency: string; //TODO: should ref class
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);
