@@ -10,6 +10,7 @@ import { Job, JobSchema } from './job/job.schema';
 import { Employee, EmployeeSchema } from './user/employee/employee.schema';
 import { EmployeeService } from './user/employee/employee.service';
 import { DocumentMangmentService } from './document-mangment/document-mangment.service';
+import { Document, DocumentSchema } from './document-mangment/document.schema';
 
 
 @Module({
@@ -19,7 +20,8 @@ import { DocumentMangmentService } from './document-mangment/document-mangment.s
             { name: Role.name, schema: RoleSchema },
             { name: User.name, schema: UserSchema },
             { name: Employee.name, schema: EmployeeSchema },
-            { name: Job.name, schema: JobSchema }
+            { name: Job.name, schema: JobSchema },
+            { name: Document.name, schema: DocumentSchema }
         ])
     ],
     providers: [
