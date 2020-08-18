@@ -9,6 +9,7 @@ import { RoleService } from './role/role.service';
 import { Job, JobSchema } from './job/job.schema';
 import { Employee, EmployeeSchema } from './user/employee/employee.schema';
 import { EmployeeService } from './user/employee/employee.service';
+import { DocumentMangmentService } from './document-mangment/document-mangment.service';
 
 
 @Module({
@@ -25,7 +26,8 @@ import { EmployeeService } from './user/employee/employee.service';
         UserService,
         EmployeeService,
         PrivilegeService,
-        RoleService
+        RoleService,
+        DocumentMangmentService
     ],
     exports: [
         UserService,
