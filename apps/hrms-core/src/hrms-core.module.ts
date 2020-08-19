@@ -25,6 +25,7 @@ const connectionManager = new DBConnectionManager();
   ],
   exports: [ // We export these modules to expose them in app-module
     AuthModule,
+    CoreModule
   ]
 })
 export class HRMSCoreModule { }

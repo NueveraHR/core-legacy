@@ -11,6 +11,7 @@ import { Employee, EmployeeSchema } from './user/employee/employee.schema';
 import { EmployeeService } from './user/employee/employee.service';
 import { DocumentMangmentService } from './document-mangment/document-mangment.service';
 import { Document, DocumentSchema } from './document-mangment/document.schema';
+import { MulterConfigService } from '@hrms-core/core/document-mangment/multerConfig.service';
 
 
 @Module({
@@ -29,13 +30,16 @@ import { Document, DocumentSchema } from './document-mangment/document.schema';
         EmployeeService,
         PrivilegeService,
         RoleService,
-        DocumentMangmentService
+        DocumentMangmentService,
+        MulterConfigService
     ],
     exports: [
         UserService,
         EmployeeService,
         PrivilegeService,
-        RoleService
+        RoleService,
+        DocumentMangmentService,
+        MulterConfigService
     ]
 })
 export class CoreModule { }
