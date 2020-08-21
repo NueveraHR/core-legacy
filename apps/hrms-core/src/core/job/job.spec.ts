@@ -36,17 +36,27 @@ describe('Job Service', () => {
       const job = await jobService.create(JOBS.createJob);
       expect(job).not.toBeUndefined();
       expect(job).not.toBeNull();
+      expect(job).toHaveProperty('id');
       expect(job).toHaveProperty('title');
       expect(job).toHaveProperty('startDate');
       expect(job).toHaveProperty('location');
       expect(job).toHaveProperty('department');
-      expect(job).toHaveProperty('supervisor');
       expect(job).toHaveProperty('salary');
       expect(job).toHaveProperty('salaryFrequency');
       expect(job).toHaveProperty('salaryCurrency');
     });
   });
 
+  
+  describe('Find job', () => {
+    it('should find job by id', async () => {
+      const job = await jobService.create(JOBS.createJob);
+      const foundJob = await jobService.findById(job.id);
+      expect(foundJob).not.toBeUndefined();
+      expect(foundJob?.id).toEqual(job.id);
+    });
+  })
+  
   describe('Update Job', () => {
     it('should update job successfully', async () => {
       expect.assertions(7);
@@ -70,12 +80,12 @@ describe('Job Service', () => {
   });
 
   describe('Delete Job', () => {
-        it('should remove job successfully', async () => {
-            expect.assertions(1);
+    it('should remove job successfully', async () => {
+      expect.assertions(1);
 
-            const job = await jobService.create(JOBS.createJob);
-            await expect(jobService.delete(job.id)).resolves
-                .toEqual(true);
-        });
+      const job = await jobService.create(JOBS.createJob);
+      await expect(jobService.delete(job.id)).resolves
+        .toEqual(true);
     });
+  });
 });
