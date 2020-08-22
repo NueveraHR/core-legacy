@@ -1,4 +1,4 @@
-import { UserFacade, PaginationOptions, UserPaginateDto } from "../../user/facades/user.facade";
+import { UserFacade, PaginationOptions, UserPaginateDto } from "./user.facade";
 import { Inject, Injectable } from "@nestjs/common";
 import { ErrorService } from "@hrms-core/common/error/error.service";
 import { UserType } from "@hrms-core/common/enums/user-type.enum";
@@ -6,10 +6,10 @@ import { EmployeeDto } from "@hrms-core/dto/employee.dto";
 import { LoggerService } from "@libs/logger";
 import { UserService } from "@hrms-core/core/user/user.service";
 import { RoleService } from "@hrms-core/core/role/role.service";
-import { EmployeeDtoPipe } from "../pipes/employee-dto.pipe";
-import { UserDtoValidator } from "@hrms-core/modules/user/validators/user-dto.validator";
-import { UserDtoReversePipe } from "@hrms-core/modules/user/pipes/user-dto-reverse.pipe";
-import { EmployeeService } from "@hrms-core/core/user/employee/employee.service";
+import { EmployeeDtoPipe } from "../core/employee/pipes/employee-dto.pipe";
+import { UserDtoValidator } from "@hrms-core/core/user/validators/user-dto.validator";
+import { UserDtoReversePipe } from "@hrms-core/core/user/pipes/user-dto-reverse.pipe";
+import { EmployeeService } from "@hrms-core/core/employee/employee.service";
 
 
 @Injectable()
@@ -48,7 +48,7 @@ export class EmployeeFacade extends UserFacade {
 
     async update(id: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
 
-        const employeeToUpdate = await this.employeeService.find(id)
+        const employeeToUpdate = await this.employeeService.findById(id)
         await super.update(id, employeeDto)
         // TODO: replace with EmployeeDtoReversePipe
         employeeToUpdate.workEmail = employeeDto.workEmail;

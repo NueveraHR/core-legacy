@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, Global } from '@nestjs/common';
 import { HRMSConfigService } from './config.service';
 import { EnvModule } from '@libs/env';
 
+@Global()
 @Module({
   imports: [
     EnvModule,

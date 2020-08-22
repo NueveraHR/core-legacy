@@ -1,9 +1,9 @@
 import { Controller, Get, Param, Query, Post, Body, Res, HttpStatus, Put } from '@nestjs/common';
-import { PaginationOptions, UserPaginateDto } from '@hrms-core/modules/user/facades/user.facade';
+import { PaginationOptions, UserPaginateDto } from '@hrms-core/facades/user.facade';
 import { Response } from 'express';
 import { ErrorUtils } from '@hrms-core/common/error/error.utils';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
-import { EmployeeFacade } from '@hrms-core/modules/employee/facades/employee.facade';
+import { EmployeeFacade } from '@hrms-core/facades/employee.facade';
 import { EmployeeDto } from '@hrms-core/dto/employee.dto';
 
 @Controller('/employees')

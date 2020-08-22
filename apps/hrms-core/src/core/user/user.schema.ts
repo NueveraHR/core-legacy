@@ -3,7 +3,7 @@ import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { Role } from "../role/role.schema";
 import * as mongoosePaginate from 'mongoose-paginate';
 import { UserType } from "@hrms-core/common/enums/user-type.enum";
-import { Employee } from "./employee/employee.schema";
+import { Employee } from "../employee/employee.schema";
 
 @Schema()
 export class User extends Document {

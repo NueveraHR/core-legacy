@@ -2,12 +2,12 @@ import { Test } from "@nestjs/testing";
 import { HRMSCoreModule } from "@hrms-core/hrms-core.module";
 import { DBManager } from "@hrms-core/common/services/database/database-manager.service";
 import { LoggerService } from "@libs/logger";
-import { RoleFacade, MultipleDeleteResult } from "./role.facade";
+import { RoleFacade, MultipleDeleteResult } from "../role.facade";
 import { ROLES } from "@hrms-core/test/mock/role-mock";
 import { ErrorService } from "@hrms-core/common/error/error.service";
 import { RoleDto, RolePaginateDto } from "@hrms-core/dto/role.dto";
 import { Role } from "@hrms-core/core/role/role.schema";
-import { ConfigModule } from "../config.module";
+import { ConfigModule } from "../../modules/config/config.module";
 
 
 describe('Role Management Facade', () => {
