@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Job } from "@hrms-core/core/job/job.schema";
-import { Types, Document } from "mongoose";
+import { Types, Document, SchemaTypes } from "mongoose";
 
 @Schema()
 export class Employee extends Document {
@@ -23,8 +23,8 @@ export class Employee extends Document {
     @Prop({ ref: 'Job', type: Types.ObjectId })
     currentJob: string | Job;
 
-    @Prop([{ ref: 'Job', type: Types.ObjectId }])
-    jobHistory;
+    @Prop([{ ref: 'Job', type: SchemaTypes.ObjectId }])
+    jobHistory: string[] | Job[];
 
     // @Prop({ref: 'Department', })
     //TODO: add department and address
@@ -47,4 +47,3 @@ const populators = {
 
 EmployeeSchema.pre<Employee>('findOne', populators.supervisor);
 EmployeeSchema.pre<Employee>('findOne', populators.currentJob);
-EmployeeSchema.pre<Employee>('findOne', populators.jobHistory);
