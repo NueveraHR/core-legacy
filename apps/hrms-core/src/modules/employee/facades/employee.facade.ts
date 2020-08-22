@@ -50,7 +50,7 @@ export class EmployeeFacade extends UserFacade {
 
         const employeeToUpdate = await this.employeeService.find(id)
         await super.update(id, employeeDto)
-
+        // TODO: replace with EmployeeDtoReversePipe
         employeeToUpdate.workEmail = employeeDto.workEmail;
         employeeToUpdate.personalEmail = employeeDto.personalEmail;
         employeeToUpdate.workPhone = employeeDto.workPhone;

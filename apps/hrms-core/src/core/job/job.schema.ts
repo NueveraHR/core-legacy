@@ -1,6 +1,5 @@
 import { Document } from 'mongoose';
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
-import * as mongoosePaginate from 'mongoose-paginate';
 
 @Schema()
 export class Job extends Document {
@@ -30,4 +29,3 @@ export class Job extends Document {
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);
-JobSchema.plugin(mongoosePaginate);

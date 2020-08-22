@@ -1,5 +1,5 @@
 import { Job } from '@hrms-core/core/job/job.schema';
-import { PaginateModel, PaginateResult } from 'mongoose';
+import { Model } from 'mongoose';
 import { Injectable, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { JobDto } from '@hrms-core/dto/job.dto';
@@ -11,7 +11,7 @@ export class JobService {
   @Inject(ErrorService) errorService: ErrorService;
 
   constructor(
-    @InjectModel(Job.name) private readonly jobModel: PaginateModel<Job>,
+    @InjectModel(Job.name) private readonly jobModel: Model<Job>,
   ) { }
 
   create(jobDto: JobDto): Promise<Job> {
@@ -23,7 +23,7 @@ export class JobService {
 
   update(job: Job): Promise<Job> {
     return job.save()
-      .catch(err =>  Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })));
+      .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })));
   }
 
   delete(id: string): Promise<boolean> {

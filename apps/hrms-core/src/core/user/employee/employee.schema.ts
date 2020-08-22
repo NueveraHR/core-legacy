@@ -17,15 +17,34 @@ export class Employee extends Document {
     @Prop()
     personalPhone: string;
 
-    @Prop({ ref: 'Job', type: Types.ObjectId })
-    currentJob: Job | string;
-
     @Prop({ ref: 'Employee', type: Types.ObjectId })
     supervisor: string | Employee;
-    
+
+    @Prop({ ref: 'Job', type: Types.ObjectId })
+    currentJob: string | Job;
+
+    @Prop([{ ref: 'Job', type: Types.ObjectId }])
+    jobHistory;
+
     // @Prop({ref: 'Department', })
     //TODO: add department and address
 
 }
 
 export const EmployeeSchema = SchemaFactory.createForClass(Employee);
+
+const populators = {
+    supervisor: function (next) {
+        this.populate('supervisor');
+    },
+    currentJob: function (next) {
+        this.populate('currentJob');
+    },
+    jobHistory: function (next) {
+        this.populate('jobHistory');
+    },
+}
+
+EmployeeSchema.pre<Employee>('findOne', populators.supervisor);
+EmployeeSchema.pre<Employee>('findOne', populators.currentJob);
+EmployeeSchema.pre<Employee>('findOne', populators.jobHistory);

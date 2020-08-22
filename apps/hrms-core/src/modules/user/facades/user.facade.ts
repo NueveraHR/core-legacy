@@ -10,7 +10,6 @@ import { RoleService } from "@hrms-core/core/role/role.service";
 import { UserDtoReversePipe } from "../pipes/user-dto-reverse.pipe";
 import { Errors } from "@hrms-core/common/error/error.const";
 
-@Injectable()
 export class UserFacade {
     constructor(
         protected logger: LoggerService,

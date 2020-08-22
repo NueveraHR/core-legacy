@@ -18,9 +18,7 @@ import { ConfigModule } from '../config/config.module';
         // Pipes
         UserDtoPipe,
         UserDtoReversePipe,
-        
-        // Facades
-        UserFacade,
+
     ],
     exports: [
         ConfigModule,
@@ -28,10 +26,7 @@ import { ConfigModule } from '../config/config.module';
         
         UserDtoPipe,
         UserDtoValidator,
-        UserDtoReversePipe,
-        UserFacade,
-
-        
+        UserDtoReversePipe,        
     ]
 })
 export class UserModule { }
