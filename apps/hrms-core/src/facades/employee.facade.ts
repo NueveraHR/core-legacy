@@ -10,6 +10,8 @@ import { EmployeeDtoPipe } from "../core/employee/pipes/employee-dto.pipe";
 import { UserDtoValidator } from "@hrms-core/core/user/validators/user-dto.validator";
 import { UserDtoReversePipe } from "@hrms-core/core/user/pipes/user-dto-reverse.pipe";
 import { EmployeeService } from "@hrms-core/core/employee/employee.service";
+import { JobService } from "@hrms-core/core/job/job.service";
+import { JobDto } from "@hrms-core/dto/job.dto";
 
 
 @Injectable()
@@ -24,6 +26,7 @@ export class EmployeeFacade extends UserFacade {
         userService: UserService,
         roleService: RoleService,
         private employeeService: EmployeeService,
+        private jobService: JobService,
     ) {
         super(logger, userDtoValidator, employeeDtoPipe,
             userDtoReversePipe, userService, roleService);
@@ -46,7 +49,7 @@ export class EmployeeFacade extends UserFacade {
             });
     }
 
-    async update(id: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
+    async update(employeeId: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
 
         const employeeToUpdate = await this.employeeService.findById(id)
         await super.update(id, employeeDto)
@@ -57,6 +60,13 @@ export class EmployeeFacade extends UserFacade {
         employeeToUpdate.personalPhone = employeeDto.personalPhone;
 
         return this.employeeService.update(employeeToUpdate)
-            .then(emp => super.details(id) as Promise<EmployeeDto>)
+            .then(emp => super.details(employeeId) as Promise<EmployeeDto>)
+    }
+
+    async jobHistory(employeeId: string): Promise<JobDto> {
+        const jobHistory = await this.employeeService.getJobHistory(employeeId);
+
+        return this.jobService.find({ 'id': { $in: jobHistory } }) as JobDto
+            //.then(job => this.jobDtoPipe.transform(job));
     }
 }

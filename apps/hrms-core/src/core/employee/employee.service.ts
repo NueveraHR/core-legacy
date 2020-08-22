@@ -45,4 +45,10 @@ export class EmployeeService {
             .exec()
             .catch(err => Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })));
     }
+
+    async getJobHistory(employeeId: string): Promise<string[]> {
+        return (await this.employeeModel.findById(employeeId).exec())
+            .jobHistory as string[];
+
+    }
 }

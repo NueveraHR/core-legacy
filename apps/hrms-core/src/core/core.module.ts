@@ -3,6 +3,7 @@ import { HRMSConfigModule } from '@libs/config';
 import { UserModule } from './user/user.module';
 import { RoleModule } from './role/role.module';
 import { EmployeeModule } from './employee/employee.module';
+import { JobModule } from './job/job.module';
 
 @Module({
   imports: [
@@ -10,12 +11,14 @@ import { EmployeeModule } from './employee/employee.module';
 
     RoleModule,
     UserModule,
-    EmployeeModule
+    EmployeeModule,
+    JobModule,
   ],
   exports: [
     RoleModule,
     UserModule,
-    EmployeeModule
+    EmployeeModule,
+    JobModule,
   ]
 })
 export class CoreModule { }
