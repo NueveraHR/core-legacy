@@ -1,14 +1,17 @@
 import { Module } from '@nestjs/common';
-import { CoreModule } from '@hrms-core/core/core.module';
-import { RoleFacade } from './facades/role.facade';
 import { RoleDtoValidator } from './validators/role-dto.validator';
 import { RoleDtoReversePipe } from './pipes/role-dto-reverse.pipe';
 import { RoleDtoPipe } from './pipes/role-dto.pipe';
 import { PrivilegesDtoPipe } from './pipes/privilege-dto.pipe';
+import { PrivilegeModule } from '../privilege/privilege.module';
+import { RoleService } from './role.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Role, RoleSchema } from './role.schema';
 
 @Module({
     imports: [
-        CoreModule
+        PrivilegeModule,
+        MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }])
     ],
     providers: [
         // Pipes
@@ -19,12 +22,18 @@ import { PrivilegesDtoPipe } from './pipes/privilege-dto.pipe';
         //validators
         RoleDtoValidator,
 
-        // Facades
-        RoleFacade,
+        // service
+        RoleService
     ],
     exports: [
+        PrivilegeModule,
+
+        PrivilegesDtoPipe,
         RoleDtoPipe,
-        RoleFacade,
+        RoleDtoReversePipe,
+        RoleDtoValidator,
+
+        RoleService,
     ]
 })
-export class ConfigModule { }
+export class RoleModule { }

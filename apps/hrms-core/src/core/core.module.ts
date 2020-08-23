@@ -1,45 +1,29 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './user/user.schema';
-import { UserService } from './user/user.service';
-import { PrivilegeService } from './privilege/privilege.service';
 import { HRMSConfigModule } from '@libs/config';
-import { Role, RoleSchema } from './role/role.schema';
-import { RoleService } from './role/role.service';
-import { Job, JobSchema } from './job/job.schema';
-import { Employee, EmployeeSchema } from './user/employee/employee.schema';
-import { EmployeeService } from './user/employee/employee.service';
-import { DocumentMangmentService } from './document-mangment/document-mangment.service';
-import { Document, DocumentSchema } from './document-mangment/document.schema';
-import { MulterConfigService } from '@hrms-core/core/document-mangment/multerConfig.service';
-
+import { UserModule } from './user/user.module';
+import { RoleModule } from './role/role.module';
+import { EmployeeModule } from './employee/employee.module';
+import { JobModule } from './job/job.module';
+import { DocumentMangmentService } from './document/document-mangment.service';
+import { MulterConfigService } from './document/multerConfig.service';
+import { DocumentModule } from './document/document.module';
 
 @Module({
-    imports: [
-        HRMSConfigModule,
-        MongooseModule.forFeature([
-            { name: Role.name, schema: RoleSchema },
-            { name: User.name, schema: UserSchema },
-            { name: Employee.name, schema: EmployeeSchema },
-            { name: Job.name, schema: JobSchema },
-            { name: Document.name, schema: DocumentSchema }
-        ])
-    ],
-    providers: [
-        UserService,
-        EmployeeService,
-        PrivilegeService,
-        RoleService,
-        DocumentMangmentService,
-        MulterConfigService
-    ],
-    exports: [
-        UserService,
-        EmployeeService,
-        PrivilegeService,
-        RoleService,
-        DocumentMangmentService,
-        MulterConfigService
-    ]
+  imports: [
+    HRMSConfigModule,
+
+    DocumentModule,
+    RoleModule,
+    UserModule,
+    EmployeeModule,
+    JobModule,
+  ],
+  exports: [
+    DocumentModule,
+    RoleModule,
+    UserModule,
+    EmployeeModule,
+    JobModule,
+  ],
 })
-export class CoreModule { }
+export class CoreModule {}

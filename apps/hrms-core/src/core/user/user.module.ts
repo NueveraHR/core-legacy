@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
-import { CoreModule } from '@hrms-core/core/core.module';
 import { UserDtoPipe } from './pipes/user-dto.pipe';
 import { UserDtoValidator } from './validators/user-dto.validator';
-import { UserFacade } from './facades/user.facade';
 import { UserDtoReversePipe } from './pipes/user-dto-reverse.pipe';
-import { ConfigModule } from '../config/config.module';
+import { RoleModule } from '../role/role.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from './user.schema';
+import { UserService } from './user.service';
 
 @Module({
     imports: [
-        CoreModule,
-        ConfigModule
+        RoleModule,
+        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
     ],
     providers: [
         //validators
@@ -18,20 +19,17 @@ import { ConfigModule } from '../config/config.module';
         // Pipes
         UserDtoPipe,
         UserDtoReversePipe,
-        
-        // Facades
-        UserFacade,
+
+        // Services
+        UserService,
+
     ],
     exports: [
-        ConfigModule,
+        UserService,
 
-        
         UserDtoPipe,
         UserDtoValidator,
         UserDtoReversePipe,
-        UserFacade,
-
-        
     ]
 })
 export class UserModule { }

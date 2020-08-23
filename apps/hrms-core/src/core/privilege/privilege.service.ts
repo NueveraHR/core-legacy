@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject } from "@nestjs/common";
 import { HRMSConfigService } from "@libs/config";
 import { PrivilegeDto } from "../../dto/privilege.dto";
 
@@ -8,7 +8,9 @@ const PRIVILEGE_FILE_NAME = 'privilege.json';
 export class PrivilegeService {
     private privilegeConfig: PrivilegeDto;
 
-    constructor(private readonly configService: HRMSConfigService) {
+    @Inject(HRMSConfigService) configService: HRMSConfigService;
+
+    constructor() {
         this.privilegeConfig = null;
     }
 

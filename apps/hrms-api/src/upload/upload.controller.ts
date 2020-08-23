@@ -2,7 +2,7 @@ import { DocumentDto } from '@hrms-core/dto/document.dto';
 import { Controller, Post, UseInterceptors, UploadedFile, UseGuards, Body, Req, Get, Put, Param, Delete } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '@nestjs/passport';
-import { DocumentMangmentService } from '@hrms-core/core/document-mangment/document-mangment.service';
+import { DocumentMangmentService } from '@hrms-core/core/document/document-mangment.service';
 
 @Controller('upload')
 export class UploadController {
