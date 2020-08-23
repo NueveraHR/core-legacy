@@ -8,10 +8,10 @@ import { RoleService } from '@hrms-core/core/role/role.service';
 import { PrivilegeService } from '@hrms-core/core/privilege/privilege.service';
 import { PrivilegeDto } from '@hrms-core/dto/privilege.dto';
 import { ErrorDto, ErrorService } from '@hrms-core/common/error/error.service';
-import { RoleDtoValidator } from '../validators/role-dto.validator';
-import { RoleDtoReversePipe } from '../pipes/role-dto-reverse.pipe';
-import { RoleDtoPipe } from '../pipes/role-dto.pipe';
-import { PrivilegesDtoPipe } from '../pipes/privilege-dto.pipe';
+import { RoleDtoValidator } from '../core/role/validators/role-dto.validator';
+import { RoleDtoReversePipe } from '../core/role/pipes/role-dto-reverse.pipe';
+import { RoleDtoPipe } from '../core/role/pipes/role-dto.pipe';
+import { PrivilegesDtoPipe } from '../core/role/pipes/privilege-dto.pipe';
 import { ValidatorUtils } from '@hrms-core/common/utils/validator.utils';
 import { Errors } from '@hrms-core/common/error/error.const';
 

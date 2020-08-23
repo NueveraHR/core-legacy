@@ -4,7 +4,7 @@ import { User } from "@hrms-core/core/user/user.schema";
 import { UserDto } from "@hrms-core/dto/user.dto";
 import { PipTransformException } from "@hrms-core/common/exceptions/pipe-transform.exception";
 import { LoggerService } from "@libs/logger";
-import { RoleDtoPipe } from "@hrms-core/modules/config/pipes/role-dto.pipe";
+import { RoleDtoPipe } from "@hrms-core/core/role/pipes/role-dto.pipe";
 import { Role } from "@hrms-core/core/role/role.schema";
 
 

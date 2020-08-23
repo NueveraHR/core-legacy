@@ -2,15 +2,14 @@ import { UserDto } from "@hrms-core/dto/user.dto";
 import { Injectable, Inject } from "@nestjs/common";
 import { UserService } from "@hrms-core/core/user/user.service";
 import { LoggerService } from "@libs/logger";
-import { UserDtoPipe } from "../pipes/user-dto.pipe";
+import { UserDtoPipe } from "../core/user/pipes/user-dto.pipe";
 import { ErrorService, ErrorDto } from "@hrms-core/common/error/error.service";
 import { PaginateResult } from "mongoose";
-import { UserDtoValidator } from "../validators/user-dto.validator";
+import { UserDtoValidator } from "../core/user/validators/user-dto.validator";
 import { RoleService } from "@hrms-core/core/role/role.service";
-import { UserDtoReversePipe } from "../pipes/user-dto-reverse.pipe";
+import { UserDtoReversePipe } from "../core/user/pipes/user-dto-reverse.pipe";
 import { Errors } from "@hrms-core/common/error/error.const";
 
-@Injectable()
 export class UserFacade {
     constructor(
         protected logger: LoggerService,
