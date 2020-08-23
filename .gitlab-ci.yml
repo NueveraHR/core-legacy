@@ -9,8 +9,11 @@ cache:
     - node_modules/
 
 variables:
-  MONGO_URI: 'mongodb://mongo/hrms'
+  MONGO_URI: 'mongodb://mongo:27017/hrms'
   NODE_ENV: 'test'
+
+services:
+  - mongo:latest
 
 install_dependencies: 
   stage: build
