@@ -28,4 +28,5 @@ export abstract class DtoValidator<T> {
 export interface ValidatorOptions {
     required?: string[];
     optional?: string[];
+    others?: any;
 }
