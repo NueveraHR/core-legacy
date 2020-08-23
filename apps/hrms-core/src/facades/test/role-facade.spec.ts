@@ -7,7 +7,6 @@ import { ROLES } from "@hrms-core/test/mock/role-mock";
 import { ErrorService } from "@hrms-core/common/error/error.service";
 import { RoleDto, RolePaginateDto } from "@hrms-core/dto/role.dto";
 import { Role } from "@hrms-core/core/role/role.schema";
-import { ConfigModule } from "../../modules/config/config.module";
 
 
 describe('Role Management Facade', () => {
@@ -18,7 +17,7 @@ describe('Role Management Facade', () => {
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
-            imports: [HRMSCoreModule, ConfigModule],
+            imports: [HRMSCoreModule],
             providers: [],
             controllers: [],
         }).compile();

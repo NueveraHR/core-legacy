@@ -51,8 +51,8 @@ export class EmployeeFacade extends UserFacade {
 
     async update(employeeId: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
 
-        const employeeToUpdate = await this.employeeService.findById(id)
-        await super.update(id, employeeDto)
+        const employeeToUpdate = await this.employeeService.findById(employeeId);
+        await super.update(employeeId, employeeDto)
         // TODO: replace with EmployeeDtoReversePipe
         employeeToUpdate.workEmail = employeeDto.workEmail;
         employeeToUpdate.personalEmail = employeeDto.personalEmail;
