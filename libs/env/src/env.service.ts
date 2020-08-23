@@ -54,6 +54,6 @@ export class EnvService {
     }
 
     isTest(): boolean {
-        return this.vars.APP_ENV === 'test';
+        return this.vars.APP_ENV.indexOf('test') != -1;
     }
 }
