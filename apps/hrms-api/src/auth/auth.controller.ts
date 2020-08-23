@@ -8,11 +8,9 @@ import { Errors } from '@hrms-core/common/error/error.const';
 
 @Controller('/auth')
 export class AuthController {
-
     @Inject(ErrorService) errorService: ErrorService;
 
-    constructor(private authFacade: AuthFacade) {
-    }
+    constructor(private authFacade: AuthFacade) {}
 
     @Post()
     @HttpCode(200)
@@ -22,11 +20,13 @@ export class AuthController {
             response.json(this.errorService.generate(Errors.Login.INVALID_REQUEST));
         }
 
-        return this.authFacade.auth(userDto).then(res => {
-            response.json(res);
-        }).catch(err => {
-            response.status(HttpStatus.UNAUTHORIZED).json(err);
-        });
-
+        return this.authFacade
+            .auth(userDto)
+            .then(res => {
+                response.json(res);
+            })
+            .catch(err => {
+                response.status(HttpStatus.UNAUTHORIZED).json(err);
+            });
     }
 }

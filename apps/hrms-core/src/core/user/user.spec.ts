@@ -9,7 +9,6 @@ import { RoleService } from '../role/role.service';
 import { PaginateResult } from 'mongoose';
 import { USERS } from '@hrms-core/test/mock/user-mock';
 
-
 describe('User Service', () => {
     let userService: UserService;
     let roleService: RoleService;
@@ -46,26 +45,36 @@ describe('User Service', () => {
 
         it('should hash user password correctly', async () => {
             let createdUser: User;
-            await userService.create(user).then(user => createdUser = user);
+            await userService.create(user).then(user => (createdUser = user));
             await expect(bcrypt.compare(user.password, createdUser.password)).resolves.toBeTruthy();
         });
 
         it('Should not accept duplicated username', async () => {
-            await expect(userService.create(user)).resolves.toEqual(expect.objectContaining({ username: user.username }));
-            await userService.create(user).then(user => {
-                fail('Saved user with duplicated username, !!!!! THIS SHOULD NOT HAPPEN !!!!!');
-            }).catch(err => {
-                expect(err).not.toEqual(null);
-            });
+            await expect(userService.create(user)).resolves.toEqual(
+                expect.objectContaining({ username: user.username }),
+            );
+            await userService
+                .create(user)
+                .then(user => {
+                    fail('Saved user with duplicated username, !!!!! THIS SHOULD NOT HAPPEN !!!!!');
+                })
+                .catch(err => {
+                    expect(err).not.toEqual(null);
+                });
         });
 
         it('Should not accept duplicated email', async () => {
-            await expect(userService.create(user)).resolves.toEqual(expect.objectContaining({ username: user.username }));
-            await userService.create(USERS.basicUserDuplicatedEmail).then(user => {
-                fail('Saved user with duplicated email, !!!!! THIS SHOULD NOT HAPPEN !!!!!');
-            }).catch(err => {
-                expect(err).not.toEqual(null);
-            });
+            await expect(userService.create(user)).resolves.toEqual(
+                expect.objectContaining({ username: user.username }),
+            );
+            await userService
+                .create(USERS.basicUserDuplicatedEmail)
+                .then(user => {
+                    fail('Saved user with duplicated email, !!!!! THIS SHOULD NOT HAPPEN !!!!!');
+                })
+                .catch(err => {
+                    expect(err).not.toEqual(null);
+                });
         });
     });
 
@@ -78,14 +87,14 @@ describe('User Service', () => {
         it('Correctly updates user password', async () => {
             user = await userService.create(userDto);
             user.password = newPassword;
-            await userService.update(user).then(updatedUser => user = updatedUser);
+            await userService.update(user).then(updatedUser => (user = updatedUser));
             await expect(bcrypt.compare(newPassword, user.password)).resolves.toBeTruthy();
         });
 
         it('Ignores password update when not modified', async () => {
             user = await userService.create(userDto);
 
-            await userService.update(user).then(updatedUser => user = updatedUser);
+            await userService.update(user).then(updatedUser => (user = updatedUser));
             await expect(bcrypt.compare(userDto.password, user.password)).resolves.toBeTruthy();
         });
 
@@ -93,17 +102,15 @@ describe('User Service', () => {
             user = await userService.create(userDto);
             let role = await roleService.create(USERS.employeeRole);
             userService.attachRole(user, role).then(updatedUser => {
-                expect(updatedUser.role).not.toBeUndefined()
-                expect(updatedUser.role).not.toBeNull()
+                expect(updatedUser.role).not.toBeUndefined();
+                expect(updatedUser.role).not.toBeNull();
                 expect(typeof updatedUser.role).toEqual('string');
                 expect((updatedUser.role as string).length).toBeGreaterThan(1);
-            })
-
+            });
         });
     });
 
     describe('Find User', () => {
-
         const userDto = USERS.basicUser;
 
         beforeAll(async () => {
@@ -112,12 +119,10 @@ describe('User Service', () => {
 
         it('Should find all added users', async () => {
             await userService.create(userDto);
-            const foundUsers = await userService.findAll()
-                .catch(() => fail(`Couldn't fetch added users from DB`));
+            const foundUsers = await userService.findAll().catch(() => fail(`Couldn't fetch added users from DB`));
 
             expect(foundUsers).toBeInstanceOf(Array);
             expect(foundUsers.length).toBeGreaterThanOrEqual(1);
-
         });
 
         it('should find all added user paginated', async () => {
@@ -141,23 +146,23 @@ describe('User Service', () => {
                 expect(users.total).toEqual(24); // 24 registered users
                 expect(users.pages).toEqual(3); // 3 pages
                 expect(users.docs.length).toEqual(4); // 4 users on page 3
-            })
-        })
+            });
+        });
 
         it('Should find user by username', async () => {
             await userService.create(userDto);
 
-            await expect(userService.findByUsername(userDto.username)).resolves
-                .toEqual(expect.objectContaining({ username: userDto.username }))
-
+            await expect(userService.findByUsername(userDto.username)).resolves.toEqual(
+                expect.objectContaining({ username: userDto.username }),
+            );
         });
 
         it('Should find user by email', async () => {
             await userService.create(userDto);
 
-            await expect(userService.findByEmail(userDto.email)).resolves
-                .toEqual(expect.objectContaining({ email: userDto.email }))
-
+            await expect(userService.findByEmail(userDto.email)).resolves.toEqual(
+                expect.objectContaining({ email: userDto.email }),
+            );
         });
 
         it('should find a populated user role', async () => {
@@ -170,19 +175,16 @@ describe('User Service', () => {
                 expect(user.role).not.toBeNull();
                 expect(user.role).toHaveProperty('name');
                 expect(user.role).toHaveProperty('privileges');
-            })
-
+            });
         });
-
     });
 
     describe('Delete User', () => {
         const userDto = USERS.basicUser;
         it('should delete user successfully', async () => {
             let user = await userService.create(userDto);
-            await expect(userService.delete(user)).resolves
-                .toEqual(expect.objectContaining({ deletedCount: 1 }));
+            await expect(userService.delete(user)).resolves.toEqual(expect.objectContaining({ deletedCount: 1 }));
             //expect(user).toBe(null);
         });
     });
-})
+});

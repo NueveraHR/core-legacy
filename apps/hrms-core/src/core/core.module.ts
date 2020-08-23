@@ -8,21 +8,7 @@ import { JobModule } from './job/job.module';
 import { DocumentModule } from './document/document.module';
 
 @Module({
-  imports: [
-    HRMSConfigModule,
-
-    DocumentModule,
-    RoleModule,
-    UserModule,
-    EmployeeModule,
-    JobModule,
-  ],
-  exports: [
-    DocumentModule,
-    RoleModule,
-    UserModule,
-    EmployeeModule,
-    JobModule,
-  ],
+    imports: [HRMSConfigModule, DocumentModule, RoleModule, UserModule, EmployeeModule, JobModule],
+    exports: [DocumentModule, RoleModule, UserModule, EmployeeModule, JobModule],
 })
 export class CoreModule {}

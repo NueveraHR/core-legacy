@@ -19,20 +19,20 @@ export const USERS = {
     },
     userWithInvalidEmail: {
         email: 'test',
-        password: '0000'
+        password: '0000',
     },
     userWithoutEmail: {
         email: '',
-        password: '0000'
+        password: '0000',
     },
     userWithoutPassword: {
         email: 'n@nuevera.com',
-        password: ''
+        password: '',
     },
     employeeRole: {
         name: 'employee',
         description: 'Enterprise employee',
-        privileges:[
+        privileges: [
             'shared.requests.access',
             'shared.requests.create',
             'shared.requests.cancel',
@@ -42,7 +42,7 @@ export const USERS = {
             'shared.notifications.access',
 
             'config.roles.access',
-            'config.roles.create', 
+            'config.roles.create',
             'config.roles.edit',
             'config.roles.delete',
 
@@ -53,6 +53,6 @@ export const USERS = {
 
             'user.profile.access',
             'user.profile.edit',
-        ]
-    }
+        ],
+    },
 };

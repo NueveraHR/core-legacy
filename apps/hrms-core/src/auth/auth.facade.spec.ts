@@ -9,7 +9,6 @@ import { USERS } from '@hrms-core/test/mock/user-mock';
 import { MockUtils } from '@hrms-core/test/utils/mock.utils';
 import { EnvService } from '@libs/env';
 
-
 describe('Auth Facade', () => {
     let authFacade: AuthFacade;
     let dbManager: DBManager;
@@ -22,8 +21,7 @@ describe('Auth Facade', () => {
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
             imports: [HRMSCoreModule],
-            providers: [
-            ],
+            providers: [],
             controllers: [],
         }).compile();
 
@@ -49,19 +47,27 @@ describe('Auth Facade', () => {
         it('Should not accept empty email', async () => {
             expect.assertions(1);
 
-            await expect(authFacade.auth(USERS.userWithoutEmail)).rejects.toEqual(expect.objectContaining({ message: 'No email address provided!' }));
+            await expect(authFacade.auth(USERS.userWithoutEmail)).rejects.toEqual(
+                expect.objectContaining({
+                    message: 'No email address provided!',
+                }),
+            );
         });
 
         it('Should not accept invalid email', async () => {
             expect.assertions(1);
 
-            await expect(authFacade.auth(USERS.userWithInvalidEmail)).rejects.toEqual(expect.objectContaining({ message: 'Invalid email provided!' }));
+            await expect(authFacade.auth(USERS.userWithInvalidEmail)).rejects.toEqual(
+                expect.objectContaining({ message: 'Invalid email provided!' }),
+            );
         });
 
         it('Should not accept empty password', async () => {
             expect.assertions(1);
 
-            await expect(authFacade.auth(USERS.userWithoutPassword)).rejects.toEqual(expect.objectContaining({ message: 'No password provided!' }));
+            await expect(authFacade.auth(USERS.userWithoutPassword)).rejects.toEqual(
+                expect.objectContaining({ message: 'No password provided!' }),
+            );
         });
 
         it('Should not accept invalid user credentials', async () => {
@@ -70,11 +76,13 @@ describe('Auth Facade', () => {
             await mockUtils.createUser('basicUser');
             const loginCredentials = {
                 email: 'invalid-user@mail.com',
-                password: 'invalid'
-            }
-            await expect(authFacade.auth(loginCredentials)).rejects.toEqual(expect.objectContaining({ message: 'Invalid login credentials' }));
-
-
+                password: 'invalid',
+            };
+            await expect(authFacade.auth(loginCredentials)).rejects.toEqual(
+                expect.objectContaining({
+                    message: 'Invalid login credentials',
+                }),
+            );
         });
 
         it('Should accept authentication', async () => {
@@ -83,7 +91,7 @@ describe('Auth Facade', () => {
 
             const loginCredentials = {
                 email: USERS.basicUser.email,
-                password: USERS.basicUser.password
+                password: USERS.basicUser.password,
             };
 
             await mockUtils.createUser('basicUser', 'employeeRole');
@@ -91,9 +99,6 @@ describe('Auth Facade', () => {
             await authFacade.auth(loginCredentials).then(result => {
                 expect((result as any).token.length).toBeGreaterThan(1);
             });
-
         });
-
     });
-
 });

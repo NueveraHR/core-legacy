@@ -1,17 +1,11 @@
-import { Injectable } from "@nestjs/common";
-import { Connection, Collection } from "mongoose";
-import { InjectConnection } from "@nestjs/mongoose";
-import { EnvService } from "@libs/env";
+import { Injectable } from '@nestjs/common';
+import { Connection, Collection } from 'mongoose';
+import { InjectConnection } from '@nestjs/mongoose';
+import { EnvService } from '@libs/env';
 
 @Injectable()
 export class DBManager {
-
-    constructor(
-        @InjectConnection() private readonly connection: Connection,
-        private readonly envService: EnvService
-    ) {
-
-    }
+    constructor(@InjectConnection() private readonly connection: Connection, private readonly envService: EnvService) {}
 
     /**
      * Drop all database collections
@@ -24,7 +18,7 @@ export class DBManager {
             const collections = this.connection.collections;
             for (const key in collections) {
                 const collection = collections[key];
-                await collection.remove({})
+                await collection.remove({});
             }
         }
     }

@@ -10,10 +10,9 @@ describe('Privilege Service', () => {
             imports: [HRMSCoreModule],
         }).compile();
 
-
         beforeEach(() => {
             privilegeService = moduleRef.get<PrivilegeService>(PrivilegeService);
-        })
+        });
     });
 
     describe('Load privileges correctly', () => {
@@ -22,7 +21,7 @@ describe('Privilege Service', () => {
         it('should throw "ENOENT" for wrong filename', () => {
             try {
                 privilegeService.loadConfig('wrong_path.json');
-                fail('Didn\'t throw for wrong filename');
+                fail("Didn't throw for wrong filename");
             } catch (e) {
                 expect(e.code).toEqual('ENOENT');
             }
@@ -31,7 +30,7 @@ describe('Privilege Service', () => {
         it('should load with default filename', () => {
             expect.assertions(3);
 
-            const config = privilegeService.loadConfig()
+            const config = privilegeService.loadConfig();
             expect(config).not.toBeUndefined();
             expect(config).not.toBeNull();
             expect(Object.keys(config).length).toBeGreaterThan(1);
@@ -40,7 +39,7 @@ describe('Privilege Service', () => {
         it('should load with specified filename', () => {
             expect.assertions(3);
 
-            const config = privilegeService.loadConfig('privilege.json')
+            const config = privilegeService.loadConfig('privilege.json');
             expect(config).not.toBeUndefined();
             expect(config).not.toBeNull();
             expect(Object.keys(config).length).toBeGreaterThan(1);
@@ -48,12 +47,11 @@ describe('Privilege Service', () => {
     });
 
     describe('Parse privileges correctly', () => {
-        it("should find requests page action privileges", () => {
+        it('should find requests page action privileges', () => {
             expect.assertions(2);
             const privileges = privilegeService.privileges;
             expect(privileges).not.toBeNull();
             expect(privileges).toHaveProperty('notifications.access');
-        })
-    })
-
-})
+        });
+    });
+});

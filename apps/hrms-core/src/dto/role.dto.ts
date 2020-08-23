@@ -1,5 +1,5 @@
-import { PrivilegeDto } from "./privilege.dto";
-import { PaginateResult } from "mongoose";
+import { PrivilegeDto } from './privilege.dto';
+import { PaginateResult } from 'mongoose';
 
 export class RoleDto {
     constructor(
@@ -8,9 +8,7 @@ export class RoleDto {
         public description?: string,
         public privileges?: string[],
         public extendsRoles?: string[],
-    ) { }
-
+    ) {}
 }
 
 export type RolePaginateDto = PaginateResult<RoleDto>;
-

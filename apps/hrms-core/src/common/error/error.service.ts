@@ -1,20 +1,14 @@
-import { ErrorMessage } from "@hrms-core/common/error/error.const";
-import { Injectable } from "@nestjs/common";
-import { EnvService } from "@libs/env";
-import { LoggerService } from "@libs/logger";
+import { ErrorMessage } from '@hrms-core/common/error/error.const';
+import { Injectable } from '@nestjs/common';
+import { EnvService } from '@libs/env';
+import { LoggerService } from '@libs/logger';
 
 @Injectable()
 export class ErrorService {
+    constructor(private envService: EnvService, private loggerService: LoggerService) {}
 
-    constructor(
-        private envService: EnvService,
-        private loggerService: LoggerService,
-    ) { }
-
-    generate(statusCode: number, options?: { message?: string, detailedMessage?: any }): ErrorDto {
-        const errorDto: ErrorDto = {
-
-        };
+    generate(statusCode: number, options?: { message?: string; detailedMessage?: any }): ErrorDto {
+        const errorDto: ErrorDto = {};
 
         if (!options?.message) {
             errorDto.message = ErrorMessage[statusCode];
@@ -34,9 +28,8 @@ export class ErrorService {
         return errorDto;
     }
 
-
     isError(data: unknown): boolean {
-        return (data['statusCode'] && data['message']);
+        return data['statusCode'] && data['message'];
     }
 }
 

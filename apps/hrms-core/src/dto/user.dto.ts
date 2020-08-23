@@ -1,4 +1,4 @@
-import { RoleDto } from "./role.dto";
+import { RoleDto } from './role.dto';
 
 export class UserDto {
     constructor(
@@ -15,6 +15,5 @@ export class UserDto {
         public phone?: number,
         public modeOfEmployment?: string,
         public department?: string,
-    ) { }
-
+    ) {}
 }

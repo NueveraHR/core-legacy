@@ -12,23 +12,23 @@ import { CoreModule } from './core/core.module';
 
 const connectionManager = new DBConnectionManager();
 
-
 @Module({
-  imports: [
-    EnvModule,
-    LoggerModule,
-    MongooseModule.forRoot(connectionManager.getConnectionString(), connectionManager.getConnectionOptions()),
-    ConfigModule.forRoot({ isGlobal: true }),
-    CommonModule,
-    CoreModule,
+    imports: [
+        EnvModule,
+        LoggerModule,
+        MongooseModule.forRoot(connectionManager.getConnectionString(), connectionManager.getConnectionOptions()),
+        ConfigModule.forRoot({ isGlobal: true }),
+        CommonModule,
+        CoreModule,
 
-    AuthModule,
-    FacadesModule
-  ],
-  exports: [ // We export these modules to expose them in app-module
-    AuthModule,
-    CoreModule, // TODO: Remove after exposing document facade
-    FacadesModule,
-  ]
+        AuthModule,
+        FacadesModule,
+    ],
+    exports: [
+        // We export these modules to expose them in app-module
+        AuthModule,
+        CoreModule, // TODO: Remove after exposing document facade
+        FacadesModule,
+    ],
 })
-export class HRMSCoreModule { }
+export class HRMSCoreModule {}

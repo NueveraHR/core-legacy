@@ -1,6 +1,6 @@
-import { Injectable, Inject } from "@nestjs/common";
-import { HRMSConfigService } from "@libs/config";
-import { PrivilegeDto } from "../../dto/privilege.dto";
+import { Injectable, Inject } from '@nestjs/common';
+import { HRMSConfigService } from '@libs/config';
+import { PrivilegeDto } from '../../dto/privilege.dto';
 
 const PRIVILEGE_FILE_NAME = 'privilege.json';
 
@@ -14,7 +14,6 @@ export class PrivilegeService {
         this.privilegeConfig = null;
     }
 
-
     loadConfig(fileName: string = PRIVILEGE_FILE_NAME): PrivilegeDto | never {
         if (!this.privilegeConfig) {
             this.privilegeConfig = this.configService.load(fileName) as PrivilegeDto;
@@ -22,7 +21,6 @@ export class PrivilegeService {
 
         return this.privilegeConfig;
     }
-
 
     get privileges(): PrivilegeDto {
         if (!this.privilegeConfig) {
@@ -43,6 +41,4 @@ export class PrivilegeService {
 
     //     return this.privilegeConfig[moduleName];
     // }
-
-
 }

@@ -4,11 +4,11 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { PrivilegesGuard } from './common/guards/role.guard';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule);
 
-  const reflector = app.get(Reflector);
-  app.useGlobalGuards(new JwtAuthGuard(reflector), new PrivilegesGuard(reflector));
+    const reflector = app.get(Reflector);
+    app.useGlobalGuards(new JwtAuthGuard(reflector), new PrivilegesGuard(reflector));
 
-  await app.listen(3000);
+    await app.listen(3000);
 }
-bootstrap(); 
+bootstrap();

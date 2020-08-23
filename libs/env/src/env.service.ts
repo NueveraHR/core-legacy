@@ -1,28 +1,28 @@
-import * as dotenv from 'dotenv'
-import * as fs from 'fs'
+import * as dotenv from 'dotenv';
+import * as fs from 'fs';
 
 export interface EnvData {
     // application
-    APP_ENV: string
-    APP_DEBUG: boolean
+    APP_ENV: string;
+    APP_DEBUG: boolean;
 
     // database
-    DB_TYPE: 'mongodb' | 'mysql'
-    DB_HOST?: string
-    DB_NAME: string
-    DB_PORT?: number
-    DB_USER: string
-    DB_PASSWORD: string,
+    DB_TYPE: 'mongodb' | 'mysql';
+    DB_HOST?: string;
+    DB_NAME: string;
+    DB_PORT?: number;
+    DB_USER: string;
+    DB_PASSWORD: string;
 
     // logger
-    LOGGER_FOLDER_PATH: string,
-    LOGGER_LEVEL: string,
+    LOGGER_FOLDER_PATH: string;
+    LOGGER_LEVEL: string;
 
     // config
-    CONFIG_PATH?: string,
+    CONFIG_PATH?: string;
 
-    JWT_SECRETKEY?: string,
-    JWT_EXPIRESIN?: string,
+    JWT_SECRETKEY?: string;
+    JWT_EXPIRESIN?: string;
 }
 
 const envFilesPath = './environments';
@@ -45,14 +45,14 @@ export class EnvService {
     }
 
     isDev(): boolean {
-        return (this.vars.APP_ENV === 'dev');
+        return this.vars.APP_ENV === 'dev';
     }
 
     isProd(): boolean {
-        return (this.vars.APP_ENV === 'prod');
+        return this.vars.APP_ENV === 'prod';
     }
 
     isTest(): boolean {
-        return (this.vars.APP_ENV === 'test');
+        return this.vars.APP_ENV === 'test';
     }
 }

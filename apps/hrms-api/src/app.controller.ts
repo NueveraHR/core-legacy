@@ -5,5 +5,5 @@ import { ErrorDto } from '@hrms-core/common/error/error.service';
 
 @Controller()
 export class AppController {
-  constructor( ) { }
+    constructor() {}
 }

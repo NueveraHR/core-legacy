@@ -1,7 +1,7 @@
-import { DtoTransformPipe } from "@hrms-core/common/interfaces/dto-pipe-transform";
-import { UserDto } from "@hrms-core/dto/user.dto";
-import { User } from "@hrms-core/core/user/user.schema";
-import { Injectable } from "@nestjs/common";
+import { DtoTransformPipe } from '@hrms-core/common/interfaces/dto-pipe-transform';
+import { UserDto } from '@hrms-core/dto/user.dto';
+import { User } from '@hrms-core/core/user/user.schema';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UserDtoReversePipe implements DtoTransformPipe<UserDto, User> {
@@ -27,5 +27,4 @@ export class UserDtoReversePipe implements DtoTransformPipe<UserDto, User> {
     canTransform(value: UserDto): boolean {
         return true;
     }
-
 }

@@ -1,10 +1,9 @@
-import { Test } from "@nestjs/testing";
-import { HRMSCoreModule } from "@hrms-core/hrms-core.module";
-import { DBManager } from "@hrms-core/common/services/database/database-manager.service";
-import { LoggerService } from "@libs/logger";
-import { RoleService } from "./role.service";
-import { ROLES } from "@hrms-core/test/mock/role-mock";
-
+import { Test } from '@nestjs/testing';
+import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
+import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
+import { LoggerService } from '@libs/logger';
+import { RoleService } from './role.service';
+import { ROLES } from '@hrms-core/test/mock/role-mock';
 
 describe('Role Service', () => {
     let dbManager: DBManager;
@@ -42,7 +41,6 @@ describe('Role Service', () => {
             expect(role).toHaveProperty('description');
             expect(role).toHaveProperty('privileges');
             expect(role.privileges.length).toBe(16);
-
         });
     });
 
@@ -81,16 +79,14 @@ describe('Role Service', () => {
         it('should find role by name', async () => {
             expect.assertions(1);
 
-            await expect(roleService.findByName(ROLES.managerRole.name)).resolves
-                .not.toBeNull();
+            await expect(roleService.findByName(ROLES.managerRole.name)).resolves.not.toBeNull();
             //.toEqual(expect.objectContaining({ description: ROLES.managerRole.description }));
         });
 
         it('should find role by id', async () => {
             expect.assertions(1);
 
-            await expect(roleService.findById(randomRoleId)).resolves
-                .not.toBeNull();
+            await expect(roleService.findById(randomRoleId)).resolves.not.toBeNull();
         });
     });
 
@@ -99,8 +95,7 @@ describe('Role Service', () => {
             expect.assertions(1);
 
             const role = await roleService.create(ROLES.managerRole);
-            await expect(roleService.delete(role.id)).resolves
-                .toEqual(true);
+            await expect(roleService.delete(role.id)).resolves.toEqual(true);
         });
     });
 });

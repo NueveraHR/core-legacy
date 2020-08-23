@@ -9,7 +9,7 @@ import { EmployeeDto } from '@hrms-core/dto/employee.dto';
 @Controller('/employees')
 @Privileges('employees.access')
 export class EmployeeRecordController {
-    constructor(private employeeFacade: EmployeeFacade) { }
+    constructor(private employeeFacade: EmployeeFacade) {}
 
     @Get()
     allUsers(@Query('page') page: string, @Query('pageSize') pageSize: string): Promise<UserPaginateDto> {
@@ -28,26 +28,31 @@ export class EmployeeRecordController {
 
     @Get('/:id')
     userDetails(@Param('id') id: string, @Res() response: Response): Promise<Response> {
-        return this.employeeFacade.details(id)
+        return this.employeeFacade
+            .details(id)
             .then(user => response.status(HttpStatus.OK).json(user))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
 
-
     @Post()
     @Privileges('employees.create')
     addUser(@Body() userDto: EmployeeDto, @Res() response: Response): Promise<Response> {
-        return this.employeeFacade.create(userDto)
+        return this.employeeFacade
+            .create(userDto)
             .then(user => response.json(user))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
 
     @Put('/:id')
     @Privileges('employees.edit')
-    updateEmployee(@Param('id') id: string, @Body() employeeDto: EmployeeDto, @Res() response: Response): Promise<Response> {
-        return this.employeeFacade.update(id, employeeDto)
+    updateEmployee(
+        @Param('id') id: string,
+        @Body() employeeDto: EmployeeDto,
+        @Res() response: Response,
+    ): Promise<Response> {
+        return this.employeeFacade
+            .update(id, employeeDto)
             .then(user => response.json(user))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
-
 }

@@ -1,6 +1,1 @@
-
-
-
-export class EmployeeProfileController {
-
-}
+export class EmployeeProfileController {}

@@ -1,10 +1,9 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Job } from "@hrms-core/core/job/job.schema";
-import { Types, Document, SchemaTypes } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Job } from '@hrms-core/core/job/job.schema';
+import { Types, Document, SchemaTypes } from 'mongoose';
 
 @Schema()
 export class Employee extends Document {
-
     @Prop()
     workEmail: string;
 
@@ -28,22 +27,21 @@ export class Employee extends Document {
 
     // @Prop({ref: 'Department', })
     //TODO: add department and address
-
 }
 
 export const EmployeeSchema = SchemaFactory.createForClass(Employee);
 
 const populators = {
-    supervisor: function (next) {
+    supervisor: function(next) {
         this.populate('supervisor');
     },
-    currentJob: function (next) {
+    currentJob: function(next) {
         this.populate('currentJob');
     },
-    jobHistory: function (next) {
+    jobHistory: function(next) {
         this.populate('jobHistory');
     },
-}
+};
 
 // EmployeeSchema.pre<Employee>('findOne', populators.supervisor);
 // EmployeeSchema.pre<Employee>('findOne', populators.currentJob);

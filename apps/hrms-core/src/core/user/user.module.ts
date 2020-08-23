@@ -8,10 +8,7 @@ import { User, UserSchema } from './user.schema';
 import { UserService } from './user.service';
 
 @Module({
-    imports: [
-        RoleModule,
-        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
-    ],
+    imports: [RoleModule, MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
     providers: [
         //validators
         UserDtoValidator,
@@ -22,14 +19,7 @@ import { UserService } from './user.service';
 
         // Services
         UserService,
-
     ],
-    exports: [
-        UserService,
-
-        UserDtoPipe,
-        UserDtoValidator,
-        UserDtoReversePipe,
-    ]
+    exports: [UserService, UserDtoPipe, UserDtoValidator, UserDtoReversePipe],
 })
-export class UserModule { }
+export class UserModule {}

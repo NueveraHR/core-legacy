@@ -5,16 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { DocumentSchema, Document } from './document.schema';
 
 @Module({
-    imports: [
-        MongooseModule.forFeature([{ name: Document.name, schema: DocumentSchema }])
-    ],
-    providers: [
-        DocumentMangmentService,
-        MulterConfigService
-    ],
-    exports: [
-        DocumentMangmentService,
-        MulterConfigService,
-    ]
+    imports: [MongooseModule.forFeature([{ name: Document.name, schema: DocumentSchema }])],
+    providers: [DocumentMangmentService, MulterConfigService],
+    exports: [DocumentMangmentService, MulterConfigService],
 })
-export class DocumentModule {};
+export class DocumentModule {}

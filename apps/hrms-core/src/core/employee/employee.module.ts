@@ -6,14 +6,8 @@ import { EmployeeService } from './employee.service';
 import { UserModule } from '../user/user.module';
 import { RoleModule } from '../role/role.module';
 
-
 @Module({
-    imports: [
-        UserModule,
-        RoleModule,
-
-        MongooseModule.forFeature([{ name: Employee.name, schema: EmployeeSchema }])
-    ],
+    imports: [UserModule, RoleModule, MongooseModule.forFeature([{ name: Employee.name, schema: EmployeeSchema }])],
     providers: [
         //validators
 
@@ -21,11 +15,8 @@ import { RoleModule } from '../role/role.module';
         EmployeeDtoPipe,
 
         // Services
-        EmployeeService
-    ],
-    exports: [
-        EmployeeDtoPipe,
         EmployeeService,
-    ]
+    ],
+    exports: [EmployeeDtoPipe, EmployeeService],
 })
-export class EmployeeModule { }
+export class EmployeeModule {}

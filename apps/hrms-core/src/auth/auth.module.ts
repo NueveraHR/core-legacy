@@ -14,11 +14,9 @@ const envService = new EnvService();
         JwtModule.register({
             secret: envService.read().JWT_SECRETKEY,
             signOptions: { expiresIn: envService.read().JWT_EXPIRESIN },
-        })
+        }),
     ],
-    providers: [
-        AuthFacade,
-    ],
-    exports: [AuthFacade]
+    providers: [AuthFacade],
+    exports: [AuthFacade],
 })
-export class AuthModule { }
+export class AuthModule {}

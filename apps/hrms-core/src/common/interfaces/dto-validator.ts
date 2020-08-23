@@ -1,9 +1,8 @@
-import { ErrorDto } from "@hrms-core/common/error/error.service";
+import { ErrorDto } from '@hrms-core/common/error/error.service';
 
 export abstract class DtoValidator<T> {
-
     /**
-     * Checks whether a Dto is valid or not   
+     * Checks whether a Dto is valid or not
      *
      * @param {T} object
      * @param {ValidatorOptions} [validatorOptions]
@@ -11,8 +10,6 @@ export abstract class DtoValidator<T> {
      * @memberof DtoValidator
      */
     abstract validate(object: T, validatorOptions?: ValidatorOptions): boolean | ErrorDto | ErrorDto[];
-
-
 
     protected isRequired(fieldName, validatorOptions: ValidatorOptions): boolean {
         const result = validatorOptions?.required?.findIndex(field => field == fieldName);

@@ -4,11 +4,8 @@ import { EnvModule } from '@libs/env';
 
 @Global()
 @Module({
-  imports: [
-    EnvModule,
-  ],
-  providers: [HRMSConfigService],
-  exports: [HRMSConfigService],
+    imports: [EnvModule],
+    providers: [HRMSConfigService],
+    exports: [HRMSConfigService],
 })
-export class HRMSConfigModule {
-}
+export class HRMSConfigModule {}

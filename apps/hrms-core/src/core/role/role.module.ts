@@ -9,10 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Role, RoleSchema } from './role.schema';
 
 @Module({
-    imports: [
-        PrivilegeModule,
-        MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }])
-    ],
+    imports: [PrivilegeModule, MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }])],
     providers: [
         // Pipes
         PrivilegesDtoPipe,
@@ -23,17 +20,8 @@ import { Role, RoleSchema } from './role.schema';
         RoleDtoValidator,
 
         // service
-        RoleService
-    ],
-    exports: [
-        PrivilegeModule,
-
-        PrivilegesDtoPipe,
-        RoleDtoPipe,
-        RoleDtoReversePipe,
-        RoleDtoValidator,
-
         RoleService,
-    ]
+    ],
+    exports: [PrivilegeModule, PrivilegesDtoPipe, RoleDtoPipe, RoleDtoReversePipe, RoleDtoValidator, RoleService],
 })
-export class RoleModule { }
+export class RoleModule {}

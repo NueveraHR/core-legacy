@@ -1,8 +1,8 @@
-import { DtoValidator, ValidatorOptions } from "@hrms-core/common/interfaces/dto-validator";
-import { RoleDto } from "@hrms-core/dto/role.dto";
-import { ErrorDto, ErrorService } from "@hrms-core/common/error/error.service";
-import { Injectable, Inject } from "@nestjs/common";
-import { Errors } from "@hrms-core/common/error/error.const";
+import { DtoValidator, ValidatorOptions } from '@hrms-core/common/interfaces/dto-validator';
+import { RoleDto } from '@hrms-core/dto/role.dto';
+import { ErrorDto, ErrorService } from '@hrms-core/common/error/error.service';
+import { Injectable, Inject } from '@nestjs/common';
+import { Errors } from '@hrms-core/common/error/error.const';
 
 @Injectable()
 export class RoleDtoValidator extends DtoValidator<RoleDto> {
@@ -34,5 +34,4 @@ export class RoleDtoValidator extends DtoValidator<RoleDto> {
 
         return true;
     }
-
 }

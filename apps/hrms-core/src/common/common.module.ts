@@ -4,13 +4,7 @@ import { ErrorService } from './error/error.service';
 
 @Global()
 @Module({
-    providers: [
-        DBManager,
-        ErrorService
-    ],
-    exports: [
-        DBManager,
-        ErrorService
-    ]
+    providers: [DBManager, ErrorService],
+    exports: [DBManager, ErrorService],
 })
-export class CommonModule { }
+export class CommonModule {}

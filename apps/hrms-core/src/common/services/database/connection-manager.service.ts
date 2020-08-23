@@ -1,13 +1,11 @@
-import * as mongoose from "mongoose";
-import { EnvService } from "@libs/env";
+import * as mongoose from 'mongoose';
+import { EnvService } from '@libs/env';
 
 export class DBConnectionManager {
-    
     private envService: EnvService;
     private connectionPromise: Promise<mongoose.Mongoose>;
 
-
-    constructor() { 
+    constructor() {
         this.envService = new EnvService();
     }
 
@@ -24,10 +22,10 @@ export class DBConnectionManager {
             port: envData.DB_PORT,
             dbName: envData.DB_NAME,
             user: envData.DB_USER,
-            password: envData.DB_PASSWORD
+            password: envData.DB_PASSWORD,
         };
 
-        const prefix = (dbParams.user && dbParams.password) ? `${dbParams.user}:${dbParams.password}:` : '';
+        const prefix = dbParams.user && dbParams.password ? `${dbParams.user}:${dbParams.password}:` : '';
         const connectionString = `mongodb://${prefix}${dbParams.host}:${dbParams.port}/${dbParams.dbName}`;
 
         return connectionString;
@@ -43,8 +41,8 @@ export class DBConnectionManager {
         // TODO: load this via env file
         const options = {
             useNewUrlParser: true,
-            useUnifiedTopology: true
-        }
+            useUnifiedTopology: true,
+        };
 
         return options;
     }

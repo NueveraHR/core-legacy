@@ -1,8 +1,7 @@
-
 export interface PrivilegeDto {
-    [module: string]: Actions,
+    [module: string]: Actions;
 }
 
 export interface Actions {
-    [action: string]: string
+    [action: string]: string;
 }

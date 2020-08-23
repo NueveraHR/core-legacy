@@ -5,9 +5,7 @@ import { EnvService } from '@libs/env';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor(
-        private envService: EnvService,
-    ) {
+    constructor(private envService: EnvService) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
@@ -18,4 +16,5 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     validate(payload: any): any {
         return { id: payload.id, role: payload.role };
     }
-}0
+}
+0;

@@ -1,13 +1,12 @@
-import { Test } from "@nestjs/testing";
-import { HRMSCoreModule } from "@hrms-core/hrms-core.module";
-import { DBManager } from "@hrms-core/common/services/database/database-manager.service";
-import { LoggerService } from "@libs/logger";
-import { RoleFacade, MultipleDeleteResult } from "../role.facade";
-import { ROLES } from "@hrms-core/test/mock/role-mock";
-import { ErrorService } from "@hrms-core/common/error/error.service";
-import { RoleDto, RolePaginateDto } from "@hrms-core/dto/role.dto";
-import { Role } from "@hrms-core/core/role/role.schema";
-
+import { Test } from '@nestjs/testing';
+import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
+import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
+import { LoggerService } from '@libs/logger';
+import { RoleFacade, MultipleDeleteResult } from '../role.facade';
+import { ROLES } from '@hrms-core/test/mock/role-mock';
+import { ErrorService } from '@hrms-core/common/error/error.service';
+import { RoleDto, RolePaginateDto } from '@hrms-core/dto/role.dto';
+import { Role } from '@hrms-core/core/role/role.schema';
 
 describe('Role Management Facade', () => {
     let dbManager: DBManager;
@@ -26,7 +25,6 @@ describe('Role Management Facade', () => {
         loggerService = moduleRef.get<LoggerService>(LoggerService);
         roleManagementFacade = moduleRef.get<RoleFacade>(RoleFacade);
         errorService = moduleRef.get<ErrorService>(ErrorService);
-
     });
 
     beforeAll(async () => {
@@ -61,13 +59,14 @@ describe('Role Management Facade', () => {
                 expect(roles.pages).toEqual(3); // 3 pages
                 expect(roles.docs.length).toEqual(4); // 4 users on page 3
             });
-        })
+        });
 
         it('should create role', async () => {
             expect.assertions(1);
 
-            await roleManagementFacade.createRole(roleDto)
-                .then(role => createdRole = role)
+            await roleManagementFacade
+                .createRole(roleDto)
+                .then(role => (createdRole = role))
                 .catch(err => fail(`could not create role :: ${err.message}`));
 
             expect(createdRole).toBeInstanceOf(RoleDto);
@@ -89,14 +88,12 @@ describe('Role Management Facade', () => {
             await expect(roleManagementFacade.roleDetails(createdRole.id)).resolves.toBeInstanceOf(RoleDto);
         });
 
-
         it('should delete role', async () => {
             expect.assertions(1);
             await expect(roleManagementFacade.deleteRole((createdRole as RoleDto).id)).resolves.toEqual(true);
         });
 
         it('should delete list of roles', async () => {
-
             expect.assertions(4);
 
             const rolesId = [];
@@ -107,13 +104,12 @@ describe('Role Management Facade', () => {
                     description: `${ROLES.managerRole.name}-${i}`,
                     privileges: ROLES.managerRole.privileges,
                 };
-                await roleManagementFacade.createRole(generatedRole).then((res) => {
+                await roleManagementFacade.createRole(generatedRole).then(res => {
                     rolesId.push(res.id);
                 });
-
             }
 
-            //add a single invalid role id 
+            //add a single invalid role id
             rolesId.push('INVALID-ID');
 
             await roleManagementFacade.deleteMultipleRoles(rolesId).then(result => {
@@ -121,12 +117,7 @@ describe('Role Management Facade', () => {
                 expect(result.accepted.length).toEqual(5);
                 expect(result.failed.length).toEqual(1);
                 expect(Object.keys(result.errors).length).toEqual(1);
-
-            })
+            });
         });
-
-
     });
-
-
 });

@@ -8,9 +8,7 @@ import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 @Controller('/roles')
 @Privileges('roles.access')
 export class RoleController {
-    constructor(private roleFacade: RoleFacade) {
-
-    }
+    constructor(private roleFacade: RoleFacade) {}
 
     @Get()
     getRoles(@Query('page') page: string, @Query('pageSize') pageSize: string): Promise<RolePaginateDto> {
@@ -36,39 +34,48 @@ export class RoleController {
     @Post()
     @Privileges('roles.create')
     createRole(@Body() roleDto: RoleDto, @Res() response: Response): Promise<Response> {
-        return this.roleFacade.createRole(roleDto)
+        return this.roleFacade
+            .createRole(roleDto)
             .then(role => response.json(role))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
 
     @Put('/:roleId')
     @Privileges('roles.edit')
-    updateRole(@Param('roleId') roleId: string, @Body() roleDto: RoleDto, @Res() response: Response): Promise<Response> {
-        return this.roleFacade.updateRole(roleId, roleDto)
+    updateRole(
+        @Param('roleId') roleId: string,
+        @Body() roleDto: RoleDto,
+        @Res() response: Response,
+    ): Promise<Response> {
+        return this.roleFacade
+            .updateRole(roleId, roleDto)
             .then(role => response.json(role))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
 
     @Get('/:roleId')
     getDetails(@Param('roleId') roleId: string, @Res() response: Response): Promise<Response> {
-        return this.roleFacade.roleDetails(roleId)
+        return this.roleFacade
+            .roleDetails(roleId)
             .then(role => response.status(HttpStatus.OK).json(role))
-            .catch(err => response.status(ErrorUtils.responseCode(err)).json(err))
+            .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
 
     @Delete('/:roleId')
     @Privileges('roles.delete')
     deleteRole(@Param('roleId') roleId: string, @Res() response: Response): Promise<Response> {
-        return this.roleFacade.deleteRole(roleId)
+        return this.roleFacade
+            .deleteRole(roleId)
             .then(role => response.status(HttpStatus.OK).json(role))
-            .catch(err => response.status(ErrorUtils.responseCode(err)).json(err))
+            .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
 
     @Delete()
     @Privileges('roles.delete')
     deleteRoles(@Body() rolesId: string[], @Res() response: Response): Promise<Response> {
-        return this.roleFacade.deleteMultipleRoles(rolesId)
+        return this.roleFacade
+            .deleteMultipleRoles(rolesId)
             .then(role => response.status(HttpStatus.OK).json(role))
-            .catch(err => response.status(ErrorUtils.responseCode(err)).json(err))
+            .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
 }

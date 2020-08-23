@@ -12,15 +12,9 @@ import { Errors } from '@hrms-core/common/error/error.const';
 
 @Injectable()
 export class AuthFacade {
-
     @Inject(ErrorService) errorService: ErrorService;
 
-    constructor(
-        private _jwtService: JwtService,
-        private readonly _moduleRef: ModuleRef
-    ) {
-
-    }
+    constructor(private _jwtService: JwtService, private readonly _moduleRef: ModuleRef) {}
 
     private _roleService;
     private get roleService(): RoleService {
@@ -33,11 +27,12 @@ export class AuthFacade {
     private _userService;
     private get userService(): UserService {
         if (!this._userService) {
-            this._userService = this._moduleRef.get(UserService, { strict: false });
+            this._userService = this._moduleRef.get(UserService, {
+                strict: false,
+            });
         }
         return this._userService;
     }
-
 
     async auth(user: UserDto): Promise<unknown> {
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -55,8 +50,9 @@ export class AuthFacade {
         }
 
         let foundUser: User;
-        await this.userService.findByEmail(user.email)
-            .then((usr) => foundUser = usr)
+        await this.userService
+            .findByEmail(user.email)
+            .then(usr => (foundUser = usr))
             .catch(err => Promise.reject(this.errorService.generate(Errors.Login.INVALID_CREDENTIALS)));
 
         let token;
@@ -67,12 +63,14 @@ export class AuthFacade {
                 }
             });
 
-
             if (token) {
-                return { token: token, userId: foundUser.id, roleId: (foundUser.role as Role).id };
+                return {
+                    token: token,
+                    userId: foundUser.id,
+                    roleId: (foundUser.role as Role).id,
+                };
             }
         }
-
 
         return Promise.reject(this.errorService.generate(Errors.Login.INVALID_CREDENTIALS));
     }
@@ -81,5 +79,4 @@ export class AuthFacade {
         const payload = { id: user.id, role: user.role }; //TODO: encode privileges
         return this._jwtService.sign(payload);
     }
-
 }

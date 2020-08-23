@@ -12,7 +12,7 @@ export const ROLES = {
             'shared.notifications.access',
 
             'config.roles.access',
-            'config.roles.create', 
+            'config.roles.create',
             'config.roles.edit',
             'config.roles.delete',
 
@@ -23,7 +23,7 @@ export const ROLES = {
 
             'user.profile.access',
             'user.profile.edit',
-        ]
+        ],
     },
     employeeRole: {
         name: 'employee',
@@ -32,11 +32,11 @@ export const ROLES = {
             'shared.requests.access',
             'shared.requests.create',
             'shared.requests.cancel',
-            
+
             'shared.notifications.access',
 
             'user.profile.access',
             'user.profile.edit',
         ],
     },
-}
+};

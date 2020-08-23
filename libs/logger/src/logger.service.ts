@@ -1,5 +1,5 @@
-import * as dotenv from 'dotenv'
-import * as fs from 'fs'
+import * as dotenv from 'dotenv';
+import * as fs from 'fs';
 import * as path from 'path';
 import * as winston from 'winston';
 import { EnvService } from '@libs/env';
@@ -12,7 +12,7 @@ export enum LoggerLevel {
     http = 'http',
     verbose = 'verbose',
     debug = 'debug',
-    silly = 'silly'
+    silly = 'silly',
 }
 
 export interface LoggerData {
@@ -21,22 +21,20 @@ export interface LoggerData {
 }
 
 export class LoggerService {
-
     private loggerFolderPath: string;
     private loggerFileName: string;
     private winstonLoggerInstance: any;
 
     constructor(@Inject(EnvService) private readonly envService: EnvService) {
-
         this.loggerFolderPath = this.envService.read().LOGGER_FOLDER_PATH || 'logs/';
 
         if (this.envService.isProd()) {
-            this.loggerFileName = (new Date().getTime()) + '.log';
+            this.loggerFileName = new Date().getTime() + '.log';
         } else {
             this.loggerFileName = 'nuevera.log';
         }
 
-        const myFormat = winston.format.printf(({ level, message,  timestamp }) => {
+        const myFormat = winston.format.printf(({ level, message, timestamp }) => {
             return `${level.toUpperCase()} :: ${timestamp} :: ${message}`;
         });
 
@@ -46,11 +44,13 @@ export class LoggerService {
                 winston.format.errors({ stack: true }), // <-- use errors format
                 winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
                 winston.format.prettyPrint(),
-                myFormat
+                myFormat,
             ),
             transports: [
-                new winston.transports.File({ filename: path.join(this.loggerFolderPath, this.loggerFileName) }),
-                new winston.transports.Console()
+                new winston.transports.File({
+                    filename: path.join(this.loggerFolderPath, this.loggerFileName),
+                }),
+                new winston.transports.Console(),
             ],
         });
     }
@@ -82,5 +82,4 @@ export class LoggerService {
     warn(message) {
         this.winstonLoggerInstance.warn(`${message}`);
     }
-
 }

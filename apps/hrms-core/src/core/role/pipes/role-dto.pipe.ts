@@ -1,13 +1,12 @@
-import { DtoTransformPipe } from "@hrms-core/common/interfaces/dto-pipe-transform";
-import { Role } from "@hrms-core/core/role/role.schema";
-import { RoleDto } from "@hrms-core/dto/role.dto";
-import { Injectable, Inject } from "@nestjs/common";
-import { LoggerService } from "@libs/logger";
-import { PipTransformException } from "@hrms-core/common/exceptions/pipe-transform.exception";
+import { DtoTransformPipe } from '@hrms-core/common/interfaces/dto-pipe-transform';
+import { Role } from '@hrms-core/core/role/role.schema';
+import { RoleDto } from '@hrms-core/dto/role.dto';
+import { Injectable, Inject } from '@nestjs/common';
+import { LoggerService } from '@libs/logger';
+import { PipTransformException } from '@hrms-core/common/exceptions/pipe-transform.exception';
 
 @Injectable()
 export class RoleDtoPipe implements DtoTransformPipe<Role, RoleDto> {
-
     @Inject(LoggerService) private logger: LoggerService;
 
     transform(source: Role, options?: unknown): RoleDto {
@@ -16,7 +15,7 @@ export class RoleDtoPipe implements DtoTransformPipe<Role, RoleDto> {
     }
 
     transformExistent(source: Role, target: RoleDto, options?: unknown): RoleDto {
-        if(!source) {
+        if (!source) {
             this.logger.warn(`Could not transform Role object: Invalid source value given : ${source}`);
             throw new PipTransformException(`Invalid source value given`);
         }
@@ -32,5 +31,4 @@ export class RoleDtoPipe implements DtoTransformPipe<Role, RoleDto> {
     canTransform(source: Role): boolean {
         return source?.name?.length > 0;
     }
-
 }

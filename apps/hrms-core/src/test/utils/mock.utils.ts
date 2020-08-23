@@ -1,17 +1,13 @@
-import { EnvService } from "@libs/env";
-import { UserService } from "@hrms-core/core/user/user.service";
-import { RoleService } from "@hrms-core/core/role/role.service";
-import { USERS } from "../mock/user-mock";
-import { ROLES } from "../mock/role-mock";
-import { User } from "@hrms-core/core/user/user.schema";
-import { Role } from "@hrms-core/core/role/role.schema";
+import { EnvService } from '@libs/env';
+import { UserService } from '@hrms-core/core/user/user.service';
+import { RoleService } from '@hrms-core/core/role/role.service';
+import { USERS } from '../mock/user-mock';
+import { ROLES } from '../mock/role-mock';
+import { User } from '@hrms-core/core/user/user.schema';
+import { Role } from '@hrms-core/core/role/role.schema';
 
 export class MockUtils {
-    constructor(
-        private envService: EnvService,
-        private roleService: RoleService,
-        private userService: UserService
-    ) {
+    constructor(private envService: EnvService, private roleService: RoleService, private userService: UserService) {
         if (!envService.isTest()) {
             throw new Error('Cannot use mock utils for non test environments');
         }
@@ -40,7 +36,7 @@ export class MockUtils {
             } else {
                 await this.roleService.create(roleDto).then(role => {
                     userDto['role'] = role.id;
-                })
+                });
             }
         }
 

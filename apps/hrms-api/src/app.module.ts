@@ -11,20 +11,8 @@ import { EmployeeRecordController } from './controllers/record.controller';
 import { RoleController } from './controllers/role.controller';
 import { EmployeeProfileController } from './controllers/profile.controller';
 
-
 @Module({
-  imports: [
-    HRMSCoreModule,
-
-    CommonApi,
-    MulterModule.registerAsync({ useClass: MulterConfigService }),
-  ],
-  controllers: [
-    AppController,
-    AuthController,
-    UploadController,
-    RoleController,
-    EmployeeRecordController,
-  ],
+    imports: [HRMSCoreModule, CommonApi, MulterModule.registerAsync({ useClass: MulterConfigService })],
+    controllers: [AppController, AuthController, UploadController, RoleController, EmployeeRecordController],
 })
 export class AppModule {}

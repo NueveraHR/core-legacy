@@ -4,14 +4,8 @@ import { EmployeeFacade } from './employee.facade';
 import { CoreModule } from '@hrms-core/core/core.module';
 
 @Module({
-    imports: [
-        CoreModule,
-    ],
-    providers: [
-
-        RoleFacade,
-        EmployeeFacade,
-    ],
+    imports: [CoreModule],
+    providers: [RoleFacade, EmployeeFacade],
     exports: [RoleFacade, EmployeeFacade],
 })
-export class FacadesModule { };
+export class FacadesModule {}
