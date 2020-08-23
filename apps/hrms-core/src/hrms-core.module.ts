@@ -8,7 +8,6 @@ import { DBConnectionManager } from './common/services/database/connection-manag
 
 import { AuthModule } from './auth/auth.module';
 import { FacadesModule } from './facades/facades.module';
-import { DocumentModule } from './core/document/document.module';
 import { CoreModule } from './core/core.module';
 
 const connectionManager = new DBConnectionManager();
