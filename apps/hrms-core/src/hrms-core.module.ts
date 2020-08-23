@@ -8,6 +8,7 @@ import { DBConnectionManager } from './common/services/database/connection-manag
 
 import { AuthModule } from './auth/auth.module';
 import { FacadesModule } from './facades/facades.module';
+import { CoreModule } from './core/core.module';
 
 const connectionManager = new DBConnectionManager();
 
@@ -19,12 +20,14 @@ const connectionManager = new DBConnectionManager();
     MongooseModule.forRoot(connectionManager.getConnectionString(), connectionManager.getConnectionOptions()),
     ConfigModule.forRoot({ isGlobal: true }),
     CommonModule,
+    CoreModule,
 
     AuthModule,
     FacadesModule
   ],
   exports: [ // We export these modules to expose them in app-module
     AuthModule,
+    CoreModule, // TODO: Remove after exposing document facade
     FacadesModule,
   ]
 })
