@@ -9,8 +9,7 @@ cache:
     - node_modules/
 
 variables:
-  MONGO_URI: 'mongodb://mongo:27017/hrms'
-  NODE_ENV: 'test'
+  NODE_ENV: 'ci-test'
 
 services:
   - mongo:latest
