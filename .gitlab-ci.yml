@@ -2,7 +2,7 @@
 image: "node:latest"
 stages: 
   - build
-  - ut
+  - test
 
 cache: 
   paths: 
@@ -16,6 +16,6 @@ install_dependencies:
   script: 
     - "npm install"
 
-ut: 
+unit_tests: 
   stage: test
   script: "npm test"
