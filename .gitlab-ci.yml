@@ -8,6 +8,10 @@ cache:
   paths: 
     - node_modules/
 
+variables:
+  MONGO_URI: 'mongodb://mongo/hrms'
+  NODE_ENV: 'test'
+
 install_dependencies: 
   stage: build
   artifacts: 
