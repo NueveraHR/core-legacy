@@ -45,5 +45,5 @@ const populators = {
     },
 }
 
-EmployeeSchema.pre<Employee>('findOne', populators.supervisor);
-EmployeeSchema.pre<Employee>('findOne', populators.currentJob);
+// EmployeeSchema.pre<Employee>('findOne', populators.supervisor);
+// EmployeeSchema.pre<Employee>('findOne', populators.currentJob);
