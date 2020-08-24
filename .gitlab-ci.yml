@@ -22,6 +22,14 @@ install_dependencies:
   script: 
     - "npm install"
 
+build_project:
+  stage: build
+  artifacts: 
+    paths: 
+      - node_modules/
+  script: 
+    - "npm build"
+
 unit_tests: 
   stage: test
   script: "npm test"
