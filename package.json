@@ -61,7 +61,9 @@
     "eslint": "7.1.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
+    "husky": "^4.2.5",
     "jest": "26.0.1",
+    "lint-staged": "^10.2.11",
     "prettier": "^1.19.1",
     "supertest": "^4.0.2",
     "ts-jest": "26.1.0",
@@ -98,5 +100,14 @@
       "@hrms-api/(.*)": "<rootDir>/apps/hrms-api/src/$1",
       "@hrms-db/(.*)": "<rootDir>/apps/hrms-db/src/$1"
     }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.ts": "prettier --write"
   }
 }
