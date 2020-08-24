@@ -5,6 +5,7 @@ import { Employee, EmployeeSchema } from './employee.schema';
 import { EmployeeService } from './employee.service';
 import { UserModule } from '../user/user.module';
 import { RoleModule } from '../role/role.module';
+import { EmployeeDtoReversePipe } from './pipes/employee-dto-reverse.pipe';
 
 @Module({
     imports: [UserModule, RoleModule, MongooseModule.forFeature([{ name: Employee.name, schema: EmployeeSchema }])],
@@ -13,10 +14,11 @@ import { RoleModule } from '../role/role.module';
 
         // Pipes
         EmployeeDtoPipe,
+        EmployeeDtoReversePipe,
 
         // Services
         EmployeeService,
     ],
-    exports: [EmployeeDtoPipe, EmployeeService],
+    exports: [EmployeeDtoPipe, EmployeeDtoReversePipe, EmployeeService],
 })
 export class EmployeeModule {}

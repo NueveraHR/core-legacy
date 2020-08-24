@@ -16,6 +16,9 @@ export class Employee extends Document {
     @Prop()
     personalPhone: string;
 
+    @Prop()
+    homePhone: string;
+
     @Prop({ ref: 'Employee', type: Types.ObjectId })
     supervisor: string | Employee;
 

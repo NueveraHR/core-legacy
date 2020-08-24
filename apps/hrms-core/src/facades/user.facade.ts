@@ -1,9 +1,9 @@
 import { UserDto } from '@hrms-core/dto/user.dto';
-import { Injectable, Inject } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { LoggerService } from '@libs/logger';
 import { UserDtoPipe } from '../core/user/pipes/user-dto.pipe';
-import { ErrorService, ErrorDto } from '@hrms-core/common/error/error.service';
+import { ErrorService } from '@hrms-core/common/error/error.service';
 import { PaginateResult } from 'mongoose';
 import { UserDtoValidator } from '../core/user/validators/user-dto.validator';
 import { RoleService } from '@hrms-core/core/role/role.service';
@@ -74,7 +74,7 @@ export class UserFacade {
             return Promise.reject(validationResult);
         }
 
-        if(!basicInfoOnly){
+        if (!basicInfoOnly) {
             await this.roleService.assertExists(userDto.role as string);
         }
 

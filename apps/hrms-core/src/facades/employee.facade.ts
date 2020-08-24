@@ -12,6 +12,7 @@ import { UserDtoReversePipe } from '@hrms-core/core/user/pipes/user-dto-reverse.
 import { EmployeeService } from '@hrms-core/core/employee/employee.service';
 import { JobService } from '@hrms-core/core/job/job.service';
 import { JobDto } from '@hrms-core/dto/job.dto';
+import { EmployeeDtoReversePipe } from '@hrms-core/core/employee/pipes/employee-dto-reverse.pipe';
 
 @Injectable()
 export class EmployeeFacade extends UserFacade {
@@ -24,6 +25,7 @@ export class EmployeeFacade extends UserFacade {
         userDtoReversePipe: UserDtoReversePipe,
         userService: UserService,
         roleService: RoleService,
+        private employeeDtoReversePipe: EmployeeDtoReversePipe,
         private employeeService: EmployeeService,
         private jobService: JobService,
     ) {
@@ -49,21 +51,27 @@ export class EmployeeFacade extends UserFacade {
     }
 
     async update(employeeId: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
-        const employeeToUpdate = await this.employeeService.findById(employeeId);
         await super.update(employeeId, employeeDto);
-        // TODO: replace with EmployeeDtoReversePipe
-        employeeToUpdate.workEmail = employeeDto.workEmail;
-        employeeToUpdate.personalEmail = employeeDto.personalEmail;
-        employeeToUpdate.workPhone = employeeDto.workPhone;
-        employeeToUpdate.personalPhone = employeeDto.personalPhone;
+        let employeeToUpdate = await this.employeeService.findById(employeeId);
+        employeeToUpdate = this.employeeDtoReversePipe.transformExistent(employeeDto, employeeToUpdate);
+        return this.employeeService
+            .update(employeeToUpdate)
+            .then(() => this.details(employeeId) as Promise<EmployeeDto>);
+    }
+
+    updateBasicInfo(employeeId: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
+        return super.update(employeeId, employeeDto, true);
+    }
+
+    async updateContactInfo(employeeId: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
+        let employeeToUpdate = await this.employeeService.findById(employeeId);
+        employeeToUpdate = this.employeeDtoReversePipe.transformExistent(employeeDto, employeeToUpdate, {
+            contactInfo: true,
+        });
 
         return this.employeeService
             .update(employeeToUpdate)
-            .then(emp => super.details(employeeId) as Promise<EmployeeDto>);
-    }
-
-    async updateBasicInfo(employeeId: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
-        return super.update(employeeId, employeeDto);
+            .then(() => this.details(employeeId) as Promise<EmployeeDto>);
     }
 
     async jobHistory(employeeId: string): Promise<JobDto> {

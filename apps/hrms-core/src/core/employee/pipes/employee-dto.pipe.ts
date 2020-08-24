@@ -16,6 +16,7 @@ export class EmployeeDtoPipe extends UserDtoPipe implements DtoTransformPipe<Use
             employeeDto.personalEmail = employee?.personalEmail;
             employeeDto.workPhone = employee?.workPhone;
             employeeDto.personalPhone = employee?.personalPhone;
+            employeeDto.homePhone = employee?.homePhone;
         }
 
         return employeeDto;
