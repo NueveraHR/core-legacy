@@ -15,7 +15,7 @@ services:
   - mongo:latest
 
 install_dependencies: 
-  stage: build
+  stage: .pre
   artifacts: 
     paths: 
       - node_modules/
@@ -24,11 +24,8 @@ install_dependencies:
 
 build_project:
   stage: build
-  artifacts: 
-    paths: 
-      - node_modules/
   script: 
-    - "npm build"
+    - "npm run build"
 
 unit_tests: 
   stage: test
