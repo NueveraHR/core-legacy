@@ -25,8 +25,10 @@ export class DBConnectionManager {
             password: envData.DB_PASSWORD,
         };
 
-        const prefix = dbParams.user && dbParams.password ? `${dbParams.user}:${dbParams.password}:` : '';
+        const prefix = dbParams.user && dbParams.password ? `${dbParams.user}:${dbParams.password}@` : '';
         const connectionString = `mongodb://${prefix}${dbParams.host}:${dbParams.port}/${dbParams.dbName}`;
+
+        console.log(connectionString);
 
         return connectionString;
     }
@@ -42,6 +44,7 @@ export class DBConnectionManager {
         const options = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
+            authSource: 'admin'
         };
 
         return options;
