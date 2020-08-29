@@ -6,6 +6,7 @@ import { PipTransformException } from '@hrms-core/common/exceptions/pipe-transfo
 import { LoggerService } from '@libs/logger';
 import { RoleDtoPipe } from '@hrms-core/core/role/pipes/role-dto.pipe';
 import { Role } from '@hrms-core/core/role/role.schema';
+import { RoleDto } from '@hrms-core/dto/role.dto';
 
 @Injectable()
 export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
@@ -20,19 +21,16 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
 
         const userDto: UserDto = {
             id: source.id,
+            username: source.username,
             email: source.email,
             firstName: source.firstName,
             lastName: source.lastName,
             gender: source.gender,
+            cin: source.cin,
+            prefix: source.prefix,
+            phone: Number(source.phone),
+            role: source.role as RoleDto,
         };
-
-        if (options?.detailed) {
-            userDto.username = source.username;
-            userDto.cin = source.cin;
-            userDto.prefix = source.prefix;
-            userDto.phone = Number(source.phone);
-            userDto.role = source.role as string; // this.roleDtoPipe.transform(source.role as Role);
-        }
 
         return userDto;
     }

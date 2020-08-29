@@ -59,17 +59,25 @@ export class UserService {
      * Find all users in DB without applying any filters
      *
      */
-    findAll(): Promise<User[]> {
-        return this.userModel
-            .find()
-            .exec()
-            .catch(err =>
-                Promise.reject(
-                    this.errorService.generate(Errors.General.INTERNAL_ERROR, {
-                        detailedMessage: err,
-                    }),
-                ),
-            );
+    async findAll(options?: { populate?: string[] }): Promise<User[]> {
+        let resp: Promise<User[]>;
+
+        if (!options?.populate?.length) {
+            resp = this.userModel.find().exec();
+        } else {
+            resp = this.userModel
+                .find()
+                .populate(options.populate.join(' '))
+                .exec();
+        }
+
+        return resp.catch(err =>
+            Promise.reject(
+                this.errorService.generate(Errors.General.INTERNAL_ERROR, {
+                    detailedMessage: err,
+                }),
+            ),
+        );
     }
 
     findAllPaginated(page = 1, limit = 10, filterOptions = {}): Promise<PaginateResult<User>> {

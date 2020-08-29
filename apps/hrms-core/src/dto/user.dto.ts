@@ -1,4 +1,5 @@
 import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
+import { RoleDto } from './role.dto';
 
 @ObjectType()
 export class UserDto {
@@ -25,8 +26,8 @@ export class UserDto {
     @Field()
     public prefix?: string;
 
-    @Field()
-    public role?: string;
+    @Field(() => RoleDto)
+    public role?: RoleDto;
 
     @Field()
     public gender?: string;

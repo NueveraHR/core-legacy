@@ -1,5 +1,5 @@
 import { UserDto } from '@hrms-core/dto/user.dto';
-import { Inject } from '@nestjs/common';
+import { Inject, Options } from '@nestjs/common';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { LoggerService } from '@libs/logger';
 import { UserDtoPipe } from '../core/user/pipes/user-dto.pipe';
@@ -24,7 +24,7 @@ export class UserFacade {
 
     list(paginationOptions?: PaginationOptions, filterCriteria = {}): Promise<UserPaginateDto | UserDto[]> {
         if (!paginationOptions) {
-            return this.userService.findAll().then(users =>
+            return this.userService.findAll({ populate: ['role'] }).then(users =>
                 users.map(user =>
                     this.userDtoPipe.transform(user, {
                         detailed: paginationOptions?.detailed,
