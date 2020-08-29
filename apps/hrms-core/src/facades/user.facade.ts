@@ -22,24 +22,34 @@ export class UserFacade {
 
     @Inject(ErrorService) errorService: ErrorService;
 
-    list(paginationOptions?: PaginationOptions, filterCriteria = {}): Promise<UserPaginateDto> {
-        return this.userService
-            .findAllPaginated(paginationOptions?.page, paginationOptions?.pageSize, filterCriteria)
-            .then(result => {
-                const userPaginateDto: UserPaginateDto = {
-                    total: result.total,
-                    pages: result.pages,
-                    page: result.page,
-                    limit: result.limit,
-                    offset: result.offset,
-                    docs: result.docs.map(user =>
-                        this.userDtoPipe.transform(user, {
-                            detailed: paginationOptions?.detailed,
-                        }),
-                    ),
-                };
-                return userPaginateDto;
-            });
+    list(paginationOptions?: PaginationOptions, filterCriteria = {}): Promise<UserPaginateDto | UserDto[]> {
+        if (!paginationOptions) {
+            return this.userService.findAll().then(users =>
+                users.map(user =>
+                    this.userDtoPipe.transform(user, {
+                        detailed: paginationOptions?.detailed,
+                    }),
+                ),
+            );
+        } else {
+            return this.userService
+                .findAllPaginated(paginationOptions?.page, paginationOptions?.pageSize, filterCriteria)
+                .then(result => {
+                    const userPaginateDto: UserPaginateDto = {
+                        total: result.total,
+                        pages: result.pages,
+                        page: result.page,
+                        limit: result.limit,
+                        offset: result.offset,
+                        docs: result.docs.map(user =>
+                            this.userDtoPipe.transform(user, {
+                                detailed: paginationOptions?.detailed,
+                            }),
+                        ),
+                    };
+                    return userPaginateDto;
+                });
+        }
     }
 
     create(userDto: UserDto): Promise<any> {

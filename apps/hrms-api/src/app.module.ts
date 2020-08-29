@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { GraphQLModule } from '@nestjs/graphql';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { AppController } from './app.controller';
 import { AuthController } from './auth/auth.controller';
@@ -10,9 +11,19 @@ import { UploadController } from './upload/upload.controller';
 import { EmployeeRecordController } from './controllers/record.controller';
 import { RoleController } from './controllers/role.controller';
 import { EmployeeProfileController } from './controllers/profile.controller';
+import { EmployeeResolver } from './resolvers/employee.resolver';
 
 @Module({
-    imports: [HRMSCoreModule, CommonApi, MulterModule.registerAsync({ useClass: MulterConfigService })],
-    controllers: [AppController, AuthController, UploadController, RoleController, EmployeeRecordController],
+    imports: [
+        GraphQLModule.forRoot({
+            autoSchemaFile: 'schema.gql',
+            context: ({ req }) => ({ req }),
+        }),
+        HRMSCoreModule,
+        CommonApi,
+        MulterModule.registerAsync({ useClass: MulterConfigService }),
+    ],
+    providers: [EmployeeResolver],
+    controllers: [],
 })
 export class AppModule {}

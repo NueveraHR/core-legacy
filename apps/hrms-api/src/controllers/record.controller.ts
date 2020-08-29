@@ -23,7 +23,7 @@ export class EmployeeRecordController {
             paginationOptions.pageSize = Number(pageSize);
         }
 
-        return this.employeeFacade.list(paginationOptions);
+        return this.employeeFacade.list(paginationOptions) as Promise<UserPaginateDto>;
     }
 
     @Get('/:id')

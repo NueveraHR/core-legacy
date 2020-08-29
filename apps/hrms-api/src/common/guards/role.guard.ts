@@ -1,10 +1,16 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { RoleDto } from '@hrms-core/dto/role.dto';
+import { GqlExecutionContext } from '@nestjs/graphql';
 
 @Injectable()
 export class PrivilegesGuard implements CanActivate {
     constructor(private reflector: Reflector) {}
+
+    getRequest(context: ExecutionContext) {
+        const ctx = GqlExecutionContext.create(context);
+        return ctx.getContext().req;
+    }
 
     canActivate(context: ExecutionContext): boolean {
         const handlerPrivileges = this.reflector.get<string[]>('privileges', context.getHandler()) || [];
@@ -15,7 +21,7 @@ export class PrivilegesGuard implements CanActivate {
             return true;
         }
 
-        const request = context.switchToHttp().getRequest();
+        const request = this.getRequest(context);
         const user = request.user;
 
         return this.isPermitted(user, privileges);

@@ -1,19 +1,42 @@
-import { RoleDto } from './role.dto';
+import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
 
+@ObjectType()
 export class UserDto {
-    constructor(
-        public id?: string,
-        public username?: string,
-        public firstName?: string,
-        public lastName?: string,
-        public password?: string,
-        public email?: string,
-        public cin?: string,
-        public prefix?: string,
-        public role?: string,
-        public gender?: string,
-        public phone?: number,
-        public modeOfEmployment?: string,
-        public department?: string,
-    ) {}
+    @Field(() => ID)
+    public id?: string;
+
+    @Field()
+    public username?: string;
+
+    @Field()
+    public firstName?: string;
+
+    @Field()
+    public lastName?: string;
+
+    public password?: string;
+
+    @Field()
+    public email?: string;
+
+    @Field()
+    public cin?: string;
+
+    @Field()
+    public prefix?: string;
+
+    @Field()
+    public role?: string;
+
+    @Field()
+    public gender?: string;
+
+    @Field(() => Int)
+    public phone?: number;
+
+    @Field()
+    public modeOfEmployment?: string;
+
+    @Field()
+    public department?: string;
 }
