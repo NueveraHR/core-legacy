@@ -28,7 +28,7 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
             gender: source.gender,
             cin: source.cin,
             prefix: source.prefix,
-            phone: Number(source.phone),
+            phone: source.phone,
             role: source.role as RoleDto,
         };
 

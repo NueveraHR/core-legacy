@@ -19,7 +19,7 @@ export class UserDtoReversePipe implements DtoTransformPipe<UserDto, User> {
         user.lastName = userDto.lastName;
         user.gender = userDto.gender;
         user.phone = `${userDto.phone}`;
-        user.role = userDto.role;
+        user.role = userDto.role?.id || (userDto.role as string);
 
         return user;
     }
