@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
 import { EmployeeFacade } from '@hrms-core/facades/employee.facade';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '@hrms-api/common/guards/gql-auth.guard';
@@ -16,6 +16,12 @@ export class EmployeeResolver {
     @Query(() => [Employee])
     employees(): Promise<Employee[]> {
         return this.employeeFacade.list() as Promise<Employee[]>;
+    }
+
+    @Query(() => Employee)
+    employee(@Args('id', { type: () => ID }) employeeId: string): Promise<Employee> {
+        //TODO: assert is eligible to view user sensitive data
+        return this.employeeFacade.details(employeeId);
     }
 
     @Mutation(() => Employee)
