@@ -3,7 +3,7 @@ import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '@hrms-api/common/guards/gql-auth.guard';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
-import { Role, DeleteResult } from './role.type';
+import { Role, DeleteResult, PaginatedRoleList } from './role.type';
 import { RoleFacade } from '@hrms-core/facades/role.facade';
 import { AddRoleInput, UpdateRoleInput } from './role.input';
 
@@ -13,9 +13,9 @@ import { AddRoleInput, UpdateRoleInput } from './role.input';
 export class RoleResolver {
     constructor(private roleFacade: RoleFacade) {}
 
-    @Query(() => [Role])
-    roles(): Promise<Role[]> {
-        return this.roleFacade.allRoles() as Promise<Role[]>;
+    @Query(() => PaginatedRoleList)
+    roles(@Args('page') page: number, @Args('limit') limit: number): Promise<PaginatedRoleList> {
+        return this.roleFacade.allRoles({ page, limit });
     }
 
     @Query(() => String)

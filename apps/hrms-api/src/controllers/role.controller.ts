@@ -19,7 +19,7 @@ export class RoleController {
         }
 
         if (pageSize && Number(pageSize) != NaN) {
-            filterCriteria.pageSize = Number(pageSize);
+            filterCriteria.limit = Number(pageSize);
         }
 
         return this.roleFacade.allRoles(filterCriteria) as Promise<RolePaginateDto>;

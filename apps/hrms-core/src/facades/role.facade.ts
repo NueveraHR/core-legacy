@@ -33,22 +33,18 @@ export class RoleFacade {
      * Returns all registered roles in the database
      * Can be used in roles list view.
      */
-    allRoles(filterCriteria?: RoleFilterCriteria): Promise<RolePaginateDto | RoleDto[]> {
-        if (!filterCriteria) {
-            return this.roleService.findAll().then(roles => roles.map(role => this.roleDtoPipe.transform(role)));
-        } else {
-            return this.roleService.findAllPaginated(filterCriteria?.page, filterCriteria?.pageSize).then(roles => {
-                const rolePaginateDto: RolePaginateDto = {
-                    total: roles.total,
-                    pages: roles.pages,
-                    page: roles.page,
-                    limit: roles.limit,
-                    offset: roles.offset,
-                    docs: roles.docs.map(role => this.roleDtoPipe.transform(role)),
-                };
-                return rolePaginateDto;
-            });
-        }
+    allRoles(filterCriteria?: RoleFilterCriteria): Promise<RolePaginateDto> {
+        return this.roleService.findAllPaginated(filterCriteria?.page, filterCriteria?.limit).then(roles => {
+            const rolePaginateDto: RolePaginateDto = {
+                total: roles.total,
+                pages: roles.pages,
+                page: roles.page,
+                limit: roles.limit,
+                offset: roles.offset,
+                docs: roles.docs.map(role => this.roleDtoPipe.transform(role)),
+            };
+            return rolePaginateDto;
+        });
     }
 
     /**
@@ -169,7 +165,7 @@ export class RoleFacade {
 
 export interface RoleFilterCriteria {
     page?: number;
-    pageSize?: number;
+    limit?: number;
 
     detailed?: boolean;
 }

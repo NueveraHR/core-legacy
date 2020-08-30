@@ -54,7 +54,7 @@ describe('Role Management Facade', () => {
                 expect(roles.total).toEqual(24);
             });
 
-            await roleManagementFacade.allRoles({ page: 3, pageSize: 10 }).then((roles: RolePaginateDto) => {
+            await roleManagementFacade.allRoles({ page: 3, limit: 10 }).then((roles: RolePaginateDto) => {
                 expect(roles.total).toEqual(24); // 24 registered roles
                 expect(roles.pages).toEqual(3); // 3 pages
                 expect(roles.docs.length).toEqual(4); // 4 users on page 3
