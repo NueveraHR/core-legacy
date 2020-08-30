@@ -48,7 +48,7 @@ export class RoleController {
         @Res() response: Response,
     ): Promise<Response> {
         return this.roleFacade
-            .updateRole(roleId, roleDto)
+            .updateRole(roleDto)
             .then(role => response.json(role))
             .catch(err => response.status(ErrorUtils.responseCode(err)).json(err));
     }
