@@ -2,22 +2,22 @@ import { Field, ID, InputType } from '@nestjs/graphql';
 import { RoleDto } from '@hrms-core/dto/role.dto';
 
 @InputType()
-export class AddRoleInput implements Partial<RoleDto> {
+export class AddRole implements Partial<RoleDto> {
     @Field()
-    public name?: string;
+    name?: string;
 
     @Field()
-    public description?: string;
+    description?: string;
 
     @Field(() => [String])
-    public privileges?: string[];
+    privileges?: string[];
 
     @Field(() => [String], { nullable: true })
-    public extendsRoles?: string[];
+    extendsRoles?: string[];
 }
 
 @InputType()
-export class UpdateRoleInput extends AddRoleInput {
+export class UpdateRole extends AddRole {
     @Field(() => ID)
-    public id: string;
+    id: string;
 }

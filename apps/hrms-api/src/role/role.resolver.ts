@@ -5,7 +5,7 @@ import { GqlAuthGuard } from '@hrms-api/common/guards/gql-auth.guard';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import { Role, DeleteResult, PaginatedRoleList } from './role.type';
 import { RoleFacade } from '@hrms-core/facades/role.facade';
-import { AddRoleInput, UpdateRoleInput } from './role.input';
+import { AddRole, UpdateRole } from './role.input';
 
 @Resolver()
 @Privileges('roles.access')
@@ -27,12 +27,12 @@ export class RoleResolver {
     }
 
     @Mutation(() => Role)
-    addRole(@Args('role') role: AddRoleInput): Promise<Role> {
+    addRole(@Args('role') role: AddRole): Promise<Role> {
         return this.roleFacade.createRole(role);
     }
 
     @Mutation(() => Role)
-    updateRole(@Args('role') role: UpdateRoleInput): Promise<Role> {
+    updateRole(@Args('role') role: UpdateRole): Promise<Role> {
         return this.roleFacade.updateRole(role);
     }
 

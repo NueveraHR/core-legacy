@@ -7,6 +7,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { MulterConfigService } from '@hrms-core/core/document/multerConfig.service';
 import { EmployeeResolver } from './employee/employee.resolver';
 import { RoleResolver } from './role/role.resolver';
+import { AuthResolver } from './auth/auth.resolver';
 
 @Module({
     imports: [
@@ -18,7 +19,7 @@ import { RoleResolver } from './role/role.resolver';
         CommonApi,
         MulterModule.registerAsync({ useClass: MulterConfigService }),
     ],
-    providers: [RoleResolver, EmployeeResolver],
+    providers: [AuthResolver, RoleResolver, EmployeeResolver],
     controllers: [],
 })
 export class AppModule {}

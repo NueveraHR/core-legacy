@@ -9,6 +9,7 @@ import { UserDto } from '@hrms-core/dto/user.dto';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Role } from '@hrms-core/core/role/role.schema';
 import { Errors } from '@hrms-core/common/error/error.const';
+import { AuthDto } from './auth.dto';
 
 @Injectable()
 export class AuthFacade {
@@ -34,7 +35,7 @@ export class AuthFacade {
         return this._userService;
     }
 
-    async auth(user: UserDto): Promise<unknown> {
+    async auth(user: UserDto): Promise<AuthDto> {
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
         if (user?.email?.trim() === '') {
