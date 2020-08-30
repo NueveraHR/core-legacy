@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, ID, Int } from '@nestjs/graphql';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '@hrms-api/common/guards/gql-auth.guard';
@@ -8,13 +8,16 @@ import { RoleFacade } from '@hrms-core/facades/role.facade';
 import { AddRoleInput, UpdateRoleInput } from './role.input';
 
 @Resolver()
-@Privileges('employees.access')
+@Privileges('roles.access')
 @UseGuards(GqlAuthGuard, PrivilegesGuard)
 export class RoleResolver {
     constructor(private roleFacade: RoleFacade) {}
 
     @Query(() => PaginatedRoleList)
-    roles(@Args('page') page: number, @Args('limit') limit: number): Promise<PaginatedRoleList> {
+    roles(
+        @Args('page', { type: () => Int }) page: number,
+        @Args('limit', { type: () => Int }) limit: number,
+    ): Promise<PaginatedRoleList> {
         return this.roleFacade.allRoles({ page, limit });
     }
 
