@@ -1,5 +1,6 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, InterfaceType } from '@nestjs/graphql';
 import { RoleDto } from '@hrms-core/dto/role.dto';
+import { MultipleDeleteResult } from '@hrms-core/facades/role.facade';
 
 @ObjectType()
 export class Role implements Partial<RoleDto> {
@@ -15,6 +16,17 @@ export class Role implements Partial<RoleDto> {
     @Field(() => [String])
     public privileges?: string[];
 
-    @Field(() => [String])
+    @Field(() => [String], { nullable: true })
     public extendsRoles?: string[];
+}
+@ObjectType()
+export class DeleteResult implements Partial<MultipleDeleteResult> {
+    @Field(() => [String])
+    accepted: string[] = [];
+
+    @Field(() => [String])
+    failed: string[] = [];
+
+    @Field()
+    errors: string;
 }

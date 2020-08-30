@@ -33,18 +33,22 @@ export class RoleFacade {
      * Returns all registered roles in the database
      * Can be used in roles list view.
      */
-    allRoles(filterCriteria?: RoleFilterCriteria): Promise<RolePaginateDto> {
-        return this.roleService.findAllPaginated(filterCriteria?.page, filterCriteria?.pageSize).then(roles => {
-            const rolePaginateDto: RolePaginateDto = {
-                total: roles.total,
-                pages: roles.pages,
-                page: roles.page,
-                limit: roles.limit,
-                offset: roles.offset,
-                docs: roles.docs.map(role => this.roleDtoPipe.transform(role)),
-            };
-            return rolePaginateDto;
-        });
+    allRoles(filterCriteria?: RoleFilterCriteria): Promise<RolePaginateDto | RoleDto[]> {
+        if (!filterCriteria) {
+            return this.roleService.findAll().then(roles => roles.map(role => this.roleDtoPipe.transform(role)));
+        } else {
+            return this.roleService.findAllPaginated(filterCriteria?.page, filterCriteria?.pageSize).then(roles => {
+                const rolePaginateDto: RolePaginateDto = {
+                    total: roles.total,
+                    pages: roles.pages,
+                    page: roles.page,
+                    limit: roles.limit,
+                    offset: roles.offset,
+                    docs: roles.docs.map(role => this.roleDtoPipe.transform(role)),
+                };
+                return rolePaginateDto;
+            });
+        }
     }
 
     /**
@@ -91,7 +95,7 @@ export class RoleFacade {
         });
     }
 
-    async updateRole(roleId: string, roleDto: RoleDto): Promise<RoleDto> {
+    async updateRole(roleDto: RoleDto): Promise<RoleDto> {
         //  Validate given roleDto data
         const validationResult = this.roleDtoValidator.validate(roleDto);
         if (this.errorService.isError(validationResult)) {
@@ -101,7 +105,7 @@ export class RoleFacade {
         // retrieve current registered role record.
         let result: Role | ErrorDto;
         await this.roleService
-            .findById(roleId)
+            .findById(roleDto.id)
             .then(role => (result = role))
             .catch(err => (result = err));
 

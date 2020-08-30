@@ -22,7 +22,7 @@ export class RoleController {
             filterCriteria.pageSize = Number(pageSize);
         }
 
-        return this.roleFacade.allRoles(filterCriteria);
+        return this.roleFacade.allRoles(filterCriteria) as Promise<RolePaginateDto>;
     }
 
     @Get('/privileges')
