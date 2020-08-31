@@ -38,7 +38,7 @@ export class EnvService {
         data.DB_PORT = parseInt(data.DB_PORT);
 
         this.vars = data as EnvData;
-        //console.log(`:::::::::::: Started application using environment ${environment} ::::::::::::`);
+        console.log(`:::::::::::: Started application using environment ${environment} ::::::::::::`);
     }
 
     read(): EnvData {

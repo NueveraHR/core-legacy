@@ -10,5 +10,5 @@ export class AuthPayload implements Partial<AuthDto> {
     userId: string;
 
     @Field()
-    roleId: string;
+    userType: string;
 }
