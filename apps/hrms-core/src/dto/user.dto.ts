@@ -1,4 +1,5 @@
 import { RoleDto } from './role.dto';
+import { AddressDto } from './address.dto';
 
 export class UserDto {
     public id?: string;
@@ -16,6 +17,7 @@ export class UserDto {
 
     public password?: string;
     public phone?: string;
+    public address?: AddressDto | string;
     public role?: RoleDto | string;
 
     public modeOfEmployment?: string;

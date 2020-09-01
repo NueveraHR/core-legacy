@@ -7,6 +7,7 @@ import { LoggerService } from '@libs/logger';
 import { RoleDtoPipe } from '@hrms-core/core/role/pipes/role-dto.pipe';
 import { Role } from '@hrms-core/core/role/role.schema';
 import { RoleDto } from '@hrms-core/dto/role.dto';
+import { AddressDto } from '@hrms-core/dto/address.dto';
 
 @Injectable()
 export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
@@ -33,6 +34,7 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
             prefix: source.prefix,
             phone: source.phone,
             role: source.role as RoleDto,
+            address: source.address as AddressDto,
         };
 
         return userDto;
