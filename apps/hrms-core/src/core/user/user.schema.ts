@@ -26,10 +26,19 @@ export class User extends Document {
     firstName: string;
 
     @Prop()
+    preferredName: string;
+
+    @Prop()
+    middleName: string;
+
+    @Prop()
     lastName: string;
 
     @Prop()
     gender: string;
+
+    @Prop()
+    birthDate: Date;
 
     @Prop()
     password: string;
@@ -67,5 +76,10 @@ const PopulateByType = function(next) {
     next();
 };
 
+const populateRole = function(next) {
+    this.populate('role');
+    next();
+};
 UserSchema.pre<User>('find', PopulateByType);
 UserSchema.pre<User>('findOne', PopulateByType);
+UserSchema.pre<User>('findOne', populateRole);

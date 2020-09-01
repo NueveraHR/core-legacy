@@ -118,16 +118,12 @@ export class UserService {
      */
     async findByUsername(username: string): Promise<User> {
         const criteria = { username: username };
-        return (
-            await this.userModel
-                .findOne(criteria)
-                .exec()
-                .catch(err =>
-                    Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })),
-                )
-        )
-            .populate('role')
-            .execPopulate();
+        return this.userModel
+            .findOne(criteria)
+            .exec()
+            .catch(err =>
+                Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })),
+            );
     }
 
     /**
@@ -136,16 +132,12 @@ export class UserService {
      */
     async findByEmail(email: string): Promise<User> {
         const criteria = { email: email };
-        return (
-            await this.userModel
-                .findOne(criteria)
-                .exec()
-                .catch(err =>
-                    Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })),
-                )
-        )
-            .populate('role')
-            .execPopulate();
+        return this.userModel
+            .findOne(criteria)
+            .exec()
+            .catch(err =>
+                Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })),
+            );
     }
 
     attachRole(user: User, role: Role): Promise<User> {

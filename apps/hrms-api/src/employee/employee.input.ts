@@ -1,5 +1,6 @@
 import { EmployeeDto } from '@hrms-core/dto/employee.dto';
 import { InputType, Field, ID, Int } from '@nestjs/graphql';
+import { Role } from '@hrms-api/role/role.type';
 
 @InputType()
 export class AddEmployeeInput implements Partial<EmployeeDto> {
@@ -9,20 +10,29 @@ export class AddEmployeeInput implements Partial<EmployeeDto> {
     @Field()
     public firstName: string;
 
+    @Field({ nullable: true })
+    public preferredName?: string;
+
+    @Field({ nullable: true })
+    public middleName?: string;
+
     @Field()
     public lastName: string;
 
-    @Field(() => Int)
+    @Field()
     public cin: string;
 
     @Field()
     public prefix: string;
 
     @Field(() => ID)
-    public roleId: string;
+    public role: Role | string;
 
     @Field()
     public gender: string;
+
+    @Field(() => Date)
+    public birthDate: Date;
 
     @Field()
     public phone: string;

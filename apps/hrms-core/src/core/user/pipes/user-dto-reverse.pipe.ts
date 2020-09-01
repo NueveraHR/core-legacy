@@ -2,6 +2,7 @@ import { DtoTransformPipe } from '@hrms-core/common/interfaces/dto-pipe-transfor
 import { UserDto } from '@hrms-core/dto/user.dto';
 import { User } from '@hrms-core/core/user/user.schema';
 import { Injectable } from '@nestjs/common';
+import { RoleDto } from '@hrms-core/dto/role.dto';
 
 @Injectable()
 export class UserDtoReversePipe implements DtoTransformPipe<UserDto, User> {
@@ -16,10 +17,13 @@ export class UserDtoReversePipe implements DtoTransformPipe<UserDto, User> {
         user.cin = userDto.cin;
         user.prefix = userDto.prefix;
         user.firstName = userDto.firstName;
+        user.preferredName = userDto.preferredName;
+        user.middleName = userDto.preferredName;
         user.lastName = userDto.lastName;
         user.gender = userDto.gender;
+        user.birthDate = userDto.birthDate;
         user.phone = `${userDto.phone}`;
-        user.role = userDto.role?.id || (userDto.role as string);
+        user.role = (userDto.role as RoleDto)?.id || (userDto.role as string);
 
         return user;
     }

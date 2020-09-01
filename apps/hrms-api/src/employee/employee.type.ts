@@ -14,6 +14,12 @@ export class Employee implements Partial<EmployeeDto> {
     @Field()
     public firstName?: string;
 
+    @Field({ nullable: true })
+    public preferredName?: string;
+
+    @Field({ nullable: true })
+    public middleName?: string;
+
     @Field()
     public lastName?: string;
 
@@ -29,12 +35,15 @@ export class Employee implements Partial<EmployeeDto> {
     public prefix?: string;
 
     @Field(() => Role)
-    public role?: Role;
+    public role?: Role | string;
 
     @Field()
     public gender?: string;
 
-    @Field(() => Int)
+    @Field(() => Date)
+    public birthDate: Date;
+
+    @Field()
     public phone?: string;
 
     @Field()
@@ -43,18 +52,18 @@ export class Employee implements Partial<EmployeeDto> {
     @Field()
     public department?: string;
 
-    @Field()
+    @Field({ nullable: true })
     public workEmail?: string;
 
-    @Field()
+    @Field({ nullable: true })
     public personalEmail?: string;
 
-    @Field()
+    @Field({ nullable: true })
     public workPhone?: string;
 
-    @Field()
+    @Field({ nullable: true })
     public personalPhone?: string;
 
-    @Field()
+    @Field({ nullable: true })
     public homePhone?: string;
 }
