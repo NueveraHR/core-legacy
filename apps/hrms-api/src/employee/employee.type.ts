@@ -41,7 +41,7 @@ export class Employee implements Partial<EmployeeDto> {
     public gender?: string;
 
     @Field(() => Date)
-    public birthDate: Date;
+    public birthDate?: Date;
 
     @Field()
     public phone?: string;
