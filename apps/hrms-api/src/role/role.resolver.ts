@@ -6,6 +6,7 @@ import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import { Role, DeleteResult, PaginatedRoleList } from './role.type';
 import { RoleFacade } from '@hrms-core/facades/role.facade';
 import { AddRole, UpdateRole } from './role.input';
+import { ApiError } from '@hrms-api/common/utils/error.utils';
 
 @Resolver()
 @Privileges('roles.access')
@@ -14,11 +15,8 @@ export class RoleResolver {
     constructor(private roleFacade: RoleFacade) {}
 
     @Query(() => PaginatedRoleList)
-    roles(
-        @Args('page', { type: () => Int }) page: number,
-        @Args('limit', { type: () => Int }) limit: number,
-    ): Promise<PaginatedRoleList> {
-        return this.roleFacade.allRoles({ page, limit });
+    roles(@Args('page', { type: () => Int }) page: number, @Args('limit', { type: () => Int }) limit: number) {
+        return this.roleFacade.allRoles({ page, limit }).catch(ApiError);
     }
 
     @Query(() => String)
@@ -27,20 +25,23 @@ export class RoleResolver {
     }
 
     @Mutation(() => Role)
-    addRole(@Args('role') role: AddRole): Promise<Role> {
-        return this.roleFacade.createRole(role);
+    addRole(@Args('role') role: AddRole) {
+        return this.roleFacade.createRole(role).catch(ApiError);
     }
 
     @Mutation(() => Role)
-    updateRole(@Args('role') role: UpdateRole): Promise<Role> {
-        return this.roleFacade.updateRole(role);
+    updateRole(@Args('role') role: UpdateRole) {
+        return this.roleFacade.updateRole(role).catch(ApiError);
     }
 
     @Mutation(() => DeleteResult)
-    deleteRoles(@Args('id', { type: () => [ID] }) id: string[]): Promise<DeleteResult> {
-        return this.roleFacade.deleteMultipleRoles(id).then(result => {
-            result.errors = JSON.stringify(result.errors);
-            return result;
-        });
+    deleteRoles(@Args('id', { type: () => [ID] }) id: string[]) {
+        return this.roleFacade
+            .deleteMultipleRoles(id)
+            .then(result => {
+                result.errors = JSON.stringify(result.errors);
+                return result;
+            })
+            .catch(ApiError);
     }
 }

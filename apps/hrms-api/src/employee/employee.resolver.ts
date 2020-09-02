@@ -6,6 +6,7 @@ import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import { AddEmployeeInput } from '@hrms-api/employee/employee.input';
 import { Employee } from './employee.type';
+import { ApiError } from '@hrms-api/common/utils/error.utils';
 
 @Resolver()
 @Privileges('employees.access')
@@ -14,18 +15,18 @@ export class EmployeeResolver {
     constructor(private employeeFacade: EmployeeFacade) {}
 
     @Query(() => [Employee])
-    employees(): Promise<Employee[]> {
-        return this.employeeFacade.list() as Promise<Employee[]>;
+    employees() {
+        return this.employeeFacade.list().catch(ApiError);
     }
 
     @Query(() => Employee)
-    employee(@Args('id', { type: () => ID }) employeeId: string): Promise<Employee> {
+    employee(@Args('id', { type: () => ID }) employeeId: string) {
         //TODO: assert is eligible to view user sensitive data
-        return this.employeeFacade.details(employeeId);
+        return this.employeeFacade.details(employeeId).catch(ApiError);
     }
 
     @Mutation(() => Employee)
-    addEmployee(@Args('employee') employee: AddEmployeeInput): Promise<Employee> {
-        return this.employeeFacade.create(employee);
+    addEmployee(@Args('employee') employee: AddEmployeeInput) {
+        return this.employeeFacade.create(employee).catch(ApiError);
     }
 }

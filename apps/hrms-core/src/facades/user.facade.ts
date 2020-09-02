@@ -9,6 +9,8 @@ import { UserDtoValidator } from '../core/user/validators/user-dto.validator';
 import { RoleService } from '@hrms-core/core/role/role.service';
 import { UserDtoReversePipe } from '../core/user/pipes/user-dto-reverse.pipe';
 import { Errors } from '@hrms-core/common/error/error.const';
+import { AddressService } from '@hrms-core/core/address/address.service';
+import { AddressDto } from '@hrms-core/dto/address.dto';
 
 export class UserFacade {
     constructor(
@@ -18,6 +20,7 @@ export class UserFacade {
         protected userDtoReversePipe: UserDtoReversePipe,
         protected userService: UserService,
         protected roleService: RoleService,
+        protected addressService: AddressService,
     ) {}
 
     @Inject(ErrorService) errorService: ErrorService;
@@ -52,7 +55,7 @@ export class UserFacade {
         }
     }
 
-    create(userDto: UserDto): Promise<any> {
+    async create(userDto: UserDto): Promise<any> {
         const validationResult = this.userDtoValidator.validate(userDto, {
             required: ['password', 'role'],
         });
@@ -62,9 +65,12 @@ export class UserFacade {
         }
 
         // assert role existence
-        return this.roleService
-            .assertExists(userDto.role as string)
-            .then(() => this.userService.create(userDto).then(user => this.userDtoPipe.transform(user)));
+        await this.roleService.assertExists(userDto.role as string);
+
+        // create corresponding address and reassign its id to user
+        userDto.address = (await this.addressService.create(userDto.address as AddressDto)).id;
+
+        return this.userService.create(userDto).then(user => this.userDtoPipe.transform(user));
     }
 
     details(id: string): Promise<UserDto> {
