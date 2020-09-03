@@ -14,7 +14,7 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
     @Inject(LoggerService) private logger: LoggerService;
     @Inject(RoleDtoPipe) private roleDtoPipe: RoleDtoPipe;
 
-    transform(source: User, options?: { detailed: boolean }): UserDto {
+    transform(source: User, options?: {}): UserDto {
         if (!source) {
             this.logger.warn(`Could not transform USer object: Invalid source value given : ${source}`);
             throw new PipTransformException(`Invalid source value given`);

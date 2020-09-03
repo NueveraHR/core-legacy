@@ -2,6 +2,7 @@ import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
 import { EmployeeDto } from '@hrms-core/dto/employee.dto';
 import { Role } from '@hrms-api/role/role.type';
 import { AddressDto } from '@hrms-core/dto/address.dto';
+import { UserPaginateDto } from '@hrms-core/facades/user.facade';
 
 @ObjectType()
 export class Address implements Partial<AddressDto> {
@@ -90,4 +91,25 @@ export class Employee implements Partial<EmployeeDto> {
 
     @Field({ nullable: true })
     public homePhone?: string;
+}
+
+@ObjectType()
+export class PaginatedEmployeeList implements Partial<UserPaginateDto> {
+    @Field(() => [Employee])
+    public docs: Employee[];
+
+    @Field(() => Int)
+    public total: number;
+
+    @Field(() => Int)
+    public limit: number;
+
+    @Field(() => Int)
+    public pages?: number;
+
+    @Field(() => Int)
+    public page?: number;
+
+    @Field(() => Int)
+    public offset?: number;
 }

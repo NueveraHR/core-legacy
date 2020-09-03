@@ -1,4 +1,4 @@
-import { UserFacade, PaginationOptions, UserPaginateDto } from './user.facade';
+import { UserFacade, UserPaginateDto } from './user.facade';
 import { Inject, Injectable } from '@nestjs/common';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { UserType } from '@hrms-core/common/enums/user-type.enum';
@@ -15,6 +15,7 @@ import { JobDto } from '@hrms-core/dto/job.dto';
 import { EmployeeDtoReversePipe } from '@hrms-core/core/employee/pipes/employee-dto-reverse.pipe';
 import { UserDto } from '@hrms-core/dto/user.dto';
 import { AddressService } from '@hrms-core/core/address/address.service';
+import { PaginationOptions } from '@hrms-core/common/interfaces/pagination-options';
 
 @Injectable()
 export class EmployeeFacade extends UserFacade {
@@ -35,7 +36,7 @@ export class EmployeeFacade extends UserFacade {
         super(logger, userDtoValidator, employeeDtoPipe, userDtoReversePipe, userService, roleService, addressService);
     }
 
-    list(paginationOptions?: PaginationOptions, filterCriteria = {}): Promise<UserPaginateDto | UserDto[]> {
+    list(paginationOptions: PaginationOptions, filterCriteria = {}): Promise<UserPaginateDto> {
         filterCriteria['type'] = UserType.EMPLOYEE;
         return super.list(paginationOptions, filterCriteria);
     }

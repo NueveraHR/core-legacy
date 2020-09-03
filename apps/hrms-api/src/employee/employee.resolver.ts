@@ -1,11 +1,11 @@
-import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, ID, Int } from '@nestjs/graphql';
 import { EmployeeFacade } from '@hrms-core/facades/employee.facade';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '@hrms-api/common/guards/gql-auth.guard';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import { AddEmployeeInput } from '@hrms-api/employee/employee.input';
-import { Employee } from './employee.type';
+import { Employee, PaginatedEmployeeList } from './employee.type';
 import { ApiError } from '@hrms-api/common/utils/error.utils';
 
 @Resolver()
@@ -14,9 +14,9 @@ import { ApiError } from '@hrms-api/common/utils/error.utils';
 export class EmployeeResolver {
     constructor(private employeeFacade: EmployeeFacade) {}
 
-    @Query(() => [Employee])
-    employees() {
-        return this.employeeFacade.list().catch(ApiError);
+    @Query(() => PaginatedEmployeeList)
+    employees(@Args('page', { type: () => Int }) page: number, @Args('limit', { type: () => Int }) limit: number) {
+        return this.employeeFacade.list({ page, limit }).catch(ApiError);
     }
 
     @Query(() => Employee)
