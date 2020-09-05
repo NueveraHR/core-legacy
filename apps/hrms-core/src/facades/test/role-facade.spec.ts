@@ -39,7 +39,7 @@ describe('Role Management Facade', () => {
         let createdRole: RoleDto;
         const roleDto = ROLES.managerRole;
 
-        it('should find all added user paginated', async () => {
+        it('should find all added roles paginated', async () => {
             expect.assertions(4);
 
             for (let i = 0; i < 24; i++) {

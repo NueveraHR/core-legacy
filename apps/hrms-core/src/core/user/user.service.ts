@@ -84,6 +84,10 @@ export class UserService {
         const options = {
             page: page,
             limit: limit,
+            customLabels: {
+                totalDocs: 'total',
+                totalPages: 'pages',
+            },
         };
 
         return this.userModel.paginate(filterOptions, options).catch(err =>

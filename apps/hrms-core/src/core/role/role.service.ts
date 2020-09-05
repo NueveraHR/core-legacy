@@ -68,6 +68,10 @@ export class RoleService {
         const options = {
             page: page,
             limit: limit,
+            customLabels: {
+                totalDocs: 'total',
+                totalPages: 'pages',
+            },
         };
         return this.roleModel.paginate({}, options).catch(err =>
             Promise.reject(

@@ -1,7 +1,7 @@
 import { Document, Types } from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Role } from '../role/role.schema';
-import * as mongoosePaginate from 'mongoose-paginate';
+import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { UserType } from '@hrms-core/common/enums/user-type.enum';
 import { Employee } from '../employee/employee.schema';
 import { Address } from '../address/address.schema';

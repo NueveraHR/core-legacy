@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoosePaginate from 'mongoose-paginate';
+import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { User } from '../user/user.schema';
 import { MulterFile } from './multerFile.interface';
 
