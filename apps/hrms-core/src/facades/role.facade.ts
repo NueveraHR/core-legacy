@@ -100,18 +100,13 @@ export class RoleFacade {
         }
 
         // retrieve current registered role record.
-        let result: Role | ErrorDto;
-        await this.roleService
-            .findById(roleDto.id)
-            .then(role => (result = role))
-            .catch(err => (result = err));
-
-        // Check for retrieval error
-        if (this.errorService.isError(result)) return Promise.reject(result);
-        else if (!result) return Promise.reject(this.errorService.generate(Errors.Role.UPDATE_INVALID_REQUEST));
+        const existingRole = await this.roleService.findById(roleDto.id);
+        if (!existingRole) {
+            return Promise.reject(this.errorService.generate(Errors.Role.UPDATE_INVALID_REQUEST));
+        }
 
         // overwrite saved role properties
-        const savedRole = this.roleDtoReversePipe.transformExistent(roleDto, result as Role);
+        const savedRole = this.roleDtoReversePipe.transformExistent(roleDto, existingRole);
         return this.roleService.update(savedRole).then(role => this.roleDtoPipe.transform(role));
     }
 
