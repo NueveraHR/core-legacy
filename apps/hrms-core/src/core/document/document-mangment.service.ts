@@ -5,8 +5,17 @@ import { Errors } from '@hrms-core/common/error/error.const';
 import { InjectModel } from '@nestjs/mongoose';
 import { PaginateModel, PaginateResult } from 'mongoose';
 import { Document } from './document.schema';
-import { MulterFile } from './multerFile.interface';
+import { FileUpload } from 'graphql-upload';
 import * as Fs from 'fs';
+import * as Path from 'path';
+
+const uploadDir = __dirname + '/../../../upload';
+
+interface FileData {
+    name: string;
+    userId: string;
+    description: string;
+}
 
 @Injectable()
 export class DocumentMangmentService {
@@ -15,22 +24,53 @@ export class DocumentMangmentService {
     constructor(
         @InjectModel(Document.name)
         private readonly docuemntModel: PaginateModel<Document>,
-    ) {}
+    ) { }
 
-    create(documentDto: DocumentDto, userId: string, file: MulterFile): Promise<Document> {
-        const document = new this.docuemntModel({
-            ...documentDto,
-            user: userId,
-            file: file,
-        });
+    async save(file: FileUpload, fileData: FileData): Promise<Document> {
 
-        return document.save().catch(err => {
-            return Promise.reject(
-                this.errorService.generate(Errors.General.INTERNAL_ERROR, {
-                    detailedMessage: err,
-                }),
-            );
+        return new Promise(async (resolve, reject) => {
+            const { name, userId, description } = fileData;
+            const filePath = await this.saveOnDisk(file, userId)
+
+            const document = new this.docuemntModel({
+                name: name,
+                fullPath: filePath,
+                path: Path.relative(process.cwd(), filePath),
+                description: description,
+                type: file.mimetype,
+                user: userId
+            });
+
+            resolve(await document.save().catch(err => {
+                return Promise.reject(
+                    this.errorService.generate(Errors.General.INTERNAL_ERROR, {
+                        detailedMessage: err,
+                    }),
+                );
+            }));
+
         });
+    }
+
+    private async saveOnDisk(file: FileUpload, userId: string): Promise<string> {
+
+        return new Promise(async (resolve, reject) => {
+            const fileUpload = await file;
+            const fileStream = fileUpload.createReadStream();
+            const userUploadDir = Path.join(uploadDir, userId);
+            const fileName = new Date().getTime() + '-' + fileUpload.filename;
+            const filePath = Path.join(userUploadDir, fileName)
+
+            if (!Fs.existsSync(userUploadDir)) {
+                Fs.mkdirSync(userUploadDir);
+            }
+
+            fileStream
+                .pipe(Fs.createWriteStream(filePath))
+                .on("finish", () => resolve(filePath))
+                .on("error", () => reject())
+        })
+
     }
 
     findAll(): Promise<Document[]> {
@@ -74,11 +114,10 @@ export class DocumentMangmentService {
             );
     }
 
-    async update(id: string, documentDto: DocumentDto): Promise<Document> {
-        const newDocument = await this.findById(id);
-        newDocument.name = documentDto.name;
-        newDocument.type = documentDto.type;
-        newDocument.description = documentDto.description;
+    async update(documentDto: DocumentDto): Promise<Document> {
+        const newDocument = await this.findById(documentDto.id);
+        newDocument.name = documentDto.name ? documentDto.name : newDocument.name;
+        newDocument.description = documentDto.description ? documentDto.description : newDocument.description;
         return newDocument.save().catch(err =>
             Promise.reject(
                 this.errorService.generate(Errors.General.INTERNAL_ERROR, {
@@ -100,7 +139,7 @@ export class DocumentMangmentService {
                 ),
             );
 
-        return this.deleteByPath(foundDocument.file.path);
+        return this.deleteByPath(foundDocument.fullPath);
     }
 
     async deleteByPath(filePath: string): Promise<boolean> {
@@ -112,7 +151,7 @@ export class DocumentMangmentService {
             ),
         );
         return this.docuemntModel
-            .deleteOne({ 'file.path': filePath })
+            .deleteOne({ 'fullPath': filePath })
             .exec()
             .then(result => result.deletedCount == 1)
             .catch(err =>
