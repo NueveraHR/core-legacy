@@ -15,7 +15,7 @@ import { JobDto } from '@hrms-core/dto/job.dto';
 import { EmployeeDtoReversePipe } from '@hrms-core/core/employee/pipes/employee-dto-reverse.pipe';
 import { UserDto } from '@hrms-core/dto/user.dto';
 import { AddressService } from '@hrms-core/core/address/address.service';
-import { PaginationOptions } from '@hrms-core/common/interfaces/pagination-options';
+import { PaginationOptions } from '@hrms-core/common/interfaces/pagination';
 
 @Injectable()
 export class EmployeeFacade extends UserFacade {

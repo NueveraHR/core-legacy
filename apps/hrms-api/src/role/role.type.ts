@@ -37,8 +37,11 @@ export class PaginatedRoleList implements Partial<RolePaginateDto> {
     @Field(() => Int)
     public page?: number;
 
-    @Field(() => Int)
-    public offset?: number;
+    @Field(() => Int, { nullable: true })
+    nextPage?: number;
+
+    @Field(() => Int, { nullable: true })
+    prevPage?: number;
 }
 
 @ObjectType()

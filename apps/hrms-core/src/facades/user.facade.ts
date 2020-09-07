@@ -11,7 +11,7 @@ import { UserDtoReversePipe } from '../core/user/pipes/user-dto-reverse.pipe';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { AddressService } from '@hrms-core/core/address/address.service';
 import { AddressDto } from '@hrms-core/dto/address.dto';
-import { PaginationOptions } from '@hrms-core/common/interfaces/pagination-options';
+import { PaginationOptions, NvrPaginateResult } from '@hrms-core/common/interfaces/pagination';
 
 export class UserFacade {
     constructor(
@@ -31,11 +31,12 @@ export class UserFacade {
             .findAllPaginated(paginationOptions.page, paginationOptions.limit, filterCriteria)
             .then(result => {
                 const userPaginateDto: UserPaginateDto = {
-                    total: result.total,
-                    pages: result.pages,
+                    total: result.total as number,
+                    pages: result.pages as number,
                     page: result.page,
                     limit: result.limit,
-                    offset: result.offset,
+                    nextPage: result.nextPage,
+                    prevPage: result.prevPage,
                     docs: result.docs.map(user => this.userDtoPipe.transform(user)),
                 };
                 return userPaginateDto;
@@ -91,4 +92,4 @@ export class UserFacade {
     }
 }
 
-export type UserPaginateDto = PaginateResult<UserDto>;
+export type UserPaginateDto = NvrPaginateResult<UserDto>;

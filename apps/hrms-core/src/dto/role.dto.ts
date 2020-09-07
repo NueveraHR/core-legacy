@@ -1,4 +1,5 @@
 import { PaginateResult } from 'mongoose';
+import { NvrPaginateResult } from '@hrms-core/common/interfaces/pagination';
 export class RoleDto {
     public id?: string;
     public name?: string;
@@ -7,4 +8,4 @@ export class RoleDto {
     public extendsRoles?: string[];
 }
 
-export type RolePaginateDto = PaginateResult<RoleDto>;
+export type RolePaginateDto = NvrPaginateResult<RoleDto>;

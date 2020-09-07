@@ -82,6 +82,7 @@ export class UserService {
 
     findAllPaginated(page = 1, limit = 10, filterOptions = {}): Promise<PaginateResult<User>> {
         const options = {
+            sort: { _id: -1 },
             page: page,
             limit: limit,
             customLabels: {
