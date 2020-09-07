@@ -3,11 +3,10 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { CommonApi } from './common/common-api.module';
 
-import { MulterModule } from '@nestjs/platform-express';
-import { MulterConfigService } from '@hrms-core/core/document/multerConfig.service';
 import { EmployeeResolver } from './employee/employee.resolver';
 import { RoleResolver } from './role/role.resolver';
 import { AuthResolver } from './auth/auth.resolver';
+import { UploadResolver } from './upload/upload.resolver';
 
 @Module({
     imports: [
@@ -16,10 +15,9 @@ import { AuthResolver } from './auth/auth.resolver';
             context: ({ req }) => ({ req }),
         }),
         HRMSCoreModule,
-        CommonApi,
-        MulterModule.registerAsync({ useClass: MulterConfigService }),
+        CommonApi
     ],
-    providers: [AuthResolver, RoleResolver, EmployeeResolver],
+    providers: [AuthResolver, RoleResolver, EmployeeResolver, UploadResolver],
     controllers: [],
 })
-export class AppModule {}
+export class AppModule { }
