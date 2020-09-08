@@ -68,7 +68,9 @@ export class RoleService {
 
     findAllPaginated(page = 1, limit = 10, filterOptions?: FilterOptions): Promise<PaginateResult<Role>> {
         const options = this.buildPaginateOptions(page, limit, filterOptions);
-        return this.roleModel.paginate({}, options).catch(err =>
+        const query = this.buildQuery(filterOptions);
+
+        return this.roleModel.paginate(query, options).catch(err =>
             Promise.reject(
                 this.errorService.generate(Errors.General.INTERNAL_ERROR, {
                     detailedMessage: err,
@@ -112,7 +114,25 @@ export class RoleService {
         });
     }
 
-    private buildPaginateOptions(page: number, limit: number, filterOptions?: FilterOptions): PaginateOptions {
+    private buildQuery(filterOptions: FilterOptions): any {
+        const query = {};
+        const filters = filterOptions.filters ?? {};
+
+        Object.keys(filters).forEach(filterKey => {
+            const value = filters[filterKey];
+
+            if (filterKey == '*') {
+                query['$or'] = ROLE_SORTING_FIELDS.map(field => {
+                    return { [field]: new RegExp(`${value}`, 'i') };
+                });
+            } else {
+                query[filterKey] = value;
+            }
+        });
+        return query;
+    }
+
+    private buildPaginateOptions(page: number, limit: number, filterOptions: FilterOptions): PaginateOptions {
         const options: PaginateOptions = {
             page: page,
             limit: limit,
@@ -133,9 +153,5 @@ export class RoleService {
         } else {
             return { [sortBy]: sortType ?? 1 };
         }
-    }
-
-    private getFilterOptions(): any {
-        return {};
     }
 }

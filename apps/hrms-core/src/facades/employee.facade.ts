@@ -37,7 +37,11 @@ export class EmployeeFacade extends UserFacade {
     }
 
     list(paginationOptions: PaginationOptions, filterOptions: FilterOptions = {}): Promise<UserPaginateDto> {
-        filterOptions.filters = { type: UserType.EMPLOYEE };
+        if (!filterOptions.filters) {
+            filterOptions.filters = {};
+        }
+
+        filterOptions.filters['type'] = UserType.EMPLOYEE;
         return super.list(paginationOptions, filterOptions);
     }
 

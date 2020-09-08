@@ -83,8 +83,9 @@ export class UserService {
 
     findAllPaginated(page = 1, limit = 10, filterOptions?: FilterOptions): Promise<PaginateResult<User>> {
         const options = this.buildPaginateOptions(page, limit, filterOptions);
+        const query = this.buildQuery(filterOptions);
 
-        return this.userModel.paginate(filterOptions?.filters ?? {}, options).catch(err =>
+        return this.userModel.paginate(query, options).catch(err =>
             Promise.reject(
                 this.errorService.generate(Errors.General.INTERNAL_ERROR, {
                     detailedMessage: err,
@@ -178,6 +179,24 @@ export class UserService {
         return this.userModel.findOne({
             $or: [{ username: userDto.username }, { email: userDto.email }, { cin: userDto.cin }],
         });
+    }
+
+    private buildQuery(filterOptions: FilterOptions): any {
+        const query = {};
+        const filters = filterOptions.filters ?? {};
+
+        Object.keys(filters).forEach(filterKey => {
+            const value = filters[filterKey];
+
+            if (filterKey == '*') {
+                query['$or'] = USER_SORTING_FIELDS.map(field => {
+                    return { [field]: new RegExp(`${value}`, 'i') };
+                });
+            } else {
+                query[filterKey] = value;
+            }
+        });
+        return query;
     }
 
     private buildPaginateOptions(page: number, limit: number, filterOptions?: FilterOptions): PaginateOptions {
