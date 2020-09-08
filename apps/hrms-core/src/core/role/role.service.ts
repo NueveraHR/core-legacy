@@ -116,7 +116,7 @@ export class RoleService {
 
     private buildQuery(filterOptions: FilterOptions): any {
         const query = {};
-        const filters = filterOptions.filters ?? {};
+        const filters = filterOptions?.filters ?? {};
 
         Object.keys(filters).forEach(filterKey => {
             const value = filters[filterKey];
