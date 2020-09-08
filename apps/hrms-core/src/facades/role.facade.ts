@@ -14,6 +14,7 @@ import { RoleDtoPipe } from '../core/role/pipes/role-dto.pipe';
 import { PrivilegesDtoPipe } from '../core/role/pipes/privilege-dto.pipe';
 import { ValidatorUtils } from '@hrms-core/common/utils/validator.utils';
 import { Errors } from '@hrms-core/common/error/error.const';
+import { PaginationOptions, FilterOptions } from '@hrms-core/common/interfaces/pagination';
 
 @Injectable()
 export class RoleFacade {
@@ -33,18 +34,21 @@ export class RoleFacade {
      * Returns all registered roles in the database
      * Can be used in roles list view.
      */
-    allRoles(filterCriteria?: RoleFilterCriteria): Promise<RolePaginateDto> {
-        return this.roleService.findAllPaginated(filterCriteria?.page, filterCriteria?.pageSize).then(roles => {
-            const rolePaginateDto: RolePaginateDto = {
-                total: roles.total,
-                pages: roles.pages,
-                page: roles.page,
-                limit: roles.limit,
-                offset: roles.offset,
-                docs: roles.docs.map(role => this.roleDtoPipe.transform(role)),
-            };
-            return rolePaginateDto;
-        });
+    allRoles(paginationOptions: PaginationOptions, filterOptions?: FilterOptions): Promise<RolePaginateDto> {
+        return this.roleService
+            .findAllPaginated(paginationOptions.page, paginationOptions.limit, filterOptions)
+            .then(roles => {
+                const rolePaginateDto: RolePaginateDto = {
+                    total: roles.total as number,
+                    pages: roles.pages as number,
+                    page: roles.page,
+                    limit: roles.limit,
+                    nextPage: roles.nextPage,
+                    prevPage: roles.prevPage,
+                    docs: roles.docs.map(role => this.roleDtoPipe.transform(role)),
+                };
+                return rolePaginateDto;
+            });
     }
 
     /**
@@ -91,7 +95,7 @@ export class RoleFacade {
         });
     }
 
-    async updateRole(roleId: string, roleDto: RoleDto): Promise<RoleDto> {
+    async updateRole(roleDto: RoleDto): Promise<RoleDto> {
         //  Validate given roleDto data
         const validationResult = this.roleDtoValidator.validate(roleDto);
         if (this.errorService.isError(validationResult)) {
@@ -99,18 +103,13 @@ export class RoleFacade {
         }
 
         // retrieve current registered role record.
-        let result: Role | ErrorDto;
-        await this.roleService
-            .findById(roleId)
-            .then(role => (result = role))
-            .catch(err => (result = err));
-
-        // Check for retrieval error
-        if (this.errorService.isError(result)) return Promise.reject(result);
-        else if (!result) return Promise.reject(this.errorService.generate(Errors.Role.UPDATE_INVALID_REQUEST));
+        const existingRole = await this.roleService.findById(roleDto.id);
+        if (!existingRole) {
+            return Promise.reject(this.errorService.generate(Errors.Role.UPDATE_INVALID_REQUEST));
+        }
 
         // overwrite saved role properties
-        const savedRole = this.roleDtoReversePipe.transformExistent(roleDto, result as Role);
+        const savedRole = this.roleDtoReversePipe.transformExistent(roleDto, existingRole);
         return this.roleService.update(savedRole).then(role => this.roleDtoPipe.transform(role));
     }
 
@@ -161,13 +160,6 @@ export class RoleFacade {
         // return delete result
         return result;
     }
-}
-
-export interface RoleFilterCriteria {
-    page?: number;
-    pageSize?: number;
-
-    detailed?: boolean;
 }
 
 export type PrivilegesFilterOptions = {

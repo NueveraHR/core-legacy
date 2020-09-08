@@ -9,32 +9,25 @@ import { UserDto } from '@hrms-core/dto/user.dto';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Role } from '@hrms-core/core/role/role.schema';
 import { Errors } from '@hrms-core/common/error/error.const';
+import { AuthDto } from './auth.dto';
 
 @Injectable()
 export class AuthFacade {
     @Inject(ErrorService) errorService: ErrorService;
 
-    constructor(private _jwtService: JwtService, private readonly _moduleRef: ModuleRef) {}
-
-    private _roleService;
-    private get roleService(): RoleService {
-        if (!this._roleService) {
-            this._roleService = this._moduleRef.get(RoleService);
-        }
-        return this._roleService;
-    }
+    constructor(private jwtService: JwtService, private readonly moduleRef: ModuleRef) {}
 
     private _userService;
     private get userService(): UserService {
         if (!this._userService) {
-            this._userService = this._moduleRef.get(UserService, {
+            this._userService = this.moduleRef.get(UserService, {
                 strict: false,
             });
         }
         return this._userService;
     }
 
-    async auth(user: UserDto): Promise<unknown> {
+    async auth(user: UserDto): Promise<AuthDto> {
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
         if (user?.email?.trim() === '') {
@@ -67,7 +60,7 @@ export class AuthFacade {
                 return {
                     token: token,
                     userId: foundUser.id,
-                    roleId: (foundUser.role as Role).id,
+                    userType: foundUser.type,
                 };
             }
         }
@@ -77,6 +70,6 @@ export class AuthFacade {
 
     private generateTokenForUser(user: any): string {
         const payload = { id: user.id, role: user.role }; //TODO: encode privileges
-        return this._jwtService.sign(payload);
+        return this.jwtService.sign(payload);
     }
 }

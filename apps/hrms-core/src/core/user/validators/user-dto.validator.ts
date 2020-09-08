@@ -34,6 +34,10 @@ export class UserDtoValidator extends DtoValidator<UserDto> {
             return this.errorService.generate(Errors.User.MISSING_LASTNAME);
         }
 
+        if (!object.birthDate) {
+            return this.errorService.generate(Errors.User.MISSING_BIRTHDATE);
+        }
+
         if (!object.gender) {
             return this.errorService.generate(Errors.User.MISSING_GENDER);
         }

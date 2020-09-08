@@ -1,12 +1,13 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from './user.schema';
-import { PaginateModel, PaginateResult } from 'mongoose';
+import { User, USER_SORTING_FIELDS } from './user.schema';
+import { PaginateModel, PaginateResult, PaginateOptions } from 'mongoose';
 import { UserDto } from '@hrms-core/dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from '../role/role.schema';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
+import { SortType, FilterOptions } from '@hrms-core/common/interfaces/pagination';
 
 const SALT_ROUNDS = 10;
 
@@ -59,26 +60,31 @@ export class UserService {
      * Find all users in DB without applying any filters
      *
      */
-    findAll(): Promise<User[]> {
-        return this.userModel
-            .find()
-            .exec()
-            .catch(err =>
-                Promise.reject(
-                    this.errorService.generate(Errors.General.INTERNAL_ERROR, {
-                        detailedMessage: err,
-                    }),
-                ),
-            );
+    async findAll(options?: { populate?: string[] }): Promise<User[]> {
+        let resp: Promise<User[]>;
+
+        if (!options?.populate?.length) {
+            resp = this.userModel.find().exec();
+        } else {
+            resp = this.userModel
+                .find()
+                .populate(options.populate.join(' '))
+                .exec();
+        }
+
+        return resp.catch(err =>
+            Promise.reject(
+                this.errorService.generate(Errors.General.INTERNAL_ERROR, {
+                    detailedMessage: err,
+                }),
+            ),
+        );
     }
 
-    findAllPaginated(page = 1, limit = 10, filterOptions = {}): Promise<PaginateResult<User>> {
-        const options = {
-            page: page,
-            limit: limit,
-        };
+    findAllPaginated(page = 1, limit = 10, filterOptions?: FilterOptions): Promise<PaginateResult<User>> {
+        const options = this.buildPaginateOptions(page, limit, filterOptions);
 
-        return this.userModel.paginate(filterOptions, options).catch(err =>
+        return this.userModel.paginate(filterOptions?.filters ?? {}, options).catch(err =>
             Promise.reject(
                 this.errorService.generate(Errors.General.INTERNAL_ERROR, {
                     detailedMessage: err,
@@ -110,16 +116,12 @@ export class UserService {
      */
     async findByUsername(username: string): Promise<User> {
         const criteria = { username: username };
-        return (
-            await this.userModel
-                .findOne(criteria)
-                .exec()
-                .catch(err =>
-                    Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })),
-                )
-        )
-            .populate('role')
-            .execPopulate();
+        return this.userModel
+            .findOne(criteria)
+            .exec()
+            .catch(err =>
+                Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })),
+            );
     }
 
     /**
@@ -128,16 +130,12 @@ export class UserService {
      */
     async findByEmail(email: string): Promise<User> {
         const criteria = { email: email };
-        return (
-            await this.userModel
-                .findOne(criteria)
-                .exec()
-                .catch(err =>
-                    Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })),
-                )
-        )
-            .populate('role')
-            .execPopulate();
+        return this.userModel
+            .findOne(criteria)
+            .exec()
+            .catch(err =>
+                Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })),
+            );
     }
 
     attachRole(user: User, role: Role): Promise<User> {
@@ -180,5 +178,32 @@ export class UserService {
         return this.userModel.findOne({
             $or: [{ username: userDto.username }, { email: userDto.email }, { cin: userDto.cin }],
         });
+    }
+
+    private buildPaginateOptions(page: number, limit: number, filterOptions?: FilterOptions): PaginateOptions {
+        const options: PaginateOptions = {
+            page: page,
+            limit: limit,
+            customLabels: {
+                totalDocs: 'total',
+                totalPages: 'pages',
+            },
+        };
+
+        options.sort = this.getSortOptions(filterOptions?.sortBy, filterOptions?.sortType);
+        return options;
+    }
+
+    private getSortOptions(sortBy: string, sortType: SortType): any {
+        const defaultOptions = { _id: -1 };
+        if (!sortBy || !USER_SORTING_FIELDS.includes(sortBy)) {
+            return defaultOptions;
+        } else {
+            return { [sortBy]: sortType ?? 1 };
+        }
+    }
+
+    private getFilterOptions(): any {
+        return {};
     }
 }

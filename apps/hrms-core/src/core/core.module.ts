@@ -6,9 +6,10 @@ import { EmployeeModule } from './employee/employee.module';
 import { JobModule } from './job/job.module';
 
 import { DocumentModule } from './document/document.module';
+import { AddressModule } from './address/address.module';
 
 @Module({
-    imports: [HRMSConfigModule, DocumentModule, RoleModule, UserModule, EmployeeModule, JobModule],
-    exports: [DocumentModule, RoleModule, UserModule, EmployeeModule, JobModule],
+    imports: [HRMSConfigModule, DocumentModule, RoleModule, UserModule, AddressModule, EmployeeModule, JobModule],
+    exports: [DocumentModule, RoleModule, UserModule, AddressModule, EmployeeModule, JobModule],
 })
 export class CoreModule {}

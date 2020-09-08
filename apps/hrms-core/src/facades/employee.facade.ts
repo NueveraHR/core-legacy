@@ -1,4 +1,4 @@
-import { UserFacade, PaginationOptions, UserPaginateDto } from './user.facade';
+import { UserFacade, UserPaginateDto } from './user.facade';
 import { Inject, Injectable } from '@nestjs/common';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { UserType } from '@hrms-core/common/enums/user-type.enum';
@@ -13,6 +13,9 @@ import { EmployeeService } from '@hrms-core/core/employee/employee.service';
 import { JobService } from '@hrms-core/core/job/job.service';
 import { JobDto } from '@hrms-core/dto/job.dto';
 import { EmployeeDtoReversePipe } from '@hrms-core/core/employee/pipes/employee-dto-reverse.pipe';
+import { UserDto } from '@hrms-core/dto/user.dto';
+import { AddressService } from '@hrms-core/core/address/address.service';
+import { PaginationOptions, FilterOptions } from '@hrms-core/common/interfaces/pagination';
 
 @Injectable()
 export class EmployeeFacade extends UserFacade {
@@ -25,16 +28,17 @@ export class EmployeeFacade extends UserFacade {
         userDtoReversePipe: UserDtoReversePipe,
         userService: UserService,
         roleService: RoleService,
+        addressService: AddressService,
         private employeeDtoReversePipe: EmployeeDtoReversePipe,
         private employeeService: EmployeeService,
         private jobService: JobService,
     ) {
-        super(logger, userDtoValidator, employeeDtoPipe, userDtoReversePipe, userService, roleService);
+        super(logger, userDtoValidator, employeeDtoPipe, userDtoReversePipe, userService, roleService, addressService);
     }
 
-    list(paginationOptions?: PaginationOptions, filterCriteria = {}): Promise<UserPaginateDto> {
-        filterCriteria['type'] = UserType.EMPLOYEE;
-        return super.list(paginationOptions, filterCriteria);
+    list(paginationOptions: PaginationOptions, filterOptions: FilterOptions = {}): Promise<UserPaginateDto> {
+        filterOptions.filters = { type: UserType.EMPLOYEE };
+        return super.list(paginationOptions, filterOptions);
     }
 
     create(employeeDto: EmployeeDto): Promise<EmployeeDto> {

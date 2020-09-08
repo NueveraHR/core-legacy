@@ -1,18 +1,23 @@
 import { Module } from '@nestjs/common';
+import { GraphQLModule } from '@nestjs/graphql';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
-import { AppController } from './app.controller';
-import { AuthController } from './auth/auth.controller';
 import { CommonApi } from './common/common-api.module';
 
-import { MulterModule } from '@nestjs/platform-express';
-import { MulterConfigService } from '@hrms-core/core/document/multerConfig.service';
-import { UploadController } from './upload/upload.controller';
-import { EmployeeRecordController } from './controllers/record.controller';
-import { RoleController } from './controllers/role.controller';
-import { EmployeeProfileController } from './controllers/profile.controller';
+import { EmployeeResolver } from './employee/employee.resolver';
+import { RoleResolver } from './role/role.resolver';
+import { AuthResolver } from './auth/auth.resolver';
+import { UploadResolver } from './upload/upload.resolver';
 
 @Module({
-    imports: [HRMSCoreModule, CommonApi, MulterModule.registerAsync({ useClass: MulterConfigService })],
-    controllers: [AppController, AuthController, UploadController, RoleController, EmployeeRecordController],
+    imports: [
+        GraphQLModule.forRoot({
+            autoSchemaFile: 'schema.gql',
+            context: ({ req }) => ({ req }),
+        }),
+        HRMSCoreModule,
+        CommonApi
+    ],
+    providers: [AuthResolver, RoleResolver, EmployeeResolver, UploadResolver],
+    controllers: [],
 })
-export class AppModule {}
+export class AppModule { }

@@ -9,6 +9,9 @@ import { UserDtoValidator } from '../core/user/validators/user-dto.validator';
 import { RoleService } from '@hrms-core/core/role/role.service';
 import { UserDtoReversePipe } from '../core/user/pipes/user-dto-reverse.pipe';
 import { Errors } from '@hrms-core/common/error/error.const';
+import { AddressService } from '@hrms-core/core/address/address.service';
+import { AddressDto } from '@hrms-core/dto/address.dto';
+import { PaginationOptions, NvrPaginateResult, FilterOptions } from '@hrms-core/common/interfaces/pagination';
 
 export class UserFacade {
     constructor(
@@ -18,31 +21,29 @@ export class UserFacade {
         protected userDtoReversePipe: UserDtoReversePipe,
         protected userService: UserService,
         protected roleService: RoleService,
+        protected addressService: AddressService,
     ) {}
 
     @Inject(ErrorService) errorService: ErrorService;
 
-    list(paginationOptions?: PaginationOptions, filterCriteria = {}): Promise<UserPaginateDto> {
+    list(paginationOptions: PaginationOptions, filterOptions?: FilterOptions): Promise<UserPaginateDto> {
         return this.userService
-            .findAllPaginated(paginationOptions?.page, paginationOptions?.pageSize, filterCriteria)
+            .findAllPaginated(paginationOptions.page, paginationOptions.limit, filterOptions)
             .then(result => {
                 const userPaginateDto: UserPaginateDto = {
-                    total: result.total,
-                    pages: result.pages,
+                    total: result.total as number,
+                    pages: result.pages as number,
                     page: result.page,
                     limit: result.limit,
-                    offset: result.offset,
-                    docs: result.docs.map(user =>
-                        this.userDtoPipe.transform(user, {
-                            detailed: paginationOptions?.detailed,
-                        }),
-                    ),
+                    nextPage: result.nextPage,
+                    prevPage: result.prevPage,
+                    docs: result.docs.map(user => this.userDtoPipe.transform(user)),
                 };
                 return userPaginateDto;
             });
     }
 
-    create(userDto: UserDto): Promise<any> {
+    async create(userDto: UserDto): Promise<any> {
         const validationResult = this.userDtoValidator.validate(userDto, {
             required: ['password', 'role'],
         });
@@ -52,14 +53,17 @@ export class UserFacade {
         }
 
         // assert role existence
-        return this.roleService
-            .assertExists(userDto.role as string)
-            .then(() => this.userService.create(userDto).then(user => this.userDtoPipe.transform(user)));
+        await this.roleService.assertExists(userDto.role as string);
+
+        // create corresponding address and reassign its id to user
+        userDto.address = (await this.addressService.create(userDto.address as AddressDto)).id;
+
+        return this.userService.create(userDto).then(user => this.userDtoPipe.transform(user));
     }
 
     details(id: string): Promise<UserDto> {
         return this.userService.findById(id).then(user => {
-            if (user) return this.userDtoPipe.transform(user, { detailed: true });
+            if (user) return this.userDtoPipe.transform(user);
             else return Promise.reject(this.errorService.generate(Errors.User.DETAILS_INVALID_REQUEST));
         });
     }
@@ -83,19 +87,9 @@ export class UserFacade {
                 return Promise.reject(this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID));
             }
             const userToUpdate = this.userDtoReversePipe.transformExistent(userDto, user);
-            return this.userService
-                .update(userToUpdate)
-                .then(user => this.userDtoPipe.transform(user, { detailed: true }));
+            return this.userService.update(userToUpdate).then(user => this.userDtoPipe.transform(user));
         });
     }
 }
 
-export interface PaginationOptions {
-    page?: number;
-    pageSize?: number;
-
-    detailed?: boolean;
-    fullyPopulated?: boolean;
-}
-
-export type UserPaginateDto = PaginateResult<UserDto>;
+export type UserPaginateDto = NvrPaginateResult<UserDto>;

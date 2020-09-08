@@ -39,8 +39,8 @@ describe('Role Management Facade', () => {
         let createdRole: RoleDto;
         const roleDto = ROLES.managerRole;
 
-        it('should find all added user paginated', async () => {
-            expect.assertions(4);
+        it('should find all added roles paginated', async () => {
+            expect.assertions(3);
 
             for (let i = 0; i < 24; i++) {
                 const generatedRole: RoleDto = {
@@ -50,11 +50,8 @@ describe('Role Management Facade', () => {
                 };
                 await roleManagementFacade.createRole(generatedRole);
             }
-            await roleManagementFacade.allRoles().then((roles: RolePaginateDto) => {
-                expect(roles.total).toEqual(24);
-            });
 
-            await roleManagementFacade.allRoles({ page: 3, pageSize: 10 }).then((roles: RolePaginateDto) => {
+            await roleManagementFacade.allRoles({ page: 3, limit: 10 }).then((roles: RolePaginateDto) => {
                 expect(roles.total).toEqual(24); // 24 registered roles
                 expect(roles.pages).toEqual(3); // 3 pages
                 expect(roles.docs.length).toEqual(4); // 4 users on page 3
@@ -78,7 +75,7 @@ describe('Role Management Facade', () => {
                 fail('Cannot update uncreated role');
             }
             createdRole.name = 'Modified role';
-            await roleManagementFacade.updateRole(createdRole.id, createdRole).then((role: Role) => {
+            await roleManagementFacade.updateRole(createdRole).then((role: Role) => {
                 expect(role.name).toEqual('Modified role');
             });
         });

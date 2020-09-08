@@ -1,11 +1,13 @@
-import { PaginateModel, PaginateResult } from 'mongoose';
+import { PaginateModel, PaginateResult, PaginateOptions } from 'mongoose';
 import { Injectable, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { RoleDto } from '@hrms-core/dto/role.dto';
-import { Role } from './role.schema';
+import { Role, ROLE_SORTING_FIELDS } from './role.schema';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
+import { FilterOptions, SortType } from '@hrms-core/common/interfaces/pagination';
+
 @Injectable()
 export class RoleService {
     @Inject(ErrorService) errorService: ErrorService;
@@ -64,11 +66,8 @@ export class RoleService {
             );
     }
 
-    findAllPaginated(page = 1, limit = 10): Promise<PaginateResult<Role>> {
-        const options = {
-            page: page,
-            limit: limit,
-        };
+    findAllPaginated(page = 1, limit = 10, filterOptions?: FilterOptions): Promise<PaginateResult<Role>> {
+        const options = this.buildPaginateOptions(page, limit, filterOptions);
         return this.roleModel.paginate({}, options).catch(err =>
             Promise.reject(
                 this.errorService.generate(Errors.General.INTERNAL_ERROR, {
@@ -111,5 +110,32 @@ export class RoleService {
             }
             return true;
         });
+    }
+
+    private buildPaginateOptions(page: number, limit: number, filterOptions?: FilterOptions): PaginateOptions {
+        const options: PaginateOptions = {
+            page: page,
+            limit: limit,
+            customLabels: {
+                totalDocs: 'total',
+                totalPages: 'pages',
+            },
+        };
+
+        options.sort = this.getSortOptions(filterOptions?.sortBy, filterOptions?.sortType);
+        return options;
+    }
+
+    private getSortOptions(sortBy: string, sortType: SortType): any {
+        const defaultOptions = { _id: -1 };
+        if (!sortBy || !ROLE_SORTING_FIELDS.includes(sortBy)) {
+            return defaultOptions;
+        } else {
+            return { [sortBy]: sortType ?? 1 };
+        }
+    }
+
+    private getFilterOptions(): any {
+        return {};
     }
 }

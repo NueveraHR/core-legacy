@@ -1,14 +1,11 @@
-import { PrivilegeDto } from './privilege.dto';
 import { PaginateResult } from 'mongoose';
-
+import { NvrPaginateResult } from '@hrms-core/common/interfaces/pagination';
 export class RoleDto {
-    constructor(
-        public id?: string,
-        public name?: string,
-        public description?: string,
-        public privileges?: string[],
-        public extendsRoles?: string[],
-    ) {}
+    public id?: string;
+    public name?: string;
+    public description?: string;
+    public privileges?: string[];
+    public extendsRoles?: string[];
 }
 
-export type RolePaginateDto = PaginateResult<RoleDto>;
+export type RolePaginateDto = NvrPaginateResult<RoleDto>;

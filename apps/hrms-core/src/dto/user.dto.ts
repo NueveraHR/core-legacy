@@ -1,19 +1,25 @@
 import { RoleDto } from './role.dto';
+import { AddressDto } from './address.dto';
 
 export class UserDto {
-    constructor(
-        public id?: string,
-        public username?: string,
-        public firstName?: string,
-        public lastName?: string,
-        public password?: string,
-        public email?: string,
-        public cin?: string,
-        public prefix?: string,
-        public role?: string,
-        public gender?: string,
-        public phone?: number,
-        public modeOfEmployment?: string,
-        public department?: string,
-    ) {}
+    public id?: string;
+
+    public username?: string;
+    public email?: string;
+    public cin?: string;
+    public prefix?: string;
+    public firstName?: string;
+    public preferredName?: string;
+    public middleName?: string;
+    public lastName?: string;
+    public gender?: string;
+    public birthDate?: Date;
+
+    public password?: string;
+    public phone?: string;
+    public address?: AddressDto | string;
+    public role?: RoleDto | string;
+
+    public modeOfEmployment?: string;
+    public department?: string;
 }

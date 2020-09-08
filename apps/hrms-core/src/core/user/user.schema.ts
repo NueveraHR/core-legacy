@@ -1,9 +1,10 @@
 import { Document, Types } from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Role } from '../role/role.schema';
-import * as mongoosePaginate from 'mongoose-paginate';
+import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { UserType } from '@hrms-core/common/enums/user-type.enum';
 import { Employee } from '../employee/employee.schema';
+import { Address } from '../address/address.schema';
 
 @Schema()
 export class User extends Document {
@@ -26,16 +27,28 @@ export class User extends Document {
     firstName: string;
 
     @Prop()
+    preferredName: string;
+
+    @Prop()
+    middleName: string;
+
+    @Prop()
     lastName: string;
 
     @Prop()
     gender: string;
 
     @Prop()
+    birthDate: Date;
+
+    @Prop()
     password: string;
 
     @Prop()
     phone: string;
+
+    @Prop({ ref: 'Address', type: Types.ObjectId })
+    address: string | Address;
 
     @Prop({ ref: 'Role', type: Types.ObjectId })
     role: string | Role;
@@ -48,6 +61,7 @@ export class User extends Document {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+export const USER_SORTING_FIELDS = ['email', 'firstName', 'lastName'];
 
 UserSchema.plugin(mongoosePaginate);
 
@@ -67,5 +81,12 @@ const PopulateByType = function(next) {
     next();
 };
 
+const populateStandardData = function(next) {
+    this.populate('role');
+    this.populate('address');
+    next();
+};
 UserSchema.pre<User>('find', PopulateByType);
+
 UserSchema.pre<User>('findOne', PopulateByType);
+UserSchema.pre<User>('findOne', populateStandardData);
