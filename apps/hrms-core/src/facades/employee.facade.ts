@@ -15,7 +15,7 @@ import { JobDto } from '@hrms-core/dto/job.dto';
 import { EmployeeDtoReversePipe } from '@hrms-core/core/employee/pipes/employee-dto-reverse.pipe';
 import { UserDto } from '@hrms-core/dto/user.dto';
 import { AddressService } from '@hrms-core/core/address/address.service';
-import { PaginationOptions } from '@hrms-core/common/interfaces/pagination';
+import { PaginationOptions, FilterOptions } from '@hrms-core/common/interfaces/pagination';
 
 @Injectable()
 export class EmployeeFacade extends UserFacade {
@@ -36,8 +36,8 @@ export class EmployeeFacade extends UserFacade {
         super(logger, userDtoValidator, employeeDtoPipe, userDtoReversePipe, userService, roleService, addressService);
     }
 
-    list(paginationOptions: PaginationOptions, filterCriteria = {}): Promise<UserPaginateDto> {
-        filterCriteria['type'] = UserType.EMPLOYEE;
+    list(paginationOptions: PaginationOptions, filterCriteria: FilterOptions): Promise<UserPaginateDto> {
+        filterCriteria.filters['type'] = UserType.EMPLOYEE;
         return super.list(paginationOptions, filterCriteria);
     }
 

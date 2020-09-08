@@ -84,7 +84,7 @@ export class UserService {
     findAllPaginated(page = 1, limit = 10, filterOptions?: FilterOptions): Promise<PaginateResult<User>> {
         const options = this.buildPaginateOptions(page, limit, filterOptions);
 
-        return this.userModel.paginate(filterOptions, options).catch(err =>
+        return this.userModel.paginate(filterOptions.filters ?? {}, options).catch(err =>
             Promise.reject(
                 this.errorService.generate(Errors.General.INTERNAL_ERROR, {
                     detailedMessage: err,
@@ -199,7 +199,7 @@ export class UserService {
         if (!sortBy || !USER_SORTING_FIELDS.includes(sortBy)) {
             return defaultOptions;
         } else {
-            return { sortBy: sortType ?? 1 };
+            return { [sortBy]: sortType ?? 1 };
         }
     }
 

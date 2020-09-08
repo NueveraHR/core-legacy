@@ -1,8 +1,10 @@
 export interface FilterOptions {
-    filterBy: string;
-
     sortBy: string;
     sortType: SortType;
+
+    filters: {
+        [filterBy: string]: string;
+    };
 }
 
 export enum SortType {

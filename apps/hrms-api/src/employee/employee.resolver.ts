@@ -7,6 +7,7 @@ import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import { AddEmployeeInput } from '@hrms-api/employee/employee.input';
 import { Employee, PaginatedEmployeeList } from './employee.type';
 import { ApiError } from '@hrms-api/common/utils/error.utils';
+import { SortInput } from '@hrms-api/common/graphql/sort.input';
 
 @Resolver()
 @Privileges('employees.access')
@@ -15,18 +16,22 @@ export class EmployeeResolver {
     constructor(private employeeFacade: EmployeeFacade) {}
 
     @Query(() => PaginatedEmployeeList)
-    employees(@Args('page', { type: () => Int }) page: number, @Args('limit', { type: () => Int }) limit: number) {
-        return this.employeeFacade.list({ page, limit }).catch(ApiError);
+    employees(
+        @Args('page', { type: () => Int }) page: number,
+        @Args('limit', { type: () => Int }) limit: number,
+        @Args('sort', { type: () => SortInput, nullable: true }) sortOptions: SortInput,
+    ): Promise<any> {
+        return this.employeeFacade.list({ page, limit }, sortOptions).catch(ApiError);
     }
 
     @Query(() => Employee)
-    employee(@Args('id', { type: () => ID }) employeeId: string) {
+    employee(@Args('id', { type: () => ID }) employeeId: string): Promise<any> {
         //TODO: assert is eligible to view user sensitive data
         return this.employeeFacade.details(employeeId).catch(ApiError);
     }
 
     @Mutation(() => Employee)
-    addEmployee(@Args('employee') employee: AddEmployeeInput) {
+    addEmployee(@Args('employee') employee: AddEmployeeInput): Promise<any> {
         return this.employeeFacade.create(employee).catch(ApiError);
     }
 }

@@ -131,7 +131,7 @@ export class RoleService {
         if (!sortBy || !ROLE_SORTING_FIELDS.includes(sortBy)) {
             return defaultOptions;
         } else {
-            return { sortBy: sortType ?? 1 };
+            return { [sortBy]: sortType ?? 1 };
         }
     }
 

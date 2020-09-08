@@ -15,7 +15,10 @@ export class RoleResolver {
     constructor(private roleFacade: RoleFacade) {}
 
     @Query(() => PaginatedRoleList)
-    roles(@Args('page', { type: () => Int }) page: number, @Args('limit', { type: () => Int }) limit: number) {
+    roles(
+        @Args('page', { type: () => Int }) page: number,
+        @Args('limit', { type: () => Int }) limit: number,
+    ): Promise<any> {
         return this.roleFacade.allRoles({ page, limit }).catch(ApiError);
     }
 
@@ -25,17 +28,17 @@ export class RoleResolver {
     }
 
     @Mutation(() => Role)
-    addRole(@Args('role') role: AddRole) {
+    addRole(@Args('role') role: AddRole): Promise<any> {
         return this.roleFacade.createRole(role).catch(ApiError);
     }
 
     @Mutation(() => Role)
-    updateRole(@Args('role') role: UpdateRole) {
+    updateRole(@Args('role') role: UpdateRole): Promise<any> {
         return this.roleFacade.updateRole(role).catch(ApiError);
     }
 
     @Mutation(() => DeleteResult)
-    deleteRoles(@Args('id', { type: () => [ID] }) id: string[]) {
+    deleteRoles(@Args('id', { type: () => [ID] }) id: string[]): Promise<any> {
         return this.roleFacade
             .deleteMultipleRoles(id)
             .then(result => {
