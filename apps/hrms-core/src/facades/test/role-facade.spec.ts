@@ -40,7 +40,7 @@ describe('Role Management Facade', () => {
         const roleDto = ROLES.managerRole;
 
         it('should find all added roles paginated', async () => {
-            expect.assertions(4);
+            expect.assertions(3);
 
             for (let i = 0; i < 24; i++) {
                 const generatedRole: RoleDto = {
@@ -50,9 +50,6 @@ describe('Role Management Facade', () => {
                 };
                 await roleManagementFacade.createRole(generatedRole);
             }
-            await roleManagementFacade.allRoles().then((roles: RolePaginateDto) => {
-                expect(roles.total).toEqual(24);
-            });
 
             await roleManagementFacade.allRoles({ page: 3, limit: 10 }).then((roles: RolePaginateDto) => {
                 expect(roles.total).toEqual(24); // 24 registered roles
