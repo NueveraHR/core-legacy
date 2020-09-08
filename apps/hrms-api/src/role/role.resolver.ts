@@ -7,6 +7,7 @@ import { Role, DeleteResult, PaginatedRoleList } from './role.type';
 import { RoleFacade } from '@hrms-core/facades/role.facade';
 import { AddRole, UpdateRole } from './role.input';
 import { ApiError } from '@hrms-api/common/utils/error.utils';
+import { SortInput } from '@hrms-api/common/graphql/sort.input';
 
 @Resolver()
 @Privileges('roles.access')
@@ -18,8 +19,9 @@ export class RoleResolver {
     roles(
         @Args('page', { type: () => Int }) page: number,
         @Args('limit', { type: () => Int }) limit: number,
+        @Args('sort', { type: () => SortInput, nullable: true }) sortOptions: SortInput,
     ): Promise<any> {
-        return this.roleFacade.allRoles({ page, limit }).catch(ApiError);
+        return this.roleFacade.allRoles({ page, limit }, sortOptions).catch(ApiError);
     }
 
     @Query(() => String)

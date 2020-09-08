@@ -14,7 +14,7 @@ import { RoleDtoPipe } from '../core/role/pipes/role-dto.pipe';
 import { PrivilegesDtoPipe } from '../core/role/pipes/privilege-dto.pipe';
 import { ValidatorUtils } from '@hrms-core/common/utils/validator.utils';
 import { Errors } from '@hrms-core/common/error/error.const';
-import { PaginationOptions } from '@hrms-core/common/interfaces/pagination';
+import { PaginationOptions, FilterOptions } from '@hrms-core/common/interfaces/pagination';
 
 @Injectable()
 export class RoleFacade {
@@ -34,19 +34,21 @@ export class RoleFacade {
      * Returns all registered roles in the database
      * Can be used in roles list view.
      */
-    allRoles(paginationOptions?: PaginationOptions): Promise<RolePaginateDto> {
-        return this.roleService.findAllPaginated(paginationOptions?.page, paginationOptions?.limit).then(roles => {
-            const rolePaginateDto: RolePaginateDto = {
-                total: roles.total as number,
-                pages: roles.pages as number,
-                page: roles.page,
-                limit: roles.limit,
-                nextPage: roles.nextPage,
-                prevPage: roles.prevPage,
-                docs: roles.docs.map(role => this.roleDtoPipe.transform(role)),
-            };
-            return rolePaginateDto;
-        });
+    allRoles(paginationOptions: PaginationOptions, filterOptions?: FilterOptions): Promise<RolePaginateDto> {
+        return this.roleService
+            .findAllPaginated(paginationOptions.page, paginationOptions.limit, filterOptions)
+            .then(roles => {
+                const rolePaginateDto: RolePaginateDto = {
+                    total: roles.total as number,
+                    pages: roles.pages as number,
+                    page: roles.page,
+                    limit: roles.limit,
+                    nextPage: roles.nextPage,
+                    prevPage: roles.prevPage,
+                    docs: roles.docs.map(role => this.roleDtoPipe.transform(role)),
+                };
+                return rolePaginateDto;
+            });
     }
 
     /**

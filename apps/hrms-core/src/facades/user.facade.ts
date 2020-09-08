@@ -26,9 +26,9 @@ export class UserFacade {
 
     @Inject(ErrorService) errorService: ErrorService;
 
-    list(paginationOptions: PaginationOptions, filterCriteria: FilterOptions): Promise<UserPaginateDto> {
+    list(paginationOptions: PaginationOptions, filterOptions?: FilterOptions): Promise<UserPaginateDto> {
         return this.userService
-            .findAllPaginated(paginationOptions.page, paginationOptions.limit, filterCriteria)
+            .findAllPaginated(paginationOptions.page, paginationOptions.limit, filterOptions)
             .then(result => {
                 const userPaginateDto: UserPaginateDto = {
                     total: result.total as number,

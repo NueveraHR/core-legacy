@@ -1,8 +1,8 @@
 export interface FilterOptions {
-    sortBy: string;
-    sortType: SortType;
+    sortBy?: string;
+    sortType?: SortType;
 
-    filters: {
+    filters?: {
         [filterBy: string]: string;
     };
 }
