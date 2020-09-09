@@ -25,7 +25,7 @@ export class UserDtoReversePipe implements DtoTransformPipe<UserDto, User> {
         user.birthDate = userDto.birthDate;
         user.phone = `${userDto.phone}`;
         user.role = (userDto.role as RoleDto)?.id || (userDto.role as string);
-        user.address = (userDto.address as Address).id || userDto.address;
+        user.address = (userDto.address as Address)?.id || userDto.address;
         return user;
     }
 

@@ -69,7 +69,10 @@ export class UserFacade {
     }
 
     async update(id: string, userDto: UserDto, basicInfoOnly = false): Promise<UserDto> {
-        userDto.id = id;
+        userDto = {
+            ...userDto,
+            id,
+        };
         const validationResult = this.userDtoValidator.validate(userDto, {
             required: ['id'],
             others: { basic: basicInfoOnly },

@@ -88,4 +88,61 @@ export class AddEmployeeInput implements Partial<EmployeeDto> {
 }
 
 @InputType()
-export class UpdateEmployeeInput implements Partial<EmployeeDto> {}
+export class UpdateEmployeeInput implements Partial<EmployeeDto> {
+    @Field({ nullable: true })
+    public email: string;
+
+    @Field({ nullable: true })
+    public firstName: string;
+
+    @Field({ nullable: true })
+    public preferredName?: string;
+
+    @Field({ nullable: true })
+    public middleName?: string;
+
+    @Field(() => ID)
+    public role: Role | string;
+
+    @Field({ nullable: true })
+    public lastName: string;
+
+    @Field({ nullable: true })
+    public cin: string;
+
+    @Field({ nullable: true })
+    public prefix: string;
+
+    @Field({ nullable: true })
+    public gender: string;
+
+    @Field({ nullable: true })
+    public birthDate: Date;
+
+    @Field({ nullable: true })
+    public address: AddressInput;
+
+    @Field({ nullable: true })
+    public phone: string;
+
+    @Field({ nullable: true, description: 'Optional, default is the email prefix' })
+    public username: string;
+
+    @Field({ nullable: true, description: 'Optional, default will be generated' })
+    public password: string;
+
+    @Field({ nullable: true })
+    public workEmail: string;
+
+    @Field({ nullable: true })
+    public personalEmail: string;
+
+    @Field({ nullable: true })
+    public workPhone: string;
+
+    @Field({ nullable: true })
+    public personalPhone: string;
+
+    @Field({ nullable: true })
+    public homePhone: string;
+}
