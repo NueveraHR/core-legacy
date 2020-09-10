@@ -89,6 +89,9 @@ export class AddEmployeeInput implements Partial<EmployeeDto> {
 
 @InputType()
 export class UpdateEmployeeInput implements Partial<EmployeeDto> {
+    @Field(() => ID)
+    public id: string;
+
     @Field({ nullable: true })
     public email: string;
 
@@ -101,7 +104,7 @@ export class UpdateEmployeeInput implements Partial<EmployeeDto> {
     @Field({ nullable: true })
     public middleName?: string;
 
-    @Field(() => ID)
+    @Field(() => ID, { nullable: true })
     public role: Role | string;
 
     @Field({ nullable: true })
@@ -125,10 +128,10 @@ export class UpdateEmployeeInput implements Partial<EmployeeDto> {
     @Field({ nullable: true })
     public phone: string;
 
-    @Field({ nullable: true, description: 'Optional, default is the email prefix' })
+    @Field({ nullable: true })
     public username: string;
 
-    @Field({ nullable: true, description: 'Optional, default will be generated' })
+    @Field({ nullable: true })
     public password: string;
 
     @Field({ nullable: true })

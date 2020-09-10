@@ -54,14 +54,10 @@ export class EmployeeFacade extends UserFacade {
             });
     }
 
-    async update(employeeId: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
-        await super.update(employeeId, employeeDto);
+    async update(employeeDto: EmployeeDto): Promise<EmployeeDto> {
+        await super.update(employeeDto);
 
-        return this.details(employeeId) as Promise<EmployeeDto>;
-    }
-
-    updateBasicInfo(employeeId: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
-        return super.update(employeeId, employeeDto, true);
+        return this.details(employeeDto.id) as Promise<EmployeeDto>;
     }
 
     async updateContactInfo(employeeId: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {

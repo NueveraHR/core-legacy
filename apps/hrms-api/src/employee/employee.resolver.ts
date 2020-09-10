@@ -36,10 +36,7 @@ export class EmployeeResolver {
     }
 
     @Mutation(() => Employee)
-    updateEmployee(
-        @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('employee') employee: UpdateEmployeeInput,
-    ): Promise<any> {
-        return this.employeeFacade.update(employeeId, employee).catch(ApiError);
+    updateEmployee(@Args('employee') employee: UpdateEmployeeInput): Promise<any> {
+        return this.employeeFacade.update(employee).catch(ApiError);
     }
 }

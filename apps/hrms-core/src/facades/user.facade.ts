@@ -68,11 +68,7 @@ export class UserFacade {
         });
     }
 
-    async update(id: string, userDto: UserDto, basicInfoOnly = false): Promise<UserDto> {
-        userDto = {
-            ...userDto,
-            id,
-        };
+    async update(userDto: UserDto, basicInfoOnly = false): Promise<UserDto> {
         const validationResult = this.userDtoValidator.validate(userDto, {
             required: ['id'],
             others: { basic: basicInfoOnly },
@@ -81,11 +77,7 @@ export class UserFacade {
             return Promise.reject(validationResult);
         }
 
-        if (!basicInfoOnly) {
-            await this.roleService.assertExists(userDto.role as string);
-        }
-
-        return this.userService.findById(id).then(user => {
+        return this.userService.findById(userDto.id).then(user => {
             if (!user) {
                 return Promise.reject(this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID));
             }

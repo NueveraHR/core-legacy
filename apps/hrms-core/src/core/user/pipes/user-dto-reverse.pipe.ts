@@ -13,19 +13,29 @@ export class UserDtoReversePipe implements DtoTransformPipe<UserDto, User> {
     }
 
     transformExistent(userDto: UserDto, user: User, options?: object): User {
-        user.username = userDto.username;
-        user.email = userDto.email;
-        user.cin = userDto.cin;
-        user.prefix = userDto.prefix;
-        user.firstName = userDto.firstName;
-        user.preferredName = userDto.preferredName;
-        user.middleName = userDto.preferredName;
-        user.lastName = userDto.lastName;
-        user.gender = userDto.gender;
-        user.birthDate = userDto.birthDate;
-        user.phone = `${userDto.phone}`;
-        user.role = (userDto.role as RoleDto)?.id || (userDto.role as string);
-        user.address = (userDto.address as Address)?.id || userDto.address;
+        user.username = userDto.username ?? user.username;
+        user.email = userDto.email ?? user.email;
+        user.cin = userDto.cin ?? user.cin;
+        user.prefix = userDto.prefix ?? user.prefix;
+        user.firstName = userDto.firstName ?? user.firstName;
+        user.preferredName = userDto.preferredName ?? user.preferredName;
+        user.middleName = userDto.middleName ?? user.middleName;
+        user.lastName = userDto.lastName ?? user.lastName;
+        user.gender = userDto.gender ?? user.gender;
+        user.birthDate = userDto.birthDate ?? user.birthDate;
+
+        if (userDto.phone) {
+            user.phone = `${userDto.phone}`;
+        }
+
+        if (userDto.role) {
+            user.role = (userDto.role as RoleDto)?.id || (userDto.role as string);
+        }
+
+        if (userDto.address) {
+            user.address = (userDto.address as Address)?.id || userDto.address;
+        }
+
         return user;
     }
 
