@@ -12,6 +12,7 @@ import { Errors } from '@hrms-core/common/error/error.const';
 import { AddressService } from '@hrms-core/core/address/address.service';
 import { AddressDto } from '@hrms-core/dto/address.dto';
 import { PaginationOptions, NvrPaginateResult, FilterOptions } from '@hrms-core/common/interfaces/pagination';
+import { Address } from '@hrms-core/core/address/address.schema';
 
 export class UserFacade {
     constructor(
@@ -68,27 +69,21 @@ export class UserFacade {
         });
     }
 
-    async update(id: string, userDto: UserDto, basicInfoOnly = false): Promise<UserDto> {
-        userDto.id = id;
-        const validationResult = this.userDtoValidator.validate(userDto, {
-            required: ['id'],
-            others: { basic: basicInfoOnly },
-        });
+    async update(userDto: UserDto, basicInfoOnly = false): Promise<UserDto> {
+        const validationResult = this.userDtoValidator.validate(userDto);
+
         if (this.errorService.isError(validationResult)) {
             return Promise.reject(validationResult);
         }
 
-        if (!basicInfoOnly) {
-            await this.roleService.assertExists(userDto.role as string);
+        const user = await this.userService.findById(userDto.id);
+        if (!user) {
+            return Promise.reject(this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID));
         }
 
-        return this.userService.findById(id).then(user => {
-            if (!user) {
-                return Promise.reject(this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID));
-            }
-            const userToUpdate = this.userDtoReversePipe.transformExistent(userDto, user);
-            return this.userService.update(userToUpdate).then(user => this.userDtoPipe.transform(user));
-        });
+        this.userDtoReversePipe.transformExistent(userDto, user);
+        await this.addressService.update(user.address as Address);
+        return this.userService.update(user).then(user => this.userDtoPipe.transform(user));
     }
 }
 

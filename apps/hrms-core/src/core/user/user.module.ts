@@ -6,9 +6,10 @@ import { RoleModule } from '../role/role.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './user.schema';
 import { UserService } from './user.service';
+import { AddressModule } from '../address/address.module';
 
 @Module({
-    imports: [RoleModule, MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
+    imports: [RoleModule, AddressModule, MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
     providers: [
         //validators
         UserDtoValidator,

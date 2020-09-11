@@ -4,7 +4,7 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '@hrms-api/common/guards/gql-auth.guard';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
-import { AddEmployeeInput } from '@hrms-api/employee/employee.input';
+import { AddEmployeeInput, UpdateEmployeeInput } from '@hrms-api/employee/employee.input';
 import { Employee, PaginatedEmployeeList } from './employee.type';
 import { ApiError } from '@hrms-api/common/utils/error.utils';
 import { SortInput } from '@hrms-api/common/graphql/sort.input';
@@ -37,5 +37,10 @@ export class EmployeeResolver {
     @Mutation(() => Employee)
     addEmployee(@Args('employee') employee: AddEmployeeInput): Promise<any> {
         return this.employeeFacade.create(employee).catch(ApiError);
+    }
+
+    @Mutation(() => Employee)
+    updateEmployee(@Args('employee') employee: UpdateEmployeeInput): Promise<any> {
+        return this.employeeFacade.update(employee).catch(ApiError);
     }
 }
