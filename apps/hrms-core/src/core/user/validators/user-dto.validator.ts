@@ -16,10 +16,8 @@ export class UserDtoValidator extends DtoValidator<UserDto> {
             return this.errorService.generate(Errors.User.NO_DATA);
         }
 
-        if (this.isRequired('id', validatorOptions)) {
-            if (!ValidatorUtils.isValidId(object.id)) {
-                return this.errorService.generate(Errors.User.INVALID_USER_ID);
-            }
+        if (object.id && !ValidatorUtils.isValidId(object.id)) {
+            return this.errorService.generate(Errors.User.INVALID_USER_ID);
         }
 
         if (object.firstName === '') {

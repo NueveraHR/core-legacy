@@ -1,12 +1,16 @@
+import { AddressDto } from './../../../dto/address.dto';
 import { DtoTransformPipe } from '@hrms-core/common/interfaces/dto-pipe-transform';
 import { UserDto } from '@hrms-core/dto/user.dto';
 import { User } from '@hrms-core/core/user/user.schema';
 import { Injectable } from '@nestjs/common';
 import { RoleDto } from '@hrms-core/dto/role.dto';
 import { Address } from '@hrms-core/core/address/address.schema';
+import { AddressReversePipe } from '@hrms-core/core/address/pipes/address-reverse.pipe';
 
 @Injectable()
 export class UserDtoReversePipe implements DtoTransformPipe<UserDto, User> {
+    constructor(private addressReversePipe: AddressReversePipe) {}
+
     transform(userDto: UserDto, options?: object): User {
         const user = new User();
         return this.transformExistent(userDto, user, options);
@@ -28,12 +32,12 @@ export class UserDtoReversePipe implements DtoTransformPipe<UserDto, User> {
             user.phone = `${userDto.phone}`;
         }
 
-        if (userDto.role) {
-            user.role = (userDto.role as RoleDto)?.id || (userDto.role as string);
+        if (userDto.address && typeof userDto.address === 'object') {
+            user.address = this.addressReversePipe.transformExistent(userDto.address, user.address as Address);
         }
 
-        if (userDto.address) {
-            user.address = (userDto.address as Address)?.id || userDto.address;
+        if (userDto.role) {
+            user.role = (userDto.role as RoleDto)?.id || (userDto.role as string);
         }
 
         return user;
