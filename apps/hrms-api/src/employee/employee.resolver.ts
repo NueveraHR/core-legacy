@@ -8,6 +8,8 @@ import { AddEmployeeInput, UpdateEmployeeInput } from '@hrms-api/employee/employ
 import { Employee, PaginatedEmployeeList } from './employee.type';
 import { ApiError } from '@hrms-api/common/utils/error.utils';
 import { SortInput } from '@hrms-api/common/graphql/sort.input';
+import { FilterUtils } from '@hrms-api/common/utils/filter.utils';
+import { FilterInput } from '@hrms-api/common/graphql/filter.input';
 
 @Resolver()
 @Privileges('employees.access')
@@ -19,9 +21,11 @@ export class EmployeeResolver {
     employees(
         @Args('page', { type: () => Int }) page: number,
         @Args('limit', { type: () => Int }) limit: number,
-        @Args('sort', { type: () => SortInput, nullable: true }) sortOptions: SortInput,
+        @Args('filter', { type: () => FilterInput, nullable: true }) filterInput?: FilterInput,
+        @Args('sort', { type: () => SortInput, nullable: true }) sortInput?: SortInput,
     ): Promise<any> {
-        return this.employeeFacade.list({ page, limit }, sortOptions).catch(ApiError);
+        const options = FilterUtils.fromInput(filterInput, sortInput);
+        return this.employeeFacade.list({ page, limit }, options).catch(ApiError);
     }
 
     @Query(() => Employee)
