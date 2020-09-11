@@ -60,19 +60,10 @@ export class EmployeeFacade extends UserFacade {
 
     async update(employeeDto: EmployeeDto): Promise<EmployeeDto> {
         await super.update(employeeDto);
-
+        const emp = await this.employeeService.findById(employeeDto.id);
+        this.employeeDtoReversePipe.transformExistent(employeeDto, emp);
+        await this.employeeService.update(emp);
         return this.details(employeeDto.id) as Promise<EmployeeDto>;
-    }
-
-    async updateContactInfo(employeeId: string, employeeDto: EmployeeDto): Promise<EmployeeDto> {
-        let employeeToUpdate = await this.employeeService.findById(employeeId);
-        employeeToUpdate = this.employeeDtoReversePipe.transformExistent(employeeDto, employeeToUpdate, {
-            contactInfo: true,
-        });
-
-        return this.employeeService
-            .update(employeeToUpdate)
-            .then(() => this.details(employeeId) as Promise<EmployeeDto>);
     }
 
     async jobHistory(employeeId: string): Promise<JobDto> {

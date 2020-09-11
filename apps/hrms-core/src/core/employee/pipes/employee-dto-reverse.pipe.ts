@@ -11,12 +11,10 @@ export class EmployeeDtoReversePipe implements DtoTransformPipe<EmployeeDto, Emp
     }
 
     transformExistent(employeeDto: EmployeeDto, employee: Employee, options?: object): Employee {
-        if (options['contactInfo']) {
-            employee.workEmail = employeeDto.workEmail;
-            employee.personalEmail = employeeDto.personalEmail;
-            employee.workPhone = employeeDto.workPhone;
-            employee.personalPhone = employeeDto.personalPhone;
-        }
+        employee.workEmail = employeeDto.workEmail ?? employee.workEmail;
+        employee.personalEmail = employeeDto.personalEmail ?? employee.personalEmail;
+        employee.workPhone = employeeDto.workPhone ?? employee.workPhone;
+        employee.personalPhone = employeeDto.personalPhone ?? employee.personalPhone;
 
         return employee;
     }
