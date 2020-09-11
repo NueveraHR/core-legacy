@@ -4,7 +4,7 @@ import { Role } from '@hrms-api/role/role.type';
 import { AddressDto } from '@hrms-core/dto/address.dto';
 
 @InputType()
-export class AddressInput implements Partial<AddressDto> {
+export class AddAddressInput implements Partial<AddressDto> {
     @Field()
     addressLine1?: string;
 
@@ -21,6 +21,27 @@ export class AddressInput implements Partial<AddressDto> {
     country?: string;
 
     @Field()
+    postalCode?: string;
+}
+
+@InputType()
+export class UpdateAddressInput implements Partial<AddressDto> {
+    @Field({ nullable: true })
+    addressLine1?: string;
+
+    @Field({ nullable: true })
+    addressLine2?: string;
+
+    @Field({ nullable: true })
+    city?: string;
+
+    @Field({ nullable: true })
+    state?: string;
+
+    @Field({ nullable: true })
+    country?: string;
+
+    @Field({ nullable: true })
     postalCode?: string;
 }
 
@@ -56,8 +77,8 @@ export class AddEmployeeInput implements Partial<EmployeeDto> {
     @Field(() => Date)
     public birthDate: Date;
 
-    @Field(() => AddressInput)
-    public address: AddressInput;
+    @Field(() => AddAddressInput)
+    public address: AddAddressInput;
 
     @Field()
     public phone: string;
@@ -123,7 +144,7 @@ export class UpdateEmployeeInput implements Partial<EmployeeDto> {
     public birthDate: Date;
 
     @Field({ nullable: true })
-    public address: AddressInput;
+    public address: UpdateAddressInput;
 
     @Field({ nullable: true })
     public phone: string;
