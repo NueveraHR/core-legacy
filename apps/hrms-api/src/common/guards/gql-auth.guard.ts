@@ -3,6 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
+import { AuthenticationError } from 'apollo-server';
 
 @Injectable()
 export class GqlAuthGuard extends AuthGuard('jwt') {
@@ -15,7 +16,7 @@ export class GqlAuthGuard extends AuthGuard('jwt') {
         return ctx.getContext().req;
     }
 
-    canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+    async canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         const isPublic = this.reflector.get<boolean>('isPublic', context.getHandler());
 
         if (isPublic) {
@@ -23,6 +24,10 @@ export class GqlAuthGuard extends AuthGuard('jwt') {
         }
 
         // Make sure to check the authorization, for now, just return false to have a difference between public routes.
-        return super.canActivate(context);
+        try {
+            return (await super.canActivate(context)) as boolean;
+        } catch (e) {
+            throw new AuthenticationError('You are not authorized to access this resource');
+        }
     }
 }
