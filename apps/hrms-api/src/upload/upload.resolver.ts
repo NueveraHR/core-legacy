@@ -8,13 +8,17 @@ import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../common/decorators/currentUser.decorator';
 import { DocumentMangmentService } from '@hrms-core/core/document/document-mangment.service';
 import { UserDto } from '@hrms-core/dto/user.dto';
-import { UploadDocument, DeleteFileResult, GetDocument } from './upload.type';
+import { UploadDocument, DeleteFileResult, GetDocument, UploadProfileImage } from './upload.type';
 import { DocumentDto } from '@hrms-core/dto/document.dto';
+import { UserService } from '@hrms-core/core/user/user.service';
 
 @UseGuards(GqlAuthGuard)
 @Resolver()
 export class UploadResolver {
-  constructor(private readonly documentMangmentService: DocumentMangmentService) { }
+  constructor(
+    private readonly documentMangmentService: DocumentMangmentService,
+    protected userService: UserService
+  ) { }
 
 
   @Query(() => GetDocument)
@@ -44,6 +48,20 @@ export class UploadResolver {
       name: savedFile.name,
       path: savedFile.path,
       type: savedFile.type
+    };
+  }
+
+  @Mutation(() => UploadProfileImage)
+  public async uploadProfileImage(
+    @CurrentUser() currentUser: UserDto,
+    @Args('file', { type: () => GraphQLUpload }) file: FileUpload
+  ): Promise<UploadProfileImage> {
+
+    const imgPath = await this.documentMangmentService.uploadToImgpush(file);
+    await this.userService.updatePicture(currentUser.id, imgPath);
+
+    return {
+      imagePath: imgPath
     };
   }
 

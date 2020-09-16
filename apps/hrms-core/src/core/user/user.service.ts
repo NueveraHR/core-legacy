@@ -17,7 +17,7 @@ const SALT_ROUNDS = 10;
 export class UserService {
     @Inject(ErrorService) errorService: ErrorService;
 
-    constructor(@InjectModel(User.name) private readonly userModel: PaginateModel<User>) {}
+    constructor(@InjectModel(User.name) private readonly userModel: PaginateModel<User>) { }
 
     /**
      * Create user model based on a userDTO
@@ -225,5 +225,11 @@ export class UserService {
 
     private getFilterOptions(): any {
         return {};
+    }
+
+    async updatePicture(id: string, imagePath: string): Promise<User> {
+        const user: User = await this.findById(id);
+        user.picture = imagePath;
+        return await this.update(user);
     }
 }

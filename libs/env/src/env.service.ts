@@ -23,6 +23,9 @@ export interface EnvData {
 
     JWT_SECRETKEY?: string;
     JWT_EXPIRESIN?: string;
+
+    // Imgpush url
+    IMGPUSH_URL?: string;
 }
 
 const envFilesPath = './environments';

@@ -22,4 +22,6 @@ export class UserDto {
 
     public modeOfEmployment?: string;
     public department?: string;
+
+    public picture?: string;
 }

@@ -1,5 +1,5 @@
 import { DocumentDto } from '@hrms-core/dto/document.dto';
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, HttpService } from '@nestjs/common';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { InjectModel } from '@nestjs/mongoose';
@@ -8,6 +8,8 @@ import { Document } from './document.schema';
 import { FileUpload } from 'graphql-upload';
 import * as Fs from 'fs';
 import * as Path from 'path';
+import * as FormData from 'form-data';
+import { EnvService } from '@libs/env';
 
 const uploadDir = __dirname + '/../../../upload';
 
@@ -24,6 +26,8 @@ export class DocumentMangmentService {
     constructor(
         @InjectModel(Document.name)
         private readonly docuemntModel: PaginateModel<Document>,
+        private readonly envService: EnvService,
+        private httpService: HttpService
     ) { }
 
     async save(file: FileUpload, fileData: FileData): Promise<Document> {
@@ -71,6 +75,22 @@ export class DocumentMangmentService {
                 .on("error", () => reject())
         })
 
+    }
+
+    async uploadToImgpush(file: FileUpload): Promise<string> {
+
+        return new Promise(async (resolve, reject) => {
+
+            const imgpushUrl = this.envService.read().IMGPUSH_URL;
+
+            const formData = new FormData();
+            formData.append("file", file.createReadStream(), 'randomName');
+
+            await this.httpService.axiosRef.post(imgpushUrl, formData, {
+                headers: formData.getHeaders()
+            }).then((res) => resolve(res.data.filename))
+                .catch((err) => reject(err))
+        })
     }
 
     findAll(): Promise<Document[]> {
