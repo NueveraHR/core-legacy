@@ -88,5 +88,4 @@ const populateStandardData = function(next) {
 };
 UserSchema.pre<User>('find', PopulateByType);
 
-UserSchema.pre<User>('findOne', PopulateByType);
 UserSchema.pre<User>('findOne', populateStandardData);
