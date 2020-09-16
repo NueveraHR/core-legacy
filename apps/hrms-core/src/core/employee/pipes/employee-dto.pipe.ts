@@ -4,6 +4,7 @@ import { User } from '@hrms-core/core/user/user.schema';
 import { DtoTransformPipe } from '@hrms-core/common/interfaces/dto-pipe-transform';
 import { EmployeeDto } from '@hrms-core/dto/employee.dto';
 import { Employee } from '@hrms-core/core/employee/employee.schema';
+import { Job } from '@hrms-core/core/job/job.schema';
 
 @Injectable()
 export class EmployeeDtoPipe extends UserDtoPipe implements DtoTransformPipe<User, EmployeeDto> {
@@ -16,6 +17,7 @@ export class EmployeeDtoPipe extends UserDtoPipe implements DtoTransformPipe<Use
         employeeDto.workPhone = employee?.workPhone;
         employeeDto.personalPhone = employee?.personalPhone;
         employeeDto.homePhone = employee?.homePhone;
+        employeeDto.jobHistory = employee?.jobHistory as Job[];
 
         return employeeDto;
     }

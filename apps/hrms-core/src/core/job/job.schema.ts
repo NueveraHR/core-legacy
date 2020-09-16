@@ -7,6 +7,9 @@ export class Job extends Document {
     title: string;
 
     @Prop({ required: true })
+    employmentType: string;
+
+    @Prop({ required: true })
     startDate: Date;
 
     @Prop()
@@ -16,9 +19,12 @@ export class Job extends Document {
     location: string;
 
     @Prop({ required: true })
+    description: string;
+
+    @Prop()
     department: string; //TODO: ref Department
 
-    @Prop({ required: true })
+    @Prop()
     salary: number;
 
     @Prop()
@@ -26,6 +32,15 @@ export class Job extends Document {
 
     @Prop()
     salaryCurrency: string; //TODO: should ref class
+
+    @Prop()
+    hoursPerWeek: number;
+
+    @Prop()
+    bonusEarnings: number;
+
+    @Prop()
+    bonusFrequency: string; //TODO: should ref class
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);

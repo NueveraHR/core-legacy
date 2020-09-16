@@ -5,6 +5,7 @@ import { Employee } from './employee.schema';
 import { Model } from 'mongoose';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { EmployeeDto } from '@hrms-core/dto/employee.dto';
+import { Job } from '../job/job.schema';
 
 @Injectable()
 export class EmployeeService {
@@ -70,5 +71,12 @@ export class EmployeeService {
 
     async getJobHistory(employeeId: string): Promise<string[]> {
         return (await this.employeeModel.findById(employeeId).exec()).jobHistory as string[];
+    }
+
+    async attachJob(employeeId: string, job: Job): Promise<Job> {
+        const employee = await this.employeeModel.findById(employeeId).exec();
+        employee.jobHistory.push(job.id);
+        await employee.save();
+        return job;
     }
 }

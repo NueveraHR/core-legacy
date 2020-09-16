@@ -1,18 +1,26 @@
 import { PaginateResult } from 'mongoose';
 
 export class JobDto {
-    constructor(
-        public id?: string,
-        public title?: string,
-        public startDate?: string,
-        public endDate?: string,
-        public location?: string,
-        public department?: string,
-        public supervisor?: string,
-        public salary?: number,
-        public salaryFrequency?: string,
-        public salaryCurrency?: string,
-    ) {}
+    id?: string;
+    title?: string;
+    employmentType?: string;
+
+    startDate?: Date;
+    endDate?: Date;
+    location?: string;
+    description?: string;
+
+    department?: string;
+    salary?: number;
+    salaryFrequency?: string;
+    salaryCurrency?: string;
+    hoursPerWeek?: number;
+    bonusEarnings?: number;
+    bonusFrequency?: string;
+
+    constructor(id: string) {
+        this.id = id;
+    }
 }
 
 export type RolePaginateDto = PaginateResult<JobDto>;

@@ -13,7 +13,6 @@ import { EmployeeService } from '@hrms-core/core/employee/employee.service';
 import { JobService } from '@hrms-core/core/job/job.service';
 import { JobDto } from '@hrms-core/dto/job.dto';
 import { EmployeeDtoReversePipe } from '@hrms-core/core/employee/pipes/employee-dto-reverse.pipe';
-import { UserDto } from '@hrms-core/dto/user.dto';
 import { AddressService } from '@hrms-core/core/address/address.service';
 import { PaginationOptions, FilterOptions } from '@hrms-core/common/interfaces/pagination';
 
@@ -66,10 +65,8 @@ export class EmployeeFacade extends UserFacade {
         return this.details(employeeDto.id) as Promise<EmployeeDto>;
     }
 
-    async jobHistory(employeeId: string): Promise<JobDto> {
-        const jobHistory = await this.employeeService.getJobHistory(employeeId);
-
-        return this.jobService.find({ id: { $in: jobHistory } }) as JobDto;
-        //.then(job => this.jobDtoPipe.transform(job));
+    async addJob(employeeId: string, jobDto: JobDto): Promise<JobDto> {
+        const job = await this.jobService.create(jobDto);
+        return this.employeeService.attachJob(employeeId, job);
     }
 }

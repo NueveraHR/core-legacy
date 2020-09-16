@@ -1,8 +1,9 @@
-import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
+import { ObjectType, Field, ID, Int, Float } from '@nestjs/graphql';
 import { EmployeeDto } from '@hrms-core/dto/employee.dto';
 import { Role } from '@hrms-api/role/role.type';
 import { AddressDto } from '@hrms-core/dto/address.dto';
 import { UserPaginateDto } from '@hrms-core/facades/user.facade';
+import { JobDto } from '@hrms-core/dto/job.dto';
 
 @ObjectType()
 export class Address implements Partial<AddressDto> {
@@ -23,6 +24,51 @@ export class Address implements Partial<AddressDto> {
 
     @Field()
     postalCode?: string;
+}
+
+@ObjectType()
+export class Job implements Partial<JobDto> {
+    @Field(() => ID)
+    id?: string;
+
+    @Field()
+    title?: string;
+
+    @Field()
+    employmentType?: string;
+
+    @Field(() => Date)
+    startDate?: Date;
+
+    @Field(() => Date, { nullable: true })
+    endDate?: Date;
+
+    @Field()
+    location?: string;
+
+    @Field()
+    description?: string;
+
+    @Field({ nullable: true })
+    department?: string;
+
+    @Field(() => Float, { nullable: true })
+    salary?: number;
+
+    @Field({ nullable: true })
+    salaryFrequency?: string;
+
+    @Field({ nullable: true })
+    salaryCurrency?: string;
+
+    @Field(() => Float, { nullable: true })
+    hoursPerWeek?: number;
+
+    @Field(() => Float, { nullable: true })
+    bonusEarnings?: number;
+
+    @Field({ nullable: true })
+    bonusFrequency?: string;
 }
 
 @ObjectType()
@@ -91,6 +137,9 @@ export class Employee implements Partial<EmployeeDto> {
 
     @Field({ nullable: true })
     public homePhone?: string;
+
+    @Field(() => [Job], { nullable: true })
+    public jobHistory?: Job[];
 }
 
 @ObjectType()
