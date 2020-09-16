@@ -1,8 +1,10 @@
 export const JOBS = {
     createJob: {
         title: 'job 1',
-        startDate: '01/01/2021',
+        employmentType: 'Fulltime',
+        startDate: new Date(),
         location: 'tunis',
+        description: 'Team lead',
         department: 'web',
         supervisor: 'test',
         salary: 123,
