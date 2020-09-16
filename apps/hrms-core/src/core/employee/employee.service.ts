@@ -69,10 +69,6 @@ export class EmployeeService {
             );
     }
 
-    async getJobHistory(employeeId: string): Promise<string[]> {
-        return (await this.employeeModel.findById(employeeId).exec()).jobHistory as string[];
-    }
-
     async attachJob(employeeId: string, job: Job): Promise<Job> {
         const employee = await this.employeeModel.findById(employeeId).exec();
         employee.jobHistory.push(job.id);
