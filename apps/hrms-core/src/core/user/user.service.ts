@@ -17,7 +17,7 @@ const SALT_ROUNDS = 10;
 export class UserService {
     @Inject(ErrorService) errorService: ErrorService;
 
-    constructor(@InjectModel(User.name) private readonly userModel: PaginateModel<User>) { }
+    constructor(@InjectModel(User.name) private readonly userModel: PaginateModel<User>) {}
 
     /**
      * Create user model based on a userDTO
@@ -105,7 +105,7 @@ export class UserService {
         await user.populate(user.type.toLowerCase()).execPopulate();
 
         // TODO: only on demand
-        if (user.type == UserType.EMPLOYEE) {
+        if (user?.type == UserType.EMPLOYEE) {
             await (user.employee as Employee).populate('jobHistory').execPopulate();
         }
 
