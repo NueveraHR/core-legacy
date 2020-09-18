@@ -56,8 +56,13 @@ export class UserFacade {
         // assert role existence
         await this.roleService.assertExists(userDto.role as string);
 
-        // create corresponding address and reassign its id to user
-        userDto.address = (await this.addressService.create(userDto.address as AddressDto)).id;
+        if (userDto.address) {
+            // create corresponding address and reassign its id to user
+            userDto.address = (await this.addressService.create(userDto.address as AddressDto)).id;
+        }
+
+        // populate missing user props with default values
+        userDto = this.populateMissingValues(userDto);
 
         return this.userService.create(userDto).then(user => this.userDtoPipe.transform(user));
     }
@@ -84,6 +89,31 @@ export class UserFacade {
         this.userDtoReversePipe.transformExistent(userDto, user);
         await this.addressService.update(user.address as Address);
         return this.userService.update(user).then(user => this.userDtoPipe.transform(user));
+    }
+
+    private populateMissingValues(userDto: UserDto): UserDto {
+        if (!userDto.username) {
+            userDto.username = userDto.email.substring(0, userDto.email.lastIndexOf('@'));
+        }
+
+        if (!userDto.prefix) {
+            const gender = userDto.gender.toUpperCase();
+            let prefix: string;
+
+            switch (gender) {
+                case 'MALE':
+                    prefix = 'Mr.';
+                    break;
+                case 'FEMALE':
+                    prefix = 'Mrs.';
+                    break;
+                default:
+                    prefix = 'Mx.';
+            }
+            userDto.prefix = prefix;
+        }
+
+        return userDto;
     }
 }
 

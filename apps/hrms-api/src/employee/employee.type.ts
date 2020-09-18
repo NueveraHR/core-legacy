@@ -91,8 +91,6 @@ export class Employee implements Partial<EmployeeDto> {
     @Field()
     public lastName?: string;
 
-    public password?: string;
-
     @Field()
     public email?: string;
 
@@ -108,19 +106,19 @@ export class Employee implements Partial<EmployeeDto> {
     @Field()
     public gender?: string;
 
-    @Field(() => Date)
+    @Field(() => Date, { nullable: true })
     public birthDate?: Date;
 
-    @Field(() => Address)
+    @Field(() => Address, { nullable: true })
     public address?: Address | string;
 
-    @Field()
+    @Field({ nullable: true })
     public phone?: string;
 
-    @Field()
+    @Field({ nullable: true })
     public modeOfEmployment?: string;
 
-    @Field()
+    @Field({ nullable: true })
     public department?: string;
 
     @Field({ nullable: true })

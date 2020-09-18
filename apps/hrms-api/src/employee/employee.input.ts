@@ -66,7 +66,7 @@ export class AddEmployeeInput implements Partial<EmployeeDto> {
     @Field()
     public cin: string;
 
-    @Field()
+    @Field({ nullable: true })
     public prefix: string;
 
     @Field(() => ID)
@@ -75,19 +75,19 @@ export class AddEmployeeInput implements Partial<EmployeeDto> {
     @Field()
     public gender: string;
 
-    @Field(() => Date)
+    @Field(() => Date, { nullable: true })
     public birthDate: Date;
 
-    @Field(() => AddAddressInput)
+    @Field(() => AddAddressInput, { nullable: true })
     public address: AddAddressInput;
 
-    @Field()
+    @Field({ nullable: true })
     public phone: string;
 
     @Field({ nullable: true, description: 'Optional, default is the email prefix' })
     public username: string;
 
-    @Field({ nullable: true, description: 'Optional, default will be generated' })
+    @Field()
     public password: string;
 
     @Field({ nullable: true })
