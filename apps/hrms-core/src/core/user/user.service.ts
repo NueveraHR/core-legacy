@@ -102,11 +102,13 @@ export class UserService {
      */
     async findById(id: string): Promise<User> {
         const user = await this.userModel.findById(id);
-        await user.populate(user.type.toLowerCase()).execPopulate();
+        if (user) {
+            await user.populate(user.type.toLowerCase()).execPopulate();
+            // TODO: only on demand
 
-        // TODO: only on demand
-        if (user?.type == UserType.EMPLOYEE) {
-            await (user.employee as Employee).populate('jobHistory').execPopulate();
+            if (user.type == UserType.EMPLOYEE) {
+                await (user.employee as Employee).populate('jobHistory').execPopulate();
+            }
         }
 
         return user;
