@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
+import { Args, Mutation, Resolver, Query, ID } from '@nestjs/graphql';
 
 import { GraphQLUpload } from 'apollo-server-core';
 import { FileUpload } from 'graphql-upload';
@@ -53,12 +53,11 @@ export class UploadResolver {
 
   @Mutation(() => UploadProfileImage)
   public async uploadProfileImage(
-    @CurrentUser() currentUser: UserDto,
+    @Args('employeeId', { type: () => ID }) employeeId: string,
     @Args('file', { type: () => GraphQLUpload }) file: FileUpload
   ): Promise<UploadProfileImage> {
-
     const imgPath = await this.documentMangmentService.uploadToImgpush(file);
-    await this.userService.updatePicture(currentUser.id, imgPath);
+    await this.userService.updatePicture(employeeId, imgPath);
 
     return {
       imagePath: imgPath

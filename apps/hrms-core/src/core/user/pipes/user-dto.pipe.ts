@@ -35,6 +35,7 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
             phone: source.phone,
             role: source.role as RoleDto,
             address: source.address as AddressDto,
+            picture: source.picture
         };
 
         return userDto;
