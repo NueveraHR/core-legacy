@@ -136,6 +136,9 @@ export class Employee implements Partial<EmployeeDto> {
     @Field({ nullable: true })
     public homePhone?: string;
 
+    @Field({ nullable: true })
+    public picture?: string;
+
     @Field(() => [Job], { nullable: true })
     public jobHistory?: Job[];
 }
