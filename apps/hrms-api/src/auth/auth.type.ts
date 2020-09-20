@@ -11,4 +11,10 @@ export class AuthPayload implements Partial<AuthDto> {
 
     @Field()
     userType: string;
+
+    @Field()
+    picture: string;
+
+    @Field()
+    gender: string;
 }

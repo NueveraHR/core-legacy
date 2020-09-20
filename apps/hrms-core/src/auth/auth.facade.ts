@@ -61,6 +61,8 @@ export class AuthFacade {
                     token: token,
                     userId: foundUser.id,
                     userType: foundUser.type,
+                    picture: foundUser.picture,
+                    gender: foundUser.gender
                 };
             }
         }
