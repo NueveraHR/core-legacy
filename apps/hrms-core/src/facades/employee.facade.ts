@@ -66,6 +66,7 @@ export class EmployeeFacade extends UserFacade {
     }
 
     async addJob(employeeId: string, jobDto: JobDto): Promise<JobDto> {
+        //TODO: validate
         const job = await this.jobService.create(jobDto);
         return this.employeeService.attachJob(employeeId, job);
     }
