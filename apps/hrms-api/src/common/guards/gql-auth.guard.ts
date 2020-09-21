@@ -16,7 +16,7 @@ export class GqlAuthGuard extends AuthGuard('jwt') {
         return ctx.getContext().req;
     }
 
-    async canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+    async canActivate(context: ExecutionContext): Promise<boolean> {
         const isPublic = this.reflector.get<boolean>('isPublic', context.getHandler());
 
         if (isPublic) {
