@@ -16,7 +16,7 @@ import { EnvService } from '@libs/env';
 export class AuthFacade {
     @Inject(ErrorService) errorService: ErrorService;
 
-    constructor(private envService: EnvService, private userService: UserService, private jwtService: JwtService) {}
+    constructor(private userService: UserService, private jwtService: JwtService) {}
 
     async auth(user: UserDto): Promise<AuthDto> {
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -49,7 +49,7 @@ export class AuthFacade {
 
             if (token) {
                 return {
-                    tokenCookie: token,
+                    token: token,
                     userId: foundUser.id,
                     userType: foundUser.type,
                     picture: foundUser.picture,
@@ -63,7 +63,6 @@ export class AuthFacade {
 
     private generateTokenForUser(user: any): string {
         const payload = { id: user.id, role: user.role };
-        const token = this.jwtService.sign(payload);
-        return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.envService.read().JWT_EXPIRESIN}`;
+        return this.jwtService.sign(payload);
     }
 }
