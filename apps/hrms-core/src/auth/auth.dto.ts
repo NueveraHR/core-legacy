@@ -1,5 +1,5 @@
 export class AuthDto {
-    token: string;
+    tokenCookie: string;
     userId: string;
     userType: string;
     picture: string;

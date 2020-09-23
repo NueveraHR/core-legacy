@@ -97,7 +97,7 @@ describe('Auth Facade', () => {
             await mockUtils.createUser('basicUser', 'employeeRole');
 
             await authFacade.auth(loginCredentials).then(result => {
-                expect((result as any).token.length).toBeGreaterThan(1);
+                expect(result.tokenCookie.length).toBeGreaterThan(1);
             });
         });
     });

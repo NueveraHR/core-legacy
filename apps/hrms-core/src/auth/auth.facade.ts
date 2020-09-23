@@ -10,22 +10,13 @@ import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Role } from '@hrms-core/core/role/role.schema';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { AuthDto } from './auth.dto';
+import { EnvService } from '@libs/env';
 
 @Injectable()
 export class AuthFacade {
     @Inject(ErrorService) errorService: ErrorService;
 
-    constructor(private jwtService: JwtService, private readonly moduleRef: ModuleRef) {}
-
-    private _userService;
-    private get userService(): UserService {
-        if (!this._userService) {
-            this._userService = this.moduleRef.get(UserService, {
-                strict: false,
-            });
-        }
-        return this._userService;
-    }
+    constructor(private envService: EnvService, private userService: UserService, private jwtService: JwtService) {}
 
     async auth(user: UserDto): Promise<AuthDto> {
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -58,11 +49,11 @@ export class AuthFacade {
 
             if (token) {
                 return {
-                    token: token,
+                    tokenCookie: token,
                     userId: foundUser.id,
                     userType: foundUser.type,
                     picture: foundUser.picture,
-                    gender: foundUser.gender
+                    gender: foundUser.gender,
                 };
             }
         }
@@ -71,7 +62,8 @@ export class AuthFacade {
     }
 
     private generateTokenForUser(user: any): string {
-        const payload = { id: user.id, role: user.role }; //TODO: encode privileges
-        return this.jwtService.sign(payload);
+        const payload = { id: user.id, role: user.role };
+        const token = this.jwtService.sign(payload);
+        return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.envService.read().JWT_EXPIRESIN}`;
     }
 }
