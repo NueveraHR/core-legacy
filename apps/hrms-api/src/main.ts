@@ -10,10 +10,12 @@ async function bootstrap() {
     const reflector = app.get(Reflector);
 
     app.use(cookieParser());
-    if (!app.get(EnvService).isProd()) {
+    if (app.get(EnvService).isProd()) {
         app.use(helmet());
+    } else {
         app.enableCors();
     }
+
     await app.listen(3000);
 }
 bootstrap();
