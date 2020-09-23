@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Context, GraphQLExecutionContext } from '@nestjs/graphql';
 import { AuthFacade } from '@hrms-core/auth/auth.facade';
 import { UserCredentials } from './auth.input';
 import { AuthPayload } from './auth.type';
@@ -9,7 +9,15 @@ export class AuthResolver {
     constructor(private authFacade: AuthFacade) {}
 
     @Mutation(() => AuthPayload)
-    login(@Args('credentials') credentials: UserCredentials) {
-        return this.authFacade.auth(credentials).catch(err => new AuthenticationError(err.message));
+    login(@Context() context: GraphQLExecutionContext, @Args('credentials') credentials: UserCredentials): unknown {
+        const res = (context as any).res;
+        return this.authFacade
+            .auth(credentials)
+            .then(authDto => {
+                res.setHeader('Set-Cookie', authDto.tokenCookie);
+                delete authDto.tokenCookie;
+                return authDto;
+            })
+            .catch(err => new AuthenticationError(err.message));
     }
 }

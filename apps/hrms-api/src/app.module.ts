@@ -12,12 +12,12 @@ import { UploadResolver } from './upload/upload.resolver';
     imports: [
         GraphQLModule.forRoot({
             autoSchemaFile: 'schema.gql',
-            context: ({ req }) => ({ req }),
+            context: ({ req, res }) => ({ req, res }),
         }),
         HRMSCoreModule,
-        CommonApi
+        CommonApi,
     ],
     providers: [AuthResolver, RoleResolver, EmployeeResolver, UploadResolver],
     controllers: [],
 })
-export class AppModule { }
+export class AppModule {}
