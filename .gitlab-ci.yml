@@ -18,7 +18,11 @@ deploy_dev:
     name: deploying dev
     url: api.nuevera.com
   script:
-    - echo "============ Deploy to DEV server ============"
-    - ssh ubuntu@51.91.157.231 "cd /var/www/nuevera-hrms && git pull && pm2 restart api && exit"
+    - echo "============ Pulling latest version  ============"
+    - ssh -p22 ubuntu@51.91.157.231 "cd /var/www/nuevera-hrms && git checkout master && git pull"
+    - echo "============ Installing dependencies  ============"
+    - ssh -p22 ubuntu@51.91.157.231 "cd /var/www/nuevera-hrms /home/ubuntu/.nvm/versions/node/v12.18.3/bin/npm i"
+    - echo "============ Restarting PM2  ============"
+    - ssh -p22 ubuntu@51.91.157.231 "/home/ubuntu/.nvm/versions/node/v12.18.3/bin/pm2 restart api && exit"
   only:
     - master
