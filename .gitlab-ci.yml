@@ -19,6 +19,6 @@ deploy_dev:
     name: staging
     url: api.nuevera.com
   script:
-    - ssh ubuntu@51.91.157.231 "cd /var/www/nuevera-hrms && git checkout master && git pull origin master && exit"
+    - ssh ubuntu@51.91.157.231 "cd /var/www/nuevera-hrms && git checkout master && git pull origin master && npm i && pm2 restart api && exit"
   only:
     - master
