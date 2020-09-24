@@ -3,7 +3,7 @@ image: "node:latest"
 stages: 
   - build
   - test
-
+  - deploy
 cache: 
   paths: 
     - node_modules/
@@ -30,3 +30,23 @@ build_project:
 unit_tests: 
   stage: test
   script: "npm test"
+
+  before_script:
+  - apt-get update -qq
+  - apt-get install -qq git
+  # Setup SSH deploy keys
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    
+deploy_dev:
+  type: deploy
+  environment:
+    name: staging
+    url: api.nuevera.com
+  script:
+    - ssh ubuntu@51.91.157.231 "cd /var/www/nuevera-hrms && git checkout master && git pull origin master && exit"
+  only:
+    - master
