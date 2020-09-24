@@ -1,37 +1,9 @@
---- 
 image: "node:latest"
 stages: 
-  - build
-  - test
   - deploy
-cache: 
-  paths: 
-    - node_modules/
+  
 
-variables:
-  NODE_ENV: 'ci-test'
-
-services:
-  - mongo:latest
-
-install_dependencies: 
-  stage: .pre
-  artifacts: 
-    paths: 
-      - node_modules/
-  script: 
-    - "npm install"
-
-build_project:
-  stage: build
-  script: 
-    - "npm run build"
-
-unit_tests: 
-  stage: test
-  script: "npm test"
-
-  before_script:
+before_script:
   - apt-get update -qq
   - apt-get install -qq git
   # Setup SSH deploy keys
