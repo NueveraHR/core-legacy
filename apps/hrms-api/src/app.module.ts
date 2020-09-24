@@ -13,6 +13,10 @@ import { UploadResolver } from './upload/upload.resolver';
         GraphQLModule.forRoot({
             autoSchemaFile: 'schema.gql',
             context: ({ req, res }) => ({ req, res }),
+            cors: {
+                origin: true,
+                credentials: true,
+            },
         }),
         HRMSCoreModule,
         CommonApi,

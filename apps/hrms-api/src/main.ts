@@ -12,9 +12,13 @@ async function bootstrap() {
     app.use(cookieParser());
     if (app.get(EnvService).isProd()) {
         app.use(helmet());
-    } else {
-        app.enableCors();
     }
+
+    app.enableCors({
+        origin: true,
+        credentials: true,
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    });
 
     await app.listen(3000);
 }

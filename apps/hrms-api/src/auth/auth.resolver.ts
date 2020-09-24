@@ -4,6 +4,7 @@ import { UserCredentials } from './auth.input';
 import { AuthPayload } from './auth.type';
 import { AuthenticationError } from 'apollo-server';
 import { EnvData, EnvService } from '@libs/env';
+import * as ms from 'ms';
 
 @Resolver()
 export class AuthResolver {
@@ -16,13 +17,19 @@ export class AuthResolver {
             .auth(credentials)
             .then(authDto => {
                 const env = this.envService.read();
-                const authCookie = `Authentication=${authDto.token}; HttpOnly; ${
-                    this.envService.isProd() ? 'secure;' : ''
-                } Path=/; Max-Age=${env.JWT_EXPIRESIN}`;
+                const options = {
+                    maxAge: this.getMaxAge(env.JWT_EXPIRESIN),
+                    secure: this.envService.isProd(),
+                    httpOnly: true,
+                };
 
-                res.setHeader('Set-Cookie', authCookie);
+                res.cookie('Authentication', authDto.token, options);
                 return authDto;
             })
             .catch(err => new AuthenticationError(err.message));
+    }
+
+    private getMaxAge(expiresIn: string): any {
+        return expiresIn ? ms(expiresIn) : '';
     }
 }
