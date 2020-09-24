@@ -1,11 +1,11 @@
 image: "node:latest"
-stages: 
+stages:
   - deploy
-  
 
 before_script:
   - apt-get update -qq
   - apt-get install -qq git
+  - npm install
   # Setup SSH deploy keys
   - 'which ssh-agent || ( apt-get install -qq openssh-client )'
   - eval $(ssh-agent -s)
@@ -16,9 +16,15 @@ before_script:
 deploy_dev:
   type: deploy
   environment:
-    name: staging
+    name: deploying dev
     url: api.nuevera.com
   script:
-    - ssh ubuntu@51.91.157.231 "cd /var/www/nuevera-hrms && git checkout master && git pull origin master && npm i && pm2 restart api && exit"
+    - echo "============ Deploy to DEV server ============"
+    - ssh ubuntu@51.91.157.231
+    - cd /var/www/nuevera-hrms
+    - git checkout master
+    - git pull origin master
+    - pm2 restart api
+    - exit
   only:
     - master
