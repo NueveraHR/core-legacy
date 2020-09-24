@@ -17,12 +17,13 @@ export class AuthResolver {
             .auth(credentials)
             .then(authDto => {
                 const env = this.envService.read();
-                const maxAge = this.getMaxAge(env.JWT_EXPIRESIN);
-                const authCookie = `Authentication=${authDto.token}; HttpOnly; ${
-                    this.envService.isProd() ? 'secure;' : ''
-                } Path=/; Max-Age=${maxAge}`;
+                const options = {
+                    maxAge: this.getMaxAge(env.JWT_EXPIRESIN),
+                    secure: this.envService.isProd(),
+                    httpOnly: true,
+                };
 
-                res.setHeader('Set-Cookie', authCookie);
+                res.cookie('Authentication', authDto.token, options);
                 return authDto;
             })
             .catch(err => new AuthenticationError(err.message));
