@@ -1,10 +1,14 @@
+import { LoggerService } from './../../../../../libs/logger/src/logger.service';
 import { RedisService } from '@hrms-core/common/services/database/redis.service';
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
+import * as ms from 'ms';
 
 @Injectable()
 export class RateLimitGuard implements CanActivate {
+    @Inject() logger: LoggerService;
+
     constructor(private reflector: Reflector, private redis: RedisService) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -17,7 +21,7 @@ export class RateLimitGuard implements CanActivate {
             return false; // This would block all requests, but it's a necessary evil.
         }
 
-        if (count >= constraints.limit) {
+        if (count > constraints.limit) {
             throw new Error('Too many requests ...');
         }
 
@@ -35,7 +39,8 @@ export class RateLimitGuard implements CanActivate {
             count = await this.redis.incr(id);
             if (count == 1) {
                 // set expire.
-                this.redis.expire(id, constraints.timeInterval);
+                const interval = this.timeIntervalInSeconds(constraints.timeInterval);
+                this.redis.expire(id, interval);
             }
         } catch (error) {
             failed = true;
@@ -48,9 +53,18 @@ export class RateLimitGuard implements CanActivate {
         const ctx = GqlExecutionContext.create(context);
         return ctx.getContext().req;
     }
+
+    private timeIntervalInSeconds(interval: string) {
+        if (interval) {
+            return ms(interval) / 1000;
+        } else {
+            this.logger.error(`Invalid time interval ${interval}`);
+            return 0;
+        }
+    }
 }
 
 export interface LimiterConstraints {
     limit: number;
-    timeInterval: number; // TODO: user string with ms lib.
+    timeInterval: string;
 }
