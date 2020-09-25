@@ -1,13 +1,10 @@
 import * as mongoose from 'mongoose';
 import { EnvService } from '@libs/env';
+import { Injectable } from '@nestjs/common';
 
-export class DBConnectionManager {
-    private envService: EnvService;
-    private connectionPromise: Promise<mongoose.Mongoose>;
-
-    constructor() {
-        this.envService = new EnvService();
-    }
+@Injectable()
+export class MongoConnectionService {
+    constructor(private envService: EnvService) {}
 
     /**
      * Create MongoDB connection string based on env data.
