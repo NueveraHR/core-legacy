@@ -10,10 +10,13 @@ import { ApiError } from '@hrms-api/common/utils/error.utils';
 import { SortInput } from '@hrms-api/common/graphql/sort.input';
 import { FilterUtils } from '@hrms-api/common/utils/filter.utils';
 import { FilterInput } from '@hrms-api/common/graphql/filter.input';
+import { RateLimit } from '@hrms-api/common/decorators/rateLimit.decorator';
+import { RateLimitGuard } from '@hrms-api/common/guards/rate-limit.guard';
 
 @Resolver()
 @Privileges('employees.access')
-@UseGuards(JwtAuthGuard, PrivilegesGuard)
+@RateLimit({ limit: 30, timeInterval: '1m' })
+@UseGuards(JwtAuthGuard, PrivilegesGuard, RateLimitGuard)
 export class EmployeeResolver {
     constructor(private employeeFacade: EmployeeFacade) {}
 

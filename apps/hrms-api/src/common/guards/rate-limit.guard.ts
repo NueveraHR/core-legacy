@@ -13,15 +13,31 @@ export class RateLimitGuard implements CanActivate {
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = this.getRequest(context);
-        const handlerName = context.getHandler().name;
-        const constraints = this.reflector.get('limiterConstraints', context.getHandler()) as LimiterConstraints;
-        const { count, failed } = await this.refresh(request, handlerName, constraints);
+        const contextMetadata = this.getContextMetadata(context);
+        const handlerRateState = await this.refresh(
+            request,
+            contextMetadata.handlerName,
+            contextMetadata.handlerConstraints,
+        );
+        const resolverRateState = await this.refresh(
+            request,
+            contextMetadata.resolverName,
+            contextMetadata.resolverConstraints,
+        );
 
-        if (failed) {
-            return false; // This would block all requests, but it's a necessary evil.
+        if (handlerRateState.failed) {
+            /* https://community.microfocus.com/t5/Security-Blog/Security-Fundamentals-Part-1-Fail-Open-vs-Fail-Closed/ba-p/283747 */
+            return contextMetadata.handlerConstraints.failClosed ?? false;
         }
 
-        if (count > constraints.limit) {
+        if (resolverRateState.failed) {
+            return contextMetadata.resolverConstraints.failClosed ?? false;
+        }
+
+        if (
+            handlerRateState.count > contextMetadata.handlerConstraints?.limit ||
+            resolverRateState.count > contextMetadata.resolverConstraints?.limit
+        ) {
             throw new Error('Too many requests ...');
         }
 
@@ -29,6 +45,10 @@ export class RateLimitGuard implements CanActivate {
     }
 
     private async refresh(request: any, handlerName: string, constraints: LimiterConstraints) {
+        if (!handlerName || !constraints) {
+            return {};
+        }
+
         const forwarded = request.headers['x-forwarded-for'];
         const ip = forwarded ? forwarded.split(/, /)[0] : request.ip;
         const id = `${ip}@${handlerName}`;
@@ -46,12 +66,26 @@ export class RateLimitGuard implements CanActivate {
             failed = true;
         }
 
-        return { id: id, count: count, failed: failed };
+        return { id, count, failed };
     }
 
     private getRequest(context: ExecutionContext) {
         const ctx = GqlExecutionContext.create(context);
         return ctx.getContext().req;
+    }
+
+    private getContextMetadata(context: ExecutionContext): ContextMetadata {
+        const handlerName = context.getHandler().name;
+        const resolverName = context.getClass().name;
+        const handlerConstraints = this.reflector.get('limiterConstraints', context.getHandler()) as LimiterConstraints;
+        const resolverConstraints = this.reflector.get('limiterConstraints', context.getClass()) as LimiterConstraints;
+
+        return {
+            resolverName,
+            handlerName,
+            handlerConstraints,
+            resolverConstraints,
+        };
     }
 
     private timeIntervalInSeconds(interval: string) {
@@ -64,7 +98,15 @@ export class RateLimitGuard implements CanActivate {
     }
 }
 
+export interface ContextMetadata {
+    resolverName: string;
+    handlerName: string;
+    handlerConstraints: LimiterConstraints;
+    resolverConstraints: LimiterConstraints;
+}
+
 export interface LimiterConstraints {
-    limit: number;
-    timeInterval: string;
+    limit?: number;
+    timeInterval?: string;
+    failClosed?: boolean;
 }

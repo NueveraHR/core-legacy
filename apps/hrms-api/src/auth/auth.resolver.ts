@@ -15,7 +15,7 @@ export class AuthResolver {
     constructor(private authFacade: AuthFacade, private envService: EnvService) {}
 
     @Mutation(() => AuthPayload)
-    @RateLimit({ limit: 7, timeInterval: '1m' })
+    @RateLimit({ limit: 7, timeInterval: '1m', failClosed: true })
     login(@Context() context: GraphQLExecutionContext, @Args('credentials') credentials: UserCredentials): unknown {
         const res = (context as any).res;
         return this.authFacade
