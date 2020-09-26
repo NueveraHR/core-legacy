@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { AuthenticationError } from 'apollo-server';
 
 @Injectable()
-export class GqlAuthGuard extends AuthGuard('jwt') {
+export class JwtAuthGuard extends AuthGuard('jwt') {
     public constructor(private readonly reflector: Reflector) {
         super();
     }

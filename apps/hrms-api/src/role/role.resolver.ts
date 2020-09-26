@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args, ID, Int } from '@nestjs/graphql';
 import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard } from '@hrms-api/common/guards/gql-auth.guard';
+import { JwtAuthGuard } from '@hrms-api/common/guards/auth.guard';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import { Role, DeleteResult, PaginatedRoleList } from './role.type';
 import { RoleFacade } from '@hrms-core/facades/role.facade';
@@ -13,7 +13,7 @@ import { FilterUtils } from '@hrms-api/common/utils/filter.utils';
 
 @Resolver()
 @Privileges('roles.access')
-@UseGuards(GqlAuthGuard, PrivilegesGuard)
+@UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class RoleResolver {
     constructor(private roleFacade: RoleFacade) {}
 
