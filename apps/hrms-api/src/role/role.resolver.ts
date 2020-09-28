@@ -34,16 +34,19 @@ export class RoleResolver {
     }
 
     @Mutation(() => Role)
+    @Privileges('roles.create')
     addRole(@Args('role') role: AddRole): Promise<any> {
         return this.roleFacade.createRole(role).catch(ApiError);
     }
 
     @Mutation(() => Role)
+    @Privileges('roles.edit')
     updateRole(@Args('role') role: UpdateRole): Promise<any> {
         return this.roleFacade.updateRole(role).catch(ApiError);
     }
 
     @Mutation(() => DeleteResult)
+    @Privileges('roles.delete')
     deleteRoles(@Args('id', { type: () => [ID] }) id: string[]): Promise<any> {
         return this.roleFacade
             .deleteMultipleRoles(id)

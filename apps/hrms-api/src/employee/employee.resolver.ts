@@ -12,6 +12,8 @@ import { FilterUtils } from '@hrms-api/common/utils/filter.utils';
 import { FilterInput } from '@hrms-api/common/graphql/filter.input';
 import { RateLimit } from '@hrms-api/common/decorators/rateLimit.decorator';
 import { RateLimitGuard } from '@hrms-api/common/guards/rate-limit.guard';
+import { CurrentUser } from '@hrms-api/common/decorators/currentUser.decorator';
+import { UserDto } from '@hrms-core/dto/user.dto';
 
 @Resolver()
 @Privileges('employees.access')
@@ -32,22 +34,25 @@ export class EmployeeResolver {
     }
 
     @Query(() => Employee)
-    employee(@Args('id', { type: () => ID }) employeeId: string): Promise<any> {
+    employee(@CurrentUser() currentUser: UserDto, @Args('id', { type: () => ID }) employeeId: string): Promise<any> {
         //TODO: assert is eligible to view user sensitive data
         return this.employeeFacade.details(employeeId).catch(ApiError);
     }
 
     @Mutation(() => Employee)
+    @Privileges('employees.create')
     addEmployee(@Args('employee') employee: AddEmployeeInput): Promise<any> {
         return this.employeeFacade.create(employee).catch(ApiError);
     }
 
     @Mutation(() => Employee)
+    @Privileges('employees.edit')
     updateEmployee(@Args('employee') employee: UpdateEmployeeInput): Promise<any> {
         return this.employeeFacade.update(employee).catch(ApiError);
     }
 
     @Mutation(() => Job)
+    @Privileges('employees.edit')
     addJob(@Args('employeeId', { type: () => ID }) employeeId: string, @Args('job') job: JobInput): Promise<any> {
         return this.employeeFacade.addJob(employeeId, job).catch(ApiError);
     }
