@@ -11,12 +11,13 @@ import { Role } from '@hrms-core/core/role/role.schema';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { AuthDto } from './auth.dto';
 import { EnvService } from '@libs/env';
+import { UserDtoPipe } from '@hrms-core/core/user/pipes/user-dto.pipe';
 
 @Injectable()
 export class AuthFacade {
     @Inject(ErrorService) errorService: ErrorService;
 
-    constructor(private userService: UserService, private jwtService: JwtService) {}
+    constructor(private userService: UserService, private userDtoPipe: UserDtoPipe, private jwtService: JwtService) {}
 
     async auth(user: UserDto): Promise<AuthDto> {
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -50,10 +51,8 @@ export class AuthFacade {
             if (token) {
                 return {
                     token: token,
-                    userId: foundUser.id,
                     userType: foundUser.type,
-                    picture: foundUser.picture,
-                    gender: foundUser.gender,
+                    ...this.userDtoPipe.transform(foundUser),
                 };
             }
         }

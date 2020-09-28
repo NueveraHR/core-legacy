@@ -1,17 +1,36 @@
+import { Role } from '@hrms-api/role/role.type';
 import { AuthDto } from '@hrms-core/auth/auth.dto';
 import { ObjectType, Field } from '@nestjs/graphql';
 
 @ObjectType()
 export class AuthPayload implements Partial<AuthDto> {
     @Field()
-    userId: string;
+    userType?: string;
 
     @Field()
-    userType: string;
+    id?: string;
 
     @Field()
-    picture: string;
+    username?: string;
+
+    @Field({ nullable: true })
+    firstName?: string;
+
+    @Field({ nullable: true })
+    middleName?: string;
 
     @Field()
-    gender: string;
+    lastName?: string;
+
+    @Field()
+    email?: string;
+
+    @Field(() => Role)
+    role?: Role | string;
+
+    @Field()
+    gender?: string;
+
+    @Field()
+    picture?: string;
 }
