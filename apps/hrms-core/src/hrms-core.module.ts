@@ -35,6 +35,8 @@ import { CoreModule } from './core/core.module';
         AuthModule,
         CoreModule, // TODO: Remove after exposing document facade
         FacadesModule,
+        EnvModule,
+        LoggerModule,
     ],
 })
 export class HRMSCoreModule {}

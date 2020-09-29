@@ -31,6 +31,6 @@ export class AuthPayload implements Partial<AuthDto> {
     @Field()
     gender?: string;
 
-    @Field()
+    @Field({ nullable: true })
     picture?: string;
 }

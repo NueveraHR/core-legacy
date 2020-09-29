@@ -1,16 +1,13 @@
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto-js';
 import { Injectable, Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { ModuleRef } from '@nestjs/core';
-import { RoleService } from '@hrms-core/core/role/role.service';
 import { User } from '@hrms-core/core/user/user.schema';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { UserDto } from '@hrms-core/dto/user.dto';
 import { ErrorService } from '@hrms-core/common/error/error.service';
-import { Role } from '@hrms-core/core/role/role.schema';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { AuthDto } from './auth.dto';
-import { EnvService } from '@libs/env';
 import { UserDtoPipe } from '@hrms-core/core/user/pipes/user-dto.pipe';
 
 @Injectable()
@@ -61,7 +58,7 @@ export class AuthFacade {
     }
 
     private generateTokenForUser(user: any): string {
-        const payload = { id: user.id, role: user.role };
-        return this.jwtService.sign(payload);
+        const signedJWt = this.jwtService.sign({ id: user.id, role: user.role });
+        return crypto.AES.encrypt(signedJWt, 'akrZ8nj"#r>G7@s4B').toString();
     }
 }
