@@ -6,7 +6,7 @@ import { IgnorePrivileges, Privileges } from '@hrms-api/common/decorators/privil
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import { AddEmployeeInput, UpdateEmployeeInput, JobInput } from '@hrms-api/employee/employee.input';
 import { Employee, PaginatedEmployeeList, Job } from './employee.type';
-import { ApiError } from '@hrms-api/common/utils/error.utils';
+import { FORBIDDEN_ERROR, GqlError } from '@hrms-api/common/utils/error.utils';
 import { SortInput } from '@hrms-api/common/graphql/sort.input';
 import { FilterUtils } from '@hrms-api/common/utils/filter.utils';
 import { FilterInput } from '@hrms-api/common/graphql/filter.input';
@@ -31,7 +31,7 @@ export class EmployeeResolver {
         @Args('sort', { type: () => SortInput, nullable: true }) sortInput?: SortInput,
     ): Promise<any> {
         const options = FilterUtils.fromInput(filterInput, sortInput);
-        return this.employeeFacade.list({ page, limit }, options).catch(ApiError);
+        return this.employeeFacade.list({ page, limit }, options).catch(GqlError);
     }
 
     @Query(() => Employee)
@@ -41,26 +41,26 @@ export class EmployeeResolver {
             currentUser.id != employeeId &&
             (currentUser.role as Role).privileges.findIndex(x => x == 'employees.access') == -1
         ) {
-            return Promise.reject(ApiError({ statusCode: 403, message: 'Forbidden resource' }));
+            return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.details(employeeId).catch(ApiError);
+        return this.employeeFacade.details(employeeId).catch(GqlError);
     }
 
     @Mutation(() => Employee)
     @Privileges('employees.create')
     addEmployee(@Args('employee') employee: AddEmployeeInput): Promise<any> {
-        return this.employeeFacade.create(employee).catch(ApiError);
+        return this.employeeFacade.create(employee).catch(GqlError);
     }
 
     @Mutation(() => Employee)
     @Privileges('employees.edit')
     updateEmployee(@Args('employee') employee: UpdateEmployeeInput): Promise<any> {
-        return this.employeeFacade.update(employee).catch(ApiError);
+        return this.employeeFacade.update(employee).catch(GqlError);
     }
 
     @Mutation(() => Job)
     @Privileges('employees.edit')
     addJob(@Args('employeeId', { type: () => ID }) employeeId: string, @Args('job') job: JobInput): Promise<any> {
-        return this.employeeFacade.addJob(employeeId, job).catch(ApiError);
+        return this.employeeFacade.addJob(employeeId, job).catch(GqlError);
     }
 }

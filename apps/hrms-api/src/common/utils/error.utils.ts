@@ -7,6 +7,8 @@ export class ApolloErrorAdapter extends ApolloError {
     }
 }
 
-export const ApiError = (err: ErrorDto) => {
+export const GqlError = (err: ErrorDto) => {
     return new ApolloErrorAdapter(err);
 };
+
+export const FORBIDDEN_ERROR = GqlError({ statusCode: 403, message: 'Forbidden resource' });
