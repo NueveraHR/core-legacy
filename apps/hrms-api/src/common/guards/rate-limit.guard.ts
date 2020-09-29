@@ -1,5 +1,5 @@
-import { LoggerService } from './../../../../../libs/logger/src/logger.service';
 import { RedisService } from '@hrms-core/common/services/database/redis.service';
+import { LoggerService } from '@libs/logger';
 import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
@@ -7,9 +7,7 @@ import * as ms from 'ms';
 
 @Injectable()
 export class RateLimitGuard implements CanActivate {
-    @Inject() logger: LoggerService;
-
-    constructor(private reflector: Reflector, private redis: RedisService) {}
+    constructor(private reflector: Reflector, private redis: RedisService, private logger: LoggerService) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = this.getRequest(context);

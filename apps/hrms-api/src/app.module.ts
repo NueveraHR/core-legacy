@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { CommonApi } from './common/common-api.module';
@@ -7,6 +7,7 @@ import { EmployeeResolver } from './employee/employee.resolver';
 import { RoleResolver } from './role/role.resolver';
 import { AuthResolver } from './auth/auth.resolver';
 import { UploadResolver } from './upload/upload.resolver';
+import { JwtDecryptMiddleware } from './common/middlewares/jwt-decrypt.middleware';
 
 @Module({
     imports: [
@@ -24,4 +25,8 @@ import { UploadResolver } from './upload/upload.resolver';
     providers: [AuthResolver, RoleResolver, EmployeeResolver, UploadResolver],
     controllers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(JwtDecryptMiddleware).forRoutes('/');
+    }
+}
