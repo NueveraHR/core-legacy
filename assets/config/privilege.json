@@ -16,7 +16,6 @@
         "create": "Create new employee record",
         "edit": "Edit an employee record",
         "delete": "Delete an employee record",
-        "access-profile": "Allow employee to access his profile",
         "edit-profile": "Employee can edit his profile information",
         "change-job-title-request": "Create a job title changing request"
     }
