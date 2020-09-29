@@ -2,6 +2,7 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { RoleDto } from '@hrms-core/dto/role.dto';
 import { GqlExecutionContext } from '@nestjs/graphql';
+import { ApiError } from '../utils/error.utils';
 
 @Injectable()
 export class PrivilegesGuard implements CanActivate {
@@ -12,19 +13,23 @@ export class PrivilegesGuard implements CanActivate {
         return ctx.getContext().req;
     }
 
-    canActivate(context: ExecutionContext): boolean {
+    canActivate(context: ExecutionContext): boolean | Promise<any> {
         const handlerPrivileges = this.reflector.get<string[]>('privileges', context.getHandler()) || [];
         const controllerPrivileges = this.reflector.get<string[]>('privileges', context.getClass()) || [];
+        const ignorePrivileges = this.reflector.get<string[]>('ignorePrivileges', context.getHandler());
         const privileges = [...controllerPrivileges, ...handlerPrivileges];
 
-        if (privileges.length == 0) {
+        if (ignorePrivileges || privileges.length == 0) {
             return true;
         }
 
         const request = this.getRequest(context);
         const user = request.user;
 
-        return this.isPermitted(user, privileges);
+        return (
+            this.isPermitted(user, privileges) ||
+            Promise.reject(ApiError({ statusCode: 403, message: 'Forbidden resource' }))
+        );
     }
 
     private isPermitted(user: { id: string; role: RoleDto }, demandedPrivileges: string[]): boolean {

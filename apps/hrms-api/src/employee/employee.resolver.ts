@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args, ID, Int } from '@nestjs/graphql';
 import { EmployeeFacade } from '@hrms-core/facades/employee.facade';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@hrms-api/common/guards/auth.guard';
-import { Privileges } from '@hrms-api/common/decorators/privileges.decorator';
+import { IgnorePrivileges, Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import { AddEmployeeInput, UpdateEmployeeInput, JobInput } from '@hrms-api/employee/employee.input';
 import { Employee, PaginatedEmployeeList, Job } from './employee.type';
@@ -14,6 +14,7 @@ import { RateLimit } from '@hrms-api/common/decorators/rateLimit.decorator';
 import { RateLimitGuard } from '@hrms-api/common/guards/rate-limit.guard';
 import { CurrentUser } from '@hrms-api/common/decorators/currentUser.decorator';
 import { UserDto } from '@hrms-core/dto/user.dto';
+import { Role } from '@hrms-api/role/role.type';
 
 @Resolver()
 @Privileges('employees.access')
@@ -34,8 +35,14 @@ export class EmployeeResolver {
     }
 
     @Query(() => Employee)
+    @IgnorePrivileges()
     employee(@CurrentUser() currentUser: UserDto, @Args('id', { type: () => ID }) employeeId: string): Promise<any> {
-        //TODO: assert is eligible to view user sensitive data
+        if (
+            currentUser.id != employeeId &&
+            (currentUser.role as Role).privileges.findIndex(x => x == 'employees.access') == -1
+        ) {
+            return Promise.reject(ApiError({ statusCode: 403, message: 'Forbidden resource' }));
+        }
         return this.employeeFacade.details(employeeId).catch(ApiError);
     }
 
