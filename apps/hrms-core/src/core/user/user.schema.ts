@@ -68,7 +68,7 @@ export const USER_SORTING_FIELDS = ['email', 'firstName', 'lastName'];
 
 UserSchema.plugin(mongoosePaginate);
 
-UserSchema.pre<User>('save', function (next) {
+UserSchema.pre<User>('save', function(next) {
     if (this.type == UserType.EMPLOYEE) {
         this.employee = this.get('id');
     } else if (this.type == UserType.CANDIDATE) {
@@ -78,17 +78,13 @@ UserSchema.pre<User>('save', function (next) {
     next();
 });
 
-const PopulateByType = function (next) {
+const populateStandardData = function(next) {
     this.populate('employee');
     this.populate('candidate');
-    next();
-};
-
-const populateStandardData = function (next) {
     this.populate('role');
     this.populate('address');
     next();
 };
-UserSchema.pre<User>('find', PopulateByType);
 
+UserSchema.pre<User>('find', populateStandardData);
 UserSchema.pre<User>('findOne', populateStandardData);
