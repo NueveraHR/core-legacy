@@ -3,7 +3,7 @@ import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
 import { LoggerService } from '@libs/logger';
 import { JobService } from './job.service';
-import { JOBS } from '@hrms-core/test/mock/job-mock';
+import { JOBS } from '@hrms-core/test/mock/job.mock';
 
 describe('Job Service', () => {
     let dbManager: DBManager;

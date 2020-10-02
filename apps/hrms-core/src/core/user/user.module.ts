@@ -7,9 +7,19 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './user.schema';
 import { UserService } from './user.service';
 import { AddressModule } from '../address/address.module';
+import { EducationModule } from './education/education.module';
+import { CertificationModule } from './certification/certification.module';
+import { LanguageModule } from './language/languauge.module';
 
 @Module({
-    imports: [RoleModule, AddressModule, MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
+    imports: [
+        RoleModule,
+        AddressModule,
+        EducationModule,
+        CertificationModule,
+        LanguageModule,
+        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    ],
     providers: [
         //validators
         UserDtoValidator,
@@ -21,6 +31,15 @@ import { AddressModule } from '../address/address.module';
         // Services
         UserService,
     ],
-    exports: [UserService, UserDtoPipe, UserDtoValidator, UserDtoReversePipe],
+    exports: [
+        AddressModule,
+        EducationModule,
+        CertificationModule,
+        LanguageModule,
+        UserService,
+        UserDtoPipe,
+        UserDtoValidator,
+        UserDtoReversePipe,
+    ],
 })
 export class UserModule {}

@@ -24,4 +24,29 @@ export class UserDto {
     public department?: string;
 
     public picture?: string;
+    public educationHistory?: EducationDto[];
+    public certifications?: CertificationDto[];
+    public languages?: LanguageDto[];
+}
+
+export class EducationDto {
+    school?: string;
+    degree?: string;
+    field?: string;
+    startYear?: Date;
+    endYear?: Date;
+    description?: string;
+}
+
+export class CertificationDto {
+    name?: string;
+    issuingOrganization?: string;
+    date?: Date;
+    expiresOn?: Date;
+}
+
+export class LanguageDto {
+    name?: string;
+    proficiency?: string;
+    isPreferred?: boolean;
 }

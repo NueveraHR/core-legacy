@@ -27,9 +27,6 @@ export class Employee extends Document {
 
     @Prop([{ ref: 'Job', type: SchemaTypes.ObjectId }])
     jobHistory: string[] | Job[];
-
-    // @Prop({ref: 'Department', })
-    //TODO: add department and address
 }
 
 export const EmployeeSchema = SchemaFactory.createForClass(Employee);

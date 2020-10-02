@@ -83,7 +83,7 @@ export class UserService {
         );
     }
 
-    findAllPaginated(page = 1, limit = 10, filterOptions?: FilterOptions): Promise<PaginateResult<User>> {
+    async findAllPaginated(page = 1, limit = 10, filterOptions?: FilterOptions): Promise<PaginateResult<User>> {
         const options = this.buildPaginateOptions(page, limit, filterOptions);
         const query = this.buildQuery(filterOptions);
 
@@ -107,7 +107,7 @@ export class UserService {
             // TODO: only on demand
 
             if (user.type == UserType.EMPLOYEE) {
-                await (user.employee as Employee).populate('jobHistory').execPopulate();
+                await (user.employee as Employee)?.populate('jobHistory').execPopulate();
             }
         }
 
@@ -142,7 +142,33 @@ export class UserService {
             );
     }
 
-    attachRole(user: User, role: Role): Promise<User> {
+    async findByAnyUniqueId(userDto: UserDto): Promise<User> {
+        return this.userModel.findOne({
+            $or: [{ username: userDto.username }, { email: userDto.email }, { cin: userDto.cin }],
+        });
+    }
+
+    /**
+     * Delete one existing user
+     *
+     */
+    async delete(user: User): Promise<{ deletedCount?: number }> {
+        return this.userModel.deleteOne(user).catch(err =>
+            Promise.reject(
+                this.errorService.generate(Errors.General.INTERNAL_ERROR, {
+                    detailedMessage: err,
+                }),
+            ),
+        );
+    }
+
+    async updatePicture(id: string, imagePath: string): Promise<User> {
+        const user: User = await this.findById(id);
+        user.picture = imagePath;
+        return await this.update(user);
+    }
+
+    async attachRole(user: User, role: Role): Promise<User> {
         user.role = role.id;
         return user.save().catch(err =>
             Promise.reject(
@@ -153,34 +179,30 @@ export class UserService {
         );
     }
 
-    /**
-     * Delete one existing user
-     *
-     */
-    delete(user: User): Promise<{ deletedCount?: number }> {
-        return this.userModel.deleteOne(user).catch(err =>
-            Promise.reject(
-                this.errorService.generate(Errors.General.INTERNAL_ERROR, {
-                    detailedMessage: err,
-                }),
-            ),
-        );
+    attachEducation(userId: string, educationId: string): Promise<User> {
+        return this.userModel
+            .findByIdAndUpdate(userId, { $push: { educationHistory: educationId } }, { new: true })
+            .exec();
     }
 
-    /**
-     * Hash user password using default salt
-     *
-     */
+    attachCertification(userId: string, certificationId: string): Promise<User> {
+        return this.userModel
+            .findByIdAndUpdate(userId, { $push: { certifications: certificationId } }, { new: true })
+            .exec();
+    }
+
+    attachLanguage(userId: string, languageId: string): Promise<User> {
+        return this.userModel.findByIdAndUpdate(userId, { $push: { languages: languageId } }, { new: true }).exec();
+    }
+
+    // ------------------------------------------------------------------------
+    // @ Privates
+    // ------------------------------------------------------------------------
+
     private hashPassword(user: User): Promise<User> {
         return bcrypt.hash(user.password, SALT_ROUNDS).then(hashedPassword => {
             user.password = hashedPassword;
             return user;
-        });
-    }
-
-    async findByAnyUniqueId(userDto: UserDto): Promise<User> {
-        return this.userModel.findOne({
-            $or: [{ username: userDto.username }, { email: userDto.email }, { cin: userDto.cin }],
         });
     }
 
@@ -227,11 +249,5 @@ export class UserService {
 
     private getFilterOptions(): any {
         return {};
-    }
-
-    async updatePicture(id: string, imagePath: string): Promise<User> {
-        const user: User = await this.findById(id);
-        user.picture = imagePath;
-        return await this.update(user);
     }
 }

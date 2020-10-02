@@ -1,8 +1,8 @@
 import { EnvService } from '@libs/env';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { RoleService } from '@hrms-core/core/role/role.service';
-import { USERS } from '../mock/user-mock';
-import { ROLES } from '../mock/role-mock';
+import { USERS } from '../mock/user.mock';
+import { ROLES } from '../mock/role.mock';
 import { User } from '@hrms-core/core/user/user.schema';
 import { Role } from '@hrms-core/core/role/role.schema';
 

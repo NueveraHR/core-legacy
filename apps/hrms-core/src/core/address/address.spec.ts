@@ -3,7 +3,7 @@ import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
 import { AddressService } from './address.service';
 import { LoggerService } from '@libs/logger';
-import { ADDRESS_MOCK } from '@hrms-core/test/mock/address-mock';
+import { ADDRESS_MOCK } from '@hrms-core/test/mock/address.mock';
 
 describe('Address Service', () => {
     let dbManager: DBManager;
