@@ -14,7 +14,7 @@ import { RateLimit } from '@hrms-api/common/decorators/rateLimit.decorator';
 import { RateLimitGuard } from '@hrms-api/common/guards/rate-limit.guard';
 import { CurrentUser } from '@hrms-api/common/decorators/currentUser.decorator';
 import { UserDto } from '@hrms-core/dto/user.dto';
-import { Role } from '@hrms-api/role/role.type';
+import { Role } from '@hrms-core/core/role/role.schema';
 
 @Resolver()
 @Privileges('employees.access')
@@ -37,10 +37,7 @@ export class EmployeeResolver {
     @Query(() => Employee)
     @IgnorePrivileges()
     employee(@CurrentUser() currentUser: UserDto, @Args('id', { type: () => ID }) employeeId: string): Promise<any> {
-        if (
-            currentUser.id != employeeId &&
-            (currentUser.role as Role).privileges.findIndex(x => x == 'employees.access') == -1
-        ) {
+        if (!this.isAllowed(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
         return this.employeeFacade.details(employeeId).catch(GqlError);
@@ -67,9 +64,20 @@ export class EmployeeResolver {
     @Mutation(() => Employee)
     @IgnorePrivileges()
     addEducation(
+        @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
         @Args('education') education: AddEducationInput,
     ): Promise<any> {
+        if (!this.isAllowed(currentUser, employeeId)) {
+            return Promise.reject(FORBIDDEN_ERROR);
+        }
         return this.employeeFacade.addEducation(employeeId, education);
+    }
+
+    private isAllowed(currentUser: UserDto, employeeId: string) {
+        return (
+            currentUser.id == employeeId ||
+            (currentUser.role as Role).privileges.findIndex(x => x == 'employees.access') != -1
+        );
     }
 }

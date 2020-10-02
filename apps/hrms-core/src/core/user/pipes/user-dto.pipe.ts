@@ -1,7 +1,7 @@
 import { PipeTransform, ArgumentMetadata, Injectable, Inject } from '@nestjs/common';
 import { DtoTransformPipe } from '@hrms-core/common/interfaces/dto-pipe-transform';
 import { User } from '@hrms-core/core/user/user.schema';
-import { UserDto } from '@hrms-core/dto/user.dto';
+import { EducationDto, UserDto } from '@hrms-core/dto/user.dto';
 import { PipTransformException } from '@hrms-core/common/exceptions/pipe-transform.exception';
 import { LoggerService } from '@libs/logger';
 import { RoleDtoPipe } from '@hrms-core/core/role/pipes/role-dto.pipe';
@@ -35,7 +35,8 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
             phone: source.phone,
             role: source.role as RoleDto,
             address: source.address as AddressDto,
-            picture: source.picture
+            educationHistory: source.educationHistory as EducationDto[],
+            picture: source.picture,
         };
 
         return userDto;
