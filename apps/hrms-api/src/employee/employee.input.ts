@@ -1,3 +1,4 @@
+import { EducationDto } from './../../../hrms-core/src/dto/user.dto';
 import { EmployeeDto } from '@hrms-core/dto/employee.dto';
 import { InputType, Field, ID, Int, Float } from '@nestjs/graphql';
 import { Role } from '@hrms-api/role/role.type';
@@ -212,4 +213,25 @@ export class JobInput implements Partial<JobDto> {
 
     @Field({ nullable: true })
     bonusFrequency?: string;
+}
+
+@InputType()
+export class AddEducationInput implements Partial<EducationDto> {
+    @Field()
+    school?: string;
+
+    @Field()
+    degree?: string;
+
+    @Field()
+    field?: string;
+
+    @Field(() => Date)
+    startYear?: Date;
+
+    @Field(() => Date, { nullable: true })
+    endYear?: Date;
+
+    @Field({ nullable: true })
+    description?: string;
 }

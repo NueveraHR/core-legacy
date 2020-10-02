@@ -70,13 +70,13 @@ export class User extends Document {
     about: string;
 
     @Prop([{ ref: 'Education', type: SchemaTypes.ObjectId }])
-    educationHistory: Education[];
+    educationHistory: string[] | Education[];
 
     @Prop([{ ref: 'Certification', type: SchemaTypes.ObjectId }])
-    certifications: Certification[];
+    certifications: string[] | Certification[];
 
     @Prop([{ ref: 'Language', type: SchemaTypes.ObjectId }])
-    languages: Language[];
+    languages: string[] | Language[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
@@ -100,11 +100,13 @@ const populateStandardData = function(next) {
     this.populate('role');
     this.populate('address');
     this.populate('educationHistory');
-    this.populate('certifications');
-    this.populate('languages');
+    // this.populate('certifications');
+    // this.populate('languages');
 
     next();
 };
 
+// TODO: [Optimization] populate on demand
 UserSchema.pre<User>('find', populateStandardData);
 UserSchema.pre<User>('findOne', populateStandardData);
+UserSchema.pre<User>('findOneAndUpdate', populateStandardData);

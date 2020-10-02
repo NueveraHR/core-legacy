@@ -24,4 +24,14 @@ export class UserDto {
     public department?: string;
 
     public picture?: string;
+    public educationHistory?: EducationDto[];
+}
+
+export class EducationDto {
+    school?: string;
+    degree?: string;
+    field?: string;
+    startYear?: Date;
+    endYear?: Date;
+    description?: string;
 }

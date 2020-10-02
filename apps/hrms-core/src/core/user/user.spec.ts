@@ -8,12 +8,14 @@ import { LoggerService } from '@libs/logger';
 import { RoleService } from '../role/role.service';
 import { PaginateResult } from 'mongoose';
 import { USERS } from '@hrms-core/test/mock/user-mock';
+import * as mongoose from 'mongoose';
 
 describe('User Service', () => {
     let userService: UserService;
     let roleService: RoleService;
     let dbManager: DBManager;
     let loggerService: LoggerService;
+
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
             imports: [HRMSCoreModule],
@@ -100,13 +102,24 @@ describe('User Service', () => {
 
         it('Attaches role to user successfully', async () => {
             user = await userService.create(userDto);
-            let role = await roleService.create(USERS.employeeRole);
+            const role = await roleService.create(USERS.employeeRole);
             userService.attachRole(user, role).then(updatedUser => {
                 expect(updatedUser.role).not.toBeUndefined();
                 expect(updatedUser.role).not.toBeNull();
                 expect(typeof updatedUser.role).toEqual('string');
                 expect((updatedUser.role as string).length).toBeGreaterThan(1);
             });
+        });
+
+        it('Attaches education to user', async () => {
+            user = await userService.create(userDto);
+            let i = 0;
+            const results: User[] = [];
+            while (i < 10 && ++i) {
+                const res = await userService.attachEducation(user.id, `${mongoose.Types.ObjectId()}`);
+                results.unshift(res);
+                expect(results[0].educationHistory.length).toEqual(i);
+            }
         });
     });
 
@@ -141,12 +154,11 @@ describe('User Service', () => {
             await userService.findAll().then(users => {
                 expect(users.length).toEqual(24);
             });
-
-            await userService.findAllPaginated(3, 10).then((users: PaginateResult<User>) => {
+            -(await userService.findAllPaginated(3, 10).then((users: PaginateResult<User>) => {
                 expect(users.total).toEqual(24); // 24 registered users
                 expect(users.pages).toEqual(3); // 3 pages
                 expect(users.docs.length).toEqual(4); // 4 users on page 3
-            });
+            }));
         });
 
         it('Should find user by username', async () => {
@@ -166,9 +178,9 @@ describe('User Service', () => {
         });
 
         it('should find a populated user role', async () => {
-            let user = await userService.create(userDto);
+            const user = await userService.create(userDto);
 
-            let role = await roleService.create(USERS.employeeRole);
+            const role = await roleService.create(USERS.employeeRole);
             await userService.attachRole(user, role);
             await userService.findByUsername(userDto.username).then(user => {
                 expect(user.role).not.toBeUndefined();
@@ -182,7 +194,7 @@ describe('User Service', () => {
     describe('Delete User', () => {
         const userDto = USERS.basicUser;
         it('should delete user successfully', async () => {
-            let user = await userService.create(userDto);
+            const user = await userService.create(userDto);
             await expect(userService.delete(user)).resolves.toEqual(expect.objectContaining({ deletedCount: 1 }));
             //expect(user).toBe(null);
         });

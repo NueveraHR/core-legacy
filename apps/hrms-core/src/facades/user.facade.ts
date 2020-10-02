@@ -1,10 +1,10 @@
-import { UserDto } from '@hrms-core/dto/user.dto';
+import { JobDto } from './../dto/job.dto';
+import { EducationDto, UserDto } from '@hrms-core/dto/user.dto';
 import { Inject } from '@nestjs/common';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { LoggerService } from '@libs/logger';
 import { UserDtoPipe } from '../core/user/pipes/user-dto.pipe';
 import { ErrorService } from '@hrms-core/common/error/error.service';
-import { PaginateResult } from 'mongoose';
 import { UserDtoValidator } from '../core/user/validators/user-dto.validator';
 import { RoleService } from '@hrms-core/core/role/role.service';
 import { UserDtoReversePipe } from '../core/user/pipes/user-dto-reverse.pipe';
@@ -13,6 +13,7 @@ import { AddressService } from '@hrms-core/core/address/address.service';
 import { AddressDto } from '@hrms-core/dto/address.dto';
 import { PaginationOptions, NvrPaginateResult, FilterOptions } from '@hrms-core/common/interfaces/pagination';
 import { Address } from '@hrms-core/core/address/address.schema';
+import { EducationService } from '@hrms-core/core/user/education/education.service';
 
 export class UserFacade {
     constructor(
@@ -23,6 +24,7 @@ export class UserFacade {
         protected userService: UserService,
         protected roleService: RoleService,
         protected addressService: AddressService,
+        protected educationService: EducationService,
     ) {}
 
     @Inject(ErrorService) errorService: ErrorService;
@@ -89,6 +91,13 @@ export class UserFacade {
         this.userDtoReversePipe.transformExistent(userDto, user);
         await this.addressService.update(user.address as Address);
         return this.userService.update(user).then(user => this.userDtoPipe.transform(user));
+    }
+
+    async addEducation(userId: string, educationDto: EducationDto): Promise<UserDto> {
+        //TODO: validate
+        const education = await this.educationService.create(educationDto);
+        const userDto = (await this.userService.attachEducation(userId, education.id)) as UserDto;
+        return userDto;
     }
 
     private populateMissingValues(userDto: UserDto): UserDto {

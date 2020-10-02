@@ -4,6 +4,28 @@ import { Role } from '@hrms-api/role/role.type';
 import { AddressDto } from '@hrms-core/dto/address.dto';
 import { UserPaginateDto } from '@hrms-core/facades/user.facade';
 import { JobDto } from '@hrms-core/dto/job.dto';
+import { EducationDto } from '@hrms-core/dto/user.dto';
+
+@ObjectType()
+export class Education implements Partial<EducationDto> {
+    @Field()
+    school?: string;
+
+    @Field()
+    degree?: string;
+
+    @Field()
+    field?: string;
+
+    @Field(() => Date)
+    startYear?: Date;
+
+    @Field(() => Date, { nullable: true })
+    endYear?: Date;
+
+    @Field({ nullable: true })
+    description?: string;
+}
 
 @ObjectType()
 export class Address implements Partial<AddressDto> {
@@ -141,6 +163,9 @@ export class Employee implements Partial<EmployeeDto> {
 
     @Field(() => [Job], { nullable: true })
     public jobHistory?: Job[];
+
+    @Field(() => [Education], { nullable: true })
+    public educationHistory?: Education[];
 }
 
 @ObjectType()

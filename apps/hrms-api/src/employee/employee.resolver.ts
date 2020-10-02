@@ -4,7 +4,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@hrms-api/common/guards/auth.guard';
 import { IgnorePrivileges, Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
-import { AddEmployeeInput, UpdateEmployeeInput, JobInput } from '@hrms-api/employee/employee.input';
+import { AddEmployeeInput, UpdateEmployeeInput, JobInput, AddEducationInput } from '@hrms-api/employee/employee.input';
 import { Employee, PaginatedEmployeeList, Job } from './employee.type';
 import { FORBIDDEN_ERROR, GqlError } from '@hrms-api/common/utils/error.utils';
 import { SortInput } from '@hrms-api/common/graphql/sort.input';
@@ -62,5 +62,14 @@ export class EmployeeResolver {
     @Privileges('employees.edit')
     addJob(@Args('employeeId', { type: () => ID }) employeeId: string, @Args('job') job: JobInput): Promise<any> {
         return this.employeeFacade.addJob(employeeId, job).catch(GqlError);
+    }
+
+    @Mutation(() => Employee)
+    @IgnorePrivileges()
+    addEducation(
+        @Args('employeeId', { type: () => ID }) employeeId: string,
+        @Args('education') education: AddEducationInput,
+    ): Promise<any> {
+        return this.employeeFacade.addEducation(employeeId, education);
     }
 }
