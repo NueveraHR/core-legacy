@@ -1,6 +1,6 @@
 import { UserService } from './user.service';
 import { Test } from '@nestjs/testing';
-import { User } from './user.schema';
+import { User, UserSchema } from './user.schema';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
 import * as bcrypt from 'bcrypt';
@@ -9,10 +9,13 @@ import { RoleService } from '../role/role.service';
 import { PaginateResult } from 'mongoose';
 import { USERS } from '@hrms-core/test/mock/user-mock';
 import * as mongoose from 'mongoose';
+import { EducationService } from './education/education.service';
+import { EDUCATION } from '@hrms-core/test/mock/education-mock';
 
 describe('User Service', () => {
     let userService: UserService;
     let roleService: RoleService;
+    let educationService: EducationService; // TODO: Remove this dependency as ut should be self-encapsulated
     let dbManager: DBManager;
     let loggerService: LoggerService;
 
@@ -26,6 +29,7 @@ describe('User Service', () => {
         dbManager = moduleRef.get<DBManager>(DBManager);
         userService = moduleRef.get<UserService>(UserService);
         roleService = moduleRef.get<RoleService>(RoleService);
+        educationService = moduleRef.get<EducationService>(EducationService);
         loggerService = moduleRef.get<LoggerService>(LoggerService);
     });
 
@@ -116,7 +120,8 @@ describe('User Service', () => {
             let i = 0;
             const results: User[] = [];
             while (i < 10 && ++i) {
-                const res = await userService.attachEducation(user.id, `${mongoose.Types.ObjectId()}`);
+                const ed = await educationService.create(EDUCATION.full);
+                const res = await userService.attachEducation(user.id, ed.id);
                 results.unshift(res);
                 expect(results[0].educationHistory.length).toEqual(i);
             }
