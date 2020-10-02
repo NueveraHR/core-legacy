@@ -25,6 +25,7 @@ export class UserDto {
 
     public picture?: string;
     public educationHistory?: EducationDto[];
+    public certifications?: CertificationDto[];
 }
 
 export class EducationDto {
@@ -34,4 +35,11 @@ export class EducationDto {
     startYear?: Date;
     endYear?: Date;
     description?: string;
+}
+
+export class CertificationDto {
+    name?: string;
+    issuingOrganization?: string;
+    date?: Date;
+    expiresOn?: Date;
 }

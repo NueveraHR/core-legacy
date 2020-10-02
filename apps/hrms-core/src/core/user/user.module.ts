@@ -31,6 +31,15 @@ import { LanguageModule } from './language/languauge.module';
         // Services
         UserService,
     ],
-    exports: [UserService, UserDtoPipe, UserDtoValidator, UserDtoReversePipe],
+    exports: [
+        AddressModule,
+        EducationModule,
+        CertificationModule,
+        LanguageModule,
+        UserService,
+        UserDtoPipe,
+        UserDtoValidator,
+        UserDtoReversePipe,
+    ],
 })
 export class UserModule {}

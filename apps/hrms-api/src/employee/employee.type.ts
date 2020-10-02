@@ -4,7 +4,7 @@ import { Role } from '@hrms-api/role/role.type';
 import { AddressDto } from '@hrms-core/dto/address.dto';
 import { UserPaginateDto } from '@hrms-core/facades/user.facade';
 import { JobDto } from '@hrms-core/dto/job.dto';
-import { EducationDto } from '@hrms-core/dto/user.dto';
+import { CertificationDto, EducationDto } from '@hrms-core/dto/user.dto';
 
 @ObjectType()
 export class Education implements Partial<EducationDto> {
@@ -25,6 +25,21 @@ export class Education implements Partial<EducationDto> {
 
     @Field({ nullable: true })
     description?: string;
+}
+
+@ObjectType()
+export class Certification implements Partial<CertificationDto> {
+    @Field()
+    name?: string;
+
+    @Field()
+    issuingOrganization?: string;
+
+    @Field(() => Date)
+    date?: Date;
+
+    @Field(() => Date, { nullable: true })
+    expiresOn?: Date;
 }
 
 @ObjectType()
@@ -166,6 +181,9 @@ export class Employee implements Partial<EmployeeDto> {
 
     @Field(() => [Education], { nullable: true })
     public educationHistory?: Education[];
+
+    @Field(() => [Certification], { nullable: true })
+    public certifications?: Certification[];
 }
 
 @ObjectType()

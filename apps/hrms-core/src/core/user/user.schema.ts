@@ -100,7 +100,7 @@ const populateStandardData = function(next) {
     this.populate('role');
     this.populate('address');
     this.populate('educationHistory');
-    // this.populate('certifications');
+    this.populate('certifications');
     // this.populate('languages');
 
     next();

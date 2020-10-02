@@ -4,7 +4,13 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@hrms-api/common/guards/auth.guard';
 import { IgnorePrivileges, Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
-import { AddEmployeeInput, UpdateEmployeeInput, JobInput, AddEducationInput } from '@hrms-api/employee/employee.input';
+import {
+    AddEmployeeInput,
+    UpdateEmployeeInput,
+    JobInput,
+    AddEducationInput,
+    AddCertificationInput,
+} from '@hrms-api/employee/employee.input';
 import { Employee, PaginatedEmployeeList, Job } from './employee.type';
 import { FORBIDDEN_ERROR, GqlError } from '@hrms-api/common/utils/error.utils';
 import { SortInput } from '@hrms-api/common/graphql/sort.input';
@@ -72,6 +78,19 @@ export class EmployeeResolver {
             return Promise.reject(FORBIDDEN_ERROR);
         }
         return this.employeeFacade.addEducation(employeeId, education);
+    }
+
+    @Mutation(() => Employee)
+    @IgnorePrivileges()
+    addCertification(
+        @CurrentUser() currentUser: UserDto,
+        @Args('employeeId', { type: () => ID }) employeeId: string,
+        @Args('cert') cert: AddCertificationInput,
+    ): Promise<any> {
+        if (!this.isAllowed(currentUser, employeeId)) {
+            return Promise.reject(FORBIDDEN_ERROR);
+        }
+        return this.employeeFacade.addCertification(employeeId, cert);
     }
 
     private isAllowed(currentUser: UserDto, employeeId: string) {

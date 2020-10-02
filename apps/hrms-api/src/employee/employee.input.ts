@@ -1,4 +1,4 @@
-import { EducationDto } from './../../../hrms-core/src/dto/user.dto';
+import { CertificationDto, EducationDto } from './../../../hrms-core/src/dto/user.dto';
 import { EmployeeDto } from '@hrms-core/dto/employee.dto';
 import { InputType, Field, ID, Int, Float } from '@nestjs/graphql';
 import { Role } from '@hrms-api/role/role.type';
@@ -234,4 +234,19 @@ export class AddEducationInput implements Partial<EducationDto> {
 
     @Field({ nullable: true })
     description?: string;
+}
+
+@InputType()
+export class AddCertificationInput implements Partial<CertificationDto> {
+    @Field()
+    name?: string;
+
+    @Field()
+    issuingOrganization?: string;
+
+    @Field(() => Date)
+    date?: Date;
+
+    @Field(() => Date, { nullable: true })
+    expiresOn?: Date;
 }

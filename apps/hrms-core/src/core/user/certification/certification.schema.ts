@@ -13,7 +13,7 @@ export class Certification extends Document {
     date: Date;
 
     @Prop()
-    expiresOn: Date;
+    expiresOn?: Date;
 }
 
 export const CertificationSchema = SchemaFactory.createForClass(Certification);

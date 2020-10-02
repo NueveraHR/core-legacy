@@ -185,6 +185,12 @@ export class UserService {
             .exec();
     }
 
+    attachCertification(userId: string, certificationId: string): Promise<User> {
+        return this.userModel
+            .findByIdAndUpdate(userId, { $push: { certifications: certificationId } }, { new: true })
+            .exec();
+    }
+
     // ------------------------------------------------------------------------
     // @ Privates
     // ------------------------------------------------------------------------

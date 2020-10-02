@@ -1,5 +1,4 @@
-import { JobDto } from './../dto/job.dto';
-import { EducationDto, UserDto } from '@hrms-core/dto/user.dto';
+import { CertificationDto, EducationDto, UserDto } from '@hrms-core/dto/user.dto';
 import { Inject } from '@nestjs/common';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { LoggerService } from '@libs/logger';
@@ -14,6 +13,7 @@ import { AddressDto } from '@hrms-core/dto/address.dto';
 import { PaginationOptions, NvrPaginateResult, FilterOptions } from '@hrms-core/common/interfaces/pagination';
 import { Address } from '@hrms-core/core/address/address.schema';
 import { EducationService } from '@hrms-core/core/user/education/education.service';
+import { CertificationService } from '@hrms-core/core/user/certification/certification.service';
 
 export class UserFacade {
     constructor(
@@ -25,6 +25,7 @@ export class UserFacade {
         protected roleService: RoleService,
         protected addressService: AddressService,
         protected educationService: EducationService,
+        protected certificationService: CertificationService,
     ) {}
 
     @Inject(ErrorService) errorService: ErrorService;
@@ -96,8 +97,13 @@ export class UserFacade {
     async addEducation(userId: string, educationDto: EducationDto): Promise<UserDto> {
         //TODO: validate
         const education = await this.educationService.create(educationDto);
-        const userDto = (await this.userService.attachEducation(userId, education.id)) as UserDto;
-        return userDto;
+        return this.userService.attachEducation(userId, education.id) as UserDto;
+    }
+
+    async addCertification(userId: string, certificationDto: CertificationDto): Promise<UserDto> {
+        //TODO: validate
+        const cert = await this.certificationService.create(certificationDto);
+        return (await this.userService.attachCertification(userId, cert.id)) as UserDto;
     }
 
     private populateMissingValues(userDto: UserDto): UserDto {
