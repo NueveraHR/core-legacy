@@ -5,7 +5,7 @@ import { LoggerService } from '@libs/logger';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { AuthFacade } from './auth.facade';
-import { USERS } from '@hrms-core/test/mock/user-mock';
+import { USERS } from '@hrms-core/test/mock/user.mock';
 import { MockUtils } from '@hrms-core/test/utils/mock.utils';
 import { EnvService } from '@libs/env';
 
