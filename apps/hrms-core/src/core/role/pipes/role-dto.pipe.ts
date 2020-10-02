@@ -23,7 +23,7 @@ export class RoleDtoPipe implements DtoTransformPipe<Role, RoleDto> {
         target.description = source.description;
         target.privileges = source.privileges;
         target.id = source.id;
-        target.extendsRoles = target.extendsRoles;
+        target.extendsRoles = source.extendsRoles;
 
         return target;
     }
