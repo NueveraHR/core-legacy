@@ -10,6 +10,7 @@ import {
     JobInput,
     AddEducationInput,
     AddCertificationInput,
+    AddLanguageInput,
 } from '@hrms-api/employee/employee.input';
 import { Employee, PaginatedEmployeeList, Job } from './employee.type';
 import { FORBIDDEN_ERROR, GqlError } from '@hrms-api/common/utils/error.utils';
@@ -91,6 +92,19 @@ export class EmployeeResolver {
             return Promise.reject(FORBIDDEN_ERROR);
         }
         return this.employeeFacade.addCertification(employeeId, cert);
+    }
+
+    @Mutation(() => Employee)
+    @IgnorePrivileges()
+    addLanguage(
+        @CurrentUser() currentUser: UserDto,
+        @Args('employeeId', { type: () => ID }) employeeId: string,
+        @Args('lang') lang: AddLanguageInput,
+    ): Promise<any> {
+        if (!this.isAllowed(currentUser, employeeId)) {
+            return Promise.reject(FORBIDDEN_ERROR);
+        }
+        return this.employeeFacade.addLanguage(employeeId, lang);
     }
 
     private isAllowed(currentUser: UserDto, employeeId: string) {

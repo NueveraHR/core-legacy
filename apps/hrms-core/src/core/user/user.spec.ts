@@ -13,12 +13,15 @@ import { CertificationService } from './certification/certification.service';
 import { USERS } from '@hrms-core/test/mock/user.mock';
 import { EDUCATION } from '@hrms-core/test/mock/education.mock';
 import { CERTIFICATION } from '@hrms-core/test/mock/certification.mock';
+import { LanguageService } from './language/language.service';
+import { LANGUAGE } from '@hrms-core/test/mock/language.mock';
 
 describe('User Service', () => {
     let userService: UserService;
     let roleService: RoleService;
     let educationService: EducationService; // TODO: Remove this dependency as ut should be self-encapsulated
     let certificationService: CertificationService; // TODO: Remove this dependency as ut should be self-encapsulated
+    let languageService: LanguageService; // TODO: Remove this dependency as ut should be self-encapsulated
     let dbManager: DBManager;
     let loggerService: LoggerService;
 
@@ -34,6 +37,7 @@ describe('User Service', () => {
         roleService = moduleRef.get<RoleService>(RoleService);
         educationService = moduleRef.get<EducationService>(EducationService);
         certificationService = moduleRef.get<CertificationService>(CertificationService);
+        languageService = moduleRef.get<LanguageService>(LanguageService);
         loggerService = moduleRef.get<LoggerService>(LoggerService);
     });
 
@@ -140,6 +144,18 @@ describe('User Service', () => {
                 const res = await userService.attachCertification(user.id, cert.id);
                 results.unshift(res);
                 expect(results[0].certifications.length).toEqual(i);
+            }
+        });
+
+        it('Attaches language to user', async () => {
+            user = await userService.create(userDto);
+            let i = 0;
+            const results: User[] = [];
+            while (i < 10 && ++i) {
+                const lang = await languageService.create(LANGUAGE.en);
+                const res = await userService.attachLanguage(user.id, lang.id);
+                results.unshift(res);
+                expect(results[0].languages.length).toEqual(i);
             }
         });
     });

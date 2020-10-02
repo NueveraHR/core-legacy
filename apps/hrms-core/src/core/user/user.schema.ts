@@ -101,7 +101,7 @@ const populateStandardData = function(next) {
     this.populate('address');
     this.populate('educationHistory');
     this.populate('certifications');
-    // this.populate('languages');
+    this.populate('languages');
 
     next();
 };

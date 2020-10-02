@@ -191,6 +191,10 @@ export class UserService {
             .exec();
     }
 
+    attachLanguage(userId: string, languageId: string): Promise<User> {
+        return this.userModel.findByIdAndUpdate(userId, { $push: { languages: languageId } }, { new: true }).exec();
+    }
+
     // ------------------------------------------------------------------------
     // @ Privates
     // ------------------------------------------------------------------------
