@@ -9,12 +9,12 @@ export class LanguageService {
     constructor(@InjectModel(Language.name) private readonly LanguageModel: Model<Language>) {}
 
     create(languageDto: LanguageDto): Promise<Language> {
-        const Language = new this.LanguageModel(languageDto);
-        return Language.save();
+        const language = new this.LanguageModel(languageDto);
+        return language.save();
     }
 
-    update(Language: Language): Promise<Language> {
-        return Language.save();
+    update(language: Language): Promise<Language> {
+        return language.save();
     }
 
     delete(id: string): Promise<boolean> {
