@@ -15,6 +15,8 @@ import { Address } from '@hrms-core/core/address/address.schema';
 import { EducationService } from '@hrms-core/core/user/education/education.service';
 import { CertificationService } from '@hrms-core/core/user/certification/certification.service';
 import { LanguageService } from '@hrms-core/core/user/language/language.service';
+import { SkillService } from './../core/skill/skill.service';
+import { SkillDto } from '@hrms-core/dto/skill.dto';
 
 export class UserFacade {
     constructor(
@@ -28,6 +30,7 @@ export class UserFacade {
         protected educationService: EducationService,
         protected certificationService: CertificationService,
         protected languageService: LanguageService,
+        protected skillService: SkillService,
     ) {}
 
     @Inject(ErrorService) errorService: ErrorService;
@@ -111,7 +114,13 @@ export class UserFacade {
     async addLanguage(userId: string, languageDto: LanguageDto): Promise<UserDto> {
         //TODO: validate
         const lang = await this.languageService.create(languageDto);
-        return (await this.userService.attachLanguage(userId, lang.id)) as UserDto;
+        return this.userService.attachLanguage(userId, lang.id) as UserDto;
+    }
+
+    async addSkill(userId: string, skillDto: SkillDto): Promise<UserDto> {
+        //TODO: validate
+        const skill = await this.skillService.create(skillDto);
+        return this.userService.attachSkill(userId, skill.id) as UserDto;
     }
 
     private populateMissingValues(userDto: UserDto): UserDto {

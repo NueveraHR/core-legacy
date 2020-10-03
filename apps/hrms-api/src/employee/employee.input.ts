@@ -4,6 +4,7 @@ import { InputType, Field, ID, Int, Float } from '@nestjs/graphql';
 import { Role } from '@hrms-api/role/role.type';
 import { AddressDto } from '@hrms-core/dto/address.dto';
 import { JobDto } from '@hrms-core/dto/job.dto';
+import { SkillDto } from '@hrms-core/dto/skill.dto';
 
 @InputType()
 export class AddAddressInput implements Partial<AddressDto> {
@@ -261,4 +262,19 @@ export class AddLanguageInput implements Partial<LanguageDto> {
 
     @Field({ nullable: true })
     isPreferred?: boolean;
+}
+
+@InputType()
+export class AddSkillInput implements Partial<SkillDto> {
+    @Field()
+    name?: string;
+
+    @Field()
+    level?: number;
+
+    @Field({ nullable: true })
+    type?: string;
+
+    @Field(() => [ID], { nullable: true })
+    relatedFields?: string[];
 }

@@ -9,6 +9,7 @@ import { Education } from './education/education.schema';
 import { Certification } from './certification/certification.schema';
 import { Language } from './language/language.schema';
 import { SchemaTypes } from 'mongoose';
+import { Skill } from '../skill/skill.schema';
 
 @Schema()
 export class User extends Document {
@@ -51,7 +52,16 @@ export class User extends Document {
     @Prop()
     phone: string;
 
-    @Prop({ ref: 'Address', type: Types.ObjectId })
+    @Prop()
+    picture: string;
+
+    @Prop()
+    title: string;
+
+    @Prop()
+    about: string;
+
+    @Prop({ ref: 'Address', type: Types.ObjectId }) // TODO: replace with SchemaTypes
     address: string | Address;
 
     @Prop({ ref: 'Role', type: Types.ObjectId })
@@ -63,11 +73,11 @@ export class User extends Document {
     @Prop()
     candidate: string;
 
-    @Prop()
-    picture: string;
+    @Prop([{ ref: 'Skill', type: SchemaTypes.ObjectId }])
+    skills: string[] | Skill[];
 
-    @Prop()
-    about: string;
+    // @Prop([{ ref: 'SocialLink', type: SchemaTypes.ObjectId }])
+    // socialLinks: string[] | SocialLink[];
 
     @Prop([{ ref: 'Education', type: SchemaTypes.ObjectId }])
     educationHistory: string[] | Education[];
@@ -102,6 +112,7 @@ const populateStandardData = function(next) {
     this.populate('educationHistory');
     this.populate('certifications');
     this.populate('languages');
+    this.populate('skills');
 
     next();
 };

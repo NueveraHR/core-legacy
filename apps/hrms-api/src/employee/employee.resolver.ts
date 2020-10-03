@@ -11,6 +11,7 @@ import {
     AddEducationInput,
     AddCertificationInput,
     AddLanguageInput,
+    AddSkillInput,
 } from '@hrms-api/employee/employee.input';
 import { Employee, PaginatedEmployeeList, Job } from './employee.type';
 import { FORBIDDEN_ERROR, GqlError } from '@hrms-api/common/utils/error.utils';
@@ -25,7 +26,7 @@ import { Role } from '@hrms-core/core/role/role.schema';
 
 @Resolver()
 @Privileges('employees.access')
-@RateLimit({ limit: 30, timeInterval: '1m' })
+@RateLimit({ limit: 300, timeInterval: '1m' })
 @UseGuards(JwtAuthGuard, PrivilegesGuard, RateLimitGuard)
 export class EmployeeResolver {
     constructor(private employeeFacade: EmployeeFacade) {}
@@ -105,6 +106,19 @@ export class EmployeeResolver {
             return Promise.reject(FORBIDDEN_ERROR);
         }
         return this.employeeFacade.addLanguage(employeeId, lang);
+    }
+
+    @Mutation(() => Employee)
+    @IgnorePrivileges()
+    addSkill(
+        @CurrentUser() currentUser: UserDto,
+        @Args('employeeId', { type: () => ID }) employeeId: string,
+        @Args('skill') skill: AddSkillInput,
+    ): Promise<any> {
+        if (!this.isAllowed(currentUser, employeeId)) {
+            return Promise.reject(FORBIDDEN_ERROR);
+        }
+        return this.employeeFacade.addSkill(employeeId, skill);
     }
 
     private isAllowed(currentUser: UserDto, employeeId: string) {

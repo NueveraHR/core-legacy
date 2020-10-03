@@ -1,5 +1,6 @@
 import { RoleDto } from './role.dto';
 import { AddressDto } from './address.dto';
+import { SkillDto } from './skill.dto';
 
 export class UserDto {
     public id?: string;
@@ -24,9 +25,13 @@ export class UserDto {
     public department?: string;
 
     public picture?: string;
+    public title?: string;
+    public about?: string;
+
     public educationHistory?: EducationDto[];
     public certifications?: CertificationDto[];
     public languages?: LanguageDto[];
+    public skills?: SkillDto[];
 }
 
 export class EducationDto {
