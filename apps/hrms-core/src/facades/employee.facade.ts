@@ -18,6 +18,7 @@ import { PaginationOptions, FilterOptions } from '@hrms-core/common/interfaces/p
 import { EducationService } from '@hrms-core/core/user/education/education.service';
 import { CertificationService } from '@hrms-core/core/user/certification/certification.service';
 import { LanguageService } from '@hrms-core/core/user/language/language.service';
+import { SkillService } from '@hrms-core/core/skill/skill.service';
 
 @Injectable()
 export class EmployeeFacade extends UserFacade {
@@ -33,8 +34,8 @@ export class EmployeeFacade extends UserFacade {
         addressService: AddressService,
         educationService: EducationService,
         certificationService: CertificationService,
-        protected languageService: LanguageService,
-
+        languageService: LanguageService,
+        skillService: SkillService,
         private employeeDtoReversePipe: EmployeeDtoReversePipe,
         private employeeService: EmployeeService,
         private jobService: JobService,
@@ -50,6 +51,7 @@ export class EmployeeFacade extends UserFacade {
             educationService,
             certificationService,
             languageService,
+            skillService,
         );
     }
 

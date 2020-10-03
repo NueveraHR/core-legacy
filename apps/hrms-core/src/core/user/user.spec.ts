@@ -1,24 +1,26 @@
 import { UserService } from './user.service';
 import { Test } from '@nestjs/testing';
-import { User, UserSchema } from './user.schema';
+import { User } from './user.schema';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
 import * as bcrypt from 'bcrypt';
 import { LoggerService } from '@libs/logger';
 import { RoleService } from '../role/role.service';
 import { PaginateResult } from 'mongoose';
-import * as mongoose from 'mongoose';
 import { EducationService } from './education/education.service';
 import { CertificationService } from './certification/certification.service';
+import { SkillService } from '../skill/skill.service';
 import { USERS } from '@hrms-core/test/mock/user.mock';
 import { EDUCATION } from '@hrms-core/test/mock/education.mock';
 import { CERTIFICATION } from '@hrms-core/test/mock/certification.mock';
 import { LanguageService } from './language/language.service';
 import { LANGUAGE } from '@hrms-core/test/mock/language.mock';
+import { SKILLS } from './../../test/mock/skill.mock';
 
 describe('User Service', () => {
     let userService: UserService;
     let roleService: RoleService;
+    let skillService: SkillService;
     let educationService: EducationService; // TODO: Remove this dependency as ut should be self-encapsulated
     let certificationService: CertificationService; // TODO: Remove this dependency as ut should be self-encapsulated
     let languageService: LanguageService; // TODO: Remove this dependency as ut should be self-encapsulated
@@ -35,6 +37,7 @@ describe('User Service', () => {
         dbManager = moduleRef.get<DBManager>(DBManager);
         userService = moduleRef.get<UserService>(UserService);
         roleService = moduleRef.get<RoleService>(RoleService);
+        skillService = moduleRef.get<SkillService>(SkillService);
         educationService = moduleRef.get<EducationService>(EducationService);
         certificationService = moduleRef.get<CertificationService>(CertificationService);
         languageService = moduleRef.get<LanguageService>(LanguageService);
@@ -123,11 +126,23 @@ describe('User Service', () => {
             });
         });
 
+        it('Attaches skill to user', async () => {
+            user = await userService.create(userDto);
+            let i = 0;
+            const results: User[] = [];
+            while (i < 2 && ++i) {
+                const skill = await skillService.create(SKILLS.frontend);
+                const res = await userService.attachSkill(user.id, skill.id);
+                results.unshift(res);
+                expect(results[0].skills.length).toEqual(i);
+            }
+        });
+
         it('Attaches education to user', async () => {
             user = await userService.create(userDto);
             let i = 0;
             const results: User[] = [];
-            while (i < 10 && ++i) {
+            while (i < 2 && ++i) {
                 const ed = await educationService.create(EDUCATION.full);
                 const res = await userService.attachEducation(user.id, ed.id);
                 results.unshift(res);
@@ -139,7 +154,7 @@ describe('User Service', () => {
             user = await userService.create(userDto);
             let i = 0;
             const results: User[] = [];
-            while (i < 10 && ++i) {
+            while (i < 2 && ++i) {
                 const cert = await certificationService.create(CERTIFICATION.full);
                 const res = await userService.attachCertification(user.id, cert.id);
                 results.unshift(res);
@@ -151,7 +166,7 @@ describe('User Service', () => {
             user = await userService.create(userDto);
             let i = 0;
             const results: User[] = [];
-            while (i < 10 && ++i) {
+            while (i < 2 && ++i) {
                 const lang = await languageService.create(LANGUAGE.en);
                 const res = await userService.attachLanguage(user.id, lang.id);
                 results.unshift(res);

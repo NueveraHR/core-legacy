@@ -5,6 +5,21 @@ import { AddressDto } from '@hrms-core/dto/address.dto';
 import { UserPaginateDto } from '@hrms-core/facades/user.facade';
 import { JobDto } from '@hrms-core/dto/job.dto';
 import { CertificationDto, EducationDto, LanguageDto } from '@hrms-core/dto/user.dto';
+import { SkillDto } from '@hrms-core/dto/skill.dto';
+
+@ObjectType()
+export class Skill implements Partial<SkillDto> {
+    @Field()
+    name?: string;
+
+    @Field()
+    level?: number;
+
+    @Field({ nullable: true })
+    type?: string;
+
+    //TODO: expose related fields
+}
 
 @ObjectType()
 export class Education implements Partial<EducationDto> {
@@ -165,6 +180,12 @@ export class Employee implements Partial<EmployeeDto> {
     public phone?: string;
 
     @Field({ nullable: true })
+    public title?: string;
+
+    @Field({ nullable: true })
+    public about?: string;
+
+    @Field({ nullable: true })
     public modeOfEmployment?: string;
 
     @Field({ nullable: true })
@@ -187,6 +208,9 @@ export class Employee implements Partial<EmployeeDto> {
 
     @Field({ nullable: true })
     public picture?: string;
+
+    @Field(() => [Skill], { nullable: true })
+    public skills: Skill[];
 
     @Field(() => [Job], { nullable: true })
     public jobHistory?: Job[];

@@ -179,6 +179,10 @@ export class UserService {
         );
     }
 
+    attachSkill(userId: string, skillId: string): Promise<User> {
+        return this.userModel.findByIdAndUpdate(userId, { $push: { skills: skillId } }, { new: true }).exec();
+    }
+
     attachEducation(userId: string, educationId: string): Promise<User> {
         return this.userModel
             .findByIdAndUpdate(userId, { $push: { educationHistory: educationId } }, { new: true })
