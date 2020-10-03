@@ -153,6 +153,12 @@ export class UpdateEmployeeInput implements Partial<EmployeeDto> {
     public phone: string;
 
     @Field({ nullable: true })
+    public title?: string;
+
+    @Field({ nullable: true })
+    public about?: string;
+
+    @Field({ nullable: true })
     public username: string;
 
     @Field({ nullable: true })

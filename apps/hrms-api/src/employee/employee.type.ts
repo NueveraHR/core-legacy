@@ -180,6 +180,12 @@ export class Employee implements Partial<EmployeeDto> {
     public phone?: string;
 
     @Field({ nullable: true })
+    public title?: string;
+
+    @Field({ nullable: true })
+    public about?: string;
+
+    @Field({ nullable: true })
     public modeOfEmployment?: string;
 
     @Field({ nullable: true })
