@@ -110,7 +110,7 @@ export class EmployeeResolver {
 
     @Mutation(() => Employee)
     @IgnorePrivileges()
-    addSkills(
+    setSkills(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
         @Args('skills', { type: () => [SkillInput] }) skills: SkillInput[],
@@ -118,7 +118,7 @@ export class EmployeeResolver {
         if (!this.isAllowed(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.addSkills(employeeId, skills);
+        return this.employeeFacade.setSkills(employeeId, skills);
     }
 
     private isAllowed(currentUser: UserDto, employeeId: string) {
