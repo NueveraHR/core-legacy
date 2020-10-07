@@ -117,10 +117,15 @@ export class UserFacade {
         return this.userService.attachLanguage(userId, lang.id) as UserDto;
     }
 
-    async addSkill(userId: string, skillDto: SkillDto): Promise<UserDto> {
+    async addSkills(userId: string, skills: SkillDto[]): Promise<UserDto> {
         //TODO: validate
-        const skill = await this.skillService.create(skillDto);
-        return this.userService.attachSkill(userId, skill.id) as UserDto;
+        const ids = [];
+        const promises = [];
+
+        skills.forEach(skillDto => promises.push(this.skillService.create(skillDto).then(skill => ids.push(skill.id))));
+
+        await Promise.all(promises);
+        return this.userService.attachMultipleSkills(userId, ids);
     }
 
     private populateMissingValues(userDto: UserDto): UserDto {

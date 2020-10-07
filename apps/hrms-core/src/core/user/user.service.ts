@@ -183,6 +183,12 @@ export class UserService {
         return this.userModel.findByIdAndUpdate(userId, { $push: { skills: skillId } }, { new: true }).exec();
     }
 
+    attachMultipleSkills(userId: string, skillsId: string[]) {
+        const lastSkill = skillsId.pop();
+        skillsId.forEach(skillId => this.userModel.findByIdAndUpdate(userId, { $push: { skills: skillId } }).exec());
+        return this.attachSkill(userId, lastSkill); // to return user info
+    }
+
     attachEducation(userId: string, educationId: string): Promise<User> {
         return this.userModel
             .findByIdAndUpdate(userId, { $push: { educationHistory: educationId } }, { new: true })

@@ -271,7 +271,7 @@ export class AddLanguageInput implements Partial<LanguageDto> {
 }
 
 @InputType()
-export class AddSkillInput implements Partial<SkillDto> {
+export class SkillInput implements Partial<SkillDto> {
     @Field()
     name?: string;
 

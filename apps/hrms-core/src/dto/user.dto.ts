@@ -28,10 +28,10 @@ export class UserDto {
     public title?: string;
     public about?: string;
 
-    public educationHistory?: EducationDto[];
-    public certifications?: CertificationDto[];
-    public languages?: LanguageDto[];
-    public skills?: SkillDto[];
+    public educationHistory?: EducationDto[] | string[];
+    public certifications?: CertificationDto[] | string[];
+    public languages?: LanguageDto[] | string[];
+    public skills?: SkillDto[] | string[];
 }
 
 export class EducationDto {
