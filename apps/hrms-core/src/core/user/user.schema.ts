@@ -9,7 +9,7 @@ import { Education } from './education/education.schema';
 import { Certification } from './certification/certification.schema';
 import { Language } from './language/language.schema';
 import { SchemaTypes } from 'mongoose';
-import { Skill } from '../skill/skill.schema';
+import { Skill } from './skill/skill.schema';
 
 @Schema()
 export class User extends Document {

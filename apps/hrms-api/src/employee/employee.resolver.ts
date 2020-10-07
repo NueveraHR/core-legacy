@@ -11,7 +11,7 @@ import {
     AddEducationInput,
     AddCertificationInput,
     AddLanguageInput,
-    AddSkillInput,
+    SkillInput,
 } from '@hrms-api/employee/employee.input';
 import { Employee, PaginatedEmployeeList, Job } from './employee.type';
 import { FORBIDDEN_ERROR, GqlError } from '@hrms-api/common/utils/error.utils';
@@ -110,15 +110,15 @@ export class EmployeeResolver {
 
     @Mutation(() => Employee)
     @IgnorePrivileges()
-    addSkill(
+    addSkills(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('skill') skill: AddSkillInput,
+        @Args('skills', { type: () => [SkillInput] }) skills: SkillInput[],
     ): Promise<any> {
         if (!this.isAllowed(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.addSkill(employeeId, skill);
+        return this.employeeFacade.addSkills(employeeId, skills);
     }
 
     private isAllowed(currentUser: UserDto, employeeId: string) {

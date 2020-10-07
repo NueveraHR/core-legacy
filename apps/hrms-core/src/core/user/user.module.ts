@@ -10,11 +10,13 @@ import { AddressModule } from '../address/address.module';
 import { EducationModule } from './education/education.module';
 import { CertificationModule } from './certification/certification.module';
 import { LanguageModule } from './language/languauge.module';
+import { SkillModule } from './skill/skill.module';
 
 @Module({
     imports: [
         RoleModule,
         AddressModule,
+        SkillModule,
         EducationModule,
         CertificationModule,
         LanguageModule,
@@ -33,6 +35,7 @@ import { LanguageModule } from './language/languauge.module';
     ],
     exports: [
         AddressModule,
+        SkillModule,
         EducationModule,
         CertificationModule,
         LanguageModule,

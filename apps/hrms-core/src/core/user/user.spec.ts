@@ -9,7 +9,7 @@ import { RoleService } from '../role/role.service';
 import { PaginateResult } from 'mongoose';
 import { EducationService } from './education/education.service';
 import { CertificationService } from './certification/certification.service';
-import { SkillService } from '../skill/skill.service';
+import { SkillService } from './skill/skill.service';
 import { USERS } from '@hrms-core/test/mock/user.mock';
 import { EDUCATION } from '@hrms-core/test/mock/education.mock';
 import { CERTIFICATION } from '@hrms-core/test/mock/certification.mock';
