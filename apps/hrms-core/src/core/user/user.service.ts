@@ -10,6 +10,7 @@ import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { SortType, FilterOptions } from '@hrms-core/common/interfaces/pagination';
 import { UserType } from '@hrms-core/common/enums/user-type.enum';
+import { Skill } from './skill/skill.schema';
 
 const SALT_ROUNDS = 10;
 
@@ -183,10 +184,17 @@ export class UserService {
         return this.userModel.findByIdAndUpdate(userId, { $push: { skills: skillId } }, { new: true }).exec();
     }
 
-    attachMultipleSkills(userId: string, skillsId: string[]) {
-        const lastSkill = skillsId.pop();
-        skillsId.forEach(skillId => this.userModel.findByIdAndUpdate(userId, { $push: { skills: skillId } }).exec());
-        return this.attachSkill(userId, lastSkill); // to return user info
+    setSkills(userId: string, skillsId: string[]): Promise<User> {
+        return this.userModel.findByIdAndUpdate(userId, { skills: skillsId }, { new: true }).exec();
+    }
+
+    async getSkills(userId: string): Promise<Skill[]> {
+        return (
+            await this.userModel
+                .findById(userId)
+                .select('skills')
+                .exec()
+        ).skills as Skill[];
     }
 
     attachEducation(userId: string, educationId: string): Promise<User> {
