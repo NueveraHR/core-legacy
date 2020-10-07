@@ -12,11 +12,11 @@ export class Skill implements Partial<SkillDto> {
     @Field()
     name?: string;
 
-    @Field()
+    @Field({ nullable: true })
     level?: number;
 
     @Field({ nullable: true })
-    type?: string;
+    ref?: string;
 
     //TODO: expose related fields
 }

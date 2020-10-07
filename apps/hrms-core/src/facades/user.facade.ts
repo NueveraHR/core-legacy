@@ -15,8 +15,8 @@ import { Address } from '@hrms-core/core/address/address.schema';
 import { EducationService } from '@hrms-core/core/user/education/education.service';
 import { CertificationService } from '@hrms-core/core/user/certification/certification.service';
 import { LanguageService } from '@hrms-core/core/user/language/language.service';
-import { SkillService } from './../core/skill/skill.service';
 import { SkillDto } from '@hrms-core/dto/skill.dto';
+import { SkillService } from '@hrms-core/core/user/skill/skill.service';
 
 export class UserFacade {
     constructor(
