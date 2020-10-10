@@ -11,6 +11,7 @@ import { EducationModule } from './education/education.module';
 import { CertificationModule } from './certification/certification.module';
 import { LanguageModule } from './language/languauge.module';
 import { SkillModule } from './skill/skill.module';
+import { SocialLinksModule } from './social-links/social-links.module';
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { SkillModule } from './skill/skill.module';
         EducationModule,
         CertificationModule,
         LanguageModule,
+        SocialLinksModule,
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     ],
     providers: [
@@ -39,6 +41,7 @@ import { SkillModule } from './skill/skill.module';
         EducationModule,
         CertificationModule,
         LanguageModule,
+        SocialLinksModule,
         UserService,
         UserDtoPipe,
         UserDtoValidator,

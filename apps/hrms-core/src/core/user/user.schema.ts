@@ -10,6 +10,7 @@ import { Certification } from './certification/certification.schema';
 import { Language } from './language/language.schema';
 import { SchemaTypes } from 'mongoose';
 import { Skill } from './skill/skill.schema';
+import { SocialLinks } from './social-links/social-links.schema';
 
 @Schema()
 export class User extends Document {
@@ -76,8 +77,8 @@ export class User extends Document {
     @Prop([{ ref: 'Skill', type: SchemaTypes.ObjectId }])
     skills: string[] | Skill[];
 
-    // @Prop([{ ref: 'SocialLink', type: SchemaTypes.ObjectId }])
-    // socialLinks: string[] | SocialLink[];
+    @Prop({ ref: 'SocialLinks', type: SchemaTypes.ObjectId })
+    socialLinks: string | SocialLinks;
 
     @Prop([{ ref: 'Education', type: SchemaTypes.ObjectId }])
     educationHistory: string[] | Education[];
@@ -113,6 +114,7 @@ const populateStandardData = function(next) {
     this.populate('certifications');
     this.populate('languages');
     this.populate('skills');
+    this.populate('socialLinks');
 
     next();
 };
