@@ -19,16 +19,13 @@ export class GetDocument {
 }
 
 @ObjectType()
-export class UploadDocument extends GetDocument {
-
-}
+export class UploadDocument extends GetDocument {}
 
 @ObjectType()
 export class UploadProfileImage {
     @Field()
     public imagePath: string;
 }
-
 
 @ObjectType()
 export class DeleteFileResult {

@@ -27,14 +27,13 @@ export class DocumentMangmentService {
         @InjectModel(Document.name)
         private readonly docuemntModel: PaginateModel<Document>,
         private readonly envService: EnvService,
-        private httpService: HttpService
-    ) { }
+        private httpService: HttpService,
+    ) {}
 
     async save(file: FileUpload, fileData: FileData): Promise<Document> {
-
         return new Promise(async (resolve, reject) => {
             const { name, userId, description } = fileData;
-            const filePath = await this.saveOnDisk(file, userId)
+            const filePath = await this.saveOnDisk(file, userId);
 
             const document = new this.docuemntModel({
                 name: name,
@@ -42,28 +41,28 @@ export class DocumentMangmentService {
                 path: Path.relative(process.cwd(), filePath),
                 description: description,
                 type: file.mimetype,
-                user: userId
+                user: userId,
             });
 
-            resolve(await document.save().catch(err => {
-                return Promise.reject(
-                    this.errorService.generate(Errors.General.INTERNAL_ERROR, {
-                        detailedMessage: err,
-                    }),
-                );
-            }));
-
+            resolve(
+                await document.save().catch(err => {
+                    return Promise.reject(
+                        this.errorService.generate(Errors.General.INTERNAL_ERROR, {
+                            detailedMessage: err,
+                        }),
+                    );
+                }),
+            );
         });
     }
 
     private async saveOnDisk(file: FileUpload, userId: string): Promise<string> {
-
         return new Promise(async (resolve, reject) => {
             const fileUpload = await file;
             const fileStream = fileUpload.createReadStream();
             const userUploadDir = Path.join(uploadDir, userId);
             const fileName = new Date().getTime() + '-' + fileUpload.filename;
-            const filePath = Path.join(userUploadDir, fileName)
+            const filePath = Path.join(userUploadDir, fileName);
 
             if (!Fs.existsSync(userUploadDir)) {
                 Fs.mkdirSync(userUploadDir);
@@ -71,26 +70,25 @@ export class DocumentMangmentService {
 
             fileStream
                 .pipe(Fs.createWriteStream(filePath))
-                .on("finish", () => resolve(filePath))
-                .on("error", () => reject())
-        })
-
+                .on('finish', () => resolve(filePath))
+                .on('error', () => reject());
+        });
     }
 
     async uploadToImgpush(file: FileUpload): Promise<string> {
-
         return new Promise(async (resolve, reject) => {
-
             const imgpushUrl = this.envService.read().IMGPUSH_URL;
 
             const formData = new FormData();
-            formData.append("file", file.createReadStream(), 'randomName');
+            formData.append('file', file.createReadStream(), 'randomName');
 
-            await this.httpService.axiosRef.post(imgpushUrl, formData, {
-                headers: formData.getHeaders()
-            }).then((res) => resolve(res.data.filename))
-                .catch((err) => reject(err))
-        })
+            await this.httpService.axiosRef
+                .post(imgpushUrl, formData, {
+                    headers: formData.getHeaders(),
+                })
+                .then(res => resolve(res.data.filename))
+                .catch(err => reject(err));
+        });
     }
 
     findAll(): Promise<Document[]> {
@@ -171,7 +169,7 @@ export class DocumentMangmentService {
             ),
         );
         return this.docuemntModel
-            .deleteOne({ 'fullPath': filePath })
+            .deleteOne({ fullPath: filePath })
             .exec()
             .then(result => result.deletedCount == 1)
             .catch(err =>
