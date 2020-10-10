@@ -7,28 +7,7 @@ import { JobDto } from '@hrms-core/dto/job.dto';
 import { SkillDto } from '@hrms-core/dto/skill.dto';
 
 @InputType()
-export class AddAddressInput implements Partial<AddressDto> {
-    @Field()
-    addressLine1?: string;
-
-    @Field({ nullable: true })
-    addressLine2?: string;
-
-    @Field()
-    city?: string;
-
-    @Field()
-    state?: string;
-
-    @Field()
-    country?: string;
-
-    @Field()
-    postalCode?: string;
-}
-
-@InputType()
-export class UpdateAddressInput implements Partial<AddressDto> {
+export class AddressInput implements Partial<AddressDto> {
     @Field({ nullable: true })
     addressLine1?: string;
 
@@ -80,8 +59,8 @@ export class AddEmployeeInput implements Partial<EmployeeDto> {
     @Field(() => Date, { nullable: true })
     public birthDate: Date;
 
-    @Field(() => AddAddressInput, { nullable: true })
-    public address: AddAddressInput;
+    @Field(() => AddressInput, { nullable: true })
+    public address: AddressInput;
 
     @Field({ nullable: true })
     public phone: string;
@@ -147,7 +126,7 @@ export class UpdateEmployeeInput implements Partial<EmployeeDto> {
     public birthDate: Date;
 
     @Field({ nullable: true })
-    public address: UpdateAddressInput;
+    public address: AddressInput;
 
     @Field({ nullable: true })
     public phone: string;

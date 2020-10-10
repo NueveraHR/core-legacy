@@ -4,6 +4,7 @@ import { DBManager } from '@hrms-core/common/services/database/database-manager.
 import { AddressService } from './address.service';
 import { LoggerService } from '@libs/logger';
 import { ADDRESS_MOCK } from '@hrms-core/test/mock/address.mock';
+import { add } from 'winston';
 
 describe('Address Service', () => {
     let dbManager: DBManager;
@@ -41,6 +42,13 @@ describe('Address Service', () => {
             expect(address).toHaveProperty('state');
             expect(address).toHaveProperty('country');
             expect(address).toHaveProperty('postalCode');
+        });
+
+        it('create empty address', async () => {
+            const address = await addressService.create({});
+            expect(address).toBeDefined();
+            expect(address.id).toBeDefined();
+            expect(address.id.length).toBeTruthy();
         });
     });
 

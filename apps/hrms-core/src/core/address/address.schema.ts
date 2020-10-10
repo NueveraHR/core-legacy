@@ -3,22 +3,22 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class Address extends Document {
-    @Prop({ required: true })
+    @Prop()
     addressLine1: string;
 
     @Prop()
     addressLine2: string;
 
-    @Prop({ required: true })
+    @Prop()
     city: string;
 
-    @Prop({ required: true })
+    @Prop()
     state: string;
 
-    @Prop({ required: true })
+    @Prop()
     country: string;
 
-    @Prop({ required: true })
+    @Prop()
     postalCode: string;
 }
 

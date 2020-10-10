@@ -64,10 +64,8 @@ export class UserFacade {
         // assert role existence
         await this.roleService.assertExists(userDto.role as string);
 
-        if (userDto.address) {
-            // create corresponding address and reassign its id to user
-            userDto.address = (await this.addressService.create(userDto.address as AddressDto)).id;
-        }
+        // create corresponding address and reassign its id to user
+        userDto.address = (await this.addressService.create((userDto.address ?? {}) as AddressDto)).id;
 
         // populate missing user props with default values
         userDto = this.populateMissingValues(userDto);

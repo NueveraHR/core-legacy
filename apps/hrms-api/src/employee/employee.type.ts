@@ -71,22 +71,22 @@ export class Language implements Partial<LanguageDto> {
 
 @ObjectType()
 export class Address implements Partial<AddressDto> {
-    @Field()
+    @Field({ nullable: true })
     addressLine1?: string;
 
     @Field({ nullable: true })
     addressLine2?: string;
 
-    @Field()
+    @Field({ nullable: true })
     city?: string;
 
-    @Field()
+    @Field({ nullable: true })
     state?: string;
 
-    @Field()
+    @Field({ nullable: true })
     country?: string;
 
-    @Field()
+    @Field({ nullable: true })
     postalCode?: string;
 }
 
