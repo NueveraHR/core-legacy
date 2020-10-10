@@ -299,11 +299,23 @@ export class UpdateCertificationInput implements Partial<CertificationDto> {
 }
 
 @InputType()
-export class LanguageInput implements Partial<LanguageDto> {
+export class AddLanguageInput implements Partial<LanguageDto> {
     @Field()
     name?: string;
 
     @Field()
+    proficiency?: string;
+
+    @Field({ nullable: true })
+    isPreferred?: boolean;
+}
+
+@InputType()
+export class UpdateLanguageInput implements Partial<LanguageDto> {
+    @Field({ nullable: true })
+    name?: string;
+
+    @Field({ nullable: true })
     proficiency?: string;
 
     @Field({ nullable: true })

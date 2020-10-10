@@ -13,8 +13,8 @@ export class LanguageService {
         return language.save();
     }
 
-    update(language: Language): Promise<Language> {
-        return language.save();
+    update(id: string, lang: LanguageDto): Promise<Language> {
+        return this.LanguageModel.findByIdAndUpdate(id, lang, { new: true }).exec();
     }
 
     delete(id: string): Promise<boolean> {

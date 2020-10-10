@@ -10,52 +10,51 @@ import { EmployeeFacade } from '@hrms-core/facades/employee.facade';
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
 import { isOwner } from './employee.resolver';
-import { AddCertificationInput, UpdateCertificationInput } from './graphql/employee.input';
-import { Certification, Employee } from './graphql/employee.type';
+import { AddLanguageInput, UpdateLanguageInput } from './graphql/employee.input';
+import { Employee, Language } from './graphql/employee.type';
 
 @Resolver()
 @RateLimit({ limit: 100, timeInterval: '1m' })
 @UseGuards(JwtAuthGuard, PrivilegesGuard, RateLimitGuard)
-export class CertificationResolver {
+export class LanguageResolver {
     constructor(private employeeFacade: EmployeeFacade) {}
 
     @Mutation(() => Employee)
     @IgnorePrivileges()
-    addCertification(
+    addLanguage(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('cert') cert: AddCertificationInput,
+        @Args('lang') lang: AddLanguageInput,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.addCertification(employeeId, cert).catch(GqlError);
+        return this.employeeFacade.addLanguage(employeeId, lang).catch(GqlError);
     }
 
-    @Mutation(() => Certification)
-    @IgnorePrivileges()
-    updateCertification(
+    @Mutation(() => Language)
+    updateLanguage(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('certId', { type: () => ID }) certId: string,
-        @Args('cert') cert: UpdateCertificationInput,
+        @Args('langId', { type: () => ID }) langId: string,
+        @Args('lang') lang: UpdateLanguageInput,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.updateCertification(certId, cert).catch(GqlError);
+        return this.employeeFacade.updateLanguage(langId, lang).catch(GqlError);
     }
 
     @Mutation(() => Boolean)
     @IgnorePrivileges()
-    deleteCertification(
+    deleteLanguage(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('certId', { type: () => ID }) certId: string,
+        @Args('langId', { type: () => ID }) langId: string,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.deleteCertification(certId).catch(GqlError);
+        return this.employeeFacade.deleteLanguage(langId).catch(GqlError);
     }
 }

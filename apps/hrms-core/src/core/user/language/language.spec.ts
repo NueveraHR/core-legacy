@@ -42,8 +42,12 @@ describe('Language Service', () => {
         it('should update', async () => {
             const lang = await languageService.create(LANGUAGE.en);
             expect(lang.name).toEqual(LANGUAGE.en.name);
-            lang.name = 'French';
-            expect(languageService.update(lang)).resolves.toEqual(expect.objectContaining({ name: 'French' }));
+
+            const newLang = { ...LANGUAGE.en, name: 'French' };
+
+            expect(languageService.update(lang.id, newLang)).resolves.toEqual(
+                expect.objectContaining({ name: 'French' }),
+            );
         });
     });
 

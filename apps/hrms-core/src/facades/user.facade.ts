@@ -144,6 +144,17 @@ export class UserFacade {
         return this.userService.attachLanguage(userId, lang.id) as UserDto;
     }
 
+    updateLanguage(id: string, languageDto: LanguageDto): Promise<LanguageDto> {
+        //TODO: validate
+        return this.languageService.update(id, languageDto);
+    }
+
+    deleteLanguage(id: string): Promise<boolean> {
+        //TODO: validate
+
+        return this.languageService.delete(id);
+    }
+
     async setSkills(userId: string, newSkills: SkillDto[]): Promise<UserDto> {
         //TODO: validate
         const ids = [];

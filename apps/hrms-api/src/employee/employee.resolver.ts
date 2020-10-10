@@ -4,13 +4,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@hrms-api/common/guards/auth.guard';
 import { IgnorePrivileges, Privileges } from '@hrms-api/common/decorators/privileges.decorator';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
-import {
-    AddEmployeeInput,
-    UpdateEmployeeInput,
-    JobInput,
-    LanguageInput,
-    SkillInput,
-} from '@hrms-api/employee/graphql/employee.input';
+import { AddEmployeeInput, UpdateEmployeeInput, JobInput, SkillInput } from '@hrms-api/employee/graphql/employee.input';
 import { Employee, PaginatedEmployeeList, Job } from './graphql/employee.type';
 import { FORBIDDEN_ERROR, GqlError } from '@hrms-api/common/utils/error.utils';
 import { SortInput } from '@hrms-api/common/graphql/sort.input';
@@ -65,19 +59,6 @@ export class EmployeeResolver {
     @Privileges('employees.edit')
     addJob(@Args('employeeId', { type: () => ID }) employeeId: string, @Args('job') job: JobInput): Promise<any> {
         return this.employeeFacade.addJob(employeeId, job).catch(GqlError);
-    }
-
-    @Mutation(() => Employee)
-    @IgnorePrivileges()
-    addLanguage(
-        @CurrentUser() currentUser: UserDto,
-        @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('lang') lang: LanguageInput,
-    ): Promise<any> {
-        if (!isOwner(currentUser, employeeId)) {
-            return Promise.reject(FORBIDDEN_ERROR);
-        }
-        return this.employeeFacade.addLanguage(employeeId, lang);
     }
 
     @Mutation(() => Employee)
