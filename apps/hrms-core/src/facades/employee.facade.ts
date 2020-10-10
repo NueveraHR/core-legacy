@@ -19,6 +19,7 @@ import { EducationService } from '@hrms-core/core/user/education/education.servi
 import { CertificationService } from '@hrms-core/core/user/certification/certification.service';
 import { LanguageService } from '@hrms-core/core/user/language/language.service';
 import { SkillService } from '@hrms-core/core/user/skill/skill.service';
+import { SocialLinkService } from '@hrms-core/core/user/social-links/social-links.service';
 
 @Injectable()
 export class EmployeeFacade extends UserFacade {
@@ -36,6 +37,8 @@ export class EmployeeFacade extends UserFacade {
         certificationService: CertificationService,
         languageService: LanguageService,
         skillService: SkillService,
+        socialLinkService: SocialLinkService,
+
         private employeeDtoReversePipe: EmployeeDtoReversePipe,
         private employeeService: EmployeeService,
         private jobService: JobService,
@@ -52,6 +55,7 @@ export class EmployeeFacade extends UserFacade {
             certificationService,
             languageService,
             skillService,
+            socialLinkService,
         );
     }
 

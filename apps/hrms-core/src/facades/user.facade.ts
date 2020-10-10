@@ -1,3 +1,4 @@
+import { SocialLinkService } from './../core/user/social-links/social-links.service';
 import { CertificationDto, EducationDto, LanguageDto, UserDto } from '@hrms-core/dto/user.dto';
 import { Inject } from '@nestjs/common';
 import { UserService } from '@hrms-core/core/user/user.service';
@@ -17,6 +18,7 @@ import { CertificationService } from '@hrms-core/core/user/certification/certifi
 import { LanguageService } from '@hrms-core/core/user/language/language.service';
 import { SkillDto } from '@hrms-core/dto/skill.dto';
 import { SkillService } from '@hrms-core/core/user/skill/skill.service';
+import { SocialLinksDto } from '@hrms-core/dto/social-links.dto';
 
 export class UserFacade {
     constructor(
@@ -31,6 +33,7 @@ export class UserFacade {
         protected certificationService: CertificationService,
         protected languageService: LanguageService,
         protected skillService: SkillService,
+        protected socialLinkService: SocialLinkService,
     ) {}
 
     @Inject(ErrorService) errorService: ErrorService;
@@ -66,6 +69,9 @@ export class UserFacade {
 
         // create corresponding address and reassign its id to user
         userDto.address = (await this.addressService.create((userDto.address ?? {}) as AddressDto)).id;
+
+        // create corresponding social media links and reassign its id to user
+        userDto.socialLinks = (await this.socialLinkService.create((userDto.socialLinks ?? {}) as SocialLinksDto)).id;
 
         // populate missing user props with default values
         userDto = this.populateMissingValues(userDto);

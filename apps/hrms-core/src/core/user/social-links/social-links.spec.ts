@@ -35,8 +35,8 @@ describe('SocialLink Test suite', () => {
     });
 
     describe('Create social links', () => {
-        it('Create successfully', async () => {
-            const model = await socialLinkService.create(SOCIAL_LINKS.complete);
+        it('Create full links successfully', async () => {
+            const model = await socialLinkService.create(SOCIAL_LINKS.full);
             expect(model).toBeDefined();
             expect(model.id).toBeDefined();
             expect(model.linkedIn).toBeTruthy();
@@ -45,11 +45,17 @@ describe('SocialLink Test suite', () => {
             expect(model.github).toBeTruthy();
             expect(model.stackOverflow).toBeTruthy();
         });
+
+        it('Create fully empty links successfully', async () => {
+            const model = await socialLinkService.create({});
+            expect(model).toBeDefined();
+            expect(model.id).toBeDefined();
+        });
     });
 
     describe('Update social links', () => {
         it('Update successfully', async () => {
-            const model = await socialLinkService.create(SOCIAL_LINKS.complete);
+            const model = await socialLinkService.create(SOCIAL_LINKS.full);
             model.linkedIn = '';
             expect(socialLinkService.update(model)).resolves.toEqual(expect.objectContaining({ linkedIn: '' }));
         });

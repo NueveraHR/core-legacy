@@ -1,6 +1,7 @@
 import { RoleDto } from './role.dto';
 import { AddressDto } from './address.dto';
 import { SkillDto } from './skill.dto';
+import { SocialLinksDto } from './social-links.dto';
 
 export class UserDto {
     public id?: string;
@@ -28,6 +29,7 @@ export class UserDto {
     public title?: string;
     public about?: string;
 
+    public socialLinks?: string | SocialLinksDto;
     public educationHistory?: EducationDto[] | string[];
     public certifications?: CertificationDto[] | string[];
     public languages?: LanguageDto[] | string[];
