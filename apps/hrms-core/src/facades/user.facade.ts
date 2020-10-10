@@ -19,6 +19,7 @@ import { LanguageService } from '@hrms-core/core/user/language/language.service'
 import { SkillDto } from '@hrms-core/dto/skill.dto';
 import { SkillService } from '@hrms-core/core/user/skill/skill.service';
 import { SocialLinksDto } from '@hrms-core/dto/social-links.dto';
+import { SocialLinks } from '@hrms-core/core/user/social-links/social-links.schema';
 
 export class UserFacade {
     constructor(
@@ -99,7 +100,11 @@ export class UserFacade {
         }
 
         this.userDtoReversePipe.transformExistent(userDto, user);
+
+        // TODO : do not update if nothing has been modified
         await this.addressService.update(user.address as Address);
+        await this.socialLinkService.update(user.socialLinks as SocialLinks);
+
         return this.userService.update(user).then(user => this.userDtoPipe.transform(user));
     }
 

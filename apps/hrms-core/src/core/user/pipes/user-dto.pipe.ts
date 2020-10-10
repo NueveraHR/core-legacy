@@ -8,6 +8,7 @@ import { RoleDtoPipe } from '@hrms-core/core/role/pipes/role-dto.pipe';
 import { RoleDto } from '@hrms-core/dto/role.dto';
 import { AddressDto } from '@hrms-core/dto/address.dto';
 import { SkillDto } from '@hrms-core/dto/skill.dto';
+import { SocialLinksDto } from '@hrms-core/dto/social-links.dto';
 
 @Injectable()
 export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
@@ -37,6 +38,7 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
             about: source.about,
             role: source.role as RoleDto,
             address: source.address as AddressDto,
+            socialLinks: source.socialLinks as SocialLinksDto,
             educationHistory: source.educationHistory as EducationDto[],
             certifications: source.certifications as CertificationDto[],
             languages: source.languages as LanguageDto[],

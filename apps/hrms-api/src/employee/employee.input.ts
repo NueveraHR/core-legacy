@@ -5,6 +5,25 @@ import { Role } from '@hrms-api/role/role.type';
 import { AddressDto } from '@hrms-core/dto/address.dto';
 import { JobDto } from '@hrms-core/dto/job.dto';
 import { SkillDto } from '@hrms-core/dto/skill.dto';
+import { SocialLinksDto } from '@hrms-core/dto/social-links.dto';
+
+@InputType()
+export class SocialLinksInput implements Partial<SocialLinksDto> {
+    @Field({ nullable: true })
+    linkedIn?: string;
+
+    @Field({ nullable: true })
+    whatsApp?: string;
+
+    @Field({ nullable: true })
+    facebook?: string;
+
+    @Field({ nullable: true })
+    github?: string;
+
+    @Field({ nullable: true })
+    stackOverflow?: string;
+}
 
 @InputType()
 export class AddressInput implements Partial<AddressDto> {
@@ -61,6 +80,9 @@ export class AddEmployeeInput implements Partial<EmployeeDto> {
 
     @Field(() => AddressInput, { nullable: true })
     public address: AddressInput;
+
+    @Field(() => SocialLinksInput, { nullable: true })
+    public socialLinks?: SocialLinksInput;
 
     @Field({ nullable: true })
     public phone: string;
@@ -127,6 +149,9 @@ export class UpdateEmployeeInput implements Partial<EmployeeDto> {
 
     @Field({ nullable: true })
     public address: AddressInput;
+
+    @Field(() => SocialLinksInput, { nullable: true })
+    public socialLinks?: SocialLinksInput;
 
     @Field({ nullable: true })
     public phone: string;

@@ -6,6 +6,25 @@ import { UserPaginateDto } from '@hrms-core/facades/user.facade';
 import { JobDto } from '@hrms-core/dto/job.dto';
 import { CertificationDto, EducationDto, LanguageDto } from '@hrms-core/dto/user.dto';
 import { SkillDto } from '@hrms-core/dto/skill.dto';
+import { SocialLinksDto } from '@hrms-core/dto/social-links.dto';
+
+@ObjectType()
+export class SocialLinks implements Partial<SocialLinksDto> {
+    @Field({ nullable: true })
+    linkedIn?: string;
+
+    @Field({ nullable: true })
+    whatsApp?: string;
+
+    @Field({ nullable: true })
+    facebook?: string;
+
+    @Field({ nullable: true })
+    github?: string;
+
+    @Field({ nullable: true })
+    stackOverflow?: string;
+}
 
 @ObjectType()
 export class Skill implements Partial<SkillDto> {
@@ -208,6 +227,9 @@ export class Employee implements Partial<EmployeeDto> {
 
     @Field({ nullable: true })
     public picture?: string;
+
+    @Field(() => SocialLinks, { nullable: true })
+    public socialLinks?: SocialLinks;
 
     @Field(() => [Skill], { nullable: true })
     public skills: Skill[];

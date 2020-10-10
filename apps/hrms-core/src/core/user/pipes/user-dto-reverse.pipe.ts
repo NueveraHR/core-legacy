@@ -5,10 +5,16 @@ import { Injectable } from '@nestjs/common';
 import { RoleDto } from '@hrms-core/dto/role.dto';
 import { Address } from '@hrms-core/core/address/address.schema';
 import { AddressReversePipe } from '@hrms-core/core/address/pipes/address-reverse.pipe';
+import { SocialLinksReversePipe } from '../social-links/social-links-reverse.pipe';
+import { SocialLinks } from '../social-links/social-links.schema';
+import { SocialLinksDto } from '@hrms-core/dto/social-links.dto';
 
 @Injectable()
 export class UserDtoReversePipe implements DtoTransformPipe<UserDto, User> {
-    constructor(private addressReversePipe: AddressReversePipe) {}
+    constructor(
+        private addressReversePipe: AddressReversePipe,
+        private socialLinksReversePipe: SocialLinksReversePipe,
+    ) {}
 
     transform(userDto: UserDto, options?: object): User {
         const user = new User();
@@ -35,6 +41,13 @@ export class UserDtoReversePipe implements DtoTransformPipe<UserDto, User> {
 
         if (userDto.address && typeof userDto.address === 'object') {
             user.address = this.addressReversePipe.transformExistent(userDto.address, user.address as Address);
+        }
+
+        if (userDto.socialLinks && typeof userDto.socialLinks === 'object') {
+            user.socialLinks = this.socialLinksReversePipe.transformExistent(
+                userDto.socialLinks as SocialLinksDto,
+                user.socialLinks as SocialLinks,
+            );
         }
 
         if (userDto.role) {
