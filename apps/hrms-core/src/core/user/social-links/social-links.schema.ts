@@ -3,13 +3,13 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class SocialLinks extends Document {
-    @Prop({ maxlength: 40 })
+    @Prop({ maxlength: 50 })
     linkedIn?: string;
 
     @Prop({ maxlength: 20 })
     whatsApp?: string;
 
-    @Prop({ maxlength: 40 })
+    @Prop({ maxlength: 60 })
     facebook?: string;
 
     @Prop({ maxlength: 40 })
