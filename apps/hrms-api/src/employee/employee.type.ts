@@ -42,6 +42,9 @@ export class Skill implements Partial<SkillDto> {
 
 @ObjectType()
 export class Education implements Partial<EducationDto> {
+    @Field(() => ID)
+    id?: string;
+
     @Field()
     school?: string;
 
@@ -63,6 +66,9 @@ export class Education implements Partial<EducationDto> {
 
 @ObjectType()
 export class Certification implements Partial<CertificationDto> {
+    @Field(() => ID)
+    id?: string;
+
     @Field()
     name?: string;
 
@@ -78,6 +84,9 @@ export class Certification implements Partial<CertificationDto> {
 
 @ObjectType()
 export class Language implements Partial<LanguageDto> {
+    @Field(() => ID)
+    id?: string;
+
     @Field()
     name?: string;
 

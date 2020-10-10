@@ -71,25 +71,12 @@ export class EmployeeResolver {
 
     @Mutation(() => Employee)
     @IgnorePrivileges()
-    addEducation(
-        @CurrentUser() currentUser: UserDto,
-        @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('education') education: AddEducationInput,
-    ): Promise<any> {
-        if (!this.isAllowed(currentUser, employeeId)) {
-            return Promise.reject(FORBIDDEN_ERROR);
-        }
-        return this.employeeFacade.addEducation(employeeId, education);
-    }
-
-    @Mutation(() => Employee)
-    @IgnorePrivileges()
     addCertification(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
         @Args('cert') cert: AddCertificationInput,
     ): Promise<any> {
-        if (!this.isAllowed(currentUser, employeeId)) {
+        if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
         return this.employeeFacade.addCertification(employeeId, cert);
@@ -102,7 +89,7 @@ export class EmployeeResolver {
         @Args('employeeId', { type: () => ID }) employeeId: string,
         @Args('lang') lang: AddLanguageInput,
     ): Promise<any> {
-        if (!this.isAllowed(currentUser, employeeId)) {
+        if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
         return this.employeeFacade.addLanguage(employeeId, lang);
@@ -115,16 +102,16 @@ export class EmployeeResolver {
         @Args('employeeId', { type: () => ID }) employeeId: string,
         @Args('skills', { type: () => [SkillInput] }) skills: SkillInput[],
     ): Promise<any> {
-        if (!this.isAllowed(currentUser, employeeId)) {
+        if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
         return this.employeeFacade.setSkills(employeeId, skills);
     }
-
-    private isAllowed(currentUser: UserDto, employeeId: string) {
-        return (
-            currentUser.id == employeeId ||
-            (currentUser.role as Role).privileges.findIndex(x => x == 'employees.access') != -1
-        );
-    }
 }
+
+export const isOwner = (currentUser: UserDto, employeeId: string) => {
+    return (
+        currentUser.id == employeeId ||
+        (currentUser.role as Role).privileges.findIndex(x => x == 'employees.access') != -1
+    );
+};

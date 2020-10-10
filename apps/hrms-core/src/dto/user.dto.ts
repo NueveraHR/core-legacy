@@ -37,6 +37,7 @@ export class UserDto {
 }
 
 export class EducationDto {
+    id?: string;
     school?: string;
     degree?: string;
     field?: string;
@@ -46,6 +47,7 @@ export class EducationDto {
 }
 
 export class CertificationDto {
+    id?: string;
     name?: string;
     issuingOrganization?: string;
     date?: Date;
@@ -53,6 +55,7 @@ export class CertificationDto {
 }
 
 export class LanguageDto {
+    id?: string;
     name?: string;
     proficiency?: string;
     isPreferred?: boolean;
