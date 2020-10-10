@@ -9,11 +9,11 @@ import {
     UpdateEmployeeInput,
     JobInput,
     AddEducationInput,
-    AddCertificationInput,
-    AddLanguageInput,
+    CertificationInput,
+    LanguageInput,
     SkillInput,
-} from '@hrms-api/employee/employee.input';
-import { Employee, PaginatedEmployeeList, Job } from './employee.type';
+} from '@hrms-api/employee/graphql/employee.input';
+import { Employee, PaginatedEmployeeList, Job } from './graphql/employee.type';
 import { FORBIDDEN_ERROR, GqlError } from '@hrms-api/common/utils/error.utils';
 import { SortInput } from '@hrms-api/common/graphql/sort.input';
 import { FilterUtils } from '@hrms-api/common/utils/filter.utils';
@@ -45,7 +45,7 @@ export class EmployeeResolver {
     @Query(() => Employee)
     @IgnorePrivileges()
     employee(@CurrentUser() currentUser: UserDto, @Args('id', { type: () => ID }) employeeId: string): Promise<any> {
-        if (!this.isAllowed(currentUser, employeeId)) {
+        if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
         return this.employeeFacade.details(employeeId).catch(GqlError);
@@ -74,7 +74,7 @@ export class EmployeeResolver {
     addCertification(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('cert') cert: AddCertificationInput,
+        @Args('cert') cert: CertificationInput,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
@@ -87,7 +87,7 @@ export class EmployeeResolver {
     addLanguage(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('lang') lang: AddLanguageInput,
+        @Args('lang') lang: LanguageInput,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);

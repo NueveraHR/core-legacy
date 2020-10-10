@@ -8,6 +8,7 @@ import { RoleResolver } from './role/role.resolver';
 import { AuthResolver } from './auth/auth.resolver';
 import { UploadResolver } from './upload/upload.resolver';
 import { JwtDecryptMiddleware } from './common/middlewares/jwt-decrypt.middleware';
+import { EducationResolver } from './employee/education.resolver';
 
 @Module({
     imports: [
@@ -22,7 +23,7 @@ import { JwtDecryptMiddleware } from './common/middlewares/jwt-decrypt.middlewar
         HRMSCoreModule,
         CommonApi,
     ],
-    providers: [AuthResolver, RoleResolver, EmployeeResolver, UploadResolver],
+    providers: [AuthResolver, RoleResolver, EmployeeResolver, EducationResolver, UploadResolver],
     controllers: [],
 })
 export class AppModule implements NestModule {

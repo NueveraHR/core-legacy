@@ -13,8 +13,8 @@ export class EducationService {
         return education.save();
     }
 
-    update(education: Education): Promise<Education> {
-        return education.save();
+    update(id: string, educationDto: EducationDto): Promise<Education> {
+        return this.educationModel.findByIdAndUpdate(id, educationDto, { new: true }).exec();
     }
 
     delete(id: string): Promise<boolean> {

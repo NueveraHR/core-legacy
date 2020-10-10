@@ -114,6 +114,15 @@ export class UserFacade {
         return this.userService.attachEducation(userId, education.id) as UserDto;
     }
 
+    updateEducation(id: string, educationDto: EducationDto): Promise<EducationDto> {
+        //TODO: validate
+        return this.educationService.update(id, educationDto);
+    }
+
+    deleteEducation(id: string): Promise<boolean> {
+        return this.educationService.delete(id);
+    }
+
     async addCertification(userId: string, certificationDto: CertificationDto): Promise<UserDto> {
         //TODO: validate
         const cert = await this.certificationService.create(certificationDto);
