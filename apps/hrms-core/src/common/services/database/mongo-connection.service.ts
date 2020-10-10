@@ -39,6 +39,7 @@ export class MongoConnectionService {
         const options = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
+            useCreateIndex: true,
             useFindAndModify: false, // https://mongoosejs.com/docs/deprecations.html#findandmodify
             authSource: 'admin',
         };
