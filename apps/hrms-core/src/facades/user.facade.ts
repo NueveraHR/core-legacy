@@ -129,6 +129,15 @@ export class UserFacade {
         return (await this.userService.attachCertification(userId, cert.id)) as UserDto;
     }
 
+    updateCertification(id: string, certificationDto: CertificationDto): Promise<CertificationDto> {
+        //TODO: validate
+        return this.certificationService.update(id, certificationDto);
+    }
+
+    deleteCertification(id: string): Promise<boolean> {
+        return this.certificationService.delete(id);
+    }
+
     async addLanguage(userId: string, languageDto: LanguageDto): Promise<UserDto> {
         //TODO: validate
         const lang = await this.languageService.create(languageDto);

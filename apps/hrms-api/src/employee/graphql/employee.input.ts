@@ -269,7 +269,7 @@ export class UpdateEducationInput implements Partial<EducationDto> {
 }
 
 @InputType()
-export class CertificationInput implements Partial<CertificationDto> {
+export class AddCertificationInput implements Partial<CertificationDto> {
     @Field()
     name?: string;
 
@@ -277,6 +277,21 @@ export class CertificationInput implements Partial<CertificationDto> {
     issuingOrganization?: string;
 
     @Field(() => Date)
+    date?: Date;
+
+    @Field(() => Date, { nullable: true })
+    expiresOn?: Date;
+}
+
+@InputType()
+export class UpdateCertificationInput implements Partial<CertificationDto> {
+    @Field({ nullable: true })
+    name?: string;
+
+    @Field({ nullable: true })
+    issuingOrganization?: string;
+
+    @Field(() => Date, { nullable: true })
     date?: Date;
 
     @Field(() => Date, { nullable: true })

@@ -42,8 +42,11 @@ describe('Certification Service', () => {
         it('should update', async () => {
             const cert = await certificationService.create(CERTIFICATION.full);
             expect(cert.name).toEqual(CERTIFICATION.full.name);
-            cert.name = 'new Name';
-            expect(certificationService.update(cert)).resolves.toEqual(expect.objectContaining({ name: 'new Name' }));
+
+            const newCert = { ...CERTIFICATION.full, name: 'new Name' };
+            expect(certificationService.update(cert.id, newCert)).resolves.toEqual(
+                expect.objectContaining({ name: 'new Name' }),
+            );
         });
     });
 

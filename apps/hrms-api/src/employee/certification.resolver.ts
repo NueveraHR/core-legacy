@@ -9,54 +9,54 @@ import { UserDto } from '@hrms-core/dto/user.dto';
 import { EmployeeFacade } from '@hrms-core/facades/employee.facade';
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
-import { AddEducationInput, UpdateEducationInput } from './graphql/employee.input';
 import { isOwner } from './employee.resolver';
-import { Education, Employee } from './graphql/employee.type';
+import { AddCertificationInput, UpdateCertificationInput } from './graphql/employee.input';
+import { Certification, Employee } from './graphql/employee.type';
 
 @Resolver()
 @Privileges('employees.access')
 @RateLimit({ limit: 100, timeInterval: '1m' })
 @UseGuards(JwtAuthGuard, PrivilegesGuard, RateLimitGuard)
-export class EducationResolver {
+export class CertificationResolver {
     constructor(private employeeFacade: EmployeeFacade) {}
 
     @Mutation(() => Employee)
     @IgnorePrivileges()
-    addEducation(
+    addCertification(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('education') education: AddEducationInput,
+        @Args('cert') cert: AddCertificationInput,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.addEducation(employeeId, education).catch(GqlError);
+        return this.employeeFacade.addCertification(employeeId, cert).catch(GqlError);
     }
 
-    @Mutation(() => Education)
+    @Mutation(() => Certification)
     @IgnorePrivileges()
-    updateEducation(
+    updateCertification(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('educationId', { type: () => ID }) educationId: string,
-        @Args('education') education: UpdateEducationInput,
+        @Args('certId', { type: () => ID }) certId: string,
+        @Args('cert') cert: UpdateCertificationInput,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.updateEducation(educationId, education).catch(GqlError);
+        return this.employeeFacade.updateCertification(certId, cert).catch(GqlError);
     }
 
     @Mutation(() => Boolean)
     @IgnorePrivileges()
-    deleteEducation(
+    deleteCertification(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('educationId', { type: () => ID }) educationId: string,
+        @Args('certId', { type: () => ID }) certId: string,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.deleteEducation(educationId).catch(GqlError);
+        return this.employeeFacade.deleteCertification(certId).catch(GqlError);
     }
 }

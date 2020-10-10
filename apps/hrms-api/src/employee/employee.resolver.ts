@@ -8,8 +8,6 @@ import {
     AddEmployeeInput,
     UpdateEmployeeInput,
     JobInput,
-    AddEducationInput,
-    CertificationInput,
     LanguageInput,
     SkillInput,
 } from '@hrms-api/employee/graphql/employee.input';
@@ -67,19 +65,6 @@ export class EmployeeResolver {
     @Privileges('employees.edit')
     addJob(@Args('employeeId', { type: () => ID }) employeeId: string, @Args('job') job: JobInput): Promise<any> {
         return this.employeeFacade.addJob(employeeId, job).catch(GqlError);
-    }
-
-    @Mutation(() => Employee)
-    @IgnorePrivileges()
-    addCertification(
-        @CurrentUser() currentUser: UserDto,
-        @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('cert') cert: CertificationInput,
-    ): Promise<any> {
-        if (!isOwner(currentUser, employeeId)) {
-            return Promise.reject(FORBIDDEN_ERROR);
-        }
-        return this.employeeFacade.addCertification(employeeId, cert);
     }
 
     @Mutation(() => Employee)

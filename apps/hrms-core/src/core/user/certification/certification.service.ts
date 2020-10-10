@@ -13,8 +13,8 @@ export class CertificationService {
         return certification.save();
     }
 
-    update(certification: Certification): Promise<Certification> {
-        return certification.save();
+    update(id: string, cert: CertificationDto): Promise<Certification> {
+        return this.certificationModel.findByIdAndUpdate(id, cert, { new: true }).exec();
     }
 
     delete(id: string): Promise<boolean> {
