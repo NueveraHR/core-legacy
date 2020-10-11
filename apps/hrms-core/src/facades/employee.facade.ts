@@ -89,9 +89,20 @@ export class EmployeeFacade extends UserFacade {
         return this.details(employeeDto.id) as Promise<EmployeeDto>;
     }
 
+    // TODO: !!!!Architectural defect: Move to user
     async addJob(employeeId: string, jobDto: JobDto): Promise<JobDto> {
         //TODO: validate
         const job = await this.jobService.create(jobDto);
         return this.employeeService.attachJob(employeeId, job);
+    }
+
+    updateJob(jobId: string, jobDto: JobDto): Promise<JobDto> {
+        // TODO: validate
+        return this.jobService.update(jobId, jobDto);
+    }
+
+    deleteJob(jobId: string): Promise<boolean> {
+        // TODO: validate id
+        return this.jobService.delete(jobId);
     }
 }

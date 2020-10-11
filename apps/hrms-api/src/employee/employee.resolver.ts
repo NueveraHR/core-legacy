@@ -55,12 +55,6 @@ export class EmployeeResolver {
         return this.employeeFacade.update(employee).catch(GqlError);
     }
 
-    @Mutation(() => Job)
-    @Privileges('employees.edit')
-    addJob(@Args('employeeId', { type: () => ID }) employeeId: string, @Args('job') job: JobInput): Promise<any> {
-        return this.employeeFacade.addJob(employeeId, job).catch(GqlError);
-    }
-
     @Mutation(() => Employee)
     @IgnorePrivileges()
     setSkills(

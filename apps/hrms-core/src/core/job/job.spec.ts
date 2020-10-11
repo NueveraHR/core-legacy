@@ -58,22 +58,19 @@ describe('Job Service', () => {
 
     describe('Update Job', () => {
         it('should update job successfully', async () => {
-            expect.assertions(7);
+            expect.assertions(5);
 
             let job = await jobService.create(JOBS.createJob);
-            expect(job).not.toBeUndefined();
-            expect(job).not.toBeNull();
 
-            job.title = 'title updated';
-            job.salary = 1234;
+            const updatedJob = { ...JOBS.createJob, title: 'updated title', salary: 1234 };
 
-            job = await jobService.update(job);
+            job = await jobService.update(job.id, updatedJob);
 
             expect(job).toHaveProperty('title');
             expect(job).toHaveProperty('startDate');
             expect(job).toHaveProperty('salary');
 
-            expect(job.title).toBe('title updated');
+            expect(job.title).toBe('updated title');
             expect(job.salary).toBe(1234);
         });
     });

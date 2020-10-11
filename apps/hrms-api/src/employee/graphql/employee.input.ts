@@ -227,6 +227,48 @@ export class JobInput implements Partial<JobDto> {
 }
 
 @InputType()
+export class UpdateJobInput implements Partial<JobDto> {
+    @Field({ nullable: true })
+    title?: string;
+
+    @Field({ nullable: true })
+    employmentType?: string;
+
+    @Field(() => Date, { nullable: true })
+    startDate?: Date;
+
+    @Field(() => Date, { nullable: true })
+    endDate?: Date;
+
+    @Field({ nullable: true })
+    location?: string;
+
+    @Field({ nullable: true })
+    description?: string;
+
+    @Field({ nullable: true })
+    department?: string;
+
+    @Field(() => Float, { nullable: true })
+    salary?: number;
+
+    @Field({ nullable: true })
+    salaryFrequency?: string;
+
+    @Field({ nullable: true })
+    salaryCurrency?: string;
+
+    @Field(() => Float, { nullable: true })
+    hoursPerWeek?: number;
+
+    @Field(() => Float, { nullable: true })
+    bonusEarnings?: number;
+
+    @Field({ nullable: true })
+    bonusFrequency?: string;
+}
+
+@InputType()
 export class AddEducationInput implements Partial<EducationDto> {
     @Field()
     school?: string;

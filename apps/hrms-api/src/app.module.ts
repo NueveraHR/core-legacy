@@ -11,6 +11,7 @@ import { JwtDecryptMiddleware } from './common/middlewares/jwt-decrypt.middlewar
 import { EducationResolver } from './employee/education.resolver';
 import { CertificationResolver } from './employee/certification.resolver';
 import { LanguageResolver } from './employee/language.resolver';
+import { JobResolver } from './employee/job.resolver';
 
 @Module({
     imports: [
@@ -29,6 +30,7 @@ import { LanguageResolver } from './employee/language.resolver';
         AuthResolver,
         RoleResolver,
         EmployeeResolver,
+        JobResolver,
         EducationResolver,
         CertificationResolver,
         LanguageResolver,

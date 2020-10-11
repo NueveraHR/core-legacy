@@ -24,14 +24,8 @@ export class JobService {
         );
     }
 
-    update(job: Job): Promise<Job> {
-        return job.save().catch(err =>
-            Promise.reject(
-                this.errorService.generate(Errors.General.INTERNAL_ERROR, {
-                    detailedMessage: err,
-                }),
-            ),
-        );
+    update(id: string, job: JobDto): Promise<Job> {
+        return this.jobModel.findByIdAndUpdate(id, job, { new: true }).exec();
     }
 
     delete(id: string): Promise<boolean> {
