@@ -3,7 +3,6 @@ image: "node:latest"
 stages: 
   - build
   - test
-  - deploy
 cache: 
   paths: 
     - node_modules/
@@ -30,27 +29,3 @@ build_project:
 unit_tests: 
   stage: test
   script: "npm test"
-
-deploy_dev:
-  type: deploy
-  before_script:
-    - apt-get update -qq
-    - apt-get install -qq git
-    # Setup SSH deploy keys
-    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  environment:
-    name: deploying dev
-    url: api.nuevera.com
-  script:
-    - echo "============ Pulling latest version  ============"
-    - ssh -p22 ubuntu@51.91.157.231 "cd /var/www/nuevera-hrms && git checkout master && git pull"
-    - echo "============ Installing dependencies  ============"
-    - ssh -p22 ubuntu@51.91.157.231 "cd /var/www/nuevera-hrms && /home/ubuntu/.nvm/versions/node/v12.18.3/bin/npm i"
-    - echo "============ Restarting PM2  ============"
-    - ssh -p22 ubuntu@51.91.157.231 "/home/ubuntu/.nvm/versions/node/v12.18.3/bin/pm2 restart api && exit"
-  only:
-    - master
