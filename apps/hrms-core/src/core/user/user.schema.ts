@@ -23,7 +23,7 @@ export class User extends Document {
     @Prop({ required: true, unique: true })
     email: string;
 
-    @Prop({ required: true, unique: true, minlength: 8, maxlength: 8 })
+    @Prop({ unique: true, minlength: 8, maxlength: 8 })
     cin: string;
 
     @Prop()

@@ -63,7 +63,7 @@ export class AddEmployeeInput implements Partial<EmployeeDto> {
     @Field()
     public lastName: string;
 
-    @Field()
+    @Field({ nullable: true })
     public cin: string;
 
     @Field({ nullable: true })

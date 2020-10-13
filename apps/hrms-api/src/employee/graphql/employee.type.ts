@@ -186,7 +186,7 @@ export class Employee implements Partial<EmployeeDto> {
     @Field()
     public email?: string;
 
-    @Field()
+    @Field({ nullable: true })
     public cin?: string;
 
     @Field()
