@@ -75,3 +75,7 @@ export enum JobErrors {
     UNKNOWN_JOB_ID = 44200,
     UNKNOWN_JOB = 44201,
 }
+
+export enum PassportErrors {
+    DUPLICATE = 45001,
+}

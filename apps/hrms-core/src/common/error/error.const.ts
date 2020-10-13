@@ -1,4 +1,4 @@
-import { LoginErrors, GeneralErrors, UserErrors, RoleErrors, JobErrors } from './error.enum';
+import { LoginErrors, GeneralErrors, UserErrors, RoleErrors, JobErrors, PassportErrors } from './error.enum';
 
 export const ErrorMessage: ErrorCodeMessage = {
     500: 'Internal Server Error, Please Contact Your System Administrator',
@@ -92,6 +92,10 @@ export const ErrorMessage: ErrorCodeMessage = {
     // Facade error (432xx)
     44200: 'Cannot delete job, Unknown job id',
     44201: 'Unknown job',
+
+    //---------------------------------- Passport (45xxx) ----------------------------------
+    // Controller invalid request(420xx)
+    45001: 'A passport with same number already exists',
 };
 
 export const Errors = {
@@ -100,6 +104,7 @@ export const Errors = {
     Role: RoleErrors,
     User: UserErrors,
     Job: JobErrors,
+    Passport: PassportErrors,
 };
 
 export interface ErrorCodeMessage {
