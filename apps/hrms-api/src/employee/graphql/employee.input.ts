@@ -94,6 +94,9 @@ export class AddEmployeeInput implements Partial<EmployeeDto> {
     @Field()
     public gender: string;
 
+    @Field({ nullable: true })
+    public nationality?: string;
+
     @Field(() => Date, { nullable: true })
     public birthDate: Date;
 
@@ -162,6 +165,9 @@ export class UpdateEmployeeInput implements Partial<EmployeeDto> {
 
     @Field({ nullable: true })
     public gender: string;
+
+    @Field({ nullable: true })
+    public nationality?: string;
 
     @Field({ nullable: true })
     public birthDate: Date;

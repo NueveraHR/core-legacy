@@ -16,6 +16,7 @@ export class UserDto {
     public middleName?: string;
     public lastName?: string;
     public gender?: string;
+    public nationality?: string;
     public birthDate?: Date;
 
     public password?: string;

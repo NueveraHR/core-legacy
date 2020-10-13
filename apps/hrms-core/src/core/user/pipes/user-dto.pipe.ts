@@ -31,6 +31,7 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
             middleName: source.middleName,
             lastName: source.lastName,
             gender: source.gender,
+            nationality: source.nationality,
             birthDate: source.birthDate,
             cin: source.cin,
             prefix: source.prefix,

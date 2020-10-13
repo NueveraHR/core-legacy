@@ -46,6 +46,9 @@ export class User extends Document {
     gender: string;
 
     @Prop()
+    nationality: string;
+
+    @Prop()
     birthDate: Date;
 
     @Prop()

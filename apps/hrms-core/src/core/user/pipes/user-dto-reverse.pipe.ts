@@ -31,6 +31,7 @@ export class UserDtoReversePipe implements DtoTransformPipe<UserDto, User> {
         user.middleName = userDto.middleName ?? user.middleName;
         user.lastName = userDto.lastName ?? user.lastName;
         user.gender = userDto.gender ?? user.gender;
+        user.nationality = userDto.nationality ?? user.nationality;
         user.birthDate = userDto.birthDate ?? user.birthDate;
         user.title = userDto.title ?? user.title;
         user.about = userDto.about ?? user.about;

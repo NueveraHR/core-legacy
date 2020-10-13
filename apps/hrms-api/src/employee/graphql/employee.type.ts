@@ -208,6 +208,9 @@ export class Employee implements Partial<EmployeeDto> {
     @Field()
     public gender?: string;
 
+    @Field({ nullable: true })
+    public nationality?: string;
+
     @Field(() => Date, { nullable: true })
     public birthDate?: Date;
 
