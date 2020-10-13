@@ -5,7 +5,7 @@ import { JwtAuthGuard } from '@hrms-api/common/guards/auth.guard';
 import { RateLimitGuard } from '@hrms-api/common/guards/rate-limit.guard';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import { FORBIDDEN_ERROR, GqlError } from '@hrms-api/common/utils/error.utils';
-import { UserDto } from '@hrms-core/dto/user.dto';
+import { UserDto } from '@hrms-core/user/user.dto';
 import { EmployeeFacade } from '@hrms-facades/employee/employee.facade';
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';

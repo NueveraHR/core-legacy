@@ -1,4 +1,4 @@
-import { UserDto } from '@hrms-core/dto/user.dto';
+import { UserDto } from '@hrms-core/user/user.dto';
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()

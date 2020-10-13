@@ -1,17 +1,17 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 
-import { RoleDto, RolePaginateDto } from '@hrms-core/dto/role.dto';
-import { Role } from '@hrms-core/core/role/role.schema';
+import { RoleDto, RolePaginateDto } from '@hrms-core/role/role.dto';
+import { Role } from '@hrms-core/role/role.schema';
 
-import { RoleService } from '@hrms-core/core/role/role.service';
-import { PrivilegeService } from '@hrms-core/core/privilege/privilege.service';
-import { PrivilegeDto } from '@hrms-core/dto/privilege.dto';
+import { RoleService } from '@hrms-core/role/role.service';
+import { PrivilegeService } from '@hrms-core/privilege/privilege.service';
+import { PrivilegeDto } from '@hrms-core/privilege/privilege.dto';
 import { ErrorDto, ErrorService } from '@hrms-core/common/error/error.service';
-import { RoleDtoValidator } from '@hrms-core/core/role/validators/role-dto.validator';
-import { RoleDtoReversePipe } from '@hrms-core/core/role/pipes/role-dto-reverse.pipe';
-import { RoleDtoPipe } from '@hrms-core/core/role/pipes/role-dto.pipe';
-import { PrivilegesDtoPipe } from '@hrms-core/core/role/pipes/privilege-dto.pipe';
+import { RoleDtoValidator } from '@hrms-core/role/validators/role-dto.validator';
+import { RoleDtoReversePipe } from '@hrms-core/role/pipes/role-dto-reverse.pipe';
+import { RoleDtoPipe } from '@hrms-core/role/pipes/role-dto.pipe';
+import { PrivilegesDtoPipe } from '@hrms-core/role/pipes/privilege-dto.pipe';
 import { ValidatorUtils } from '@hrms-core/common/utils/validator.utils';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { PaginationOptions, FilterOptions } from '@hrms-core/common/interfaces/pagination';

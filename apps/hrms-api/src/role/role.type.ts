@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType, InterfaceType, Int } from '@nestjs/graphql';
-import { RoleDto, RolePaginateDto } from '@hrms-core/dto/role.dto';
+import { RoleDto, RolePaginateDto } from '@hrms-core/role/role.dto';
 import { MultipleDeleteResult } from '@hrms-facades/role/role.facade';
 
 @ObjectType()

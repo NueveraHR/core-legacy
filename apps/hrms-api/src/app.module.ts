@@ -28,7 +28,7 @@ import { CoreModule } from '@hrms-core/core/core.module';
         }),
         HrmsFacadesModule,
         CommonApi,
-        CoreModule, // TODO: Remove after exposing document facade
+        HRMSCoreModule, // TODO: Remove after exposing document facade
     ],
     providers: [
         AuthResolver,

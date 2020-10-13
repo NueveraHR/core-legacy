@@ -1,4 +1,4 @@
-import { AddressDto } from '@hrms-core/dto/address.dto';
+import { AddressDto } from '@hrms-core/address/address.dto';
 
 export const ADDRESS_MOCK: { [id: string]: AddressDto } = {
     basic: {

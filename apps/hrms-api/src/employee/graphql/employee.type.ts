@@ -1,12 +1,12 @@
 import { ObjectType, Field, ID, Int, Float } from '@nestjs/graphql';
-import { UserDto as EmployeeDto, UserPaginateDto } from '@hrms-core/dto/user.dto';
+import { UserDto as EmployeeDto, UserPaginateDto } from '@hrms-core/user/user.dto';
 import { Role } from '@hrms-api/role/role.type';
-import { AddressDto } from '@hrms-core/dto/address.dto';
-import { JobDto } from '@hrms-core/dto/job.dto';
-import { CertificationDto, EducationDto, LanguageDto } from '@hrms-core/dto/user.dto';
-import { SkillDto } from '@hrms-core/dto/skill.dto';
-import { SocialLinksDto } from '@hrms-core/dto/social-links.dto';
-import { PassportDto } from '@hrms-core/dto/passport.dto';
+import { AddressDto } from '@hrms-core/address/address.dto';
+import { JobDto } from '@hrms-core/job/job.dto';
+import { CertificationDto, EducationDto, LanguageDto } from '@hrms-core/user/user.dto';
+import { SkillDto } from '@hrms-core/user/skill/skill.dto';
+import { SocialLinksDto } from '@hrms-core/user/social-links/social-links.dto';
+import { PassportDto } from '@hrms-core/user/passport/passport.dto';
 
 @ObjectType()
 export class Passport implements Partial<PassportDto> {

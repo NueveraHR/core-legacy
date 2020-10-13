@@ -1,10 +1,10 @@
 import { EnvService } from '@libs/env';
-import { UserService } from '@hrms-core/core/user/user.service';
-import { RoleService } from '@hrms-core/core/role/role.service';
+import { UserService } from '@hrms-core/user/user.service';
+import { RoleService } from '@hrms-core/role/role.service';
 import { USERS } from '../mock/user.mock';
 import { ROLES } from '../mock/role.mock';
-import { User } from '@hrms-core/core/user/user.schema';
-import { Role } from '@hrms-core/core/role/role.schema';
+import { User } from '@hrms-core/user/user.schema';
+import { Role } from '@hrms-core/role/role.schema';
 
 export class MockUtils {
     constructor(private envService: EnvService, private roleService: RoleService, private userService: UserService) {

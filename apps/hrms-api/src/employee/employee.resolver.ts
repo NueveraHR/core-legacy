@@ -13,8 +13,8 @@ import { FilterInput } from '@hrms-api/common/graphql/filter.input';
 import { RateLimit } from '@hrms-api/common/decorators/rateLimit.decorator';
 import { RateLimitGuard } from '@hrms-api/common/guards/rate-limit.guard';
 import { CurrentUser } from '@hrms-api/common/decorators/currentUser.decorator';
-import { UserDto } from '@hrms-core/dto/user.dto';
-import { Role } from '@hrms-core/core/role/role.schema';
+import { UserDto } from '@hrms-core/user/user.dto';
+import { Role } from '@hrms-core/role/role.schema';
 
 @Resolver()
 @Privileges('employees.access')

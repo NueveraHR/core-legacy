@@ -1,5 +1,5 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
-import { RoleDto } from '@hrms-core/dto/role.dto';
+import { RoleDto } from '@hrms-core/role/role.dto';
 
 @InputType()
 export class AddRole implements Partial<RoleDto> {

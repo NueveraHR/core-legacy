@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
-import { RoleService } from '@hrms-core/core/role/role.service';
+import { RoleService } from '@hrms-core/role/role.service';
 import { LoggerService } from '@libs/logger';
-import { UserService } from '@hrms-core/core/user/user.service';
+import { UserService } from '@hrms-core/user/user.service';
 import { AuthFacade } from './auth.facade';
 import { USERS } from '@hrms-core/test/mock/user.mock';
 import { MockUtils } from '@hrms-core/test/utils/mock.utils';

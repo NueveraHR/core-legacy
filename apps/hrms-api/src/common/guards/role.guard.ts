@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { RoleDto } from '@hrms-core/dto/role.dto';
+import { RoleDto } from '@hrms-core/role/role.dto';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { FORBIDDEN_ERROR, GqlError } from '../utils/error.utils';
 

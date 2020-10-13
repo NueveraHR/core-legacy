@@ -6,11 +6,11 @@ import { FileUpload } from 'graphql-upload';
 import { JwtAuthGuard } from '@hrms-api/common/guards/auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../common/decorators/currentUser.decorator';
-import { DocumentMangmentService } from '@hrms-core/core/document/document-mangment.service';
-import { UserDto } from '@hrms-core/dto/user.dto';
+import { DocumentMangmentService } from '@hrms-core/document/document-mangment.service';
+import { UserDto } from '@hrms-core/user/user.dto';
 import { UploadDocument, DeleteFileResult, GetDocument, UploadProfileImage } from './upload.type';
-import { DocumentDto } from '@hrms-core/dto/document.dto';
-import { UserService } from '@hrms-core/core/user/user.service';
+import { DocumentDto } from '@hrms-core/document/document.dto';
+import { UserService } from '@hrms-core/user/user.service';
 
 @UseGuards(JwtAuthGuard)
 @Resolver()

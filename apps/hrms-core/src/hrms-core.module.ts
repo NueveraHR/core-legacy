@@ -6,7 +6,12 @@ import { LoggerModule } from '@libs/logger';
 import { CommonModule } from './common/common.module';
 import { MongoConnectionService } from './common/services/database/mongo-connection.service';
 
-import { CoreModule } from './core/core.module';
+import { HRMSConfigModule } from '@libs/config';
+import { DocumentModule } from './document/document.module';
+import { RoleModule } from './role/role.module';
+import { UserModule } from './user/user.module';
+import { JobModule } from './job/job.module';
+import { JobFieldModule } from './job-field/job-field.module';
 
 @Module({
     imports: [
@@ -23,11 +28,21 @@ import { CoreModule } from './core/core.module';
 
         CommonModule,
         ConfigModule.forRoot({ isGlobal: true }),
-        CoreModule,
+        HRMSConfigModule,
+        DocumentModule,
+        RoleModule,
+        UserModule,
+        JobModule,
+        JobFieldModule,
     ],
     exports: [
         // We export these modules to expose them in facades-module
-        CoreModule,
+        HRMSConfigModule,
+        DocumentModule,
+        RoleModule,
+        UserModule,
+        JobModule,
+        JobFieldModule,
         EnvModule,
         LoggerModule,
     ],

@@ -4,8 +4,8 @@ import { LoggerService } from '@libs/logger';
 import { RoleFacade, MultipleDeleteResult } from './role.facade';
 import { ROLES } from '@hrms-core/test/mock/role.mock';
 import { ErrorService } from '@hrms-core/common/error/error.service';
-import { RoleDto, RolePaginateDto } from '@hrms-core/dto/role.dto';
-import { Role } from '@hrms-core/core/role/role.schema';
+import { RoleDto, RolePaginateDto } from '@hrms-core/role/role.dto';
+import { Role } from '@hrms-core/role/role.schema';
 import { HrmsFacadesModule } from '@hrms-facades/hrms-facades.module';
 
 describe('Role Management Facade', () => {
