@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType, InterfaceType, Int } from '@nestjs/graphql';
 import { RoleDto, RolePaginateDto } from '@hrms-core/dto/role.dto';
-import { MultipleDeleteResult } from '@hrms-core/facades/role.facade';
+import { MultipleDeleteResult } from '@hrms-facades/role/role.facade';
 
 @ObjectType()
 export class Role implements Partial<RoleDto> {

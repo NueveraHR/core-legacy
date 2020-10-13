@@ -108,6 +108,7 @@
       "@libs/logger": "<rootDir>/libs/logger/src",
       "@libs/config/(.*)": "<rootDir>/libs/config/src/$1",
       "@libs/config": "<rootDir>/libs/config/src",
+      "@hrms-facades/(.*)": "<rootDir>/apps/hrms-facade/src/$1",
       "@hrms-core/(.*)": "<rootDir>/apps/hrms-core/src/$1",
       "@hrms-api/(.*)": "<rootDir>/apps/hrms-api/src/$1",
       "@hrms-db/(.*)": "<rootDir>/apps/hrms-db/src/$1"

@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args, ID, Int } from '@nestjs/graphql';
-import { EmployeeFacade } from '@hrms-core/facades/employee.facade';
+import { EmployeeFacade } from '@hrms-facades/employee/employee.facade';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@hrms-api/common/guards/auth.guard';
 import { IgnorePrivileges, Privileges } from '@hrms-api/common/decorators/privileges.decorator';

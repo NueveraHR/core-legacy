@@ -12,6 +12,9 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
+      "@hrms-facades/*": [
+        "apps/hrms-facade/src/*"
+      ],
       "@hrms-core/*": [
         "apps/hrms-core/src/*"
       ],

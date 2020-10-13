@@ -26,6 +26,14 @@
         "tsConfigPath": "apps/hrms-core/tsconfig.app.json"
       }
     },
+    "hrms-facade": {
+      "type": "application",
+      "root": "apps/hrms-facade",
+      "entryFile": "main",
+      "sourceRoot": "apps/hrms-facade/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/hrms-facade/tsconfig.app.json"
+    },
     "hrms-db": {
       "type": "application",
       "root": "apps/hrms-db",
@@ -61,6 +69,7 @@
       "compilerOptions": {
         "tsConfigPath": "libs/config/tsconfig.lib.json"
       }
+    }
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Resolver, Mutation, Args, Context, GraphQLExecutionContext } from '@nestjs/graphql';
-import { AuthFacade } from '@hrms-core/auth/auth.facade';
+import { AuthFacade } from '@hrms-facades/auth/auth.facade';
 import { UserCredentials } from './auth.input';
 import { AuthPayload } from './auth.type';
 import { AuthenticationError } from 'apollo-server';

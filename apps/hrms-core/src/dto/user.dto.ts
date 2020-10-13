@@ -5,6 +5,7 @@ import { SocialLinksDto } from './social-links.dto';
 import { PassportDto } from './passport.dto';
 import { JobDto } from './job.dto';
 import { UserType } from '@hrms-core/common/enums/user-type.enum';
+import { NvrPaginateResult } from '@hrms-core/common/interfaces/pagination';
 
 export class UserDto {
     public id?: string;
@@ -68,3 +69,5 @@ export class LanguageDto {
     proficiency?: string;
     isPreferred?: boolean;
 }
+
+export type UserPaginateDto = NvrPaginateResult<UserDto>;

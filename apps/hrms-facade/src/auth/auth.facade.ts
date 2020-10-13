@@ -7,7 +7,7 @@ import { UserService } from '@hrms-core/core/user/user.service';
 import { UserDto } from '@hrms-core/dto/user.dto';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
-import { AuthDto } from './auth.dto';
+import { AuthDto } from '@hrms-core/auth/auth.dto';
 
 @Injectable()
 export class AuthFacade {
@@ -48,7 +48,15 @@ export class AuthFacade {
                 return {
                     token: token,
                     userType: foundUser.type,
-                    ...foundUser,
+                    id: foundUser.id,
+                    username: foundUser.username,
+                    firstName: foundUser.firstName,
+                    middleName: foundUser.middleName,
+                    lastName: foundUser.lastName,
+                    email: foundUser.email,
+                    picture: foundUser.picture,
+                    role: foundUser.role,
+                    gender: foundUser.gender,
                 };
             }
         }

@@ -2,12 +2,12 @@ import { Test } from '@nestjs/testing';
 import { DBManager } from '@hrms-core/common/services/database/database-manager.service';
 import { RoleService } from '@hrms-core/core/role/role.service';
 import { LoggerService } from '@libs/logger';
-import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { AuthFacade } from './auth.facade';
 import { USERS } from '@hrms-core/test/mock/user.mock';
 import { MockUtils } from '@hrms-core/test/utils/mock.utils';
 import { EnvService } from '@libs/env';
+import { HrmsFacadesModule } from '@hrms-facades/hrms-facades.module';
 
 describe('Auth Facade', () => {
     let authFacade: AuthFacade;
@@ -20,7 +20,7 @@ describe('Auth Facade', () => {
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
-            imports: [HRMSCoreModule],
+            imports: [HrmsFacadesModule],
             providers: [],
             controllers: [],
         }).compile();

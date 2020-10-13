@@ -1,14 +1,14 @@
-import { UserType } from '../common/enums/user-type.enum';
-import { PassportDto } from '../dto/passport.dto';
-import { SocialLinkService } from '../core/user/social-links/social-links.service';
-import { CertificationDto, EducationDto, LanguageDto, UserDto } from '@hrms-core/dto/user.dto';
+import { UserType } from '@hrms-core/common/enums/user-type.enum';
+import { PassportDto } from '@hrms-core/dto/passport.dto';
+import { SocialLinkService } from '@hrms-core/core/user/social-links/social-links.service';
+import { CertificationDto, EducationDto, LanguageDto, UserDto, UserPaginateDto } from '@hrms-core/dto/user.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { LoggerService } from '@libs/logger';
 import { ErrorService } from '@hrms-core/common/error/error.service';
-import { UserDtoValidator } from '../core/user/validators/user-dto.validator';
+import { UserDtoValidator } from '@hrms-core/core/user/validators/user-dto.validator';
 import { RoleService } from '@hrms-core/core/role/role.service';
-import { UserDtoReversePipe } from '../core/user/pipes/user-dto-reverse.pipe';
+import { UserDtoReversePipe } from '@hrms-core/core/user/pipes/user-dto-reverse.pipe';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { AddressService } from '@hrms-core/core/address/address.service';
 import { AddressDto } from '@hrms-core/dto/address.dto';
@@ -256,5 +256,3 @@ export class EmployeeFacade {
         return userDto;
     }
 }
-
-export type UserPaginateDto = NvrPaginateResult<UserDto>;

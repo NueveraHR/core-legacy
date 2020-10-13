@@ -4,7 +4,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@hrms-api/common/guards/auth.guard';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import { Role, DeleteResult, PaginatedRoleList } from './role.type';
-import { RoleFacade } from '@hrms-core/facades/role.facade';
+import { RoleFacade } from '@hrms-facades/role/role.facade';
 import { AddRole, UpdateRole } from './role.input';
 import { GqlError } from '@hrms-api/common/utils/error.utils';
 import { SortInput } from '@hrms-api/common/graphql/sort.input';

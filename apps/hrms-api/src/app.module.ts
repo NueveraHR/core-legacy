@@ -13,6 +13,8 @@ import { CertificationResolver } from './employee/certification.resolver';
 import { LanguageResolver } from './employee/language.resolver';
 import { JobResolver } from './employee/job.resolver';
 import { PassportResolver } from './employee/passport.resolver';
+import { HrmsFacadesModule } from 'apps/hrms-facade/src/hrms-facades.module';
+import { CoreModule } from '@hrms-core/core/core.module';
 
 @Module({
     imports: [
@@ -24,8 +26,9 @@ import { PassportResolver } from './employee/passport.resolver';
                 credentials: true,
             },
         }),
-        HRMSCoreModule,
+        HrmsFacadesModule,
         CommonApi,
+        CoreModule, // TODO: Remove after exposing document facade
     ],
     providers: [
         AuthResolver,
