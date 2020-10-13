@@ -1,10 +1,10 @@
+import { UserType } from '../common/enums/user-type.enum';
 import { PassportDto } from '../dto/passport.dto';
 import { SocialLinkService } from '../core/user/social-links/social-links.service';
 import { CertificationDto, EducationDto, LanguageDto, UserDto } from '@hrms-core/dto/user.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { UserService } from '@hrms-core/core/user/user.service';
 import { LoggerService } from '@libs/logger';
-import { UserDtoPipe } from '../core/user/pipes/user-dto.pipe';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { UserDtoValidator } from '../core/user/validators/user-dto.validator';
 import { RoleService } from '@hrms-core/core/role/role.service';
@@ -32,7 +32,6 @@ export class EmployeeFacade {
     constructor(
         private logger: LoggerService,
         private userDtoValidator: UserDtoValidator,
-        private userDtoPipe: UserDtoPipe,
         private userDtoReversePipe: UserDtoReversePipe,
         private userService: UserService,
         private roleService: RoleService,
@@ -46,6 +45,8 @@ export class EmployeeFacade {
         private jobService: JobService,
     ) {}
 
+    // -------------------------------- CRUD ----------------------------------------
+
     list(paginationOptions: PaginationOptions, filterOptions?: FilterOptions): Promise<UserPaginateDto> {
         return this.userService
             .findAllPaginated(paginationOptions.page, paginationOptions.limit, filterOptions)
@@ -57,13 +58,13 @@ export class EmployeeFacade {
                     limit: result.limit,
                     nextPage: result.nextPage,
                     prevPage: result.prevPage,
-                    docs: result.docs.map(user => this.userDtoPipe.transform(user)),
+                    docs: result.docs,
                 };
                 return userPaginateDto;
             });
     }
 
-    async create(userDto: UserDto): Promise<any> {
+    async create(userDto: UserDto): Promise<UserDto> {
         const validationResult = this.userDtoValidator.validate(userDto, {
             required: ['password', 'role'],
         });
@@ -84,17 +85,22 @@ export class EmployeeFacade {
         // populate missing user props with default values
         userDto = this.populateMissingValues(userDto);
 
-        return this.userService.create(userDto).then(user => this.userDtoPipe.transform(user));
+        const createdUser = await this.userService.create(userDto);
+        if (createdUser.type === UserType.EMPLOYEE) {
+            // this.invitationService.invite(createdUser)
+        }
+        return createdUser;
     }
 
-    details(id: string): Promise<UserDto> {
-        return this.userService.findById(id).then(user => {
-            if (user) return this.userDtoPipe.transform(user);
-            else return Promise.reject(this.errorService.generate(Errors.User.DETAILS_INVALID_REQUEST));
-        });
+    async details(id: string): Promise<UserDto> {
+        const user = await this.userService.findById(id);
+        if (!user) {
+            return Promise.reject(this.errorService.generate(Errors.User.DETAILS_INVALID_REQUEST));
+        }
+        return user as UserDto;
     }
 
-    async update(userDto: UserDto, basicInfoOnly = false): Promise<UserDto> {
+    async update(userDto: UserDto): Promise<UserDto> {
         const validationResult = this.userDtoValidator.validate(userDto);
 
         if (this.errorService.isError(validationResult)) {
@@ -112,8 +118,10 @@ export class EmployeeFacade {
         await this.addressService.update(user.address as Address);
         await this.socialLinkService.update(user.socialLinks as SocialLinks);
 
-        return this.userService.update(user).then(user => this.userDtoPipe.transform(user));
+        return this.userService.update(user);
     }
+
+    // -------------------------------- Education -----------------------------------
 
     async addEducation(userId: string, educationDto: EducationDto): Promise<UserDto> {
         //TODO: validate
@@ -130,6 +138,8 @@ export class EmployeeFacade {
         return this.educationService.delete(id);
     }
 
+    // -------------------------------- Certification --------------------------------
+
     async addCertification(userId: string, certificationDto: CertificationDto): Promise<UserDto> {
         //TODO: validate
         const cert = await this.certificationService.create(certificationDto);
@@ -144,6 +154,8 @@ export class EmployeeFacade {
     deleteCertification(id: string): Promise<boolean> {
         return this.certificationService.delete(id);
     }
+
+    // -------------------------------- Language ---------------------------------------
 
     async addLanguage(userId: string, languageDto: LanguageDto): Promise<UserDto> {
         //TODO: validate
@@ -162,6 +174,8 @@ export class EmployeeFacade {
         return this.languageService.delete(id);
     }
 
+    // -------------------------------- Passport ---------------------------------------
+
     async addPassport(userId: string, passportDto: PassportDto): Promise<UserDto> {
         //TODO: validate
         const passport = await this.passportService.create(passportDto);
@@ -173,10 +187,12 @@ export class EmployeeFacade {
         return this.passportService.update(id, passportDto);
     }
 
-    deletePassport(id: string) {
+    deletePassport(id: string): Promise<boolean> {
         //TODO: validate
         return this.passportService.delete(id);
     }
+
+    // -------------------------------- Skills -----------------------------------------
 
     async setSkills(userId: string, newSkills: SkillDto[]): Promise<UserDto> {
         //TODO: validate
@@ -195,6 +211,8 @@ export class EmployeeFacade {
         await Promise.all(promises);
         return this.userService.setSkills(userId, ids);
     }
+
+    // -------------------------------- Job --------------------------------------------
 
     async addJob(employeeId: string, jobDto: JobDto): Promise<JobDto> {
         //TODO: validate

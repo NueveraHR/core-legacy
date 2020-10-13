@@ -15,8 +15,8 @@ import { Job } from '../job/job.schema';
 
 @Schema()
 export class User extends Document {
-    @Prop({ required: true, default: UserType.EMPLOYEE })
-    type: string;
+    @Prop({ type: String, required: true, default: UserType.EMPLOYEE })
+    type: UserType;
 
     @Prop({ required: true, unique: true })
     username: string;

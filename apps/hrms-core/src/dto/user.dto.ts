@@ -4,10 +4,12 @@ import { SkillDto } from './skill.dto';
 import { SocialLinksDto } from './social-links.dto';
 import { PassportDto } from './passport.dto';
 import { JobDto } from './job.dto';
+import { UserType } from '@hrms-core/common/enums/user-type.enum';
 
 export class UserDto {
     public id?: string;
 
+    public type?: UserType;
     public username?: string;
     public email?: string;
     public cin?: string;

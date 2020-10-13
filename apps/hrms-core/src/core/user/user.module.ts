@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { UserDtoPipe } from './pipes/user-dto.pipe';
 import { UserDtoValidator } from './validators/user-dto.validator';
 import { UserDtoReversePipe } from './pipes/user-dto-reverse.pipe';
 import { RoleModule } from '../role/role.module';
@@ -31,7 +30,6 @@ import { PassportModule } from './passport/passport.module';
         UserDtoValidator,
 
         // Pipes
-        UserDtoPipe,
         UserDtoReversePipe,
 
         // Services
@@ -46,7 +44,6 @@ import { PassportModule } from './passport/passport.module';
         SocialLinksModule,
         PassportModule,
         UserService,
-        UserDtoPipe,
         UserDtoValidator,
         UserDtoReversePipe,
     ],
