@@ -12,6 +12,7 @@ import { EducationResolver } from './employee/education.resolver';
 import { CertificationResolver } from './employee/certification.resolver';
 import { LanguageResolver } from './employee/language.resolver';
 import { JobResolver } from './employee/job.resolver';
+import { PassportResolver } from './employee/passport.resolver';
 
 @Module({
     imports: [
@@ -34,6 +35,7 @@ import { JobResolver } from './employee/job.resolver';
         EducationResolver,
         CertificationResolver,
         LanguageResolver,
+        PassportResolver,
         UploadResolver,
     ],
     controllers: [],

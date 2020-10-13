@@ -7,6 +7,16 @@ import { JobDto } from '@hrms-core/dto/job.dto';
 import { CertificationDto, EducationDto, LanguageDto } from '@hrms-core/dto/user.dto';
 import { SkillDto } from '@hrms-core/dto/skill.dto';
 import { SocialLinksDto } from '@hrms-core/dto/social-links.dto';
+import { PassportDto } from '@hrms-core/dto/passport.dto';
+
+@ObjectType()
+export class Passport implements Partial<PassportDto> {
+    @Field()
+    number?: string;
+
+    @Field(() => Date)
+    issueDate?: Date;
+}
 
 @ObjectType()
 export class SocialLinks implements Partial<SocialLinksDto> {
@@ -200,6 +210,9 @@ export class Employee implements Partial<EmployeeDto> {
 
     @Field(() => Date, { nullable: true })
     public birthDate?: Date;
+
+    @Field(() => Passport, { nullable: true })
+    public passport?: Passport | string;
 
     @Field(() => Address, { nullable: true })
     public address?: Address | string;

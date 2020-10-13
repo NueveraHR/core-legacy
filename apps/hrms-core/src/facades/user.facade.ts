@@ -1,3 +1,4 @@
+import { PassportDto } from './../dto/passport.dto';
 import { SocialLinkService } from './../core/user/social-links/social-links.service';
 import { CertificationDto, EducationDto, LanguageDto, UserDto } from '@hrms-core/dto/user.dto';
 import { Inject } from '@nestjs/common';
@@ -20,6 +21,7 @@ import { SkillDto } from '@hrms-core/dto/skill.dto';
 import { SkillService } from '@hrms-core/core/user/skill/skill.service';
 import { SocialLinksDto } from '@hrms-core/dto/social-links.dto';
 import { SocialLinks } from '@hrms-core/core/user/social-links/social-links.schema';
+import { PassportService } from '@hrms-core/core/user/passport/passport.service';
 
 export class UserFacade {
     constructor(
@@ -35,6 +37,7 @@ export class UserFacade {
         protected languageService: LanguageService,
         protected skillService: SkillService,
         protected socialLinkService: SocialLinkService,
+        protected passportService: PassportService,
     ) {}
 
     @Inject(ErrorService) errorService: ErrorService;
@@ -153,6 +156,22 @@ export class UserFacade {
         //TODO: validate
 
         return this.languageService.delete(id);
+    }
+
+    async addPassport(userId: string, passportDto: PassportDto): Promise<UserDto> {
+        //TODO: validate
+        const passport = await this.passportService.create(passportDto);
+        return this.userService.setPassport(userId, passport.id);
+    }
+
+    updatePassport(id: string, passportDto: PassportDto): Promise<PassportDto> {
+        //TODO: validate
+        return this.passportService.update(id, passportDto);
+    }
+
+    deletePassport(id: string) {
+        //TODO: validate
+        return this.passportService.delete(id);
     }
 
     async setSkills(userId: string, newSkills: SkillDto[]): Promise<UserDto> {

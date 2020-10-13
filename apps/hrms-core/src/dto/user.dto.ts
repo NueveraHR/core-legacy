@@ -2,6 +2,7 @@ import { RoleDto } from './role.dto';
 import { AddressDto } from './address.dto';
 import { SkillDto } from './skill.dto';
 import { SocialLinksDto } from './social-links.dto';
+import { PassportDto } from './passport.dto';
 
 export class UserDto {
     public id?: string;
@@ -19,6 +20,7 @@ export class UserDto {
 
     public password?: string;
     public phone?: string;
+    public passport?: PassportDto | string;
     public address?: AddressDto | string;
     public role?: RoleDto | string;
 

@@ -11,6 +11,7 @@ import { Language } from './language/language.schema';
 import { SchemaTypes } from 'mongoose';
 import { Skill } from './skill/skill.schema';
 import { SocialLinks } from './social-links/social-links.schema';
+import { Passport } from './passport/passport.schema';
 
 @Schema()
 export class User extends Document {
@@ -61,6 +62,9 @@ export class User extends Document {
 
     @Prop()
     about: string;
+
+    @Prop({ ref: 'Passport', type: SchemaTypes.ObjectId })
+    passport: string | Passport;
 
     @Prop({ ref: 'Address', type: Types.ObjectId }) // TODO: replace with SchemaTypes
     address: string | Address;
@@ -115,6 +119,7 @@ const populateStandardData = function(next) {
     this.populate('languages');
     this.populate('skills');
     this.populate('socialLinks');
+    this.populate('passport');
 
     next();
 };

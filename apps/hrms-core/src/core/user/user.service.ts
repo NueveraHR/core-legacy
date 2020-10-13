@@ -213,6 +213,10 @@ export class UserService {
         return this.userModel.findByIdAndUpdate(userId, { $push: { languages: languageId } }, { new: true }).exec();
     }
 
+    setPassport(userId: string, passportId: string): Promise<User> {
+        return this.userModel.findByIdAndUpdate(userId, { passport: passportId }, { new: true }).exec();
+    }
+
     // ------------------------------------------------------------------------
     // @ Privates
     // ------------------------------------------------------------------------

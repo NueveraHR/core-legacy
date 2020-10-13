@@ -6,6 +6,25 @@ import { AddressDto } from '@hrms-core/dto/address.dto';
 import { JobDto } from '@hrms-core/dto/job.dto';
 import { SkillDto } from '@hrms-core/dto/skill.dto';
 import { SocialLinksDto } from '@hrms-core/dto/social-links.dto';
+import { PassportDto } from '@hrms-core/dto/passport.dto';
+
+@InputType()
+export class AddPassportInput implements Partial<PassportDto> {
+    @Field()
+    number?: string;
+
+    @Field(() => Date)
+    issueDate?: Date;
+}
+
+@InputType()
+export class UpdatePassportInput implements Partial<PassportDto> {
+    @Field({ nullable: true })
+    number?: string;
+
+    @Field(() => Date, { nullable: true })
+    issueDate?: Date;
+}
 
 @InputType()
 export class SocialLinksInput implements Partial<SocialLinksDto> {
