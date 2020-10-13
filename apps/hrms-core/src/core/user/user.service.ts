@@ -1,4 +1,3 @@
-import { Employee } from '@hrms-core/core/employee/employee.schema';
 import { Injectable, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, USER_SORTING_FIELDS } from './user.schema';
@@ -9,7 +8,6 @@ import { Role } from '../role/role.schema';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { SortType, FilterOptions } from '@hrms-core/common/interfaces/pagination';
-import { UserType } from '@hrms-core/common/enums/user-type.enum';
 import { Skill } from './skill/skill.schema';
 
 const SALT_ROUNDS = 10;
@@ -101,18 +99,8 @@ export class UserService {
      * Find a single matching user for given id
      *
      */
-    async findById(id: string): Promise<User> {
-        const user = await this.userModel.findById(id);
-        if (user) {
-            await user.populate(user.type.toLowerCase()).execPopulate();
-            // TODO: only on demand
-
-            if (user.type == UserType.EMPLOYEE) {
-                await (user.employee as Employee)?.populate('jobHistory').execPopulate();
-            }
-        }
-
-        return user;
+    findById(id: string): Promise<User> {
+        return this.userModel.findById(id).exec();
     }
 
     /**
@@ -215,6 +203,10 @@ export class UserService {
 
     setPassport(userId: string, passportId: string): Promise<User> {
         return this.userModel.findByIdAndUpdate(userId, { passport: passportId }, { new: true }).exec();
+    }
+
+    attachJob(employeeId: string, jobId: string): Promise<User> {
+        return this.userModel.findByIdAndUpdate(employeeId, { $push: { jobHistory: jobId } }).exec();
     }
 
     // ------------------------------------------------------------------------

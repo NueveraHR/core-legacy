@@ -1,5 +1,5 @@
 import { CertificationDto, EducationDto, LanguageDto } from '../../../../hrms-core/src/dto/user.dto';
-import { EmployeeDto } from '@hrms-core/dto/employee.dto';
+import { UserDto as EmployeeDto } from '@hrms-core/dto/user.dto';
 import { InputType, Field, ID, Int, Float } from '@nestjs/graphql';
 import { Role } from '@hrms-api/role/role.type';
 import { AddressDto } from '@hrms-core/dto/address.dto';

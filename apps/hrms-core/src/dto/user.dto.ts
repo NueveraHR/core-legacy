@@ -3,6 +3,7 @@ import { AddressDto } from './address.dto';
 import { SkillDto } from './skill.dto';
 import { SocialLinksDto } from './social-links.dto';
 import { PassportDto } from './passport.dto';
+import { JobDto } from './job.dto';
 
 export class UserDto {
     public id?: string;
@@ -21,6 +22,7 @@ export class UserDto {
 
     public password?: string;
     public phone?: string;
+    public homePhone?: string;
     public passport?: PassportDto | string;
     public address?: AddressDto | string;
     public role?: RoleDto | string;
@@ -37,6 +39,7 @@ export class UserDto {
     public certifications?: CertificationDto[] | string[];
     public languages?: LanguageDto[] | string[];
     public skills?: SkillDto[] | string[];
+    public jobHistory?: JobDto[] | string[];
 }
 
 export class EducationDto {

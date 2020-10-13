@@ -3,7 +3,6 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Role } from '../role/role.schema';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { UserType } from '@hrms-core/common/enums/user-type.enum';
-import { Employee } from '../employee/employee.schema';
 import { Address } from '../address/address.schema';
 import { Education } from './education/education.schema';
 import { Certification } from './certification/certification.schema';
@@ -12,6 +11,7 @@ import { SchemaTypes } from 'mongoose';
 import { Skill } from './skill/skill.schema';
 import { SocialLinks } from './social-links/social-links.schema';
 import { Passport } from './passport/passport.schema';
+import { Job } from '../job/job.schema';
 
 @Schema()
 export class User extends Document {
@@ -24,7 +24,7 @@ export class User extends Document {
     @Prop({ required: true, unique: true })
     email: string;
 
-    @Prop({ unique: true, minlength: 8, maxlength: 8 })
+    @Prop({ unique: true, sparse: true, minlength: 8, maxlength: 8 })
     cin: string;
 
     @Prop()
@@ -58,6 +58,9 @@ export class User extends Document {
     phone: string;
 
     @Prop()
+    homePhone: string;
+
+    @Prop()
     picture: string;
 
     @Prop()
@@ -75,12 +78,6 @@ export class User extends Document {
     @Prop({ ref: 'Role', type: Types.ObjectId })
     role: string | Role;
 
-    @Prop({ ref: 'Employee', type: Types.ObjectId })
-    employee: string | Employee;
-
-    @Prop()
-    candidate: string;
-
     @Prop([{ ref: 'Skill', type: SchemaTypes.ObjectId }])
     skills: string[] | Skill[];
 
@@ -95,6 +92,17 @@ export class User extends Document {
 
     @Prop([{ ref: 'Language', type: SchemaTypes.ObjectId }])
     languages: string[] | Language[];
+
+    @Prop([{ ref: 'Job', type: SchemaTypes.ObjectId }])
+    jobHistory: string[] | Job[];
+
+    // --------------------------- Employment -------------------------------
+
+    @Prop({ ref: 'User', type: Types.ObjectId })
+    supervisor: string | User;
+
+    @Prop({ ref: 'Job', type: Types.ObjectId })
+    currentJob: string | Job;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
@@ -102,19 +110,7 @@ export const USER_SORTING_FIELDS = ['email', 'firstName', 'lastName'];
 
 UserSchema.plugin(mongoosePaginate);
 
-UserSchema.pre<User>('save', function(next) {
-    if (this.type == UserType.EMPLOYEE) {
-        this.employee = this.get('id');
-    } else if (this.type == UserType.CANDIDATE) {
-        this.candidate = this.get('id');
-    }
-
-    next();
-});
-
 const populateStandardData = function(next) {
-    this.populate('employee');
-    this.populate('candidate');
     this.populate('role');
     this.populate('address');
     this.populate('educationHistory');
@@ -123,6 +119,7 @@ const populateStandardData = function(next) {
     this.populate('skills');
     this.populate('socialLinks');
     this.populate('passport');
+    this.populate('jobHistory');
 
     next();
 };

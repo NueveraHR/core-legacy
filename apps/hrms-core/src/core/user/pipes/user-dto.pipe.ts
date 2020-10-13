@@ -10,6 +10,7 @@ import { AddressDto } from '@hrms-core/dto/address.dto';
 import { SkillDto } from '@hrms-core/dto/skill.dto';
 import { SocialLinksDto } from '@hrms-core/dto/social-links.dto';
 import { PassportDto } from '@hrms-core/dto/passport.dto';
+import { JobDto } from '@hrms-core/dto/job.dto';
 
 @Injectable()
 export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
@@ -36,6 +37,7 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
             cin: source.cin,
             prefix: source.prefix,
             phone: source.phone,
+            homePhone: source.homePhone,
             title: source.title,
             about: source.about,
             role: source.role as RoleDto,
@@ -46,6 +48,7 @@ export class UserDtoPipe implements DtoTransformPipe<User, UserDto> {
             certifications: source.certifications as CertificationDto[],
             languages: source.languages as LanguageDto[],
             skills: source.skills as SkillDto[],
+            jobHistory: source.jobHistory as JobDto[],
             picture: source.picture,
         };
 
