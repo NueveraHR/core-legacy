@@ -41,6 +41,12 @@
       ],
       "@libs/config/*": [
         "libs/config/src/*"
+      ],
+      "@libs/mailer": [
+        "libs/mailer/src"
+      ],
+      "@libs/mailer/*": [
+        "libs/mailer/src/*"
       ]
     }
   }
