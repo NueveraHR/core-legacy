@@ -5,6 +5,7 @@ import { UserService } from '@hrms-core/user/user.service';
 import { Injectable } from '@nestjs/common';
 import * as crypto from 'crypto-js';
 import { MailerService } from '@libs/mailer/mailer.service';
+import { EnvService } from '@libs/env';
 
 const EXPIRE_REGISTER_TOKEN = 24 * 60 * 60;
 
@@ -14,6 +15,7 @@ export class RegisterFacade {
         private userService: UserService,
         private redisService: RedisService,
         private mailer: MailerService,
+        private envService: EnvService,
     ) {}
 
     async register(userDto: UserDto): Promise<UserDto> {
@@ -38,16 +40,19 @@ export class RegisterFacade {
         return key;
     }
 
-    private sendActivateAccountMail(userDto: UserDto, tokenKey: string) {
-        console.log('sending register link with key ', tokenKey);
-
+    private sendActivateAccountMail(userDto: UserDto, token: string) {
+        const env = this.envService.read();
+        console.log(userDto);
         const mail = {
-            from: 'Nuevera',
-            to: 'w.bougarfa@outlook.com',
-            subject: 'Welcome to Nuevera',
+            from: `${env.COMPANY_NAME} <${env.SMTP_USER}>`,
+            to: userDto.email,
+            subject: `Welcome to ${env.COMPANY_NAME}`,
             template: 'register',
             context: {
+                companyName: env.COMPANY_NAME,
                 fullName: `${userDto.prefix} ${userDto.firstName} ${userDto.lastName}`,
+                expirationPeriod: '24 hours',
+                registrationLink: `${env.REGISTER_USER_URL}?invite=${token}`,
             },
         };
 

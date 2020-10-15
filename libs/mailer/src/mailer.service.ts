@@ -12,23 +12,26 @@ export class MailerService {
 
     private transporter: Mail;
 
-    constructor(envService: EnvService) {}
+    constructor(private envService: EnvService) {}
 
     init(): void {
         const templatesDir = __dirname + '/templates/';
-        this.transporter = nodemailer.createTransport({
+        const env = this.envService.read();
+        const transporterConfig = {
             pool: true,
-            host: 'ssl0.ovh.net',
-            port: 25,
-            secure: false,
+            host: env.SMTP_HOST,
+            port: env.SMTP_PORT,
+            secure: env.SMTP_SECURE,
             auth: {
-                user: 'wbougarfa@nuevera.com',
-                pass: 'Wael5121997',
+                user: env.SMTP_USER,
+                pass: env.SMTP_PASS,
             },
             tls: {
                 rejectUnauthorized: false,
             },
-        });
+        };
+
+        this.transporter = nodemailer.createTransport(transporterConfig as any);
 
         const hbsConfig = {
             viewEngine: {

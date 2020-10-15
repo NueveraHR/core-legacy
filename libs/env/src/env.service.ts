@@ -26,6 +26,19 @@ export interface EnvData {
 
     // Imgpush url
     IMGPUSH_URL?: string;
+
+    // General
+    COMPANY_NAME?: string;
+
+    // Mailer
+    SMTP_USER?: string;
+    SMTP_PASS?: string;
+    SMTP_HOST?: string;
+    SMTP_PORT?: string;
+    SMTP_SECURE?: boolean;
+
+    // Register user
+    REGISTER_USER_URL?: string;
 }
 
 const envFilesPath = './environments';
@@ -34,11 +47,15 @@ export class EnvService {
 
     constructor() {
         const environment = process.env.NODE_ENV || 'dev';
-        const data: any = dotenv.parse(fs.readFileSync(`${envFilesPath}/${environment}.env`));
+        const data: any = dotenv.parse(
+            fs.readFileSync(`${envFilesPath}/${environment}.env`),
+        );
 
         data.APP_ENV = environment;
         data.APP_DEBUG = data.APP_DEBUG === 'true' ? true : false;
+        data.SMTP_SECURE = data.SMTP_SECURE === 'true' ? true : false;
         data.DB_PORT = parseInt(data.DB_PORT);
+        data.SMTP_PORT = parseInt(data.SMTP_PORT);
 
         this.vars = data as EnvData;
         // console.log(`:::::::::::: Started application using environment ${environment} ::::::::::::`);
