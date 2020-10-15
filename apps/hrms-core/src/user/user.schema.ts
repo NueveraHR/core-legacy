@@ -15,6 +15,7 @@ import { Job } from '../job/job.schema';
 
 @Schema()
 export class User extends Document {
+    // TODO: replace with SchemaTypes
     @Prop({ type: String, required: true, default: UserType.EMPLOYEE })
     type: UserType;
 
@@ -69,13 +70,16 @@ export class User extends Document {
     @Prop()
     about: string;
 
+    @Prop({ default: false })
+    accountActivated: boolean;
+
     @Prop({ ref: 'Passport', type: SchemaTypes.ObjectId })
     passport: string | Passport;
 
-    @Prop({ ref: 'Address', type: Types.ObjectId }) // TODO: replace with SchemaTypes
+    @Prop({ ref: 'Address', type: SchemaTypes.ObjectId })
     address: string | Address;
 
-    @Prop({ ref: 'Role', type: Types.ObjectId })
+    @Prop({ ref: 'Role', type: SchemaTypes.ObjectId })
     role: string | Role;
 
     @Prop([{ ref: 'Skill', type: SchemaTypes.ObjectId }])

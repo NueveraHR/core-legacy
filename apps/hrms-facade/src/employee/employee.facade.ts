@@ -1,7 +1,12 @@
-import { UserType } from '@hrms-core/common/enums/user-type.enum';
 import { PassportDto } from '@hrms-core/user/passport/passport.dto';
 import { SocialLinkService } from '@hrms-core/user/social-links/social-links.service';
-import { CertificationDto, EducationDto, LanguageDto, UserDto, UserPaginateDto } from '@hrms-core/user/user.dto';
+import {
+    CertificationDto,
+    EducationDto,
+    LanguageDto,
+    UserDto,
+    UserPaginateDto,
+} from '@hrms-core/user/user.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { UserService } from '@hrms-core/user/user.service';
 import { LoggerService } from '@libs/logger';
@@ -12,7 +17,10 @@ import { UserDtoReversePipe } from '@hrms-core/user/pipes/user-dto-reverse.pipe'
 import { Errors } from '@hrms-core/common/error/error.const';
 import { AddressService } from '@hrms-core/address/address.service';
 import { AddressDto } from '@hrms-core/address/address.dto';
-import { PaginationOptions, NvrPaginateResult, FilterOptions } from '@hrms-core/common/interfaces/pagination';
+import {
+    PaginationOptions,
+    FilterOptions,
+} from '@hrms-core/common/interfaces/pagination';
 import { Address } from '@hrms-core/address/address.schema';
 import { EducationService } from '@hrms-core/user/education/education.service';
 import { CertificationService } from '@hrms-core/user/certification/certification.service';
@@ -24,6 +32,7 @@ import { SocialLinks } from '@hrms-core/user/social-links/social-links.schema';
 import { PassportService } from '@hrms-core/user/passport/passport.service';
 import { JobService } from '@hrms-core/job/job.service';
 import { JobDto } from '@hrms-core/job/job.dto';
+import { RegisterFacade } from '@hrms-facades/register/register.facade';
 
 @Injectable()
 export class EmployeeFacade {
@@ -43,13 +52,22 @@ export class EmployeeFacade {
         private socialLinkService: SocialLinkService,
         private passportService: PassportService,
         private jobService: JobService,
+
+        private registerFacade: RegisterFacade,
     ) {}
 
     // -------------------------------- CRUD ----------------------------------------
 
-    list(paginationOptions: PaginationOptions, filterOptions?: FilterOptions): Promise<UserPaginateDto> {
+    list(
+        paginationOptions: PaginationOptions,
+        filterOptions?: FilterOptions,
+    ): Promise<UserPaginateDto> {
         return this.userService
-            .findAllPaginated(paginationOptions.page, paginationOptions.limit, filterOptions)
+            .findAllPaginated(
+                paginationOptions.page,
+                paginationOptions.limit,
+                filterOptions,
+            )
             .then(result => {
                 const userPaginateDto: UserPaginateDto = {
                     total: result.total as number,
@@ -77,25 +95,29 @@ export class EmployeeFacade {
         await this.roleService.assertExists(userDto.role as string);
 
         // create corresponding address and reassign its id to user
-        userDto.address = (await this.addressService.create((userDto.address ?? {}) as AddressDto)).id;
+        userDto.address = (
+            await this.addressService.create((userDto.address ?? {}) as AddressDto)
+        ).id;
 
         // create corresponding social media links and reassign its id to user
-        userDto.socialLinks = (await this.socialLinkService.create((userDto.socialLinks ?? {}) as SocialLinksDto)).id;
+        userDto.socialLinks = (
+            await this.socialLinkService.create(
+                (userDto.socialLinks ?? {}) as SocialLinksDto,
+            )
+        ).id;
 
         // populate missing user props with default values
-        userDto = this.populateMissingValues(userDto);
+        this.populateMissingValues(userDto);
 
-        const createdUser = await this.userService.create(userDto);
-        if (createdUser.type === UserType.EMPLOYEE) {
-            // this.invitationService.invite(createdUser)
-        }
-        return createdUser;
+        return this.registerFacade.register(userDto);
     }
 
     async details(id: string): Promise<UserDto> {
         const user = await this.userService.findById(id);
         if (!user) {
-            return Promise.reject(this.errorService.generate(Errors.User.DETAILS_INVALID_REQUEST));
+            return Promise.reject(
+                this.errorService.generate(Errors.User.DETAILS_INVALID_REQUEST),
+            );
         }
         return user as UserDto;
     }
@@ -109,7 +131,9 @@ export class EmployeeFacade {
 
         const user = await this.userService.findById(userDto.id);
         if (!user) {
-            return Promise.reject(this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID));
+            return Promise.reject(
+                this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID),
+            );
         }
 
         this.userDtoReversePipe.transformExistent(userDto, user);
@@ -140,13 +164,19 @@ export class EmployeeFacade {
 
     // -------------------------------- Certification --------------------------------
 
-    async addCertification(userId: string, certificationDto: CertificationDto): Promise<UserDto> {
+    async addCertification(
+        userId: string,
+        certificationDto: CertificationDto,
+    ): Promise<UserDto> {
         //TODO: validate
         const cert = await this.certificationService.create(certificationDto);
         return (await this.userService.attachCertification(userId, cert.id)) as UserDto;
     }
 
-    updateCertification(id: string, certificationDto: CertificationDto): Promise<CertificationDto> {
+    updateCertification(
+        id: string,
+        certificationDto: CertificationDto,
+    ): Promise<CertificationDto> {
         //TODO: validate
         return this.certificationService.update(id, certificationDto);
     }
@@ -205,7 +235,9 @@ export class EmployeeFacade {
         });
 
         newSkills.forEach(skillDto => {
-            promises.push(this.skillService.create(skillDto).then(skill => ids.push(skill.id)));
+            promises.push(
+                this.skillService.create(skillDto).then(skill => ids.push(skill.id)),
+            );
         });
 
         await Promise.all(promises);
@@ -231,7 +263,7 @@ export class EmployeeFacade {
         return this.jobService.delete(jobId);
     }
 
-    private populateMissingValues(userDto: UserDto): UserDto {
+    private populateMissingValues(userDto: UserDto): void {
         if (!userDto.username) {
             userDto.username = userDto.email.substring(0, userDto.email.lastIndexOf('@'));
         }
@@ -252,7 +284,5 @@ export class EmployeeFacade {
             }
             userDto.prefix = prefix;
         }
-
-        return userDto;
     }
 }

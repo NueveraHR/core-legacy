@@ -6,6 +6,7 @@ import { AuthFacade } from './auth/auth.facade';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { EnvService } from '@libs/env';
+import { RegisterFacade } from './register/register.facade';
 
 const envService = new EnvService();
 
@@ -18,7 +19,7 @@ const envService = new EnvService();
             signOptions: { expiresIn: envService.read().JWT_EXPIRESIN },
         }),
     ],
-    providers: [AuthFacade, RoleFacade, EmployeeFacade],
+    providers: [AuthFacade, RoleFacade, EmployeeFacade, RegisterFacade],
     exports: [AuthFacade, RoleFacade, EmployeeFacade],
 })
 export class HrmsFacadesModule {}

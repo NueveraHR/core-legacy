@@ -36,6 +36,7 @@ export class UserDto {
     public picture?: string;
     public title?: string;
     public about?: string;
+    public accountActivated?: boolean;
 
     public socialLinks?: string | SocialLinksDto;
     public educationHistory?: EducationDto[] | string[];
