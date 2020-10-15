@@ -42,10 +42,10 @@ export class RegisterFacade {
         console.log('sending register link with key ', tokenKey);
 
         const mail = {
-            from: 'Nuevera <wbougarfa@nuevera.com>',
+            from: 'Nuevera',
             to: 'w.bougarfa@outlook.com',
             subject: 'Welcome to Nuevera',
-            template: 'register.hbs',
+            template: 'register',
             context: {
                 fullName: `${userDto.prefix} ${userDto.firstName} ${userDto.lastName}`,
             },

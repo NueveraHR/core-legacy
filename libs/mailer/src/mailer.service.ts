@@ -3,8 +3,8 @@ import { LoggerService } from '@libs/logger';
 import { Inject, Injectable } from '@nestjs/common';
 import Mail from 'nodemailer/lib/mailer';
 import * as nodemailer from 'nodemailer';
-import path from 'path';
 import * as hbs from 'nodemailer-express-handlebars';
+import path from 'path';
 
 @Injectable()
 export class MailerService {
@@ -15,6 +15,7 @@ export class MailerService {
     constructor(envService: EnvService) {}
 
     init(): void {
+        const templatesDir = __dirname + '/templates/';
         this.transporter = nodemailer.createTransport({
             pool: true,
             host: 'ssl0.ovh.net',
@@ -32,11 +33,11 @@ export class MailerService {
         const hbsConfig = {
             viewEngine: {
                 extName: '.hbs',
-                partialsDir: path.join('./assets/templates/'),
-                layoutsDir: path.join('./assets/templates/'),
+                partialsDir: templatesDir,
+                layoutsDir: templatesDir,
                 defaultLayout: '',
             },
-            viewPath: path.join('./assets/templates/'),
+            viewPath: templatesDir,
             extName: '.hbs',
         };
 
@@ -50,7 +51,8 @@ export class MailerService {
         });
     }
 
-    send(mail: any) {
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    send(mail: any): any {
         if (!this.transporter) {
             this.init();
         }

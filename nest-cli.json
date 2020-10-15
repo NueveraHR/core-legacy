@@ -1,12 +1,13 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/hrms-api/src",
+  "sourceRoot": "./",
   "compilerOptions": {
     "webpack": true,
-    "tsConfigPath": "apps/hrms-api/tsconfig.app.json"
+    "assets": ["assets/**/*"],
+    "watchAssets": true
   },
   "monorepo": true,
-  "root": "apps/hrms-api",
+  "root": "./",
   "projects": {
     "hrms-api": {
       "type": "application",
