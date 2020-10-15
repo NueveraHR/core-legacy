@@ -14,7 +14,6 @@ import { LanguageResolver } from './employee/language.resolver';
 import { JobResolver } from './employee/job.resolver';
 import { PassportResolver } from './employee/passport.resolver';
 import { HrmsFacadesModule } from 'apps/hrms-facade/src/hrms-facades.module';
-import { CoreModule } from '@hrms-core/core/core.module';
 
 @Module({
     imports: [

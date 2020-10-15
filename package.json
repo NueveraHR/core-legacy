@@ -1,10 +1,10 @@
 {
   "name": "nuevera-hrms",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "version": "0.1.1",
+  "description": "Nuevera human resource management solution",
+  "author": "Nuevera",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "Nuevera",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -16,7 +16,7 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "prettier": "prettier --write \"**/*.{ts, json}\"",
     "test": "jest --runInBand --detectOpenHandles --forceExit",
-    "test:watch": "jest --watch --runInBand",
+    "test:watch": "jest --watch --runInBand --forceExit",
     "test:cov": "jest --coverage --runInBand",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/jest/bin/jest.js --runInBand",
     "test:e2e": "jest --config ./apps/nuevera-hrms/test/jest-e2e.json"
