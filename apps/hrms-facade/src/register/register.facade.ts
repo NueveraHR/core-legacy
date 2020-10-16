@@ -45,6 +45,7 @@ export class RegisterFacade {
                 user.password = password;
                 user.accountActivated = true;
                 await this.userService.update(user);
+                this.redisService.delete(token);
                 return true;
             }
         }
