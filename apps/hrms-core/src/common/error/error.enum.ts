@@ -8,6 +8,7 @@ export enum LoginErrors {
     INVALID_EMAIL = 41101,
     NO_PASSWORD = 41102,
     INVALID_CREDENTIALS = 41200,
+    ACCOUNT_LOCKED = 41201,
 }
 
 export enum UserErrors {
@@ -37,6 +38,8 @@ export enum UserErrors {
     UNKNOWN_ROLE = 42201,
     CANNOT_UPDATE_DETAILS = 42202,
     INVALID_USER_ID = 42203,
+
+    ACTIVATE_INVALID_TOKEN = 42204,
 }
 
 export enum RoleErrors {

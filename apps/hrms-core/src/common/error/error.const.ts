@@ -1,4 +1,11 @@
-import { LoginErrors, GeneralErrors, UserErrors, RoleErrors, JobErrors, PassportErrors } from './error.enum';
+import {
+    LoginErrors,
+    GeneralErrors,
+    UserErrors,
+    RoleErrors,
+    JobErrors,
+    PassportErrors,
+} from './error.enum';
 
 export const ErrorMessage: ErrorCodeMessage = {
     500: 'Internal Server Error, Please Contact Your System Administrator',
@@ -16,7 +23,7 @@ export const ErrorMessage: ErrorCodeMessage = {
 
     // Facade error (412xx)
     41200: 'Invalid login credentials',
-
+    41201: 'This account has not been activated, Check your email or contact support team',
     //---------------------------------- User (42xxx) ----------------------------------
 
     // Controller invalid request(420xx)
@@ -48,9 +55,9 @@ export const ErrorMessage: ErrorCodeMessage = {
     42200: 'Invalid role id',
     42201: 'Unknown role',
     42202: 'Cannot update user details',
-
     42203: 'Invalid user id',
 
+    42204: 'Cannot activate account with invalid token',
     //---------------------------------- Role (43xxx) ----------------------------------
 
     // Controller invalid request(430xx)
