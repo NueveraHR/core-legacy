@@ -8,9 +8,11 @@ import { USERS } from '@hrms-core/test/mock/user.mock';
 import { MockUtils } from '@hrms-core/test/utils/mock.utils';
 import { EnvService } from '@libs/env';
 import { HrmsFacadesModule } from '@hrms-facades/hrms-facades.module';
+import { RegisterFacade } from '@hrms-facades/register/register.facade';
 
 describe('Auth Facade', () => {
     let authFacade: AuthFacade;
+    let registerFacade: RegisterFacade;
     let dbManager: DBManager;
     let envService: EnvService;
     let loggerService: LoggerService;
@@ -28,6 +30,7 @@ describe('Auth Facade', () => {
         dbManager = moduleRef.get<DBManager>(DBManager);
         loggerService = moduleRef.get<LoggerService>(LoggerService);
         authFacade = moduleRef.get<AuthFacade>(AuthFacade);
+        registerFacade = moduleRef.get<RegisterFacade>(RegisterFacade);
 
         userService = moduleRef.get<UserService>(UserService);
         roleService = moduleRef.get<RoleService>(RoleService);
@@ -94,7 +97,12 @@ describe('Auth Facade', () => {
                 password: USERS.basicUser.password,
             };
 
-            await mockUtils.createUser('basicUser', 'employeeRole');
+            const user = await mockUtils.createUser('basicUser', 'employeeRole');
+
+            /******** Mock account activation *********/
+            user.accountActivated = true;
+            await userService.update(user);
+            /*****************************************/
 
             await authFacade.auth(loginCredentials).then(result => {
                 expect(result.token.length).toBeGreaterThan(1);
