@@ -42,6 +42,7 @@ export class RegisterFacade {
 
     private sendActivateAccountMail(userDto: UserDto, token: string) {
         const env = this.envService.read();
+        const encodedToken = encodeURIComponent(token); // for uri support
         console.log(userDto);
         const mail = {
             from: `${env.COMPANY_NAME} <${env.SMTP_USER}>`,
@@ -52,7 +53,7 @@ export class RegisterFacade {
                 companyName: env.COMPANY_NAME,
                 fullName: `${userDto.prefix} ${userDto.firstName} ${userDto.lastName}`,
                 expirationPeriod: '24 hours',
-                registrationLink: `${env.REGISTER_USER_URL}?invite=${token}`,
+                registrationLink: `${env.REGISTER_USER_URL}?invite=${encodedToken}`,
             },
         };
 
