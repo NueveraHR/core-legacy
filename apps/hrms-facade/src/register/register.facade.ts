@@ -41,7 +41,7 @@ export class RegisterFacade {
         if (await this.validateToken(token)) {
             const userId = crypto.AES.decrypt(token, ENC_KEY).toString(crypto.enc.Utf8);
             const user = await this.userService.findById(userId);
-            if (user) {
+            if (user && !user.accountActivated) {
                 user.password = password;
                 user.accountActivated = true;
                 await this.userService.update(user);
@@ -70,6 +70,7 @@ export class RegisterFacade {
 
     private sendActivateAccountMail(userDto: UserDto, token: string) {
         const env = this.envService.read();
+        const urlToken = token.replace('%', '%25'); // escape percent for url encoding
         console.log(userDto);
         const mail = {
             from: `${env.COMPANY_NAME} <${env.SMTP_USER}>`,
@@ -80,7 +81,7 @@ export class RegisterFacade {
                 companyName: env.COMPANY_NAME,
                 fullName: `${userDto.prefix} ${userDto.firstName} ${userDto.lastName}`,
                 expirationPeriod: '24 hours',
-                registrationLink: `${env.REGISTER_USER_URL}?invite=${token}`,
+                registrationLink: `${env.REGISTER_USER_URL}?invite=${urlToken}`,
             },
         };
 
