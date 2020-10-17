@@ -8,7 +8,6 @@ import { UserDto } from '@hrms-core/user/user.dto';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { AuthDto } from '@hrms-core/auth/auth.dto';
-import { RedisService } from '@hrms-core/common/services/database/redis.service';
 
 @Injectable()
 export class AuthFacade {

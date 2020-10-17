@@ -33,6 +33,7 @@ import { PassportService } from '@hrms-core/user/passport/passport.service';
 import { JobService } from '@hrms-core/job/job.service';
 import { JobDto } from '@hrms-core/job/job.dto';
 import { RegisterFacade } from '@hrms-facades/register/register.facade';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class EmployeeFacade {
@@ -143,6 +144,34 @@ export class EmployeeFacade {
         await this.socialLinkService.update(user.socialLinks as SocialLinks);
 
         return this.userService.update(user);
+    }
+
+    async updatePassword(
+        userId: string,
+        currentPassword: string,
+        newPassword: string,
+    ): Promise<boolean> {
+        const user = await this.userService.findById(userId);
+        if (!user) {
+            return Promise.reject(
+                this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID),
+            );
+        }
+        if (user.password === undefined) {
+            return Promise.reject(
+                this.errorService.generate(Errors.User.UPDATE_INACTIVE_ACCOUNT),
+            );
+        }
+
+        const pwdConfirm = await bcrypt.compare(currentPassword, user.password);
+        if (pwdConfirm) {
+            user.password = newPassword;
+            return (await this.userService.update(user)) !== null;
+        } else {
+            return Promise.reject(
+                this.errorService.generate(Errors.User.UPDATE_INVALID_PASSWORD),
+            );
+        }
     }
 
     // -------------------------------- Education -----------------------------------

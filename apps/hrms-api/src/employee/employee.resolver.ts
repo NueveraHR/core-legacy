@@ -2,9 +2,17 @@ import { Resolver, Query, Mutation, Args, ID, Int } from '@nestjs/graphql';
 import { EmployeeFacade } from '@hrms-facades/employee/employee.facade';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@hrms-api/common/guards/auth.guard';
-import { IgnorePrivileges, Privileges } from '@hrms-api/common/decorators/privileges.decorator';
+import {
+    IgnorePrivileges,
+    Privileges,
+} from '@hrms-api/common/decorators/privileges.decorator';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
-import { AddEmployeeInput, UpdateEmployeeInput, JobInput, SkillInput } from '@hrms-api/employee/graphql/employee.input';
+import {
+    AddEmployeeInput,
+    UpdateEmployeeInput,
+    JobInput,
+    SkillInput,
+} from '@hrms-api/employee/graphql/employee.input';
 import { Employee, PaginatedEmployeeList, Job } from './graphql/employee.type';
 import { FORBIDDEN_ERROR, GqlError } from '@hrms-api/common/utils/error.utils';
 import { SortInput } from '@hrms-api/common/graphql/sort.input';
@@ -27,7 +35,8 @@ export class EmployeeResolver {
     employees(
         @Args('page', { type: () => Int }) page: number,
         @Args('limit', { type: () => Int }) limit: number,
-        @Args('filter', { type: () => FilterInput, nullable: true }) filterInput?: FilterInput,
+        @Args('filter', { type: () => FilterInput, nullable: true })
+        filterInput?: FilterInput,
         @Args('sort', { type: () => SortInput, nullable: true }) sortInput?: SortInput,
     ): Promise<any> {
         const options = FilterUtils.fromInput(filterInput, sortInput);
@@ -36,7 +45,10 @@ export class EmployeeResolver {
 
     @Query(() => Employee)
     @IgnorePrivileges()
-    employee(@CurrentUser() currentUser: UserDto, @Args('id', { type: () => ID }) employeeId: string): Promise<any> {
+    employee(
+        @CurrentUser() currentUser: UserDto,
+        @Args('id', { type: () => ID }) employeeId: string,
+    ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
@@ -53,6 +65,24 @@ export class EmployeeResolver {
     @Privileges('employees.edit')
     updateEmployee(@Args('employee') employee: UpdateEmployeeInput): Promise<any> {
         return this.employeeFacade.update(employee).catch(GqlError);
+    }
+
+    @Mutation(() => Boolean)
+    @IgnorePrivileges()
+    changePassword(
+        @CurrentUser() currentUser: UserDto,
+
+        @Args('employeeId') employeeId: string,
+        @Args('currentPassword') currentPassword: string,
+        @Args('newPassword') newPassword: string,
+    ): Promise<any> {
+        if (!isOwner(currentUser, employeeId)) {
+            return Promise.reject(FORBIDDEN_ERROR);
+        }
+
+        return this.employeeFacade
+            .updatePassword(employeeId, currentPassword, newPassword)
+            .catch(GqlError);
     }
 
     @Mutation(() => Employee)
@@ -72,6 +102,7 @@ export class EmployeeResolver {
 export const isOwner = (currentUser: UserDto, employeeId: string) => {
     return (
         currentUser.id == employeeId ||
-        (currentUser.role as Role).privileges.findIndex(x => x == 'employees.access') != -1
+        (currentUser.role as Role).privileges.findIndex(x => x == 'employees.access') !=
+            -1
     );
 };

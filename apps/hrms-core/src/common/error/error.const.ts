@@ -32,6 +32,8 @@ export const ErrorMessage: ErrorCodeMessage = {
     42001: 'Invalid request, Cannot find list of users',
     42002: 'Invalid request, Cannot find user details',
     42003: 'Invalid request, Cannot update user details with unknown id',
+    42004: 'Invalid password!',
+    42005: 'Attempted to update password for inactive account',
 
     // Validator invalid data (421xx)
     42100: 'No user data provided!',
