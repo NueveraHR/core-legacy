@@ -16,7 +16,9 @@ const SALT_ROUNDS = 10;
 export class UserService {
     @Inject(ErrorService) errorService: ErrorService;
 
-    constructor(@InjectModel(User.name) private readonly userModel: PaginateModel<User>) {}
+    constructor(
+        @InjectModel(User.name) private readonly userModel: PaginateModel<User>,
+    ) {}
 
     /**
      * Create user model based on a userDTO
@@ -24,12 +26,18 @@ export class UserService {
      */
     async create(userDTO: UserDto): Promise<User> {
         let user = new this.userModel(userDTO);
-        await this.hashPassword(user).then(updatedUser => (user = updatedUser));
+
+        // password optional on creation
+        if (user.password) {
+            await this.hashPassword(user).then(updatedUser => (user = updatedUser));
+        }
 
         return user.save().catch(err => {
             if (err.code == 11000) {
                 // Duplicated key error.
-                return Promise.reject(this.errorService.generate(Errors.User.CREATE_DUPLICATED));
+                return Promise.reject(
+                    this.errorService.generate(Errors.User.CREATE_DUPLICATED),
+                );
             }
             return Promise.reject(
                 this.errorService.generate(Errors.General.INTERNAL_ERROR, {
@@ -82,7 +90,11 @@ export class UserService {
         );
     }
 
-    async findAllPaginated(page = 1, limit = 10, filterOptions?: FilterOptions): Promise<PaginateResult<User>> {
+    async findAllPaginated(
+        page = 1,
+        limit = 10,
+        filterOptions?: FilterOptions,
+    ): Promise<PaginateResult<User>> {
         const options = this.buildPaginateOptions(page, limit, filterOptions);
         const query = this.buildQuery(filterOptions);
 
@@ -113,7 +125,11 @@ export class UserService {
             .findOne(criteria)
             .exec()
             .catch(err =>
-                Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })),
+                Promise.reject(
+                    this.errorService.generate(Errors.General.INTERNAL_ERROR, {
+                        detailedMessage: err,
+                    }),
+                ),
             );
     }
 
@@ -127,13 +143,21 @@ export class UserService {
             .findOne(criteria)
             .exec()
             .catch(err =>
-                Promise.reject(this.errorService.generate(Errors.General.INTERNAL_ERROR, { detailedMessage: err })),
+                Promise.reject(
+                    this.errorService.generate(Errors.General.INTERNAL_ERROR, {
+                        detailedMessage: err,
+                    }),
+                ),
             );
     }
 
     async findByAnyUniqueId(userDto: UserDto): Promise<User> {
         return this.userModel.findOne({
-            $or: [{ username: userDto.username }, { email: userDto.email }, { cin: userDto.cin }],
+            $or: [
+                { username: userDto.username },
+                { email: userDto.email },
+                { cin: userDto.cin },
+            ],
         });
     }
 
@@ -169,11 +193,15 @@ export class UserService {
     }
 
     attachSkill(userId: string, skillId: string): Promise<User> {
-        return this.userModel.findByIdAndUpdate(userId, { $push: { skills: skillId } }, { new: true }).exec();
+        return this.userModel
+            .findByIdAndUpdate(userId, { $push: { skills: skillId } }, { new: true })
+            .exec();
     }
 
     setSkills(userId: string, skillsId: string[]): Promise<User> {
-        return this.userModel.findByIdAndUpdate(userId, { skills: skillsId }, { new: true }).exec();
+        return this.userModel
+            .findByIdAndUpdate(userId, { skills: skillsId }, { new: true })
+            .exec();
     }
 
     async getSkills(userId: string): Promise<Skill[]> {
@@ -187,26 +215,44 @@ export class UserService {
 
     attachEducation(userId: string, educationId: string): Promise<User> {
         return this.userModel
-            .findByIdAndUpdate(userId, { $push: { educationHistory: educationId } }, { new: true })
+            .findByIdAndUpdate(
+                userId,
+                { $push: { educationHistory: educationId } },
+                { new: true },
+            )
             .exec();
     }
 
     attachCertification(userId: string, certificationId: string): Promise<User> {
         return this.userModel
-            .findByIdAndUpdate(userId, { $push: { certifications: certificationId } }, { new: true })
+            .findByIdAndUpdate(
+                userId,
+                { $push: { certifications: certificationId } },
+                { new: true },
+            )
             .exec();
     }
 
     attachLanguage(userId: string, languageId: string): Promise<User> {
-        return this.userModel.findByIdAndUpdate(userId, { $push: { languages: languageId } }, { new: true }).exec();
+        return this.userModel
+            .findByIdAndUpdate(
+                userId,
+                { $push: { languages: languageId } },
+                { new: true },
+            )
+            .exec();
     }
 
     setPassport(userId: string, passportId: string): Promise<User> {
-        return this.userModel.findByIdAndUpdate(userId, { passport: passportId }, { new: true }).exec();
+        return this.userModel
+            .findByIdAndUpdate(userId, { passport: passportId }, { new: true })
+            .exec();
     }
 
     attachJob(employeeId: string, jobId: string): Promise<User> {
-        return this.userModel.findByIdAndUpdate(employeeId, { $push: { jobHistory: jobId } }).exec();
+        return this.userModel
+            .findByIdAndUpdate(employeeId, { $push: { jobHistory: jobId } })
+            .exec();
     }
 
     // ------------------------------------------------------------------------
@@ -238,7 +284,11 @@ export class UserService {
         return query;
     }
 
-    private buildPaginateOptions(page: number, limit: number, filterOptions?: FilterOptions): PaginateOptions {
+    private buildPaginateOptions(
+        page: number,
+        limit: number,
+        filterOptions?: FilterOptions,
+    ): PaginateOptions {
         const options: PaginateOptions = {
             page: page,
             limit: limit,
@@ -248,7 +298,10 @@ export class UserService {
             },
         };
 
-        options.sort = this.getSortOptions(filterOptions?.sortBy, filterOptions?.sortType);
+        options.sort = this.getSortOptions(
+            filterOptions?.sortBy,
+            filterOptions?.sortType,
+        );
         return options;
     }
 

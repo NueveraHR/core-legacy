@@ -21,6 +21,6 @@ const envService = new EnvService();
         }),
     ],
     providers: [AuthFacade, RoleFacade, EmployeeFacade, RegisterFacade, MailerService],
-    exports: [AuthFacade, RoleFacade, EmployeeFacade],
+    exports: [AuthFacade, RegisterFacade, RoleFacade, EmployeeFacade],
 })
 export class HrmsFacadesModule {}

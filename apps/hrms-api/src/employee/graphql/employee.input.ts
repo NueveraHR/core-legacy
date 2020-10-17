@@ -1,4 +1,8 @@
-import { CertificationDto, EducationDto, LanguageDto } from '../../../../hrms-core/src/user/user.dto';
+import {
+    CertificationDto,
+    EducationDto,
+    LanguageDto,
+} from '../../../../hrms-core/src/user/user.dto';
 import { UserDto as EmployeeDto } from '@hrms-core/user/user.dto';
 import { InputType, Field, ID, Int, Float } from '@nestjs/graphql';
 import { Role } from '@hrms-api/role/role.type';
@@ -112,7 +116,7 @@ export class AddEmployeeInput implements Partial<EmployeeDto> {
     @Field({ nullable: true, description: 'Optional, default is the email prefix' })
     public username: string;
 
-    @Field()
+    @Field({ nullable: true })
     public password: string;
 
     @Field({ nullable: true })

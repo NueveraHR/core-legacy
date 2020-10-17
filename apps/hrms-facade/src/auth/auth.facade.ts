@@ -8,6 +8,7 @@ import { UserDto } from '@hrms-core/user/user.dto';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { AuthDto } from '@hrms-core/auth/auth.dto';
+import { RedisService } from '@hrms-core/common/services/database/redis.service';
 
 @Injectable()
 export class AuthFacade {
@@ -34,10 +35,19 @@ export class AuthFacade {
         await this.userService
             .findByEmail(user.email)
             .then(usr => (foundUser = usr))
-            .catch(err => Promise.reject(this.errorService.generate(Errors.Login.INVALID_CREDENTIALS)));
+            .catch(err =>
+                Promise.reject(
+                    this.errorService.generate(Errors.Login.INVALID_CREDENTIALS),
+                ),
+            );
 
         let token;
         if (foundUser) {
+            if (!foundUser.accountActivated) {
+                return Promise.reject(
+                    this.errorService.generate(Errors.Login.ACCOUNT_LOCKED),
+                );
+            }
             await bcrypt.compare(user.password, foundUser.password).then(same => {
                 if (same) {
                     token = this.generateTokenForUser(foundUser);
@@ -61,7 +71,9 @@ export class AuthFacade {
             }
         }
 
-        return Promise.reject(this.errorService.generate(Errors.Login.INVALID_CREDENTIALS));
+        return Promise.reject(
+            this.errorService.generate(Errors.Login.INVALID_CREDENTIALS),
+        );
     }
 
     private generateTokenForUser(user: any): string {

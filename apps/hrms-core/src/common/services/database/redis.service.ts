@@ -43,6 +43,16 @@ export class RedisService {
     }
 
     /**
+     * Removes the specified key. A key is ignored if it does not exist.
+     *
+     * @param key
+     */
+    delete(key: string): Promise<boolean> {
+        const del = this.promisifyCmd(this.client.del);
+        return del(key);
+    }
+
+    /**
      * Increments the number stored at key by one.
      * If the key does not exist, it is set to 1 before performing the operation.
      *

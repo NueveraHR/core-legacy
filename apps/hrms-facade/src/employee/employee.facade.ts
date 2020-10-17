@@ -84,7 +84,7 @@ export class EmployeeFacade {
 
     async create(userDto: UserDto): Promise<UserDto> {
         const validationResult = this.userDtoValidator.validate(userDto, {
-            required: ['password', 'role'],
+            required: ['role'],
         });
 
         if (this.errorService.isError(validationResult)) {
