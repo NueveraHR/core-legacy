@@ -69,6 +69,7 @@ export class EmployeeResolver {
 
     @Mutation(() => Boolean)
     @IgnorePrivileges()
+    @RateLimit({ limit: 7, timeInterval: '1m' })
     changePassword(
         @CurrentUser() currentUser: UserDto,
 
@@ -76,13 +77,12 @@ export class EmployeeResolver {
         @Args('currentPassword') currentPassword: string,
         @Args('newPassword') newPassword: string,
     ): Promise<any> {
-        if (!isOwner(currentUser, employeeId)) {
-            return Promise.reject(FORBIDDEN_ERROR);
+        // keep password proprietary to the user only
+        if (currentUser?.id === employeeId) {
+            return this.employeeFacade
+                .updatePassword(employeeId, currentPassword, newPassword)
+                .catch(GqlError);
         }
-
-        return this.employeeFacade
-            .updatePassword(employeeId, currentPassword, newPassword)
-            .catch(GqlError);
     }
 
     @Mutation(() => Employee)
