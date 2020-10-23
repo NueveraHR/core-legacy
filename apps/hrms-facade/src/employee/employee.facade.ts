@@ -32,7 +32,7 @@ import { SocialLinks } from '@hrms-core/user/social-links/social-links.schema';
 import { PassportService } from '@hrms-core/user/passport/passport.service';
 import { JobService } from '@hrms-core/job/job.service';
 import { JobDto } from '@hrms-core/job/job.dto';
-import { RegisterFacade } from '@hrms-facades/register/register.facade';
+import { RegisterFacade } from '@hrms-facades/auth/register.facade';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()

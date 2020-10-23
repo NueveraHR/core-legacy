@@ -55,11 +55,13 @@ export class MailerService {
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    send(mail: any): any {
+    send(mail: any): Promise<any> {
         if (!this.transporter) {
             this.init();
         }
 
-        return this.transporter.sendMail(mail).catch(e => console.log(e));
+        return this.transporter
+            .sendMail(mail)
+            .catch(error => this.loggerService.error(error));
     }
 }

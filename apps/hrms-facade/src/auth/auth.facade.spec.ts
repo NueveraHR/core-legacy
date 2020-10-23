@@ -8,7 +8,7 @@ import { USERS } from '@hrms-core/test/mock/user.mock';
 import { MockUtils } from '@hrms-core/test/utils/mock.utils';
 import { EnvService } from '@libs/env';
 import { HrmsFacadesModule } from '@hrms-facades/hrms-facades.module';
-import { RegisterFacade } from '@hrms-facades/register/register.facade';
+import { RegisterFacade } from '@hrms-facades/auth/register.facade';
 
 describe('Auth Facade', () => {
     let authFacade: AuthFacade;

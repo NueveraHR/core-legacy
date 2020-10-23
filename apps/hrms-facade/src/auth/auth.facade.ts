@@ -8,12 +8,17 @@ import { UserDto } from '@hrms-core/user/user.dto';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { AuthDto } from '@hrms-core/auth/auth.dto';
+import { EnvService } from '@libs/env';
 
 @Injectable()
 export class AuthFacade {
     @Inject(ErrorService) errorService: ErrorService;
 
-    constructor(private userService: UserService, private jwtService: JwtService) {}
+    constructor(
+        private userService: UserService,
+        private jwtService: JwtService,
+        private envService: EnvService,
+    ) {}
 
     async auth(user: UserDto): Promise<AuthDto> {
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -41,6 +46,7 @@ export class AuthFacade {
             );
 
         let token;
+        const encKey = this.envService.read().COMMON_ENC_KEY;
         if (foundUser) {
             if (!foundUser.accountActivated) {
                 return Promise.reject(
@@ -49,7 +55,7 @@ export class AuthFacade {
             }
             await bcrypt.compare(user.password, foundUser.password).then(same => {
                 if (same) {
-                    token = this.generateTokenForUser(foundUser);
+                    token = this.generateAuthToken(foundUser, encKey);
                 }
             });
 
@@ -75,8 +81,8 @@ export class AuthFacade {
         );
     }
 
-    private generateTokenForUser(user: any): string {
+    private generateAuthToken(user: any, encKey: string): string {
         const signedJWt = this.jwtService.sign({ id: user.id, role: user.role });
-        return crypto.AES.encrypt(signedJWt, 'akrZ8nj"#r>G7@s4B').toString();
+        return crypto.AES.encrypt(signedJWt, encKey).toString();
     }
 }

@@ -42,6 +42,7 @@ export enum UserErrors {
     INVALID_USER_ID = 42203,
 
     ACTIVATE_INVALID_TOKEN = 42204,
+    RESTORE_ACCOUNT_INVALID_TOKEN = 42205,
 }
 
 export enum RoleErrors {

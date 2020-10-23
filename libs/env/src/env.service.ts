@@ -21,6 +21,7 @@ export interface EnvData {
     // config
     CONFIG_PATH?: string;
 
+    COMMON_ENC_KEY?: string;
     JWT_SECRETKEY?: string;
     JWT_EXPIRESIN?: string;
 
@@ -39,6 +40,9 @@ export interface EnvData {
 
     // Register user
     REGISTER_USER_URL?: string;
+
+    // reset password
+    RESET_PASSWORD_URL?: string;
 }
 
 const envFilesPath = './environments';

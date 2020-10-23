@@ -60,6 +60,7 @@ export const ErrorMessage: ErrorCodeMessage = {
     42203: 'Invalid user id',
 
     42204: 'Cannot activate account with invalid token',
+    42205: 'Cannot restore account with invalid token',
     //---------------------------------- Role (43xxx) ----------------------------------
 
     // Controller invalid request(430xx)

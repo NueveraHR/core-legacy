@@ -7,7 +7,11 @@ import * as ms from 'ms';
 
 @Injectable()
 export class RateLimitGuard implements CanActivate {
-    constructor(private reflector: Reflector, private redis: RedisService, private logger: LoggerService) {}
+    constructor(
+        private reflector: Reflector,
+        private redis: RedisService,
+        private logger: LoggerService,
+    ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = this.getRequest(context);
@@ -36,13 +40,23 @@ export class RateLimitGuard implements CanActivate {
             handlerRateState.count > contextMetadata.handlerConstraints?.limit ||
             resolverRateState.count > contextMetadata.resolverConstraints?.limit
         ) {
+            this.logger.warn(
+                `Received ${resolverRateState.count} resolver requests from ${resolverRateState.id}`,
+            );
+            this.logger.warn(
+                `Received ${handlerRateState.count} handler requests from ${handlerRateState.id}`,
+            );
             throw new Error('Too many requests ...');
         }
 
         return true;
     }
 
-    private async refresh(request: any, handlerName: string, constraints: LimiterConstraints) {
+    private async refresh(
+        request: any,
+        handlerName: string,
+        constraints: LimiterConstraints,
+    ) {
         if (!handlerName || !constraints) {
             return {};
         }
@@ -75,8 +89,14 @@ export class RateLimitGuard implements CanActivate {
     private getContextMetadata(context: ExecutionContext): ContextMetadata {
         const handlerName = context.getHandler().name;
         const resolverName = context.getClass().name;
-        const handlerConstraints = this.reflector.get('limiterConstraints', context.getHandler()) as LimiterConstraints;
-        const resolverConstraints = this.reflector.get('limiterConstraints', context.getClass()) as LimiterConstraints;
+        const handlerConstraints = this.reflector.get(
+            'limiterConstraints',
+            context.getHandler(),
+        ) as LimiterConstraints;
+        const resolverConstraints = this.reflector.get(
+            'limiterConstraints',
+            context.getClass(),
+        ) as LimiterConstraints;
 
         return {
             resolverName,

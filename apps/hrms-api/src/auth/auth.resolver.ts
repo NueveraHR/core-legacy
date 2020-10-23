@@ -16,7 +16,8 @@ import { RateLimit } from '@hrms-api/common/decorators/rateLimit.decorator';
 import { UseGuards } from '@nestjs/common';
 import { RateLimitGuard } from '@hrms-api/common/guards/rate-limit.guard';
 import { GqlError } from '@hrms-api/common/utils/error.utils';
-import { RegisterFacade } from '@hrms-facades/register/register.facade';
+import { RegisterFacade } from '@hrms-facades/auth/register.facade';
+import { RestoreAccountFacade } from '@hrms-facades/auth/restore-account.facade';
 
 @Resolver()
 @UseGuards(RateLimitGuard)
@@ -24,6 +25,7 @@ export class AuthResolver {
     constructor(
         private authFacade: AuthFacade,
         private registerFacade: RegisterFacade,
+        private restoreAccountFacade: RestoreAccountFacade,
         private envService: EnvService,
     ) {}
 
@@ -57,12 +59,23 @@ export class AuthResolver {
 
     @Mutation(() => Boolean)
     activateAccount(
-        @Context() context: GraphQLExecutionContext,
         @Args('token') token: string,
         @Args('password') password: string,
     ): unknown {
-        const res = (context as any).res;
         return this.registerFacade.activateAccount(token, password).catch(GqlError);
+    }
+
+    @Mutation(() => Boolean)
+    requestResetPassword(@Args('email') email: string): Promise<any> {
+        return this.restoreAccountFacade.reserveRequest(email).catch(GqlError);
+    }
+
+    @Mutation(() => Boolean)
+    resetPassword(
+        @Args('token') token: string,
+        @Args('newPassword') password: string,
+    ): Promise<any> {
+        return this.restoreAccountFacade.restore(token, password).catch(GqlError);
     }
 
     private getMaxAge(expiresIn: string): any {
