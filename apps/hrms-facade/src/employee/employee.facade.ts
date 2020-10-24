@@ -34,10 +34,8 @@ import { JobService } from '@hrms-core/job/job.service';
 import { JobDto } from '@hrms-core/job/job.dto';
 import { RegisterFacade } from '@hrms-facades/auth/register.facade';
 import * as bcrypt from 'bcrypt';
-import {
-    DocumentMangmentService,
-    FileData,
-} from '@hrms-core/document/document-mangment.service';
+import { DocumentMangmentService } from '@hrms-core/document/document-mangment.service';
+import { FileData } from '@hrms-core/common/interfaces/file.interface';
 
 @Injectable()
 export class EmployeeFacade {

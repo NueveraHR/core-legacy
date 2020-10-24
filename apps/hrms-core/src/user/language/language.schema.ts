@@ -7,7 +7,7 @@ export class Language extends Document {
     name: string;
 
     @Prop({ required: true })
-    proficiency: string;
+    proficiency: number;
 
     @Prop({ default: false })
     isPreferred: boolean;

@@ -99,8 +99,8 @@ export class Language implements Partial<LanguageDto> {
     @Field()
     name?: string;
 
-    @Field()
-    proficiency?: string;
+    @Field(() => Int)
+    proficiency?: number;
 
     @Field()
     isPreferred?: boolean;

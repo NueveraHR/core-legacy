@@ -67,7 +67,7 @@ export class CertificationDto {
 export class LanguageDto {
     id?: string;
     name?: string;
-    proficiency?: string;
+    proficiency?: number;
     isPreferred?: boolean;
 }
 

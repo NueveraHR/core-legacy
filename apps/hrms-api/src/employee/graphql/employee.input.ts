@@ -374,8 +374,8 @@ export class AddLanguageInput implements Partial<LanguageDto> {
     @Field()
     name?: string;
 
-    @Field()
-    proficiency?: string;
+    @Field(() => Int)
+    proficiency?: number;
 
     @Field({ nullable: true })
     isPreferred?: boolean;
@@ -387,7 +387,7 @@ export class UpdateLanguageInput implements Partial<LanguageDto> {
     name?: string;
 
     @Field({ nullable: true })
-    proficiency?: string;
+    proficiency?: number;
 
     @Field({ nullable: true })
     isPreferred?: boolean;

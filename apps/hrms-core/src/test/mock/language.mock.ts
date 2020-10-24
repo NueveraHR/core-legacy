@@ -1,7 +1,7 @@
 export const LANGUAGE = {
     en: {
         name: 'English',
-        proficiency: 'Native',
+        proficiency: 5,
         isPreferred: true,
     },
 };
