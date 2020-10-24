@@ -1,6 +1,7 @@
 import { Errors } from '@hrms-core/common/error/error.const';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { RedisService } from '@hrms-core/common/services/database/redis.service';
+import { ValidatorUtils } from '@hrms-core/common/utils/validator.utils';
 import { UserDto } from '@hrms-core/user/user.dto';
 import { UserService } from '@hrms-core/user/user.service';
 import { EnvService } from '@libs/env';
@@ -31,6 +32,11 @@ export class RestoreAccountFacade {
         }
 
         return true;
+    }
+
+    async validateToken(token: string): Promise<boolean> {
+        const id = await this.redisService.get(token);
+        return ValidatorUtils.isValidId(id);
     }
 
     async restore(token: string, newPassword: string): Promise<boolean> {

@@ -53,7 +53,13 @@ export class AuthResolver {
     }
 
     @Query(() => Boolean)
-    validateToken(@Args('token') token: string): Promise<any> {
+    validateToken(
+        @Args('token') token: string,
+        @Args('restore', { type: () => Boolean, nullable: true }) restore = false,
+    ): Promise<any> {
+        if (restore) {
+            return this.restoreAccountFacade.validateToken(token).catch(GqlError);
+        }
         return this.registerFacade.validateToken(token).catch(GqlError);
     }
 
