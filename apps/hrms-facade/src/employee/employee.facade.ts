@@ -206,8 +206,13 @@ export class EmployeeFacade {
     async addCertification(
         userId: string,
         certificationDto: CertificationDto,
+        fileData?: FileData,
     ): Promise<UserDto> {
         //TODO: validate
+        if (fileData) {
+            const doc = await this.documentManagementService.save(fileData, userId);
+            certificationDto.document = doc.id;
+        }
         const cert = await this.certificationService.create(certificationDto);
         return (await this.userService.attachCertification(userId, cert.id)) as UserDto;
     }

@@ -1,5 +1,6 @@
+import { Document } from '@hrms-core/document/document.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { SchemaTypes } from 'mongoose';
 
 @Schema()
 export class Certification extends Document {
@@ -14,6 +15,9 @@ export class Certification extends Document {
 
     @Prop()
     expiresOn?: Date;
+
+    @Prop({ ref: 'Document', type: SchemaTypes.ObjectId })
+    document?: Document;
 }
 
 export const CertificationSchema = SchemaFactory.createForClass(Certification);

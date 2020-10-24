@@ -14,9 +14,14 @@ import { LanguageResolver } from './employee/language.resolver';
 import { JobResolver } from './employee/job.resolver';
 import { PassportResolver } from './employee/passport.resolver';
 import { HrmsFacadesModule } from 'apps/hrms-facade/src/hrms-facades.module';
+import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module';
+import { join } from 'path';
 
 @Module({
     imports: [
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '..', 'upload'),
+        }),
         GraphQLModule.forRoot({
             autoSchemaFile: 'schema.gql',
             context: ({ req, res }) => ({ req, res }),

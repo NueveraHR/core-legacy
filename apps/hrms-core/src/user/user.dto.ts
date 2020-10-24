@@ -6,6 +6,7 @@ import { PassportDto } from './passport/passport.dto';
 import { JobDto } from '../job/job.dto';
 import { UserType } from '@hrms-core/common/enums/user-type.enum';
 import { NvrPaginateResult } from '@hrms-core/common/interfaces/pagination';
+import { DocumentDto } from '@hrms-core/document/document.dto';
 
 export class UserDto {
     public id?: string;
@@ -62,6 +63,7 @@ export class CertificationDto {
     issuingOrganization?: string;
     date?: Date;
     expiresOn?: Date;
+    document?: DocumentDto;
 }
 
 export class LanguageDto {

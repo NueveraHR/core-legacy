@@ -40,11 +40,14 @@ export class UploadResolver {
             encoding: file.encoding,
             content: file.createReadStream(),
 
-            userId: currentUser.id,
             name,
             description,
         };
-        const savedFile = await this.documentMangmentService.save(fileData);
+        const savedFile = await this.documentMangmentService.save(
+            fileData,
+            currentUser.id,
+        );
+
         return {
             description: savedFile.description,
             id: savedFile.id,

@@ -11,7 +11,7 @@ import * as FormData from 'form-data';
 import { EnvService } from '@libs/env';
 import { FileData } from '@hrms-core/common/interfaces/file.interface';
 
-const uploadDir = __dirname + '/upload';
+const uploadDir = __dirname + '/../upload';
 
 @Injectable()
 export class DocumentMangmentService {
@@ -24,9 +24,9 @@ export class DocumentMangmentService {
         private httpService: HttpService,
     ) {}
 
-    async save(fileData: FileData): Promise<Document> {
+    async save(fileData: FileData, userId?: string): Promise<Document> {
         return new Promise(async (resolve, reject) => {
-            const { name, userId, description } = fileData;
+            const { name, description } = fileData;
             const filePath = await this.saveOnDisk(fileData, userId);
 
             const document = new this.docuemntModel({
@@ -35,7 +35,6 @@ export class DocumentMangmentService {
                 path: Path.relative(process.cwd(), filePath),
                 description: description,
                 type: fileData.mimetype,
-                user: userId,
             });
 
             resolve(
@@ -59,7 +58,7 @@ export class DocumentMangmentService {
             const filePath = Path.join(userUploadDir, fileName);
 
             if (!Fs.existsSync(userUploadDir)) {
-                Fs.mkdirSync(userUploadDir);
+                Fs.mkdirSync(userUploadDir, { recursive: true });
             }
 
             fileStream
