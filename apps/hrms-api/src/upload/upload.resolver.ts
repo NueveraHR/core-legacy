@@ -8,9 +8,10 @@ import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../common/decorators/currentUser.decorator';
 import { DocumentMangmentService } from '@hrms-core/document/document-mangment.service';
 import { UserDto } from '@hrms-core/user/user.dto';
-import { UploadDocument, DeleteFileResult, GetDocument, UploadProfileImage } from './upload.type';
+import { UploadDocument, DeleteFileResult, GetDocument } from './upload.type';
 import { DocumentDto } from '@hrms-core/document/document.dto';
 import { UserService } from '@hrms-core/user/user.service';
+import { FileData } from '@hrms-core/common/interfaces/file.interface';
 
 @UseGuards(JwtAuthGuard)
 @Resolver()
@@ -21,7 +22,9 @@ export class UploadResolver {
     ) {}
 
     @Query(() => GetDocument)
-    async getDocument(@Args('id', { type: () => String }) id: string): Promise<GetDocument> {
+    async getDocument(
+        @Args('id', { type: () => String }) id: string,
+    ): Promise<GetDocument> {
         return this.documentMangmentService.findById(id);
     }
 
@@ -32,31 +35,22 @@ export class UploadResolver {
         @Args('description', { type: () => String }) description: string,
         @Args('file', { type: () => GraphQLUpload }) file: FileUpload,
     ): Promise<UploadDocument> {
-        const fileData = {
-            description,
-            name,
+        const fileData: FileData = {
+            mimetype: file.mimetype,
+            encoding: file.encoding,
+            content: file.createReadStream(),
+
             userId: currentUser.id,
+            name,
+            description,
         };
-        const savedFile = await this.documentMangmentService.save(file, fileData);
+        const savedFile = await this.documentMangmentService.save(fileData);
         return {
             description: savedFile.description,
             id: savedFile.id,
             name: savedFile.name,
             path: savedFile.path,
             type: savedFile.type,
-        };
-    }
-
-    @Mutation(() => UploadProfileImage)
-    public async uploadProfileImage(
-        @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('file', { type: () => GraphQLUpload }) file: FileUpload,
-    ): Promise<UploadProfileImage> {
-        const imgPath = await this.documentMangmentService.uploadToImgpush(file);
-        await this.userService.updatePicture(employeeId, imgPath);
-
-        return {
-            imagePath: imgPath,
         };
     }
 
@@ -82,7 +76,9 @@ export class UploadResolver {
     }
 
     @Mutation(() => DeleteFileResult)
-    public async deleteDocument(@Args('id', { type: () => String }) id: string): Promise<DeleteFileResult> {
+    public async deleteDocument(
+        @Args('id', { type: () => String }) id: string,
+    ): Promise<DeleteFileResult> {
         return { success: await this.documentMangmentService.delete(id) };
     }
 }

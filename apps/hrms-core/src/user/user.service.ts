@@ -178,7 +178,7 @@ export class UserService {
     async updatePicture(id: string, imagePath: string): Promise<User> {
         const user: User = await this.findById(id);
         user.picture = imagePath;
-        return await this.update(user);
+        return this.update(user);
     }
 
     async attachRole(user: User, role: Role): Promise<User> {

@@ -10,7 +10,6 @@ import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import {
     AddEmployeeInput,
     UpdateEmployeeInput,
-    JobInput,
     SkillInput,
 } from '@hrms-api/employee/graphql/employee.input';
 import { Employee, PaginatedEmployeeList, Job } from './graphql/employee.type';
@@ -23,6 +22,10 @@ import { RateLimitGuard } from '@hrms-api/common/guards/rate-limit.guard';
 import { CurrentUser } from '@hrms-api/common/decorators/currentUser.decorator';
 import { UserDto } from '@hrms-core/user/user.dto';
 import { Role } from '@hrms-core/role/role.schema';
+import { UploadProfileImage } from '@hrms-api/upload/upload.type';
+import { GraphQLUpload } from 'apollo-server';
+import { FileUpload } from 'graphql-upload';
+import { FileData } from '@hrms-core/common/interfaces/file.interface';
 
 @Resolver()
 @Privileges('employees.access')
@@ -65,6 +68,20 @@ export class EmployeeResolver {
     @Privileges('employees.edit')
     updateEmployee(@Args('employee') employee: UpdateEmployeeInput): Promise<any> {
         return this.employeeFacade.update(employee).catch(GqlError);
+    }
+
+    @Mutation(() => UploadProfileImage)
+    uploadProfileImage(
+        @Args('employeeId', { type: () => ID }) employeeId: string,
+        @Args('file', { type: () => GraphQLUpload }) file: FileUpload,
+    ): Promise<UploadProfileImage> {
+        const fileData: FileData = {
+            name: file.filename,
+            mimetype: file.mimetype,
+            encoding: file.encoding,
+            content: file.createReadStream(),
+        };
+        return this.employeeFacade.updateProfilePicture(employeeId, fileData);
     }
 
     @Mutation(() => Boolean)

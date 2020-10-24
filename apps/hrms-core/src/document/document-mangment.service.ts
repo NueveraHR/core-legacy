@@ -5,19 +5,13 @@ import { Errors } from '@hrms-core/common/error/error.const';
 import { InjectModel } from '@nestjs/mongoose';
 import { PaginateModel, PaginateResult } from 'mongoose';
 import { Document } from './document.schema';
-import { FileUpload } from 'graphql-upload';
 import * as Fs from 'fs';
 import * as Path from 'path';
 import * as FormData from 'form-data';
 import { EnvService } from '@libs/env';
+import { FileData } from '@hrms-core/common/interfaces/file.interface';
 
-const uploadDir = __dirname + '/../../../upload';
-
-interface FileData {
-    name: string;
-    userId: string;
-    description: string;
-}
+const uploadDir = __dirname + '/upload';
 
 @Injectable()
 export class DocumentMangmentService {
@@ -30,17 +24,17 @@ export class DocumentMangmentService {
         private httpService: HttpService,
     ) {}
 
-    async save(file: FileUpload, fileData: FileData): Promise<Document> {
+    async save(fileData: FileData): Promise<Document> {
         return new Promise(async (resolve, reject) => {
             const { name, userId, description } = fileData;
-            const filePath = await this.saveOnDisk(file, userId);
+            const filePath = await this.saveOnDisk(fileData, userId);
 
             const document = new this.docuemntModel({
                 name: name,
                 fullPath: filePath,
                 path: Path.relative(process.cwd(), filePath),
                 description: description,
-                type: file.mimetype,
+                type: fileData.mimetype,
                 user: userId,
             });
 
@@ -56,12 +50,12 @@ export class DocumentMangmentService {
         });
     }
 
-    private async saveOnDisk(file: FileUpload, userId: string): Promise<string> {
+    private async saveOnDisk(fileData: FileData, userId: string): Promise<string> {
         return new Promise(async (resolve, reject) => {
-            const fileUpload = await file;
-            const fileStream = fileUpload.createReadStream();
+            const fileUpload = await fileData;
+            const fileStream = fileData.content;
             const userUploadDir = Path.join(uploadDir, userId);
-            const fileName = new Date().getTime() + '-' + fileUpload.filename;
+            const fileName = new Date().getTime() + '-' + fileUpload.name;
             const filePath = Path.join(userUploadDir, fileName);
 
             if (!Fs.existsSync(userUploadDir)) {
@@ -75,12 +69,12 @@ export class DocumentMangmentService {
         });
     }
 
-    async uploadToImgpush(file: FileUpload): Promise<string> {
+    async uploadToImgpush(file: FileData): Promise<string> {
         return new Promise(async (resolve, reject) => {
             const imgpushUrl = this.envService.read().IMGPUSH_URL;
 
             const formData = new FormData();
-            formData.append('file', file.createReadStream(), 'randomName');
+            formData.append('file', file.content, 'randomName');
 
             await this.httpService.axiosRef
                 .post(imgpushUrl, formData, {
@@ -104,7 +98,11 @@ export class DocumentMangmentService {
             );
     }
 
-    findAllPaginated(page = 1, limit = 10, filterOptions = {}): Promise<PaginateResult<Document>> {
+    findAllPaginated(
+        page = 1,
+        limit = 10,
+        filterOptions = {},
+    ): Promise<PaginateResult<Document>> {
         const options = {
             page: page,
             limit: limit,
@@ -135,7 +133,9 @@ export class DocumentMangmentService {
     async update(documentDto: DocumentDto): Promise<Document> {
         const newDocument = await this.findById(documentDto.id);
         newDocument.name = documentDto.name ? documentDto.name : newDocument.name;
-        newDocument.description = documentDto.description ? documentDto.description : newDocument.description;
+        newDocument.description = documentDto.description
+            ? documentDto.description
+            : newDocument.description;
         return newDocument.save().catch(err =>
             Promise.reject(
                 this.errorService.generate(Errors.General.INTERNAL_ERROR, {

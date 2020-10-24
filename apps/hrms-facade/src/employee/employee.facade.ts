@@ -34,6 +34,10 @@ import { JobService } from '@hrms-core/job/job.service';
 import { JobDto } from '@hrms-core/job/job.dto';
 import { RegisterFacade } from '@hrms-facades/auth/register.facade';
 import * as bcrypt from 'bcrypt';
+import {
+    DocumentMangmentService,
+    FileData,
+} from '@hrms-core/document/document-mangment.service';
 
 @Injectable()
 export class EmployeeFacade {
@@ -53,7 +57,7 @@ export class EmployeeFacade {
         private socialLinkService: SocialLinkService,
         private passportService: PassportService,
         private jobService: JobService,
-
+        private documentManagementService: DocumentMangmentService,
         private registerFacade: RegisterFacade,
     ) {}
 
@@ -174,6 +178,14 @@ export class EmployeeFacade {
         }
     }
 
+    async updateProfilePicture(userId: string, fileData: FileData) {
+        const imgPath = await this.documentManagementService.uploadToImgpush(fileData);
+        await this.userService.updatePicture(userId, imgPath);
+
+        return {
+            imagePath: imgPath,
+        };
+    }
     // -------------------------------- Education -----------------------------------
 
     async addEducation(userId: string, educationDto: EducationDto): Promise<UserDto> {
