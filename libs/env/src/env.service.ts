@@ -74,7 +74,7 @@ export class EnvService {
     }
 
     isProd(): boolean {
-        return this.vars.APP_ENV === 'prod';
+        return this.vars.APP_ENV === 'production';
     }
 
     isTest(): boolean {
