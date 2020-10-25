@@ -75,11 +75,10 @@ export class PassportResolver {
     deletePassport(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('passportId', { type: () => ID }) passportId: string,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.deletePassport(passportId).catch(GqlError);
+        return this.employeeFacade.deletePassport(employeeId).catch(GqlError);
     }
 }

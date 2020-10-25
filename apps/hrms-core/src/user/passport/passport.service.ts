@@ -20,12 +20,6 @@ export class PassportService {
     create(passportDto: PassportDto): Promise<Passport> {
         const passport = new this.passportModel(passportDto);
         return passport.save().catch(err => {
-            if (err.code == 11000) {
-                // Duplicated key error.
-                return Promise.reject(
-                    this.errorService.generate(Errors.Passport.DUPLICATE),
-                );
-            }
             return Promise.reject(
                 this.errorService.generate(Errors.General.INTERNAL_ERROR, {
                     detailedMessage: err,

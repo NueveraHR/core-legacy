@@ -9,6 +9,7 @@ import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
 import { SortType, FilterOptions } from '@hrms-core/common/interfaces/pagination';
 import { Skill } from './skill/skill.schema';
+import passport from 'passport';
 
 const SALT_ROUNDS = 10;
 
@@ -223,6 +224,16 @@ export class UserService {
             .exec();
     }
 
+    detachEducation(educationId: string): Promise<User> {
+        return this.userModel
+            .findOneAndUpdate(
+                { educationHistory: { $elemMatch: { $eq: educationId } } },
+                { $pull: { educationHistory: educationId } },
+                { new: true },
+            )
+            .exec();
+    }
+
     attachCertification(userId: string, certificationId: string): Promise<User> {
         return this.userModel
             .findByIdAndUpdate(
@@ -233,11 +244,31 @@ export class UserService {
             .exec();
     }
 
+    detachCertification(certificationId: string): Promise<User> {
+        return this.userModel
+            .findOneAndUpdate(
+                { certifications: { $elemMatch: { $eq: certificationId } } },
+                { $pull: { certifications: certificationId } },
+                { new: true },
+            )
+            .exec();
+    }
+
     attachLanguage(userId: string, languageId: string): Promise<User> {
         return this.userModel
             .findByIdAndUpdate(
                 userId,
                 { $push: { languages: languageId } },
+                { new: true },
+            )
+            .exec();
+    }
+
+    detachLanguage(languageId: string): Promise<User> {
+        return this.userModel
+            .findOneAndUpdate(
+                { languages: { $elemMatch: { $eq: languageId } } },
+                { $pull: { languages: languageId } },
                 { new: true },
             )
             .exec();
@@ -255,6 +286,15 @@ export class UserService {
             .exec();
     }
 
+    detachJob(jobId: string): Promise<User> {
+        return this.userModel
+            .findOneAndUpdate(
+                { jobHistory: { $elemMatch: { $eq: jobId } } },
+                { $pull: { jobHistory: jobId } },
+                { new: true },
+            )
+            .exec();
+    }
     // ------------------------------------------------------------------------
     // @ Privates
     // ------------------------------------------------------------------------

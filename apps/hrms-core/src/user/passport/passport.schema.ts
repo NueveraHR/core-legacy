@@ -4,7 +4,7 @@ import { Document } from '@hrms-core/document/document.schema';
 
 @Schema()
 export class Passport extends MongoDocument {
-    @Prop({ required: true, unique: true })
+    @Prop({ required: true })
     number: string;
 
     @Prop({ required: true })

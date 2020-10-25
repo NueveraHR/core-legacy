@@ -36,6 +36,7 @@ import { RegisterFacade } from '@hrms-facades/auth/register.facade';
 import * as bcrypt from 'bcrypt';
 import { DocumentMangmentService } from '@hrms-core/document/document-mangment.service';
 import { FileData } from '@hrms-core/common/interfaces/file.interface';
+import { Passport } from '@hrms-core/user/passport/passport.schema';
 
 @Injectable()
 export class EmployeeFacade {
@@ -226,7 +227,10 @@ export class EmployeeFacade {
     async deleteEducation(id: string): Promise<boolean> {
         const education = await this.educationService.findById(id);
         if (education) {
-            this.documentManagementService.delete(education.document.toString());
+            if (education.document) {
+                this.documentManagementService.delete(education.document.toString());
+            }
+            this.userService.detachEducation(id);
             return this.educationService.delete(id);
         }
 
@@ -274,7 +278,10 @@ export class EmployeeFacade {
     async deleteCertification(id: string): Promise<boolean> {
         const cert = await this.certificationService.findById(id);
         if (cert) {
-            this.documentManagementService.delete(cert.document.toString());
+            if (cert.document) {
+                this.documentManagementService.delete(cert.document.toString());
+            }
+            this.userService.detachCertification(id);
             return this.certificationService.delete(id);
         }
         return false;
@@ -293,9 +300,9 @@ export class EmployeeFacade {
         return this.languageService.update(id, languageDto);
     }
 
-    deleteLanguage(id: string): Promise<boolean> {
+    async deleteLanguage(id: string): Promise<boolean> {
         //TODO: validate
-
+        this.userService.detachLanguage(id);
         return this.languageService.delete(id);
     }
 
@@ -338,12 +345,19 @@ export class EmployeeFacade {
         return passport;
     }
 
-    async deletePassport(id: string): Promise<boolean> {
+    async deletePassport(userId: string): Promise<boolean> {
         //TODO: validate
-        const passport = await this.passportService.findById(id);
-        if (passport) {
-            this.documentManagementService.delete(passport.document.toString());
-            return this.passportService.delete(id);
+        const user = await this.userService.findById(userId);
+        if (user) {
+            const passport = user.passport as Passport;
+            if (passport) {
+                if (passport.document) {
+                    this.documentManagementService.delete(passport.document.toString());
+                }
+                user.passport = null;
+                this.userService.update(user);
+                return this.passportService.delete(passport.id);
+            }
         }
         return false;
     }
@@ -414,7 +428,10 @@ export class EmployeeFacade {
         // TODO: validate id
         const job = await this.jobService.findById(jobId);
         if (job) {
-            this.documentManagementService.delete(job.document.toString());
+            if (job.document) {
+                this.documentManagementService.delete(job.document.toString());
+            }
+            this.userService.detachJob(jobId);
             return this.jobService.delete(jobId);
         }
         return false;
