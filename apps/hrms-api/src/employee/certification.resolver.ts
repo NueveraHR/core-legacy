@@ -31,7 +31,7 @@ export class CertificationResolver {
     addCertification(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('cert') certificationDto: AddCertificationInput,
+        @Args('cert') cert: AddCertificationInput,
         @Args('document', { type: () => GraphQLUpload, nullable: true })
         document?: FileUpload,
     ): Promise<any> {
@@ -44,7 +44,7 @@ export class CertificationResolver {
             fileData = FileUtils.fromUpload(document);
         }
         return this.employeeFacade
-            .addCertification(employeeId, certificationDto, fileData)
+            .addCertification(employeeId, cert, fileData)
             .catch(GqlError);
     }
 

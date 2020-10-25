@@ -1,3 +1,4 @@
+import { DocumentDto } from '@hrms-core/document/document.dto';
 import { PaginateResult } from 'mongoose';
 
 export class JobDto {
@@ -17,6 +18,7 @@ export class JobDto {
     hoursPerWeek?: number;
     bonusEarnings?: number;
     bonusFrequency?: string;
+    document?: DocumentDto;
 
     constructor(id: string) {
         this.id = id;

@@ -1,8 +1,9 @@
-import { Document } from 'mongoose';
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
+import { SchemaTypes, Document as MongoDocument } from 'mongoose';
+import { Document } from '@hrms-core/document/document.schema';
 
 @Schema()
-export class Job extends Document {
+export class Job extends MongoDocument {
     @Prop({ required: true })
     title: string;
 
@@ -41,6 +42,9 @@ export class Job extends Document {
 
     @Prop()
     bonusFrequency: string; //TODO: should ref class
+
+    @Prop({ ref: 'Document', type: SchemaTypes.ObjectId })
+    document?: Document;
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);

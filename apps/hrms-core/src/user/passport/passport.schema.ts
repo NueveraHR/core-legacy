@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { SchemaTypes } from 'mongoose';
-import { Document } from 'mongoose';
+import { SchemaTypes, Document as MongoDocument } from 'mongoose';
+import { Document } from '@hrms-core/document/document.schema';
 
 @Schema()
 export class Passport extends Document {

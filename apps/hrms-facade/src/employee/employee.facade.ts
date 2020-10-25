@@ -309,8 +309,11 @@ export class EmployeeFacade {
     async deletePassport(id: string): Promise<boolean> {
         //TODO: validate
         const passport = await this.passportService.findById(id);
-        this.documentManagementService.delete(passport.document.toString());
-        return this.passportService.delete(id);
+        if (passport) {
+            this.documentManagementService.delete(passport.document.toString());
+            return this.passportService.delete(id);
+        }
+        return false;
     }
 
     // -------------------------------- Skills -----------------------------------------
@@ -337,21 +340,52 @@ export class EmployeeFacade {
 
     // -------------------------------- Job --------------------------------------------
 
-    async addJob(employeeId: string, jobDto: JobDto): Promise<JobDto> {
+    async addJob(
+        employeeId: string,
+        jobDto: JobDto,
+        fileData?: FileData,
+    ): Promise<JobDto> {
         //TODO: validate
         const job = await this.jobService.create(jobDto);
+
+        if (fileData) {
+            fileData.name = job.id;
+            const doc = await this.documentManagementService.save(fileData, employeeId);
+            this.jobService.update(job.id, { document: doc.id });
+        }
+
         await this.userService.attachJob(employeeId, job.id);
         return job;
     }
 
-    updateJob(jobId: string, jobDto: JobDto): Promise<JobDto> {
+    async updateJob(
+        jobId: string,
+        jobDto: JobDto,
+        deleteDocument: boolean,
+        fileData?: FileData,
+    ): Promise<JobDto> {
         // TODO: validate
-        return this.jobService.update(jobId, jobDto);
+        const job = await this.jobService.update(jobId, jobDto);
+        const documentId = job.document.toString();
+
+        if (deleteDocument) {
+            this.documentManagementService.delete(documentId);
+        } else if (fileData) {
+            fileData.name = job.id;
+            this.documentManagementService.update(documentId, fileData);
+        }
+
+        return job;
     }
 
-    deleteJob(jobId: string): Promise<boolean> {
+    async deleteJob(jobId: string): Promise<boolean> {
         // TODO: validate id
-        return this.jobService.delete(jobId);
+        const job = await this.jobService.findById(jobId);
+        if (job) {
+            this.documentManagementService.delete(job.document.toString());
+            return this.jobService.delete(jobId);
+        }
+        return false;
     }
 
     private populateMissingValues(userDto: UserDto): void {

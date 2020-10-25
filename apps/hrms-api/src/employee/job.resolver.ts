@@ -5,10 +5,14 @@ import { JwtAuthGuard } from '@hrms-api/common/guards/auth.guard';
 import { RateLimitGuard } from '@hrms-api/common/guards/rate-limit.guard';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import { FORBIDDEN_ERROR, GqlError } from '@hrms-api/common/utils/error.utils';
+import { FileUtils } from '@hrms-api/common/utils/file.utils';
+import { FileData } from '@hrms-core/common/interfaces/file.interface';
 import { UserDto } from '@hrms-core/user/user.dto';
 import { EmployeeFacade } from '@hrms-facades/employee/employee.facade';
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
+import { GraphQLUpload } from 'apollo-server';
+import { FileUpload } from 'graphql-upload';
 import { isOwner } from './employee.resolver';
 import { JobInput, UpdateJobInput } from './graphql/employee.input';
 import { Job } from './graphql/employee.type';
@@ -24,11 +28,18 @@ export class JobResolver {
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
         @Args('job') job: JobInput,
+        @Args('document', { type: () => GraphQLUpload, nullable: true })
+        document?: FileUpload,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.addJob(employeeId, job).catch(GqlError);
+        let fileData: FileData;
+        if (document) {
+            fileData = FileUtils.fromUpload(document);
+        }
+
+        return this.employeeFacade.addJob(employeeId, job, fileData).catch(GqlError);
     }
 
     @Mutation(() => Job)
@@ -37,11 +48,23 @@ export class JobResolver {
         @Args('employeeId', { type: () => ID }) employeeId: string,
         @Args('jobId', { type: () => ID }) jobId: string,
         @Args('job') job: UpdateJobInput,
+        @Args('deleteDocument', { type: () => Boolean, nullable: true })
+        deleteDocument?: boolean,
+        @Args('document', { type: () => GraphQLUpload, nullable: true })
+        document?: FileUpload,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.updateJob(jobId, job).catch(GqlError);
+
+        let fileData: FileData;
+        if (document) {
+            fileData = FileUtils.fromUpload(document);
+        }
+
+        return this.employeeFacade
+            .updateJob(jobId, job, deleteDocument, fileData)
+            .catch(GqlError);
     }
 
     @Mutation(() => Boolean)
