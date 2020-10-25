@@ -11,7 +11,7 @@ import * as FormData from 'form-data';
 import { EnvService } from '@libs/env';
 import { FileData } from '@hrms-core/common/interfaces/file.interface';
 
-const uploadDir = __dirname + '/../upload';
+const uploadDir = __dirname + '/../public';
 
 @Injectable()
 export class DocumentMangmentService {

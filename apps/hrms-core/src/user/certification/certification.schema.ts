@@ -1,9 +1,10 @@
-import { Document } from '@hrms-core/document/document.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { SchemaTypes } from 'mongoose';
+import * as mongoose from 'mongoose';
+import { Document } from '@hrms-core/document/document.schema';
 
 @Schema()
-export class Certification extends Document {
+export class Certification extends mongoose.Document {
     @Prop({ required: true })
     name: string;
 

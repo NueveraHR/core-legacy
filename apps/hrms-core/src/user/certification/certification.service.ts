@@ -6,7 +6,10 @@ import { CertificationDto } from '@hrms-core/user/user.dto';
 
 @Injectable()
 export class CertificationService {
-    constructor(@InjectModel(Certification.name) private readonly certificationModel: Model<Certification>) {}
+    constructor(
+        @InjectModel(Certification.name)
+        private readonly certificationModel: Model<Certification>,
+    ) {}
 
     create(certificationDto: CertificationDto): Promise<Certification> {
         const certification = new this.certificationModel(certificationDto);
@@ -14,7 +17,9 @@ export class CertificationService {
     }
 
     update(id: string, cert: CertificationDto): Promise<Certification> {
-        return this.certificationModel.findByIdAndUpdate(id, cert, { new: true }).exec();
+        return this.certificationModel
+            .findByIdAndUpdate(id, cert as Certification, { new: true })
+            .exec();
     }
 
     delete(id: string): Promise<boolean> {

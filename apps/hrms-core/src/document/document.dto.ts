@@ -1,7 +1,12 @@
 import { PaginateResult } from 'mongoose';
 
 export class DocumentDto {
-    constructor(public id?: string, public name?: string, public description?: string) {}
+    id?: string;
+    name?: string;
+    description?: string;
+    path?: string;
+    fullPath?: string;
+    type?: string;
 }
 
 export type DocumentPaginateDto = PaginateResult<DocumentDto>;

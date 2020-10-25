@@ -14,14 +14,12 @@ import { LanguageResolver } from './employee/language.resolver';
 import { JobResolver } from './employee/job.resolver';
 import { PassportResolver } from './employee/passport.resolver';
 import { HrmsFacadesModule } from 'apps/hrms-facade/src/hrms-facades.module';
-import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module';
 import { join } from 'path';
+import { AppController } from './app.controller';
+import { JwtDocumentMiddleware } from './common/middlewares/jwt-document.middleware';
 
 @Module({
     imports: [
-        ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', 'upload'),
-        }),
         GraphQLModule.forRoot({
             autoSchemaFile: 'schema.gql',
             context: ({ req, res }) => ({ req, res }),
@@ -45,10 +43,11 @@ import { join } from 'path';
         PassportResolver,
         UploadResolver,
     ],
-    controllers: [],
+    controllers: [AppController],
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer.apply(JwtDecryptMiddleware).forRoutes('/');
+        consumer.apply(JwtDocumentMiddleware).forRoutes('/document');
     }
 }

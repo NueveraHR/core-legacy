@@ -156,7 +156,7 @@ export class UpdateEmployeeInput implements Partial<EmployeeDto> {
     public middleName?: string;
 
     @Field(() => ID, { nullable: true })
-    public role: Role | string;
+    public role: string;
 
     @Field({ nullable: true })
     public lastName: string;
