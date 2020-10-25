@@ -6,7 +6,13 @@ import { EducationDto } from '@hrms-core/user/user.dto';
 
 @Injectable()
 export class EducationService {
-    constructor(@InjectModel(Education.name) private readonly educationModel: Model<Education>) {}
+    constructor(
+        @InjectModel(Education.name) private readonly educationModel: Model<Education>,
+    ) {}
+
+    findById(id: string): Promise<Education> {
+        return this.educationModel.findById(id).exec();
+    }
 
     create(educationDto: EducationDto): Promise<Education> {
         const education = new this.educationModel(educationDto);
@@ -14,7 +20,9 @@ export class EducationService {
     }
 
     update(id: string, educationDto: EducationDto): Promise<Education> {
-        return this.educationModel.findByIdAndUpdate(id, educationDto, { new: true }).exec();
+        return this.educationModel
+            .findByIdAndUpdate(id, educationDto as Education, { new: true })
+            .exec();
     }
 
     delete(id: string): Promise<boolean> {

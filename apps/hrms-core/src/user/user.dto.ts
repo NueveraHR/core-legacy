@@ -55,6 +55,7 @@ export class EducationDto {
     startYear?: Date;
     endYear?: Date;
     description?: string;
+    document?: DocumentDto;
 }
 
 export class CertificationDto {

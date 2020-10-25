@@ -3,7 +3,7 @@ import { SchemaTypes, Document as MongoDocument } from 'mongoose';
 import { Document } from '@hrms-core/document/document.schema';
 
 @Schema()
-export class Passport extends Document {
+export class Passport extends MongoDocument {
     @Prop({ required: true, unique: true })
     number: string;
 
@@ -11,7 +11,7 @@ export class Passport extends Document {
     issueDate: Date;
 
     @Prop({ ref: 'Document', type: SchemaTypes.ObjectId })
-    document?: Document | string;
+    document?: Document;
 }
 
 export const PassportSchema = SchemaFactory.createForClass(Passport);

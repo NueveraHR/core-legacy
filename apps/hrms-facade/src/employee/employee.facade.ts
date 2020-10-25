@@ -186,19 +186,51 @@ export class EmployeeFacade {
     }
     // -------------------------------- Education -----------------------------------
 
-    async addEducation(userId: string, educationDto: EducationDto): Promise<UserDto> {
+    async addEducation(
+        userId: string,
+        educationDto: EducationDto,
+        fileData?: FileData,
+    ): Promise<UserDto> {
         //TODO: validate
         const education = await this.educationService.create(educationDto);
+
+        if (fileData) {
+            fileData.name = education.id;
+            const doc = await this.documentManagementService.save(fileData, userId);
+            this.educationService.update(education.id, { document: doc.id });
+        }
+
         return this.userService.attachEducation(userId, education.id) as UserDto;
     }
 
-    updateEducation(id: string, educationDto: EducationDto): Promise<EducationDto> {
+    async updateEducation(
+        id: string,
+        educationDto: EducationDto,
+        deleteDocument: boolean,
+        fileData?: FileData,
+    ): Promise<EducationDto> {
         //TODO: validate
-        return this.educationService.update(id, educationDto);
+        const education = await this.educationService.update(id, educationDto);
+        const documentId = education.document.toString();
+
+        if (deleteDocument) {
+            this.documentManagementService.delete(documentId);
+        } else if (fileData) {
+            fileData.name = education.id;
+            this.documentManagementService.update(documentId, fileData);
+        }
+
+        return education;
     }
 
-    deleteEducation(id: string): Promise<boolean> {
-        return this.educationService.delete(id);
+    async deleteEducation(id: string): Promise<boolean> {
+        const education = await this.educationService.findById(id);
+        if (education) {
+            this.documentManagementService.delete(education.document.toString());
+            return this.educationService.delete(id);
+        }
+
+        return false;
     }
 
     // -------------------------------- Certification --------------------------------

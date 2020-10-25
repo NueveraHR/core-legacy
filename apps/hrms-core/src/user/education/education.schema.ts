@@ -1,8 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { SchemaTypes, Document as MongoDocument } from 'mongoose';
+import { Document } from '@hrms-core/document/document.schema';
 
 @Schema()
-export class Education extends Document {
+export class Education extends MongoDocument {
     @Prop({ required: true })
     school: string;
 
@@ -20,6 +21,9 @@ export class Education extends Document {
 
     @Prop()
     description: string;
+
+    @Prop({ ref: 'Document', type: SchemaTypes.ObjectId })
+    document?: Document;
 }
 
 export const EducationSchema = SchemaFactory.createForClass(Education);
