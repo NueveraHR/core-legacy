@@ -10,12 +10,14 @@ import * as Path from 'path';
 import * as FormData from 'form-data';
 import { EnvService } from '@libs/env';
 import { FileData } from '@hrms-core/common/interfaces/file.interface';
+import { LoggerService } from '@libs/logger';
 
 const uploadDir = __dirname + '/../public';
 
 @Injectable()
 export class DocumentMangmentService {
     @Inject(ErrorService) errorService: ErrorService;
+    @Inject(LoggerService) loggerService: LoggerService;
 
     constructor(
         @InjectModel(Document.name)
@@ -35,6 +37,7 @@ export class DocumentMangmentService {
                 path: Path.relative(process.cwd(), filePath),
                 description: description,
                 type: fileData.mimetype,
+                userId,
             });
 
             resolve(
@@ -49,18 +52,17 @@ export class DocumentMangmentService {
         });
     }
 
-    async update(
-        documentId: string,
-        userId: string,
-        fileData: FileData,
-    ): Promise<Document> {
+    async update(documentId: string, fileData: FileData): Promise<Document> {
         const doc = await this.findById(documentId);
         if (!doc) {
             throw Error('Invalid Id');
         }
-
-        await this.deleteFromDisk(doc.fullPath); // delete old doc
-        const filePath = await this.saveOnDisk(fileData, userId); // save new doc
+        try {
+            await this.deleteFromDisk(doc.fullPath); // delete old doc
+        } catch (e) {
+            this.loggerService.warn(`Couldn't delete file from disk:  ${e.message}`);
+        }
+        const filePath = await this.saveOnDisk(fileData, doc.userId); // save new doc
 
         // update database
         doc.name = fileData.name;
@@ -167,12 +169,6 @@ export class DocumentMangmentService {
     }
 
     private deleteFromDisk(filePath: string): Promise<void> {
-        return Fs.promises.unlink(filePath).catch(err =>
-            Promise.reject(
-                this.errorService.generate(Errors.General.INTERNAL_ERROR, {
-                    detailedMessage: err,
-                }),
-            ),
-        );
+        return Fs.promises.unlink(filePath);
     }
 }

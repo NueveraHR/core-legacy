@@ -18,7 +18,7 @@ export class Certification extends mongoose.Document {
     expiresOn?: Date;
 
     @Prop({ ref: 'Document', type: SchemaTypes.ObjectId })
-    document?: Document | string;
+    document?: Document;
 }
 
 export const CertificationSchema = SchemaFactory.createForClass(Certification);

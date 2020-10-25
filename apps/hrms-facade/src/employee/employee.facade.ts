@@ -221,7 +221,6 @@ export class EmployeeFacade {
     }
 
     async updateCertification(
-        userId: string,
         certId: string,
         certificationDto: CertificationDto,
         deleteDocument: boolean,
@@ -229,17 +228,12 @@ export class EmployeeFacade {
     ): Promise<CertificationDto> {
         //TODO: validate
         const cert = await this.certificationService.update(certId, certificationDto);
-
+        const documentId = cert.document.toString();
         if (deleteDocument) {
-            this.documentManagementService.delete(cert.document as string);
+            this.documentManagementService.delete(documentId);
         } else if (fileData) {
-            // update cert document too
             fileData.name = cert.id;
-            this.documentManagementService.update(
-                cert.document as string,
-                userId,
-                fileData,
-            );
+            this.documentManagementService.update(documentId, fileData);
         }
 
         return cert;
@@ -247,8 +241,11 @@ export class EmployeeFacade {
 
     async deleteCertification(id: string): Promise<boolean> {
         const cert = await this.certificationService.findById(id);
-        this.documentManagementService.delete(cert.document as string);
-        return this.certificationService.delete(id);
+        if (cert) {
+            this.documentManagementService.delete(cert.document.toString());
+            return this.certificationService.delete(id);
+        }
+        return false;
     }
 
     // -------------------------------- Language ---------------------------------------
@@ -272,19 +269,47 @@ export class EmployeeFacade {
 
     // -------------------------------- Passport ---------------------------------------
 
-    async addPassport(userId: string, passportDto: PassportDto): Promise<UserDto> {
+    async addPassport(
+        userId: string,
+        passportDto: PassportDto,
+        fileData?: FileData,
+    ): Promise<UserDto> {
         //TODO: validate
         const passport = await this.passportService.create(passportDto);
+
+        if (fileData) {
+            fileData.name = passport.id;
+            const doc = await this.documentManagementService.save(fileData, userId);
+            this.passportService.update(passport.id, { document: doc.id });
+        }
+
         return this.userService.setPassport(userId, passport.id);
     }
 
-    updatePassport(id: string, passportDto: PassportDto): Promise<PassportDto> {
+    async updatePassport(
+        id: string,
+        passportDto: PassportDto,
+        deleteDocument: boolean,
+        fileData?: FileData,
+    ): Promise<PassportDto> {
         //TODO: validate
-        return this.passportService.update(id, passportDto);
+        const passport = await this.passportService.update(id, passportDto);
+        const documentId = passport.document.toString();
+
+        if (deleteDocument) {
+            this.documentManagementService.delete(documentId);
+        } else if (fileData) {
+            fileData.name = passport.id;
+            this.documentManagementService.update(documentId, fileData);
+        }
+
+        return passport;
     }
 
-    deletePassport(id: string): Promise<boolean> {
+    async deletePassport(id: string): Promise<boolean> {
         //TODO: validate
+        const passport = await this.passportService.findById(id);
+        this.documentManagementService.delete(passport.document.toString());
         return this.passportService.delete(id);
     }
 

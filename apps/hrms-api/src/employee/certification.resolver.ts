@@ -31,9 +31,9 @@ export class CertificationResolver {
     addCertification(
         @CurrentUser() currentUser: UserDto,
         @Args('employeeId', { type: () => ID }) employeeId: string,
-        @Args('cert') cert: AddCertificationInput,
+        @Args('cert') certificationDto: AddCertificationInput,
         @Args('document', { type: () => GraphQLUpload, nullable: true })
-        document: FileUpload,
+        document?: FileUpload,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
@@ -44,7 +44,7 @@ export class CertificationResolver {
             fileData = FileUtils.fromUpload(document);
         }
         return this.employeeFacade
-            .addCertification(employeeId, cert, fileData)
+            .addCertification(employeeId, certificationDto, fileData)
             .catch(GqlError);
     }
 
@@ -56,9 +56,9 @@ export class CertificationResolver {
         @Args('certId', { type: () => ID }) certId: string,
         @Args('cert') cert: UpdateCertificationInput,
         @Args('deleteDocument', { type: () => Boolean, nullable: true })
-        deleteDocument: boolean,
+        deleteDocument?: boolean,
         @Args('document', { type: () => GraphQLUpload, nullable: true })
-        document: FileUpload,
+        document?: FileUpload,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
@@ -69,7 +69,7 @@ export class CertificationResolver {
             fileData = FileUtils.fromUpload(document);
         }
         return this.employeeFacade
-            .updateCertification(employeeId, certId, cert, deleteDocument, fileData)
+            .updateCertification(certId, cert, deleteDocument, fileData)
             .catch(GqlError);
     }
 

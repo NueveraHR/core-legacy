@@ -10,6 +10,9 @@ import { PassportDto } from '@hrms-core/user/passport/passport.dto';
 
 @ObjectType()
 export class Passport implements Partial<PassportDto> {
+    @Field(() => ID)
+    id?: string;
+
     @Field()
     number?: string;
 
