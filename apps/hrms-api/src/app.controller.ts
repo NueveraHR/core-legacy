@@ -13,7 +13,7 @@ import { isOwner } from './employee/employee.resolver';
 @Controller()
 export class AppController {
     @Get('document/:userId/:imgId')
-    serveStaticDocument(
+    serveDocument(
         @Param('userId') userId,
         @Param('imgId') imgId,
         @Req() req,

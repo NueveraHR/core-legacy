@@ -63,7 +63,7 @@ export class CertificationDto {
     issuingOrganization?: string;
     date?: Date;
     expiresOn?: Date;
-    document?: DocumentDto;
+    document?: DocumentDto | string;
 }
 
 export class LanguageDto {

@@ -209,23 +209,45 @@ export class EmployeeFacade {
         fileData?: FileData,
     ): Promise<UserDto> {
         //TODO: validate
-        if (fileData) {
-            const doc = await this.documentManagementService.save(fileData, userId);
-            certificationDto.document = doc.id;
-        }
         const cert = await this.certificationService.create(certificationDto);
+
+        if (fileData) {
+            fileData.name = cert.id;
+            const doc = await this.documentManagementService.save(fileData, userId);
+            this.certificationService.update(cert.id, { document: doc.id });
+        }
+
         return (await this.userService.attachCertification(userId, cert.id)) as UserDto;
     }
 
-    updateCertification(
-        id: string,
+    async updateCertification(
+        userId: string,
+        certId: string,
         certificationDto: CertificationDto,
+        deleteDocument: boolean,
+        fileData?: FileData,
     ): Promise<CertificationDto> {
         //TODO: validate
-        return this.certificationService.update(id, certificationDto);
+        const cert = await this.certificationService.update(certId, certificationDto);
+
+        if (deleteDocument) {
+            this.documentManagementService.delete(cert.document as string);
+        } else if (fileData) {
+            // update cert document too
+            fileData.name = cert.id;
+            this.documentManagementService.update(
+                cert.document as string,
+                userId,
+                fileData,
+            );
+        }
+
+        return cert;
     }
 
-    deleteCertification(id: string): Promise<boolean> {
+    async deleteCertification(id: string): Promise<boolean> {
+        const cert = await this.certificationService.findById(id);
+        this.documentManagementService.delete(cert.document as string);
         return this.certificationService.delete(id);
     }
 

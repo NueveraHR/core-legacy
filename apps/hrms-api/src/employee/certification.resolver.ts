@@ -55,11 +55,22 @@ export class CertificationResolver {
         @Args('employeeId', { type: () => ID }) employeeId: string,
         @Args('certId', { type: () => ID }) certId: string,
         @Args('cert') cert: UpdateCertificationInput,
+        @Args('deleteDocument', { type: () => Boolean, nullable: true })
+        deleteDocument: boolean,
+        @Args('document', { type: () => GraphQLUpload, nullable: true })
+        document: FileUpload,
     ): Promise<any> {
         if (!isOwner(currentUser, employeeId)) {
             return Promise.reject(FORBIDDEN_ERROR);
         }
-        return this.employeeFacade.updateCertification(certId, cert).catch(GqlError);
+
+        let fileData: FileData;
+        if (document) {
+            fileData = FileUtils.fromUpload(document);
+        }
+        return this.employeeFacade
+            .updateCertification(employeeId, certId, cert, deleteDocument, fileData)
+            .catch(GqlError);
     }
 
     @Mutation(() => Boolean)

@@ -49,23 +49,26 @@ export class DocumentMangmentService {
         });
     }
 
-    private async saveOnDisk(fileData: FileData, userId: string): Promise<string> {
-        return new Promise(async (resolve, reject) => {
-            const fileUpload = await fileData;
-            const fileStream = fileData.content;
-            const userUploadDir = Path.join(uploadDir, userId);
-            const fileName = new Date().getTime() + '-' + fileUpload.name;
-            const filePath = Path.join(userUploadDir, fileName);
+    async update(
+        documentId: string,
+        userId: string,
+        fileData: FileData,
+    ): Promise<Document> {
+        const doc = await this.findById(documentId);
+        if (!doc) {
+            throw Error('Invalid Id');
+        }
 
-            if (!Fs.existsSync(userUploadDir)) {
-                Fs.mkdirSync(userUploadDir, { recursive: true });
-            }
+        await this.deleteFromDisk(doc.fullPath); // delete old doc
+        const filePath = await this.saveOnDisk(fileData, userId); // save new doc
 
-            fileStream
-                .pipe(Fs.createWriteStream(filePath))
-                .on('finish', () => resolve(filePath))
-                .on('error', () => reject());
-        });
+        // update database
+        doc.name = fileData.name;
+        doc.fullPath = filePath;
+        doc.path = Path.relative(process.cwd(), filePath);
+        doc.description = fileData.description;
+        doc.type = fileData.mimetype;
+        return doc.save();
     }
 
     async uploadToImgpush(file: FileData): Promise<string> {
@@ -129,21 +132,6 @@ export class DocumentMangmentService {
             );
     }
 
-    async update(documentDto: DocumentDto): Promise<Document> {
-        const newDocument = await this.findById(documentDto.id);
-        newDocument.name = documentDto.name ? documentDto.name : newDocument.name;
-        newDocument.description = documentDto.description
-            ? documentDto.description
-            : newDocument.description;
-        return newDocument.save().catch(err =>
-            Promise.reject(
-                this.errorService.generate(Errors.General.INTERNAL_ERROR, {
-                    detailedMessage: err,
-                }),
-            ),
-        );
-    }
-
     async delete(id: string): Promise<boolean> {
         let foundDocument: Document;
         await this.findById(id)
@@ -155,28 +143,36 @@ export class DocumentMangmentService {
                     }),
                 ),
             );
-
-        return this.deleteByPath(foundDocument.fullPath);
+        this.deleteFromDisk(foundDocument.fullPath);
+        return true;
     }
 
-    async deleteByPath(filePath: string): Promise<boolean> {
-        await Fs.promises.unlink(filePath).catch(err =>
+    private saveOnDisk(fileData: FileData, userId: string): Promise<string> {
+        return new Promise(async (resolve, reject) => {
+            const fileUpload = await fileData;
+            const fileStream = fileData.content;
+            const userUploadDir = Path.join(uploadDir, userId);
+            const fileName = `${fileUpload.name}.${fileUpload.extension}`;
+            const filePath = Path.join(userUploadDir, fileName);
+
+            if (!Fs.existsSync(userUploadDir)) {
+                Fs.mkdirSync(userUploadDir, { recursive: true });
+            }
+
+            fileStream
+                .pipe(Fs.createWriteStream(filePath))
+                .on('finish', () => resolve(filePath))
+                .on('error', () => reject());
+        });
+    }
+
+    private deleteFromDisk(filePath: string): Promise<void> {
+        return Fs.promises.unlink(filePath).catch(err =>
             Promise.reject(
                 this.errorService.generate(Errors.General.INTERNAL_ERROR, {
                     detailedMessage: err,
                 }),
             ),
         );
-        return this.docuemntModel
-            .deleteOne({ fullPath: filePath })
-            .exec()
-            .then(result => result.deletedCount == 1)
-            .catch(err =>
-                Promise.reject(
-                    this.errorService.generate(Errors.General.INTERNAL_ERROR, {
-                        detailedMessage: err,
-                    }),
-                ),
-            );
     }
 }

@@ -11,6 +11,10 @@ export class CertificationService {
         private readonly certificationModel: Model<Certification>,
     ) {}
 
+    findById(id: string): Promise<CertificationDto> {
+        return this.certificationModel.findById(id).exec();
+    }
+
     create(certificationDto: CertificationDto): Promise<Certification> {
         const certification = new this.certificationModel(certificationDto);
         return certification.save();

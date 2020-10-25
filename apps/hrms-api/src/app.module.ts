@@ -6,7 +6,6 @@ import { CommonApi } from './common/common-api.module';
 import { EmployeeResolver } from './employee/employee.resolver';
 import { RoleResolver } from './role/role.resolver';
 import { AuthResolver } from './auth/auth.resolver';
-import { UploadResolver } from './upload/upload.resolver';
 import { JwtDecryptMiddleware } from './common/middlewares/jwt-decrypt.middleware';
 import { EducationResolver } from './employee/education.resolver';
 import { CertificationResolver } from './employee/certification.resolver';
@@ -41,7 +40,6 @@ import { JwtDocumentMiddleware } from './common/middlewares/jwt-document.middlew
         CertificationResolver,
         LanguageResolver,
         PassportResolver,
-        UploadResolver,
     ],
     controllers: [AppController],
 })
