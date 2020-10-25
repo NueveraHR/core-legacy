@@ -7,6 +7,7 @@ import { CertificationDto, EducationDto, LanguageDto } from '@hrms-core/user/use
 import { SkillDto } from '@hrms-core/user/skill/skill.dto';
 import { SocialLinksDto } from '@hrms-core/user/social-links/social-links.dto';
 import { PassportDto } from '@hrms-core/user/passport/passport.dto';
+import { GetDocument } from '@hrms-api/upload/upload.type';
 
 @ObjectType()
 export class Passport implements Partial<PassportDto> {
@@ -18,6 +19,9 @@ export class Passport implements Partial<PassportDto> {
 
     @Field(() => Date)
     issueDate?: Date;
+
+    @Field(() => GetDocument, { nullable: true })
+    document?: GetDocument;
 }
 
 @ObjectType()
@@ -74,6 +78,9 @@ export class Education implements Partial<EducationDto> {
 
     @Field({ nullable: true })
     description?: string;
+
+    @Field(() => GetDocument, { nullable: true })
+    document?: GetDocument;
 }
 
 @ObjectType()
@@ -92,6 +99,9 @@ export class Certification implements Partial<CertificationDto> {
 
     @Field(() => Date, { nullable: true })
     expiresOn?: Date;
+
+    @Field(() => GetDocument, { nullable: true })
+    document?: GetDocument;
 }
 
 @ObjectType()
@@ -173,6 +183,9 @@ export class Job implements Partial<JobDto> {
 
     @Field({ nullable: true })
     bonusFrequency?: string;
+
+    @Field(() => GetDocument, { nullable: true })
+    document?: GetDocument;
 }
 
 @ObjectType()

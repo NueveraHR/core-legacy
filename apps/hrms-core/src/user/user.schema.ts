@@ -117,13 +117,13 @@ UserSchema.plugin(mongoosePaginate);
 const populateStandardData = function(next) {
     this.populate('role');
     this.populate('address');
-    this.populate('educationHistory');
-    this.populate('certifications');
+    this.populate({ path: 'educationHistory', populate: { path: 'document' } });
+    this.populate({ path: 'certifications', populate: { path: 'document' } });
     this.populate('languages');
     this.populate('skills');
     this.populate('socialLinks');
-    this.populate('passport');
-    this.populate('jobHistory');
+    this.populate({ path: 'passport', populate: { path: 'document' } });
+    this.populate({ path: 'jobHistory', populate: { path: 'document' } });
 
     next();
 };

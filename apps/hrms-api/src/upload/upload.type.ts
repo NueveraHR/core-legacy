@@ -1,7 +1,8 @@
+import { DocumentDto } from '@hrms-core/document/document.dto';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class GetDocument {
+export class GetDocument implements Partial<DocumentDto> {
     @Field(() => ID)
     public id?: string;
 

@@ -12,14 +12,14 @@ import { isOwner } from './employee/employee.resolver';
 
 @Controller()
 export class AppController {
-    @Get('document/:userId/:imgId')
+    @Get('public/:userId/:imgId')
     serveDocument(
         @Param('userId') userId,
         @Param('imgId') imgId,
         @Req() req,
         @Res() res,
     ) {
-        if (!isOwner(req.user, userId)) {
+        if (!req.user || !isOwner(req.user, userId)) {
             throw new HttpException('Forbidden', HttpStatus.UNAUTHORIZED);
         }
         return res.sendFile(`${userId}/${imgId}`, { root: 'public' });

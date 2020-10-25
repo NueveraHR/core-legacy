@@ -4,5 +4,5 @@ export class PassportDto {
     id?: string;
     number?: string;
     issueDate?: Date;
-    document?: DocumentDto | string;
+    document?: DocumentDto;
 }

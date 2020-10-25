@@ -46,6 +46,6 @@ import { JwtDocumentMiddleware } from './common/middlewares/jwt-document.middlew
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer.apply(JwtDecryptMiddleware).forRoutes('/');
-        consumer.apply(JwtDocumentMiddleware).forRoutes('/document');
+        consumer.apply(JwtDocumentMiddleware).forRoutes('/public');
     }
 }
