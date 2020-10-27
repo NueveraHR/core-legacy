@@ -9,7 +9,7 @@ import * as Fs from 'fs';
 import * as Path from 'path';
 import * as FormData from 'form-data';
 import { EnvService } from '@libs/env';
-import { FileData } from '@hrms-core/common/interfaces/file.interface';
+import { FileData } from '@hrms-core/common/interfaces/file';
 import { LoggerService } from '@libs/logger';
 
 const uploadDir = __dirname + '/../public';

@@ -25,7 +25,7 @@ import { Role } from '@hrms-core/role/role.schema';
 import { UploadProfileImage } from '@hrms-api/upload/upload.type';
 import { GraphQLUpload } from 'apollo-server';
 import { FileUpload } from 'graphql-upload';
-import { FileData } from '@hrms-core/common/interfaces/file.interface';
+import { FileData } from '@hrms-core/common/interfaces/file';
 
 @Resolver()
 @Privileges('employees.access')

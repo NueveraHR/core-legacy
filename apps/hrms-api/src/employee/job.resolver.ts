@@ -6,7 +6,7 @@ import { RateLimitGuard } from '@hrms-api/common/guards/rate-limit.guard';
 import { PrivilegesGuard } from '@hrms-api/common/guards/role.guard';
 import { FORBIDDEN_ERROR, GqlError } from '@hrms-api/common/utils/error.utils';
 import { FileUtils } from '@hrms-api/common/utils/file.utils';
-import { FileData } from '@hrms-core/common/interfaces/file.interface';
+import { FileData } from '@hrms-core/common/interfaces/file';
 import { UserDto } from '@hrms-core/user/user.dto';
 import { EmployeeFacade } from '@hrms-facades/employee/employee.facade';
 import { UseGuards } from '@nestjs/common';

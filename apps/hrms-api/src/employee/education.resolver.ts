@@ -17,7 +17,7 @@ import { isOwner } from './employee.resolver';
 import { Education, Employee } from './graphql/employee.type';
 import { GraphQLUpload } from 'apollo-server';
 import { FileUpload } from 'graphql-upload';
-import { FileData } from '@hrms-core/common/interfaces/file.interface';
+import { FileData } from '@hrms-core/common/interfaces/file';
 import { FileUtils } from '@hrms-api/common/utils/file.utils';
 
 @Resolver()

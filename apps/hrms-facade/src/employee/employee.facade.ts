@@ -35,7 +35,7 @@ import { JobDto } from '@hrms-core/job/job.dto';
 import { RegisterFacade } from '@hrms-facades/auth/register.facade';
 import * as bcrypt from 'bcrypt';
 import { DocumentMangmentService } from '@hrms-core/document/document-mangment.service';
-import { FileData } from '@hrms-core/common/interfaces/file.interface';
+import { FileData } from '@hrms-core/common/interfaces/file';
 import { Passport } from '@hrms-core/user/passport/passport.schema';
 
 @Injectable()

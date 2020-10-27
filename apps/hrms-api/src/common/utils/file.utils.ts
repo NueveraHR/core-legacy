@@ -1,4 +1,4 @@
-import { FileData } from '@hrms-core/common/interfaces/file.interface';
+import { FileData } from '@hrms-core/common/interfaces/file';
 import { FileUpload } from 'graphql-upload';
 import * as mime from 'mime-types';
 
