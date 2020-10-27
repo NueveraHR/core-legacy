@@ -135,11 +135,11 @@ export class EmployeeFacade {
     }
 
     async updatePassword(
-        userId: string,
+        employeeId: string,
         currentPassword: string,
         newPassword: string,
     ): Promise<boolean> {
-        const user = await this.userService.findById(userId);
+        const user = await this.userService.findById(employeeId);
         if (!user) {
             return Promise.reject(
                 this.errorService.generate(Errors.User.UPDATE_UNKNOWN_ID),
@@ -162,9 +162,9 @@ export class EmployeeFacade {
         }
     }
 
-    async updateProfilePicture(userId: string, fileData: FileData) {
+    async updateProfilePicture(employeeId: string, fileData: FileData) {
         const imgPath = await this.documentManagementService.uploadToImgpush(fileData);
-        await this.userService.updatePicture(userId, imgPath);
+        await this.userService.updatePicture(employeeId, imgPath);
 
         return {
             imagePath: imgPath,
@@ -173,7 +173,7 @@ export class EmployeeFacade {
     // -------------------------------- Education -----------------------------------
 
     async addEducation(
-        userId: string,
+        employeeId: string,
         educationDto: EducationDto,
         fileData?: FileData,
     ): Promise<UserDto> {
@@ -182,31 +182,46 @@ export class EmployeeFacade {
 
         if (fileData) {
             fileData.name = education.id;
-            const doc = await this.documentManagementService.save(fileData, userId);
+            const doc = await this.documentManagementService.save(fileData, employeeId);
             this.educationService.update(education.id, { document: doc.id });
         }
 
-        return this.userService.attachEducation(userId, education.id) as UserDto;
+        return this.userService.attachEducation(employeeId, education.id) as UserDto;
     }
 
     async updateEducation(
-        id: string,
+        employeeId: string,
+        educationId: string,
         educationDto: EducationDto,
         deleteDocument: boolean,
         fileData?: FileData,
     ): Promise<EducationDto> {
         //TODO: validate
-        const education = await this.educationService.update(id, educationDto);
-        const documentId = education.document.toString();
-
-        if (deleteDocument) {
-            this.documentManagementService.delete(documentId);
-        } else if (fileData) {
-            fileData.name = education.id;
-            this.documentManagementService.update(documentId, fileData);
+        const education = await this.educationService.findById(educationId);
+        if (!education) {
+            throw Error('Invalid education id');
         }
 
-        return education;
+        const documentId = education.document?.toString();
+        if (deleteDocument && documentId) {
+            // delete document
+            await this.documentManagementService.delete(documentId);
+            educationDto.document = null;
+        } else if (fileData) {
+            fileData.name = educationId;
+            if (documentId) {
+                this.documentManagementService.update(documentId, fileData); // Update existing document
+            } else {
+                // Add a new document
+                const doc = await this.documentManagementService.save(
+                    fileData,
+                    employeeId,
+                );
+                educationDto.document = doc.id;
+            }
+        }
+
+        return this.educationService.update(educationId, educationDto);
     }
 
     async deleteEducation(id: string): Promise<boolean> {
@@ -225,7 +240,7 @@ export class EmployeeFacade {
     // -------------------------------- Certification --------------------------------
 
     async addCertification(
-        userId: string,
+        employeeId: string,
         certificationDto: CertificationDto,
         fileData?: FileData,
     ): Promise<UserDto> {
@@ -234,30 +249,49 @@ export class EmployeeFacade {
 
         if (fileData) {
             fileData.name = cert.id;
-            const doc = await this.documentManagementService.save(fileData, userId);
+            const doc = await this.documentManagementService.save(fileData, employeeId);
             this.certificationService.update(cert.id, { document: doc.id });
         }
 
-        return (await this.userService.attachCertification(userId, cert.id)) as UserDto;
+        return (await this.userService.attachCertification(
+            employeeId,
+            cert.id,
+        )) as UserDto;
     }
 
     async updateCertification(
+        employeeId: string,
         certId: string,
         certificationDto: CertificationDto,
         deleteDocument: boolean,
         fileData?: FileData,
     ): Promise<CertificationDto> {
         //TODO: validate
-        const cert = await this.certificationService.update(certId, certificationDto);
-        const documentId = cert.document.toString();
-        if (deleteDocument) {
-            this.documentManagementService.delete(documentId);
-        } else if (fileData) {
-            fileData.name = cert.id;
-            this.documentManagementService.update(documentId, fileData);
+        const cert = await this.certificationService.findById(certId);
+        if (!cert) {
+            throw Error('Invalid cert id');
         }
 
-        return cert;
+        const documentId = cert.document?.toString();
+        if (deleteDocument && documentId) {
+            // delete document
+            await this.documentManagementService.delete(documentId);
+            certificationDto.document = null;
+        } else if (fileData) {
+            fileData.name = cert.id;
+            if (documentId) {
+                this.documentManagementService.update(documentId, fileData); // Update existing document
+            } else {
+                // Add a new document
+                const doc = await this.documentManagementService.save(
+                    fileData,
+                    employeeId,
+                );
+                certificationDto.document = doc.id;
+            }
+        }
+
+        return this.certificationService.update(certId, certificationDto);
     }
 
     async deleteCertification(id: string): Promise<boolean> {
@@ -274,10 +308,10 @@ export class EmployeeFacade {
 
     // -------------------------------- Language ---------------------------------------
 
-    async addLanguage(userId: string, languageDto: LanguageDto): Promise<UserDto> {
+    async addLanguage(employeeId: string, languageDto: LanguageDto): Promise<UserDto> {
         //TODO: validate
         const lang = await this.languageService.create(languageDto);
-        return this.userService.attachLanguage(userId, lang.id) as UserDto;
+        return this.userService.attachLanguage(employeeId, lang.id) as UserDto;
     }
 
     updateLanguage(id: string, languageDto: LanguageDto): Promise<LanguageDto> {
@@ -294,7 +328,7 @@ export class EmployeeFacade {
     // -------------------------------- Passport ---------------------------------------
 
     async addPassport(
-        userId: string,
+        employeeId: string,
         passportDto: PassportDto,
         fileData?: FileData,
     ): Promise<UserDto> {
@@ -303,36 +337,51 @@ export class EmployeeFacade {
 
         if (fileData) {
             fileData.name = passport.id;
-            const doc = await this.documentManagementService.save(fileData, userId);
+            const doc = await this.documentManagementService.save(fileData, employeeId);
             this.passportService.update(passport.id, { document: doc.id });
         }
 
-        return this.userService.setPassport(userId, passport.id);
+        return this.userService.setPassport(employeeId, passport.id);
     }
 
     async updatePassport(
-        id: string,
+        employeeId: string,
+        passportId: string,
         passportDto: PassportDto,
         deleteDocument: boolean,
         fileData?: FileData,
     ): Promise<PassportDto> {
         //TODO: validate
-        const passport = await this.passportService.update(id, passportDto);
-        const documentId = passport.document.toString();
-
-        if (deleteDocument) {
-            this.documentManagementService.delete(documentId);
-        } else if (fileData) {
-            fileData.name = passport.id;
-            this.documentManagementService.update(documentId, fileData);
+        const passport = await this.passportService.findById(passportId);
+        if (!passport) {
+            throw Error('Invalid passport id');
         }
 
-        return passport;
+        const documentId = passport.document?.toString();
+        if (deleteDocument && documentId) {
+            // delete document
+            await this.documentManagementService.delete(documentId);
+            passportDto.document = null;
+        } else if (fileData) {
+            fileData.name = passportId;
+            if (documentId) {
+                this.documentManagementService.update(documentId, fileData); // Update existing document
+            } else {
+                // Add a new document
+                const doc = await this.documentManagementService.save(
+                    fileData,
+                    employeeId,
+                );
+                passportDto.document = doc.id;
+            }
+        }
+
+        return this.passportService.update(passportId, passportDto);
     }
 
-    async deletePassport(userId: string): Promise<boolean> {
+    async deletePassport(employeeId: string): Promise<boolean> {
         //TODO: validate
-        const user = await this.userService.findById(userId);
+        const user = await this.userService.findById(employeeId);
         if (user) {
             const passport = user.passport as Passport;
             if (passport) {
@@ -349,12 +398,12 @@ export class EmployeeFacade {
 
     // -------------------------------- Skills -----------------------------------------
 
-    async setSkills(userId: string, newSkills: SkillDto[]): Promise<UserDto> {
+    async setSkills(employeeId: string, newSkills: SkillDto[]): Promise<UserDto> {
         //TODO: validate
         const ids = [];
         const promises = [];
 
-        const currentSkills = await this.userService.getSkills(userId);
+        const currentSkills = await this.userService.getSkills(employeeId);
         currentSkills.forEach(skill => {
             this.skillService.delete(skill.id);
         });
@@ -366,7 +415,7 @@ export class EmployeeFacade {
         });
 
         await Promise.all(promises);
-        return this.userService.setSkills(userId, ids);
+        return this.userService.setSkills(employeeId, ids);
     }
 
     // -------------------------------- Job --------------------------------------------
@@ -390,23 +439,38 @@ export class EmployeeFacade {
     }
 
     async updateJob(
+        employeeId: string,
         jobId: string,
         jobDto: JobDto,
         deleteDocument: boolean,
         fileData?: FileData,
     ): Promise<JobDto> {
-        // TODO: validate
-        const job = await this.jobService.update(jobId, jobDto);
-        const documentId = job.document.toString();
-
-        if (deleteDocument) {
-            this.documentManagementService.delete(documentId);
-        } else if (fileData) {
-            fileData.name = job.id;
-            this.documentManagementService.update(documentId, fileData);
+        //TODO: validate
+        const job = await this.jobService.findById(jobId);
+        if (!job) {
+            throw Error('Invalid job id');
         }
 
-        return job;
+        const documentId = job.document?.toString();
+        if (deleteDocument && documentId) {
+            // delete document
+            await this.documentManagementService.delete(documentId);
+            jobDto.document = null;
+        } else if (fileData) {
+            fileData.name = jobId;
+            if (documentId) {
+                this.documentManagementService.update(documentId, fileData); // Update existing document
+            } else {
+                // Add a new document
+                const doc = await this.documentManagementService.save(
+                    fileData,
+                    employeeId,
+                );
+                jobDto.document = doc.id;
+            }
+        }
+
+        return this.jobService.update(jobId, jobDto);
     }
 
     async deleteJob(jobId: string): Promise<boolean> {

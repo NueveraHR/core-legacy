@@ -72,7 +72,7 @@ export class EducationResolver {
         }
 
         return this.employeeFacade
-            .updateEducation(educationId, education, deleteDocument, fileData)
+            .updateEducation(employeeId, educationId, education, deleteDocument, fileData)
             .catch(GqlError);
     }
 

@@ -69,7 +69,7 @@ export class CertificationResolver {
             fileData = FileUtils.fromUpload(document);
         }
         return this.employeeFacade
-            .updateCertification(certId, cert, deleteDocument, fileData)
+            .updateCertification(employeeId, certId, cert, deleteDocument, fileData)
             .catch(GqlError);
     }
 

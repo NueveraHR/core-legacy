@@ -63,7 +63,7 @@ export class JobResolver {
         }
 
         return this.employeeFacade
-            .updateJob(jobId, job, deleteDocument, fileData)
+            .updateJob(employeeId, jobId, job, deleteDocument, fileData)
             .catch(GqlError);
     }
 

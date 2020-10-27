@@ -66,7 +66,7 @@ export class PassportResolver {
             fileData = FileUtils.fromUpload(document);
         }
         return this.employeeFacade
-            .updatePassport(passportId, passportDto, deleteDocument, fileData)
+            .updatePassport(employeeId, passportId, passportDto, deleteDocument, fileData)
             .catch(GqlError);
     }
 
