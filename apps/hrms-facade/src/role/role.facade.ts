@@ -14,7 +14,8 @@ import { RoleDtoPipe } from '@hrms-core/role/pipes/role-dto.pipe';
 import { PrivilegesDtoPipe } from '@hrms-core/role/pipes/privilege-dto.pipe';
 import { ValidatorUtils } from '@hrms-core/common/utils/validator.utils';
 import { Errors } from '@hrms-core/common/error/error.const';
-import { PaginationOptions, FilterOptions } from '@hrms-core/common/interfaces/pagination';
+import { PaginationOptions } from '@hrms-core/common/interfaces/pagination';
+import { FilterOptions } from '@hrms-core/common/interfaces/filter';
 
 @Injectable()
 export class RoleFacade {
@@ -34,9 +35,16 @@ export class RoleFacade {
      * Returns all registered roles in the database
      * Can be used in roles list view.
      */
-    allRoles(paginationOptions: PaginationOptions, filterOptions?: FilterOptions): Promise<RolePaginateDto> {
+    allRoles(
+        paginationOptions: PaginationOptions,
+        filterOptions?: FilterOptions,
+    ): Promise<RolePaginateDto> {
         return this.roleService
-            .findAllPaginated(paginationOptions.page, paginationOptions.limit, filterOptions)
+            .findAllPaginated(
+                paginationOptions.page,
+                paginationOptions.limit,
+                filterOptions,
+            )
             .then(roles => {
                 const rolePaginateDto: RolePaginateDto = {
                     total: roles.total as number,
@@ -58,7 +66,10 @@ export class RoleFacade {
     roleDetails(roleId: string, options?: unknown): Promise<RoleDto> {
         return this.roleService.findById(roleId).then(role => {
             if (role) return this.roleDtoPipe.transform(role, options);
-            else return Promise.reject(this.errorService.generate(Errors.Role.DETAILS_INVALID_REQUEST));
+            else
+                return Promise.reject(
+                    this.errorService.generate(Errors.Role.DETAILS_INVALID_REQUEST),
+                );
         });
     }
 
@@ -86,12 +97,18 @@ export class RoleFacade {
             .catch(err => (exists = err));
 
         if (this.errorService.isError(exists)) return Promise.reject(exists);
-        else if (exists) return Promise.reject(this.errorService.generate(Errors.Role.CREATE_DUPLICATED));
+        else if (exists)
+            return Promise.reject(
+                this.errorService.generate(Errors.Role.CREATE_DUPLICATED),
+            );
 
         // otherwise, try to save new role
         return this.roleService.create(roleDto).then(role => {
             if (role) return this.roleDtoPipe.transform(role);
-            else return Promise.reject(this.errorService.generate(Errors.Role.CREATE_INVALID_REQUEST));
+            else
+                return Promise.reject(
+                    this.errorService.generate(Errors.Role.CREATE_INVALID_REQUEST),
+                );
         });
     }
 
@@ -105,17 +122,26 @@ export class RoleFacade {
         // retrieve current registered role record.
         const existingRole = await this.roleService.findById(roleDto.id);
         if (!existingRole) {
-            return Promise.reject(this.errorService.generate(Errors.Role.UPDATE_INVALID_REQUEST));
+            return Promise.reject(
+                this.errorService.generate(Errors.Role.UPDATE_INVALID_REQUEST),
+            );
         }
 
         // overwrite saved role properties
-        const savedRole = this.roleDtoReversePipe.transformExistent(roleDto, existingRole);
-        return this.roleService.update(savedRole).then(role => this.roleDtoPipe.transform(role));
+        const savedRole = this.roleDtoReversePipe.transformExistent(
+            roleDto,
+            existingRole,
+        );
+        return this.roleService
+            .update(savedRole)
+            .then(role => this.roleDtoPipe.transform(role));
     }
 
     async deleteRole(roleId: string): Promise<boolean> {
         if (!ValidatorUtils.isValidId(roleId)) {
-            return Promise.reject(this.errorService.generate(Errors.Role.DELETE_INVALID_ID));
+            return Promise.reject(
+                this.errorService.generate(Errors.Role.DELETE_INVALID_ID),
+            );
         }
 
         // retrieve current registered role record.
@@ -127,7 +153,8 @@ export class RoleFacade {
 
         // Check for retrieval error
         if (this.errorService.isError(result)) return Promise.reject(result);
-        else if (!result) return Promise.reject(this.errorService.generate(Errors.Role.UNKNOWN_ROLE));
+        else if (!result)
+            return Promise.reject(this.errorService.generate(Errors.Role.UNKNOWN_ROLE));
 
         return this.roleService.delete((result as Role).id);
     }
@@ -144,7 +171,9 @@ export class RoleFacade {
                         if (deleted) {
                             result.accepted.push(roleId);
                         } else {
-                            Promise.reject(this.errorService.generate(Errors.Role.UNKNOWN_ROLE));
+                            Promise.reject(
+                                this.errorService.generate(Errors.Role.UNKNOWN_ROLE),
+                            );
                         }
                     })
                     .catch(err => {

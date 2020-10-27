@@ -17,10 +17,8 @@ import { UserDtoReversePipe } from '@hrms-core/user/pipes/user-dto-reverse.pipe'
 import { Errors } from '@hrms-core/common/error/error.const';
 import { AddressService } from '@hrms-core/address/address.service';
 import { AddressDto } from '@hrms-core/address/address.dto';
-import {
-    PaginationOptions,
-    FilterOptions,
-} from '@hrms-core/common/interfaces/pagination';
+import { PaginationOptions } from '@hrms-core/common/interfaces/pagination';
+import { FilterOptions } from '@hrms-core/common/interfaces/filter';
 import { Address } from '@hrms-core/address/address.schema';
 import { EducationService } from '@hrms-core/user/education/education.service';
 import { CertificationService } from '@hrms-core/user/certification/certification.service';

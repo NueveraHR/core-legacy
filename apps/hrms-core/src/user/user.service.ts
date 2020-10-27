@@ -7,7 +7,8 @@ import * as bcrypt from 'bcrypt';
 import { Role } from '../role/role.schema';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
-import { SortType, FilterOptions } from '@hrms-core/common/interfaces/pagination';
+import { SortType } from '@hrms-core/common/interfaces/pagination';
+import { FilterOptions } from '@hrms-core/common/interfaces/filter';
 import { Skill } from './skill/skill.schema';
 import passport from 'passport';
 

@@ -1,4 +1,4 @@
-import { FilterOptions } from '@hrms-core/common/interfaces/pagination';
+import { FilterOptions } from '@hrms-core/common/interfaces/filter';
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()

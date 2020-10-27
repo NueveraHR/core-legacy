@@ -1,12 +1,3 @@
-export interface FilterOptions {
-    sortBy?: string;
-    sortType?: SortType;
-
-    filters?: {
-        [filterBy: string]: string;
-    };
-}
-
 export enum SortType {
     ASC = 1,
     DESC = -1,

@@ -6,13 +6,16 @@ import { RoleDto } from '@hrms-core/role/role.dto';
 import { Role, ROLE_SORTING_FIELDS } from './role.schema';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
-import { FilterOptions, SortType } from '@hrms-core/common/interfaces/pagination';
+import { SortType } from '@hrms-core/common/interfaces/pagination';
+import { FilterOptions } from '@hrms-core/common/interfaces/filter';
 
 @Injectable()
 export class RoleService {
     @Inject(ErrorService) errorService: ErrorService;
 
-    constructor(@InjectModel(Role.name) private readonly roleModel: PaginateModel<Role>) {}
+    constructor(
+        @InjectModel(Role.name) private readonly roleModel: PaginateModel<Role>,
+    ) {}
 
     create(roleDto: RoleDto): Promise<Role> {
         const role = new this.roleModel(roleDto);
@@ -66,7 +69,11 @@ export class RoleService {
             );
     }
 
-    findAllPaginated(page = 1, limit = 10, filterOptions?: FilterOptions): Promise<PaginateResult<Role>> {
+    findAllPaginated(
+        page = 1,
+        limit = 10,
+        filterOptions?: FilterOptions,
+    ): Promise<PaginateResult<Role>> {
         const options = this.buildPaginateOptions(page, limit, filterOptions);
         const query = this.buildQuery(filterOptions);
 
@@ -108,7 +115,9 @@ export class RoleService {
     assertExists(id: string): Promise<boolean> {
         return this.roleModel.findById(id).then(result => {
             if (!result) {
-                return Promise.reject(this.errorService.generate(Errors.Role.UNKNOWN_ROLE));
+                return Promise.reject(
+                    this.errorService.generate(Errors.Role.UNKNOWN_ROLE),
+                );
             }
             return true;
         });
@@ -132,7 +141,11 @@ export class RoleService {
         return query;
     }
 
-    private buildPaginateOptions(page: number, limit: number, filterOptions: FilterOptions): PaginateOptions {
+    private buildPaginateOptions(
+        page: number,
+        limit: number,
+        filterOptions: FilterOptions,
+    ): PaginateOptions {
         const options: PaginateOptions = {
             page: page,
             limit: limit,
@@ -142,7 +155,10 @@ export class RoleService {
             },
         };
 
-        options.sort = this.getSortOptions(filterOptions?.sortBy, filterOptions?.sortType);
+        options.sort = this.getSortOptions(
+            filterOptions?.sortBy,
+            filterOptions?.sortType,
+        );
         return options;
     }
 
