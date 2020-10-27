@@ -1,40 +1,17 @@
 import { Module } from '@nestjs/common';
 import { HRMSCoreModule } from '@hrms-core/hrms-core.module';
 import { RoleFacade } from './role/role.facade';
-import { EmployeeFacade } from './employee/employee.facade';
-import { AuthFacade } from './auth/auth.facade';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { EnvService } from '@libs/env';
-import { RegisterFacade } from './auth/register.facade';
-import { MailerService } from '@libs/mailer/mailer.service';
-import { RestoreAccountFacade } from './auth/restore-account.facade';
-
-const envService = new EnvService();
+import { EmployeeFacadeModule } from './employee/employee-facade.module';
+import { AuthFacadeModule } from './auth/auth.module';
 
 @Module({
     imports: [
-        HRMSCoreModule,
-        PassportModule,
-        JwtModule.register({
-            secret: envService.read().JWT_SECRETKEY,
-            signOptions: { expiresIn: envService.read().JWT_EXPIRESIN },
-        }),
+        HRMSCoreModule, //TODO: Remove after importing in roleFacade
+
+        AuthFacadeModule,
+        EmployeeFacadeModule,
     ],
-    providers: [
-        AuthFacade,
-        RegisterFacade,
-        RestoreAccountFacade,
-        RoleFacade,
-        EmployeeFacade,
-        MailerService,
-    ],
-    exports: [
-        AuthFacade,
-        RegisterFacade,
-        RestoreAccountFacade,
-        RoleFacade,
-        EmployeeFacade,
-    ],
+    providers: [RoleFacade],
+    exports: [RoleFacade, AuthFacadeModule, EmployeeFacadeModule],
 })
 export class HrmsFacadesModule {}

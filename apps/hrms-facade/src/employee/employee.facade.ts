@@ -35,6 +35,7 @@ import * as bcrypt from 'bcrypt';
 import { DocumentMangmentService } from '@hrms-core/document/document-mangment.service';
 import { FileData } from '@hrms-core/common/interfaces/file';
 import { Passport } from '@hrms-core/user/passport/passport.schema';
+import { EmployeesFilterManagerService } from './filters/filter-manager.service';
 
 @Injectable()
 export class EmployeeFacade {
@@ -56,6 +57,8 @@ export class EmployeeFacade {
         private jobService: JobService,
         private documentManagementService: DocumentMangmentService,
         private registerFacade: RegisterFacade,
+
+        private employeesFilterManager: EmployeesFilterManagerService,
     ) {}
 
     // -------------------------------- CRUD ----------------------------------------
@@ -64,24 +67,8 @@ export class EmployeeFacade {
         paginationOptions: PaginationOptions,
         filterOptions?: FilterOptions,
     ): Promise<UserPaginateDto> {
-        return this.userService
-            .findAllPaginated(
-                paginationOptions.page,
-                paginationOptions.limit,
-                filterOptions,
-            )
-            .then(result => {
-                const userPaginateDto: UserPaginateDto = {
-                    total: result.total as number,
-                    pages: result.pages as number,
-                    page: result.page,
-                    limit: result.limit,
-                    nextPage: result.nextPage,
-                    prevPage: result.prevPage,
-                    docs: result.docs,
-                };
-                return userPaginateDto;
-            });
+        const strategy = this.employeesFilterManager.getStrategy(filterOptions);
+        return strategy.filter({ paginationOptions, filterOptions });
     }
 
     async create(userDto: UserDto): Promise<UserDto> {
