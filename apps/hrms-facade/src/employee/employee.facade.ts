@@ -210,7 +210,7 @@ export class EmployeeFacade {
         } else if (fileData) {
             fileData.name = educationId;
             if (documentId) {
-                this.documentManagementService.update(documentId, fileData); // Update existing document
+                await this.documentManagementService.update(documentId, fileData); // Update existing document
             } else {
                 // Add a new document
                 const doc = await this.documentManagementService.save(
@@ -280,7 +280,7 @@ export class EmployeeFacade {
         } else if (fileData) {
             fileData.name = cert.id;
             if (documentId) {
-                this.documentManagementService.update(documentId, fileData); // Update existing document
+                await this.documentManagementService.update(documentId, fileData); // Update existing document
             } else {
                 // Add a new document
                 const doc = await this.documentManagementService.save(
@@ -365,7 +365,7 @@ export class EmployeeFacade {
         } else if (fileData) {
             fileData.name = passportId;
             if (documentId) {
-                this.documentManagementService.update(documentId, fileData); // Update existing document
+                await this.documentManagementService.update(documentId, fileData); // Update existing document
             } else {
                 // Add a new document
                 const doc = await this.documentManagementService.save(
@@ -459,7 +459,7 @@ export class EmployeeFacade {
         } else if (fileData) {
             fileData.name = jobId;
             if (documentId) {
-                this.documentManagementService.update(documentId, fileData); // Update existing document
+                await this.documentManagementService.update(documentId, fileData); // Update existing document
             } else {
                 // Add a new document
                 const doc = await this.documentManagementService.save(
