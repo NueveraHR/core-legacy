@@ -31,6 +31,7 @@ export class PassportService {
     update(id: string, passport: PassportDto): Promise<Passport> {
         return this.passportModel
             .findByIdAndUpdate(id, passport as Passport, { new: true })
+            .populate('document')
             .exec()
             .catch(err => {
                 if (err.code == 11000) {

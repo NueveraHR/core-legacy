@@ -22,6 +22,7 @@ export class EducationService {
     update(id: string, educationDto: EducationDto): Promise<Education> {
         return this.educationModel
             .findByIdAndUpdate(id, educationDto as Education, { new: true })
+            .populate('document')
             .exec();
     }
 

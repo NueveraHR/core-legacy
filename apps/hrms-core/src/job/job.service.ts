@@ -25,7 +25,10 @@ export class JobService {
     }
 
     update(id: string, job: JobDto): Promise<Job> {
-        return this.jobModel.findByIdAndUpdate(id, job as Job, { new: true }).exec();
+        return this.jobModel
+            .findByIdAndUpdate(id, job as Job, { new: true })
+            .populate('document')
+            .exec();
     }
 
     delete(id: string): Promise<boolean> {

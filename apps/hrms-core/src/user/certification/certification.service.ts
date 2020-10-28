@@ -23,6 +23,7 @@ export class CertificationService {
     update(id: string, cert: CertificationDto): Promise<Certification> {
         return this.certificationModel
             .findByIdAndUpdate(id, cert as Certification, { new: true })
+            .populate('document')
             .exec();
     }
 
