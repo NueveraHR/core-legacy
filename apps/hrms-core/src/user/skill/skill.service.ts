@@ -23,4 +23,11 @@ export class SkillService {
             .exec()
             .then(result => result.deletedCount == 1);
     }
+
+    find(skillDto: SkillDto | any): Promise<SkillDto[]> {
+        return this.skillModel
+            .find(skillDto as Skill)
+            .lean()
+            .exec();
+    }
 }

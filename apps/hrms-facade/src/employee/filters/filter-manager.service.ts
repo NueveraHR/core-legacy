@@ -1,20 +1,23 @@
 import { FilterOptions, FilterStrategy } from '@hrms-core/common/interfaces/filter';
 import { Injectable } from '@nestjs/common';
-import { EmployeeAdvancedFilterStrategy } from './advanced-filter.strategy';
-import { EmployeeDefaultFilterStrategy } from './default-filter.strategy';
+import {
+    AdvancedEmployeeFilterStrategy,
+    ADVANCED_STRATEGY_KEYS,
+} from './advanced-filter.strategy';
+import { DefaultEmployeeFilterStrategy } from './default-filter.strategy';
 
 @Injectable()
 export class EmployeesFilterManagerService {
     constructor(
-        private defaultStrategy: EmployeeDefaultFilterStrategy,
-        private advancedStrategy: EmployeeAdvancedFilterStrategy,
+        private defaultStrategy: DefaultEmployeeFilterStrategy,
+        private advancedStrategy: AdvancedEmployeeFilterStrategy,
     ) {}
 
     getStrategy(filterOptions: FilterOptions): FilterStrategy {
         if (
             Object.keys(filterOptions?.filters)
                 .map(x => x.toUpperCase())
-                .findIndex(x => advancedStrategyKeys.includes(x)) !== -1
+                .findIndex(x => ADVANCED_STRATEGY_KEYS.includes(x)) !== -1
         ) {
             return this.advancedStrategy;
         }
@@ -22,5 +25,3 @@ export class EmployeesFilterManagerService {
         return this.defaultStrategy;
     }
 }
-
-const advancedStrategyKeys = ['SKILLS', 'LANGUAGE', 'EDUCATION', 'CERTIFICATION', 'JOB'];

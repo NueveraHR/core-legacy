@@ -1,16 +1,13 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, USER_SORTING_FIELDS } from './user.schema';
-import { PaginateModel, PaginateResult, PaginateOptions } from 'mongoose';
+import { User } from './user.schema';
+import { PaginateModel, PaginateResult, PaginateOptions, FilterQuery } from 'mongoose';
 import { UserDto } from '@hrms-core/user/user.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from '../role/role.schema';
 import { ErrorService } from '@hrms-core/common/error/error.service';
 import { Errors } from '@hrms-core/common/error/error.const';
-import { SortType } from '@hrms-core/common/interfaces/pagination';
-import { FilterOptions } from '@hrms-core/common/interfaces/filter';
 import { Skill } from './skill/skill.schema';
-import passport from 'passport';
 
 const SALT_ROUNDS = 10;
 
@@ -92,14 +89,10 @@ export class UserService {
         );
     }
 
-    async findAllPaginated(
-        page = 1,
-        limit = 10,
-        filterOptions?: FilterOptions,
+    async findByQuery(
+        query: FilterQuery<User>,
+        options?: PaginateOptions,
     ): Promise<PaginateResult<User>> {
-        const options = this.buildPaginateOptions(page, limit, filterOptions);
-        const query = this.buildQuery(filterOptions);
-
         return this.userModel.paginate(query, options).catch(err =>
             Promise.reject(
                 this.errorService.generate(Errors.General.INTERNAL_ERROR, {
@@ -305,57 +298,5 @@ export class UserService {
             user.password = hashedPassword;
             return user;
         });
-    }
-
-    private buildQuery(filterOptions: FilterOptions): any {
-        const query = {};
-        const filters = filterOptions?.filters ?? {};
-
-        Object.keys(filters).forEach(filterKey => {
-            const value = filters[filterKey];
-
-            if (filterKey == '*') {
-                query['$or'] = USER_SORTING_FIELDS.map(field => {
-                    return { [field]: new RegExp(`${value}`, 'i') };
-                });
-            } else {
-                query[filterKey] = value;
-            }
-        });
-        return query;
-    }
-
-    private buildPaginateOptions(
-        page: number,
-        limit: number,
-        filterOptions?: FilterOptions,
-    ): PaginateOptions {
-        const options: PaginateOptions = {
-            page: page,
-            limit: limit,
-            customLabels: {
-                totalDocs: 'total',
-                totalPages: 'pages',
-            },
-        };
-
-        options.sort = this.getSortOptions(
-            filterOptions?.sortBy,
-            filterOptions?.sortType,
-        );
-        return options;
-    }
-
-    private getSortOptions(sortBy: string, sortType: SortType): any {
-        const defaultOptions = { _id: -1 };
-        if (!sortBy || !USER_SORTING_FIELDS.includes(sortBy)) {
-            return defaultOptions;
-        } else {
-            return { [sortBy]: sortType ?? 1 };
-        }
-    }
-
-    private getFilterOptions(): any {
-        return {};
     }
 }

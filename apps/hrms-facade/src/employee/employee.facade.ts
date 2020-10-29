@@ -67,8 +67,8 @@ export class EmployeeFacade {
         paginationOptions: PaginationOptions,
         filterOptions?: FilterOptions,
     ): Promise<UserPaginateDto> {
-        const strategy = this.employeesFilterManager.getStrategy(filterOptions);
-        return strategy.filter({ paginationOptions, filterOptions });
+        const filterStrategy = this.employeesFilterManager.getStrategy(filterOptions);
+        return filterStrategy.filter({ paginationOptions, filterOptions });
     }
 
     async create(userDto: UserDto): Promise<UserDto> {
@@ -410,7 +410,9 @@ export class EmployeeFacade {
 
         newSkills.forEach(skillDto => {
             promises.push(
-                this.skillService.create(skillDto).then(skill => ids.push(skill.id)),
+                this.skillService
+                    .create({ ...skillDto, user: employeeId })
+                    .then(skill => ids.push(skill.id)),
             );
         });
 

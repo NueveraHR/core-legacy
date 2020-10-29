@@ -110,7 +110,6 @@ export class User extends Document {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-export const USER_SORTING_FIELDS = ['email', 'firstName', 'lastName'];
 
 UserSchema.plugin(mongoosePaginate);
 
