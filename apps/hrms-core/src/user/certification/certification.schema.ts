@@ -18,6 +18,9 @@ export class Certification extends MongoDocument {
 
     @Prop({ ref: 'Document', type: SchemaTypes.ObjectId })
     document?: Document;
+
+    @Prop({ ref: 'User', type: SchemaTypes.ObjectId })
+    user: string;
 }
 
 export const CertificationSchema = SchemaFactory.createForClass(Certification);

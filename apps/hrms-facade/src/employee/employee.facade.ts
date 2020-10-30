@@ -245,7 +245,10 @@ export class EmployeeFacade {
         fileData?: FileData,
     ): Promise<UserDto> {
         //TODO: validate
-        const cert = await this.certificationService.create(certificationDto);
+        const cert = await this.certificationService.create({
+            ...certificationDto,
+            user: employeeId,
+        });
 
         if (fileData) {
             fileData.name = cert.id;

@@ -218,10 +218,10 @@ describe('User Service', () => {
                 expect(users.length).toEqual(24);
             });
             await userService
-                .findAllPaginated(3, 10)
+                .findByQuery({}, { page: 3, limit: 10 })
                 .then((users: PaginateResult<User>) => {
-                    expect(users.total).toEqual(24); // 24 registered users
-                    expect(users.pages).toEqual(3); // 3 pages
+                    expect(users.totalDocs).toEqual(24); // 24 registered users
+                    expect(users.totalPages).toEqual(3); // 3 pages
                     expect(users.docs.length).toEqual(4); // 4 users on page 3
                 });
         });

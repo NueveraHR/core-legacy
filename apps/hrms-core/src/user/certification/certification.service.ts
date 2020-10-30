@@ -33,4 +33,11 @@ export class CertificationService {
             .exec()
             .then(result => result.deletedCount == 1);
     }
+
+    find(skillDto: CertificationDto | any): Promise<CertificationDto[]> {
+        return this.certificationModel
+            .find(skillDto as Certification)
+            .lean()
+            .exec();
+    }
 }

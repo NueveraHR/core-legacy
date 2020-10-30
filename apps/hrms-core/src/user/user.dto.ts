@@ -65,6 +65,7 @@ export class CertificationDto {
     date?: Date;
     expiresOn?: Date;
     document?: DocumentDto;
+    user?: string;
 }
 
 export class LanguageDto {

@@ -103,6 +103,12 @@ export class AdvancedEmployeeFilterStrategy extends DefaultEmployeeFilterStrateg
     }
 
     async findByCertification(searchValue: string): Promise<string[]> {
+        if (searchValue) {
+            const skills = await this.certificationService.find({
+                name: new RegExp(`${searchValue}`, 'i'),
+            });
+            return skills.map(skill => skill.user.toString());
+        }
         return [];
     }
 
