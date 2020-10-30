@@ -56,6 +56,10 @@ export class RoleService {
             );
     }
 
+    findDefault(): Promise<Role> {
+        return this.roleModel.findOne({ isDefault: true }).exec();
+    }
+
     findAll(): Promise<Role[]> {
         return this.roleModel
             .find()

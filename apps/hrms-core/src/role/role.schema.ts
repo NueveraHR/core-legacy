@@ -15,6 +15,9 @@ export class Role extends Document {
 
     @Prop([String])
     extendsRoles: string[];
+
+    @Prop()
+    isDefault: boolean;
 }
 
 export const RoleSchema = SchemaFactory.createForClass(Role);

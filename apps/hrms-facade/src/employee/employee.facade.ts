@@ -72,16 +72,13 @@ export class EmployeeFacade {
     }
 
     async create(userDto: UserDto): Promise<UserDto> {
-        const validationResult = this.userDtoValidator.validate(userDto, {
-            required: ['role'],
-        });
-
-        if (this.errorService.isError(validationResult)) {
-            return Promise.reject(validationResult);
+        if (userDto.role) {
+            // assert role existence
+            await this.roleService.assertExists(userDto.role as string);
+        } else {
+            const defaultRole = await this.roleService.findDefault();
+            userDto.role = defaultRole.id;
         }
-
-        // assert role existence
-        await this.roleService.assertExists(userDto.role as string);
 
         // create corresponding address and reassign its id to user
         userDto.address = (

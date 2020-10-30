@@ -92,7 +92,7 @@ export class AddEmployeeInput implements Partial<EmployeeDto> {
     @Field({ nullable: true })
     public prefix: string;
 
-    @Field(() => ID)
+    @Field(() => ID, { nullable: true })
     public role: Role | string;
 
     @Field()
