@@ -83,4 +83,4 @@ export class DefaultEmployeeFilterStrategy implements FilterStrategy {
     }
 }
 
-export const DEFAULT_STRATEGY_KEYS = ['email', 'firstName', 'lastName'];
+export const DEFAULT_STRATEGY_KEYS = ['email', 'firstName', 'lastName', 'title'];
