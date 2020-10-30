@@ -56,6 +56,11 @@ export class MailerService {
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     send(mail: any): Promise<any> {
+        if (!this.envService.isProd()) {
+            this.loggerService.info(JSON.stringify(mail));
+            return;
+        }
+
         if (!this.transporter) {
             this.init();
         }
